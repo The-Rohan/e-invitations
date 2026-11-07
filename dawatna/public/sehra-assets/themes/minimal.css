@@ -1,0 +1,32 @@
+/* Theme: Minimal – warm white & charcoal, editorial serif */
+:root {
+  --primary: #1f1f1f; --accent: #9c8b6e; --bg: #f5f3ee; --card: #fdfcfa; --ink: #1f1f1f; --muted: #7c776e; --line: rgba(0,0,0,.08);
+  --backdrop: linear-gradient(160deg, #e9e5dc, #cfc8ba);
+  --env: #e8e2d6; --env-dark: #d3cbbb; --door: #2b2a28; --curtain: #d9d2c4;
+  --font-display: 'Fraunces', Georgia, serif; --font-script: 'Fraunces', Georgia, serif;
+  --ornament: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 34' fill='none' stroke='%239c8b6e' stroke-width='1'%3E%3Cpath d='M20 17h120'/%3E%3Ccircle cx='80' cy='17' r='3' fill='%239c8b6e'/%3E%3C/svg%3E");
+  --radius: 4px;
+}
+.name { font-family: 'Fraunces', serif; font-weight: 300; font-style: italic; letter-spacing: -.01em; font-size: clamp(2.6rem, 10vw, 4rem); }
+.amp { font-size: 1.3rem; font-style: normal; letter-spacing: .3em; }
+.eyebrow { font-style: normal; letter-spacing: .3em; text-transform: uppercase; font-size: .7rem; font-family: var(--font-body); }
+.date { font-size: 1rem; letter-spacing: .2em; text-transform: uppercase; }
+.monogram { border-radius: 0; }
+.sec-title { font-size: .75rem; letter-spacing: .35em; text-transform: uppercase; font-family: var(--font-body); font-weight: 600; }
+.sec-title::after { width: 24px; height: 1px; }
+.frame { border: 0; padding: 0; } .frame::before { display: none; }
+.lead { font-family: var(--font-display); font-weight: 300; font-size: 1.4rem; line-height: 1.6; }
+.event { border-radius: 0; border: 0; border-bottom: 1px solid var(--line); background: transparent; box-shadow: none; padding: 22px 0; }
+.events { background: var(--card); }
+.ev-icon { box-shadow: none; background-color: var(--ink); }
+.btn { border-radius: 0; text-transform: uppercase; letter-spacing: .12em; font-size: .72rem; }
+.countdown > div { border-radius: 0; background: transparent; border: 0; border-top: 1px solid var(--ink); }
+.ent-names { font-family: 'Fraunces', serif; font-style: italic; font-weight: 300; color: #1f1f1f; text-shadow: none; }
+.ent-hint { color: #1f1f1f; }
+.entrance-curtain .ent-center, .entrance-door .ent-center { color: #1f1f1f; }
+.curtain::after { background: #1f1f1f; }
+.ph { border-radius: 0; }
+.wish { border-radius: 0; background: var(--bg); }
+.form input:not([type=radio]):not([type=checkbox]), .form select, .form textarea, .seg span > span, .seg label > span, .chk { border-radius: 0; }
+.seal { background: radial-gradient(circle at 35% 30%, #4a4a4a, #111 70%); color: #eee; }
+.diya-bowl { background: linear-gradient(#5a5a5a, #1f1f1f); }

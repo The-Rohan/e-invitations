@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<link rel="preload" href="wp-content/plugins/dawatlink/assets/fonts/cormorant-600.woff2" as="font" type="font/woff2" crossorigin>
+<style>@font-face{font-family:"DL Cormorant";src:url(wp-content/plugins/dawatlink/assets/fonts/cormorant-600.woff2) format("woff2");font-weight:600;font-style:normal;font-display:swap;unicode-range:U+0000-002F,U+003A-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}</style>
+<style>:root{--maroon:#5b1023;--maroon-d:#3d0915;--maroon-l:#7a1a33;--gold:#c9a24a;--gold-l:#e6c97f;--gold-ink:#7a5c16;--ivory:#fbf6ee;--ivory-d:#f3eadb;--paper:#fffdf9;--ink:#2a1a12;--muted:#65544a;--line:#e5d7c0;--ok:#1d6b3a;--ok-bg:#e7f4ea;--err:#a8201a;--err-bg:#fbeceb;--info-bg:#fdf5e0;--r:14px;--r-s:10px;--sh:0 1px 2px rgba(42,26,18,.06),0 8px 24px rgba(42,26,18,.08);--serif:"DL Cormorant","Times New Roman",Times,"Noto Serif",serif;--num:600 1em/1 var(--sans);--sans:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans","Helvetica Neue",Arial,sans-serif;--urdu:"Noto Nastaliq Urdu","Jameel Noori Nastaleeq","Urdu Typesetting","Noto Naskh Arabic",serif;--arabic:"Amiri","Traditional Arabic","Noto Naskh Arabic",serif}html.dl-fu{--urdu:"DL Nastaliq","Noto Nastaliq Urdu","Jameel Noori Nastaleeq","Urdu Typesetting",serif;--arabic:"DL Amiri","Amiri","Traditional Arabic",serif}*,::before,::after{box-sizing:border-box}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}body{margin:0;background:var(--ivory);color:var(--ink);font:400 1rem/1.6 var(--sans);font-feature-settings:"lnum"1;-webkit-font-smoothing:antialiased;overflow-x:hidden}img,svg,canvas,video{display:block;max-width:100%}img{height:auto}h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.12;margin:0 0 .5em;letter-spacing:.005em;color:var(--maroon)}h1{font-size:clamp(2.15rem,8.4vw,4rem)}h2{font-size:clamp(1.85rem,6vw,2.75rem)}h3{font-size:1.45rem}p{margin:0 0 1em}a{color:var(--maroon);text-underline-offset:.18em}a:hover{color:var(--maroon-l)}:focus-visible{outline:3px solid var(--gold-ink);outline-offset:2px;border-radius:4px}.dark :focus-visible,.on-dark :focus-visible{outline-color:var(--gold-l)}[hidden]{display:none!important}.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}.skip{position:absolute;left:8px;top:-60px;z-index:100;background:var(--ink);color:#fff;padding:12px 16px;border-radius:8px;text-decoration:none}.skip:focus{top:8px;color:#fff}.wrap{width:100%;max-width:1140px;margin:0 auto;padding:0 16px}.ur,[lang=ur]{font-family:var(--urdu);font-weight:400;line-height:2.1;direction:rtl}.gold{color:var(--gold-ink)}.eyebrow{display:inline-block;font:600 .78rem/1.3 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--gold-ink);margin-bottom:.6rem}.lead{font-size:1.08rem;color:var(--muted)}.muted{color:var(--muted)}.small{font-size:.875rem}.center{text-align:center}.hd{position:relative;z-index:5;background:var(--maroon-d);color:var(--ivory)}.hd .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:64px}.brand{display:inline-flex;align-items:center;gap:10px;color:var(--ivory);text-decoration:none;min-height:44px}.brand:hover{color:#fff}.brand svg{width:34px;height:34px;flex:none}.brand-name{font:600 1.6rem/1 var(--serif);letter-spacing:.01em}.brand-name b{font-weight:600;color:var(--gold-l)}.nav{display:flex;align-items:center;gap:4px}.nav a{color:var(--ivory);text-decoration:none;font-size:.95rem;padding:10px 12px;border-radius:8px;min-height:44px;display:inline-flex;align-items:center}.nav a:hover{background:rgba(255,255,255,.08);color:#fff}.nav .nav-l{display:none}.mo{position:fixed;top:76px;right:12px;z-index:40;display:inline-flex;align-items:center;gap:8px;min-height:44px;max-width:calc(100vw - 24px);padding:8px 16px;border:2px solid var(--gold);border-radius:999px;background:var(--maroon);color:var(--gold-l);font:600 .95rem/1.2 var(--sans);text-decoration:none;box-shadow:0 6px 18px rgba(42,26,18,.28)}.mo:hover,.mo:focus-visible{background:var(--maroon-l);color:#fff}.mo-nav[hidden]{display:none}.mo svg{width:18px;height:18px;flex:none}.hd .btn{min-height:44px;padding:8px 16px;font-size:.92rem}.nav a.btn-gold,.nav a.btn-gold:hover{color:var(--ink);background:var(--gold)}.nav a.btn-gold:hover{background:var(--gold-l)}@media (min-width:860px){.nav .nav-l{display:inline-flex}}.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;min-height:48px;padding:12px 22px;border:2px solid transparent;border-radius:999px;font:600 1rem/1.2 var(--sans);text-decoration:none;cursor:pointer;transition:background-color .2s,color .2s,border-color .2s,transform .15s;-webkit-tap-highlight-color:transparent;text-align:center}.btn:active{transform:translateY(1px)}.btn svg{width:20px;height:20px;flex:none}.btn-gold{background:var(--gold);color:var(--ink);box-shadow:0 6px 18px rgba(201,162,74,.28)}.btn-gold:hover{background:var(--gold-l);color:var(--ink)}.btn-primary{background:var(--maroon);color:#fff}.btn-primary:hover{background:var(--maroon-l);color:#fff}.btn-ghost{background:0 0;color:var(--maroon);border-color:var(--maroon)}.btn-ghost:hover{background:var(--maroon);color:#fff}.on-dark .btn-ghost,.dark .btn-ghost{color:var(--ivory);border-color:rgba(251,246,238,.7)}.on-dark .btn-ghost:hover,.dark .btn-ghost:hover{background:var(--ivory);color:var(--maroon)}.btn-wa{background:#0d6b45;color:#fff}.btn-wa:hover{background:#0a5739;color:#fff}.btn-lg{min-height:56px;padding:14px 28px;font-size:1.07rem}.btn-block{display:flex;width:100%}.btn-sm{min-height:44px;padding:8px 16px;font-size:.92rem}.btn[disabled],.btn[aria-disabled=true]{opacity:.6;cursor:not-allowed;transform:none}.link-btn{background:0 0;border:0;padding:10px 4px;min-height:44px;font:inherit;color:var(--maroon);text-decoration:underline;text-underline-offset:.18em;cursor:pointer}.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);padding:20px}.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;font:600 .82rem/1.5 var(--sans);background:var(--ivory-d);color:var(--ink)}.chip-ok{background:var(--ok-bg);color:var(--ok)}.chip-wait{background:var(--info-bg);color:#6a4a07}.chip-err{background:var(--err-bg);color:var(--err)}.ico{width:22px;height:22px;flex:none}.field{margin:0 0 18px}.field>label,.lbl{display:block;font-weight:600;margin:0 0 6px;font-size:.96rem}.opt{font-weight:400;color:var(--muted);font-size:.86rem}.hint{display:block;font-size:.86rem;color:var(--muted);margin-top:6px}.inp,select.inp,textarea.inp{display:block;width:100%;min-height:48px;padding:11px 14px;border:1.5px solid #b9a78f;border-radius:var(--r-s);background:#fff;color:var(--ink);font:400 1rem/1.4 var(--sans);transition:border-color .15s,box-shadow .15s}textarea.inp{min-height:84px;resize:vertical}.inp:focus{outline:0;border-color:var(--maroon);box-shadow:0 0 0 3px rgba(122,92,22,.35)}.inp[aria-invalid=true]{border-color:var(--err);background:snow}.inp.ur{font-family:var(--urdu);line-height:2;padding-top:6px;padding-bottom:6px;font-size:1.05rem}.err{display:block;color:var(--err);font-size:.88rem;font-weight:600;margin-top:6px}.err:empty{display:none}.notice{border-radius:var(--r-s);padding:12px 14px;font-size:.95rem;margin:0 0 16px;border:1px solid transparent}.notice-ok{background:var(--ok-bg);color:var(--ok);border-color:#b9dcc3}.notice-err{background:var(--err-bg);color:var(--err);border-color:#efc1bd}.notice-info{background:var(--info-bg);color:#5c4208;border-color:#ecd9a6}.notice:empty{display:none}.hp{position:absolute!important;left:-9999px;width:1px;height:1px;overflow:hidden}.ft{background:var(--maroon-d);color:#eadfce;padding:40px 0 calc(28px + env(safe-area-inset-bottom));margin-top:0;font-size:.95rem}.ft a{color:#f3e6cc}.ft a:hover{color:#fff}.ft-grid{display:grid;gap:24px}.ft-links{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:4px 8px}.ft-links a{display:inline-flex;min-height:44px;align-items:center;padding:0 6px}.ft-note{color:#d9c9b1;font-size:.86rem;margin:0}.ft .brand{margin-bottom:6px}@media (min-width:860px){.ft-grid{grid-template-columns:1.4fr 1fr 1fr}}.orn{display:block;margin:0 auto 14px;width:120px;height:16px;color:var(--gold)}@media (prefers-reduced-motion:reduce){*,::before,::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}@media print{.hd,.ft,.skip,.no-print{display:none!important}body{background:#fff}}.brand svg{color:var(--gold)}.nb{white-space:nowrap;display:inline-flex;align-items:center;gap:.4em}.price strong,.pk-price strong,.sum strong,.iv-cd-n b,.gl-tot .n,.step-n,.st-n,.iv-age strong,.od-amt,.pay-steps>li::before{font-family:var(--sans)!important;font-weight:700!important;letter-spacing:-.01em}.hb{position:fixed;z-index:50;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));display:inline-flex;align-items:center;gap:6px;min-height:48px;padding:0 16px 0 12px;border:0;border-radius:999px;background:var(--maroon);color:#fff;font:600 .95rem/1 var(--sans);box-shadow:0 6px 18px rgba(42,26,18,.28);cursor:pointer}.hb svg{width:22px;height:22px}.hb:hover{background:var(--maroon-l)}.hb:focus-visible{outline:3px solid var(--gold-ink);outline-offset:3px}.hb[aria-busy=true]{opacity:.8}.dl-studio .hb{bottom:calc(84px + env(safe-area-inset-bottom))}@media (min-width:1000px){.dl-studio .hb{bottom:calc(12px + env(safe-area-inset-bottom))}}.nav-help{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:8px 12px;border:0;border-radius:8px;background:0 0;color:var(--ivory);font:inherit;font-size:.95rem;cursor:pointer}.nav-help:hover{background:rgba(255,255,255,.08)}.ft-help{display:inline-flex;align-items:center;min-height:44px;padding:0 6px;border:0;background:0 0;color:#f3e6cc;font:inherit;text-decoration:underline;text-underline-offset:.18em;cursor:pointer}.ft-help:hover{color:#fff}.link-inline{display:inline;min-height:0;padding:0;font-weight:600;vertical-align:baseline}</style>
+<style>.on-dark{color:var(--ivory)}.on-dark h1,.on-dark h2{color:#fff}.hero{position:relative;overflow:hidden;background:radial-gradient(130% 75%at 85% -10%,#8a2140 0,#5b1023 42%,#3d0915 100%);padding:36px 0 44px}.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(230,201,127,.32) 1px,transparent 1.5px);background-size:34px 34px;opacity:.35;pointer-events:none}.hero::after{content:"";position:absolute;right:-90px;top:-40px;width:300px;height:420px;border:1.5px solid rgba(201,162,74,.35);border-bottom:0;border-radius:150px 150px 0 0;pointer-events:none}.hero-grid{position:relative;z-index:1;display:grid;gap:32px;align-items:center}.eyebrow-l{color:var(--gold-l)}.hero h1{margin-bottom:.35em;max-width:14ch}.hero-ru{font:600 1.45rem/1.3 var(--serif);color:var(--gold-l);margin:0 0 .8rem}.hero-sub{color:#efe4d3;font-size:1.05rem;max-width:36rem;margin-bottom:1.2rem}.hero-offer{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 14px;margin:0 0 18px;border:1px solid rgba(230,201,127,.6);border-radius:999px;color:var(--gold-l);text-decoration:none;font-size:.92rem;font-weight:600;background:rgba(0,0,0,.18)}.hero-offer:hover{color:#fff;border-color:var(--gold-l)}.hero-offer .ico{width:18px;height:18px}.hero-cta{display:grid;gap:12px;margin-bottom:22px}.hero-cta .btn .ico{width:20px;height:20px}.hero-cta .btn-gold{flex-wrap:wrap;column-gap:.3em;row-gap:0;line-height:1.25}.hero-trust{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;font-size:.9rem;color:#efe4d3}.hero-trust li{display:flex;align-items:center;gap:8px;line-height:1.3}.hero-trust .ico{width:20px;height:20px;color:var(--gold-l)}.hero-art{display:none}@media (min-width:560px){.hero-cta{display:flex;flex-wrap:wrap}}@media (min-width:900px){.hero{padding:64px 0 72px}.hero-grid{grid-template-columns:1.15fr .85fr;gap:48px}.hero-art{display:block;position:relative;justify-self:center}.hero-art::before{content:"";position:absolute;left:50%;top:-26px;width:360px;height:110%;transform:translateX(-50%);border:1.5px solid rgba(201,162,74,.55);border-bottom:0;border-radius:180px 180px 0 0}.phone{position:relative;width:300px;border-radius:38px;padding:10px;background:#1b0a0e;box-shadow:0 30px 60px rgba(0,0,0,.45),0 0 0 1px rgba(230,201,127,.35)}.phone img{width:100%;aspect-ratio:9/16;border-radius:29px;background:#5b1023}.hero-trust{grid-template-columns:repeat(3,auto);justify-content:start;gap:12px 22px}.mock{position:relative;aspect-ratio:9/16;border-radius:29px;overflow:hidden;background:radial-gradient(100% 60%at 50% 25%,#7a1a33,#4a0c1c 70%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;color:#fff}.mock-a{position:absolute;inset:8% 10% 10%;border:1.5px solid var(--gold);border-radius:999px 999px 8px 8px}.mock-a::after{content:"";position:absolute;inset:8px;border:1px solid rgba(201,162,74,.5);border-radius:999px 999px 5px 5px}.mock-o{position:relative;font:600 .72rem/1 var(--sans);letter-spacing:.32em;text-transform:uppercase;color:var(--gold-l)}.mock-n{position:relative;display:flex;flex-direction:column;font:600 2.5rem/1.05 var(--serif)}.mock-n i{font-style:normal;font-size:.6em;color:var(--gold-l)}.mock-d{position:relative;font-size:.85rem;color:#efe4d3}}.sec{padding:56px 0}.sec-alt{background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.sec-hd{max-width:40rem;margin:0 auto 28px;text-align:center}.sec-hd .lead{margin:0}.wrap-n{max-width:820px}@media (min-width:900px){.sec{padding:84px 0}.sec-hd{margin-bottom:40px}}.tpl-grid{position:relative;list-style:none;margin:0-16px;padding:4px 16px 12px;display:grid;grid-auto-flow:column;grid-auto-columns:min(58vw,230px);gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:16px;-webkit-overflow-scrolling:touch;scrollbar-width:thin}.tpl{scroll-snap-align:start;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);display:flex;flex-direction:column}.tpl-img{display:block;aspect-ratio:9/16;background:linear-gradient(160deg,var(--tb,#5b1023),#1f0a10);position:relative}.tpl-img img{width:100%;height:100%;object-fit:cover}.tpl-ph{position:absolute;inset:12%;display:flex;align-items:center;justify-content:center;text-align:center;border:1.5px solid var(--ta,#c9a24a);border-radius:90px 90px 6px 6px;color:#fff;font:600 1.3rem/1.2 var(--serif);padding:10px}.tpl-body{padding:12px 14px 6px;display:flex;flex-direction:column;flex:1}.tpl-name{font-size:1.3rem;margin:0}.tpl-occ{font-size:.84rem;color:var(--muted);margin:2px 0 4px}.tpl-use,.tpl-demo{display:flex;align-items:center;min-height:44px;font-weight:600;font-size:.94rem}.tpl-demo{margin-top:-6px;font-weight:400;color:var(--muted)}@media (min-width:900px){.tpl-grid{margin:0;padding:0;grid-auto-flow:row;grid-template-columns:repeat(6,1fr);overflow:visible;gap:16px}.tpl-body{padding:10px 12px 4px}.tpl-name{font-size:1.2rem}}.tpl-all{margin:26px 0 0}.tpl-all .ico{width:20px;height:20px}.steps{list-style:none;margin:0 0 32px;padding:0;display:grid;gap:16px;counter-reset:s}.step{background:var(--ivory);border:1px solid var(--line);border-radius:var(--r);padding:22px 20px}.step h3{margin:.55rem 0 .35rem}.step p{margin:0;color:var(--muted)}.step-n{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;border:1.5px solid var(--gold);color:var(--maroon);font:600 1.4rem/1 var(--serif);background:#fff}@media (min-width:900px){.steps{grid-template-columns:repeat(3,1fr);gap:24px}.step{padding:28px}}.feats{list-style:none;margin:0;padding:0;display:grid;gap:14px}.feats li{display:grid;grid-template-columns:44px 1fr;column-gap:14px;align-items:start;padding:16px;border-radius:var(--r);background:var(--paper);border:1px solid var(--line)}.feats .ico{grid-row:span 2;width:44px;height:44px;padding:10px;border-radius:12px;background:#f6ecd9;color:var(--gold-ink)}.feats h3{font-size:1.25rem;margin:0 0 2px}.feats p{margin:0;color:var(--muted);font-size:.95rem}@media (min-width:640px){.feats{grid-template-columns:1fr 1fr}}@media (min-width:1000px){.feats{grid-template-columns:repeat(3,1fr);gap:18px}}.offer{display:flex;gap:12px;align-items:flex-start;max-width:760px;margin:0 auto 26px;padding:14px 18px;border-radius:var(--r);background:#fdf3d8;border:1px solid #e7cf8f;color:#4a3405}.offer .ico{color:var(--gold-ink);margin-top:2px}.offer p{margin:0}.offer-left{color:var(--maroon);white-space:nowrap}.plans{list-style:none;margin:0;padding:0;display:grid;gap:18px;align-items:stretch}.plan{position:relative;display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:18px;padding:26px 22px 22px;box-shadow:var(--sh)}.plan h3{margin:0 0 4px;font-size:1.6rem}.price{display:flex;align-items:baseline;gap:10px;margin:0 0 16px}.price strong{font:600 2.05rem/1.1 var(--serif);color:var(--ink)}.price del{color:var(--muted);font-size:1.05rem}.ticks{list-style:none;margin:0 0 22px;padding:0;flex:1}.ticks li{display:flex;gap:10px;padding:5px 0;font-size:.97rem;line-height:1.4}.ticks .ico{width:20px;height:20px;color:var(--ok);margin-top:1px}.plan-ft{background:linear-gradient(170deg,#6b1530,#4a0c1c);border-color:#4a0c1c;color:var(--ivory);order:-1;box-shadow:0 18px 40px rgba(91,16,35,.35)}.plan-ft h3,.plan-ft .price strong{color:#fff}.plan-ft .price del{color:#e9d9c2}.plan-ft .ticks .ico{color:var(--gold-l)}.plan-badge{position:absolute;top:-13px;left:22px;margin:0;padding:3px 12px;border-radius:999px;background:var(--gold);color:var(--ink);font:700 .76rem/1.6 var(--sans);letter-spacing:.08em;text-transform:uppercase}.plan-ft :focus-visible{outline-color:var(--gold-l)}@media (min-width:900px){.plans{grid-template-columns:repeat(3,1fr);gap:22px;align-items:center}.plan-ft{order:0;padding:34px 26px 28px}}.trust{list-style:none;margin:0;padding:0;display:grid;gap:14px}.trust li{display:flex;gap:14px;align-items:flex-start;padding:18px;border-radius:var(--r);border:1px solid var(--line);background:var(--paper)}.trust .ico{width:30px;height:30px;color:var(--gold-ink);margin-top:2px}.trust h3{font-size:1.3rem;margin:0 0 2px}.trust p{margin:0;color:var(--muted)}@media (min-width:760px){.trust{grid-template-columns:1fr 1fr;gap:18px}}.faq{border-top:1px solid var(--line);margin-bottom:22px}.faq details{border-bottom:1px solid var(--line)}.faq summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:56px;padding:12px 4px;font-weight:600;font-size:1.03rem}.faq summary::-webkit-details-marker{display:none}.faq summary::after{content:"";flex:none;width:12px;height:12px;border-right:2px solid var(--gold-ink);border-bottom:2px solid var(--gold-ink);transform:rotate(45deg) translateY(-3px);transition:transform .2s}.faq details[open] summary::after{transform:rotate(225deg) translate(-2px,-2px)}.faq details p{margin:0 4px 18px;color:var(--muted)}.cta{background:radial-gradient(120% 120%at 50%0,#6b1530,#3d0915);padding:60px 0;text-align:center}.cta h2{margin-bottom:.3em}.cta-sub{color:#efe4d3;margin:0 auto 22px;max-width:30rem}.cta .orn{color:var(--gold-l)}#how,#why,#pricing,#trust,#faq,.cta{content-visibility:auto;contain-intrinsic-size:auto 900px}</style>
+<title>DawatLink — Animated Shadi &amp; Event Invitations for WhatsApp</title>
+<meta name="description" content="Animated digital invitations for Nikah, Mehndi, Barat, Walima, birthdays and Aqiqah — share on WhatsApp with map, countdown and RSVP. Free preview, pay with Easypaisa.">
+<link rel="canonical" href="index.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="DawatLink">
+<meta property="og:locale" content="en_PK">
+<meta property="og:title" content="DawatLink — Animated Shadi &amp; Event Invitations for WhatsApp">
+<meta property="og:description" content="Animated digital invitations for Nikah, Mehndi, Barat, Walima, birthdays and Aqiqah — share on WhatsApp with map, countdown and RSVP. Free preview, pay with Easypaisa.">
+<meta property="og:url" content="https://dawatlink.com/">
+<meta property="og:image" content="https://dawatlink.com/wp-content/plugins/dawatlink/assets/img/og-default.jpg?v=1792661711">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/jpeg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://dawatlink.com/wp-content/plugins/dawatlink/assets/img/og-default.jpg?v=1792661711">
+<meta name="twitter:title" content="DawatLink — Animated Shadi &amp; Event Invitations for WhatsApp">
+<meta name="twitter:description" content="Animated digital invitations for Nikah, Mehndi, Barat, Walima, birthdays and Aqiqah — share on WhatsApp with map, countdown and RSVP. Free preview, pay with Easypaisa.">
+<meta name="theme-color" content="#5b1023">
+<link rel="icon" href="wp-content/plugins/dawatlink/assets/img/favicon.svg@v=1792661711" type="image/svg+xml">
+<link rel="icon" href="wp-content/plugins/dawatlink/assets/img/icon-192.png@v=1792661711" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="wp-content/plugins/dawatlink/assets/img/icon-192.png@v=1792661711">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://dawatlink.com/#org","name":"DawatLink","url":"https://dawatlink.com/","logo":"https://dawatlink.com/wp-content/plugins/dawatlink/assets/img/icon-512.png?v=1792661711"},{"@type":"Product","name":"DawatLink animated digital invitation","description":"Animated digital invitations for Nikah, Mehndi, Barat, Walima, birthdays and Aqiqah — share on WhatsApp with map, countdown and RSVP. Free preview, pay with Easypaisa.","brand":{"@id":"https://dawatlink.com/#org"},"image":"https://dawatlink.com/wp-content/plugins/dawatlink/assets/img/og-default.jpg?v=1792661711","offers":[{"@type":"Offer","name":"Web Invite","price":"100","priceCurrency":"PKR","availability":"https://schema.org/InStock","url":"https://dawatlink.com/make/"},{"@type":"Offer","name":"Link + Video","price":"300","priceCurrency":"PKR","availability":"https://schema.org/InStock","url":"https://dawatlink.com/make/"},{"@type":"Offer","name":"Premium","price":"500","priceCurrency":"PKR","availability":"https://schema.org/InStock","url":"https://dawatlink.com/make/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How many designs can I choose from?","acceptedAnswer":{"@type":"Answer","text":"There are 35 animated designs right now, from royal maroon and Islamic geometry to mehndi colours, walima pastels and kids’ themes, and more are being added. In the studio, pick your occasion and filter by style or colour."}},{"@type":"Question","name":"Do I have to pay before I see my invitation?","acceptedAnswer":{"@type":"Answer","text":"No. Make your invitation and watch the full animated preview for free, without signing up. You pay only when you are happy with it. Until then the preview carries a “PREVIEW” watermark."}},{"@type":"Question","name":"Is it safe to pay by Easypaisa?","acceptedAnswer":{"@type":"Answer","text":"You see your full preview free before paying. Then you send the amount to the Easypaisa account (IBAN) shown on your order page, from Easypaisa, JazzCash or any bank app, and tell us the name of the account you paid from. Your order page updates by itself once the payment is confirmed, and if your invitation is not delivered within 24 hours of a verified payment you get a full refund."}},{"@type":"Question","name":"How do you know my payment is mine?","acceptedAnswer":{"@type":"Answer","text":"We match it by the amount and the name of the account it came from, so after paying you just type that name on your order page. Your receipt with its transaction ID stays your proof of payment."}},{"@type":"Question","name":"How do guests open the invitation?","acceptedAnswer":{"@type":"Answer","text":"You get a link such as dawatlink.com/dawat/ali-ayesha-k3d9. Guests tap it in WhatsApp and it opens in their phone’s browser. No app, no download, no signup. It works on Android and iPhone."}},{"@type":"Question","name":"Can I write the names in Urdu?","acceptedAnswer":{"@type":"Answer","text":"Yes. Choose English, Urdu or both. Type names and lines with your phone’s Urdu keyboard and they appear in Nastaliq script on the card and on the invitation page."}},{"@type":"Question","name":"Can I make changes after paying?","acceptedAnswer":{"@type":"Answer","text":"Yes. Before payment you can change everything as often as you like. After payment, Web Invite and Link + Video include 1 edit and Premium includes 3. Your link stays the same after an edit."}},{"@type":"Question","name":"How do I put the video on my WhatsApp status?","acceptedAnswer":{"@type":"Answer","text":"With Link + Video or Premium, download the 9:16 MP4 from your order page and post it as your status. The video is made on your own phone, so open your order page in Chrome on Android or Safari on iPhone to download it."}},{"@type":"Question","name":"Can I choose Bismillah or 786 at the top?","acceptedAnswer":{"@type":"Answer","text":"Yes. Pick Bismillah, Bismihi Ta‘ala, 786 or nothing at all. Many families prefer Bismihi Ta‘ala or 786 on cards that are shared widely."}},{"@type":"Question","name":"How long does my link stay live?","acceptedAnswer":{"@type":"Answer","text":"At least 12 months from your payment, so guests can open it before the event and look back at it afterwards."}},{"@type":"Question","name":"Can guests reply (RSVP)?","acceptedAnswer":{"@type":"Answer","text":"If you add a WhatsApp number, guests get a button to reply to you on WhatsApp with a ready-made message. Premium also adds an RSVP form on the invitation and a private guest list with head count and CSV download."}},{"@type":"Question","name":"Can I call you?","acceptedAnswer":{"@type":"Answer","text":"We don’t take calls. Use Help or WhatsApp messages; we reply within a few hours."}},{"@type":"Question","name":"What is your refund policy?","acceptedAnswer":{"@type":"Answer","text":"You get a full refund if your invitation is not delivered within 24 hours of a verified payment, or if there is a technical fault we cannot fix. We cannot refund after delivery for a change of mind; use your included edits instead."}}]}]}</script>
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="google-site-verification" content="VmO1yNB-_omLEseiwtBFkywOYUrapZ_VnxSg_Svfvjs" />
+<link rel="describedby" href="llms.txt" />
+</head>
+<body class="dl dl-landing">
+<a class="skip" href="index.html#main">Skip to main content</a>
+<header class="hd">
+	<div class="wrap">
+		<a class="brand" href="index.html" aria-label="DawatLink home">
+			<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor"><path d="M13 58V31C13 20.5 21 13 32 5.5 43 13 51 20.5 51 31v27" stroke-width="3.2" stroke-linejoin="round"/><path d="M19.5 58V32c0-7.4 5-12.6 12.5-18 7.5 5.4 12.5 10.6 12.5 18v26" stroke-width="1.4" opacity=".75"/><circle cx="28.3" cy="45" r="5.6" stroke-width="2.4"/><circle cx="35.7" cy="45" r="5.6" stroke-width="2.4"/><path d="M8 58.5h48" stroke-width="3.2" stroke-linecap="round"/></g><path fill="currentColor" d="M33.6 20.2a6.6 6.6 0 1 0 4.9 10.5 5.3 5.3 0 1 1-4.9-10.5zm5.6 1.4l.75 1.6 1.75.22-1.28 1.2.32 1.73-1.54-.85-1.54.85.32-1.73-1.28-1.2 1.75-.22z"/></svg>
+			<span class="brand-name" aria-hidden="true">Dawat<b>Link</b></span>
+		</a>
+		<nav class="nav" aria-label="Main">
+							<a class="nav-l" href="index.html#designs">Designs</a>
+				<a class="nav-l" href="index.html#how">How it works</a>
+				<a class="nav-l" href="index.html#pricing">Pricing</a>
+				<a class="nav-l" href="index.html#faq">FAQ</a>
+				<a class="btn btn-gold btn-sm" href="make/index.html">Make yours</a>
+					</nav>
+	</div>
+</header>
+<main id="main">
+	<section class="hero on-dark" aria-labelledby="hero-title">
+		<div class="wrap hero-grid">
+			<div class="hero-copy">
+				<p class="eyebrow eyebrow-l">Digital dawatnama for Pakistani families</p>
+				<h1 id="hero-title">Animated invitations your guests open on WhatsApp</h1>
+				<p class="hero-ru">Shadi ka card, sirf 10 minute mein.</p>
+				<p class="hero-sub">Pick one of 35 designs, type the names in English or Urdu, and get one link with the map, countdown and RSVP, plus a 9:16 video for your WhatsApp status.</p>
+								<div class="hero-cta">
+					<a class="btn btn-gold btn-lg" href="make/index.html"><span class="nb">Make your invitation</span> <span class="nb">— free preview<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+					<a class="btn btn-ghost btn-lg" href="index.html#designs">See designs</a>
+				</div>
+				<ul class="hero-trust">
+					<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3.5l2.5 5.3 5.8.7-4.3 4 1.1 5.7L12 16.4l-5.1 2.8 1.1-5.7-4.3-4 5.8-.7z" fill="currentColor"/></svg>35 animated designs</li>
+					<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.9"/></svg>Free preview, no signup</li>
+					<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 6h9M7.5 4v2c0 4-2 7-4.5 8.5M5.5 9.5c1 2 3 3.6 5.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M12.5 20l4-9 4 9M14 17h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>English + Urdu</li>
+					<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H18v3" fill="none" stroke="currentColor" stroke-width="1.9"/><rect x="4" y="8" width="16.5" height="11.5" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.9"/><circle cx="16" cy="13.8" r="1.4" fill="currentColor"/></svg>Pay by Easypaisa</li>
+											<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>From Rs 100, one time</li>
+									</ul>
+			</div>
+			<div class="hero-art" aria-hidden="true">
+				<div class="phone">
+											<picture>
+							<source media="(min-width: 900px)" srcset="wp-content/plugins/dawatlink/assets/img/thumbs/royal-maroon-160.webp@v=1792661711 160w, wp-content/plugins/dawatlink/assets/img/thumbs/royal-maroon-200.webp@v=1792661711 200w, wp-content/plugins/dawatlink/assets/img/thumbs/royal-maroon.webp@v=1792661711 240w, wp-content/plugins/dawatlink/assets/img/thumbs/royal-maroon-280.webp@v=1792661711 280w, wp-content/plugins/dawatlink/assets/img/thumbs/royal-maroon-320.webp@v=1792661711 320w, wp-content/plugins/dawatlink/assets/img/thumbs/royal-maroon-360.webp@v=1792661711 360w, wp-content/plugins/dawatlink/assets/img/thumbs/royal-maroon-400.webp@v=1792661711 400w, wp-content/plugins/dawatlink/assets/img/thumbs/royal-maroon-440.webp@v=1792661711 440w, wp-content/plugins/dawatlink/assets/img/thumbs/royal-maroon-480.webp@v=1792661711 480w, wp-content/plugins/dawatlink/assets/img/thumbs/royal-maroon-520.webp@v=1792661711 520w, wp-content/plugins/dawatlink/assets/img/showcase/royal-maroon.webp@v=1792661711 540w" sizes="280px" width="540" height="960">
+							<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="" width="540" height="960" fetchpriority="high" decoding="async">
+						</picture>
+									</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="designs" class="sec" aria-labelledby="designs-title">
+		<div class="wrap">
+			<div class="sec-hd">
+				<p class="eyebrow">Designs</p>
+				<h2 id="designs-title">A design for every dawat</h2>
+				<p class="lead">35 animated designs for nikah, mehndi, barat, walima, birthday and aqiqah. Every one works in English, Urdu or both. Here are the most popular.</p>
+			</div>
+						<ul class="tpl-grid" role="list">
+														<li class="tpl">
+						<a class="tpl-img" href="make/index.html@t=royal-maroon.html" style="--tb:#5b1023;--ta:#c9a24a" tabindex="-1" aria-hidden="true">
+							<img src="wp-content/plugins/dawatlink/assets/img/thumbs/royal-maroon.webp@v=1792661711" srcset="wp-content/plugins/dawatlink/assets/img/thumbs/royal-maroon-160.webp@v=1792661711 160w, wp-content/plugins/dawatlink/assets/img/thumbs/royal-maroon-200.webp@v=1792661711 200w, wp-content/plugins/dawatlink/assets/img/thumbs/royal-maroon.webp@v=1792661711 240w, wp-content/plugins/dawatlink/assets/img/thumbs/royal-maroon-280.webp@v=1792661711 280w, wp-content/plugins/dawatlink/assets/img/thumbs/royal-maroon-320.webp@v=1792661711 320w, wp-content/plugins/dawatlink/assets/img/thumbs/royal-maroon-360.webp@v=1792661711 360w, wp-content/plugins/dawatlink/assets/img/thumbs/royal-maroon-400.webp@v=1792661711 400w, wp-content/plugins/dawatlink/assets/img/thumbs/royal-maroon-440.webp@v=1792661711 440w, wp-content/plugins/dawatlink/assets/img/thumbs/royal-maroon-480.webp@v=1792661711 480w, wp-content/plugins/dawatlink/assets/img/thumbs/royal-maroon-520.webp@v=1792661711 520w, wp-content/plugins/dawatlink/assets/img/showcase/royal-maroon.webp@v=1792661711 540w" sizes="(min-width: 1140px) 170px, (min-width: 900px) calc((100vw - 124px) / 6), min(calc(46vw - 2px), 180px)" alt="" width="540" height="960" loading="lazy" decoding="async">						</a>
+						<div class="tpl-body">
+							<h3 class="tpl-name">Royal Maroon</h3>
+							<p class="tpl-occ">Nikah · Barat · Wedding</p>
+							<a class="tpl-use" href="make/index.html@t=royal-maroon.html">Use this design<span class="sr-only">: Royal Maroon</span></a>
+															<a class="tpl-demo" href="dawat/ali-ayesha-demo/index.html">Open live sample<span class="sr-only">: Royal Maroon</span></a>
+													</div>
+					</li>
+														<li class="tpl">
+						<a class="tpl-img" href="make/index.html@t=emerald-nikah.html" style="--tb:#0b3d2e;--ta:#c9a24a" tabindex="-1" aria-hidden="true">
+							<img src="wp-content/plugins/dawatlink/assets/img/thumbs/emerald-nikah.webp@v=1792661711" srcset="wp-content/plugins/dawatlink/assets/img/thumbs/emerald-nikah-160.webp@v=1792661711 160w, wp-content/plugins/dawatlink/assets/img/thumbs/emerald-nikah-200.webp@v=1792661711 200w, wp-content/plugins/dawatlink/assets/img/thumbs/emerald-nikah.webp@v=1792661711 240w, wp-content/plugins/dawatlink/assets/img/thumbs/emerald-nikah-280.webp@v=1792661711 280w, wp-content/plugins/dawatlink/assets/img/thumbs/emerald-nikah-320.webp@v=1792661711 320w, wp-content/plugins/dawatlink/assets/img/thumbs/emerald-nikah-360.webp@v=1792661711 360w, wp-content/plugins/dawatlink/assets/img/thumbs/emerald-nikah-400.webp@v=1792661711 400w, wp-content/plugins/dawatlink/assets/img/thumbs/emerald-nikah-440.webp@v=1792661711 440w, wp-content/plugins/dawatlink/assets/img/thumbs/emerald-nikah-480.webp@v=1792661711 480w, wp-content/plugins/dawatlink/assets/img/thumbs/emerald-nikah-520.webp@v=1792661711 520w, wp-content/plugins/dawatlink/assets/img/showcase/emerald-nikah.webp@v=1792661711 540w" sizes="(min-width: 1140px) 170px, (min-width: 900px) calc((100vw - 124px) / 6), min(calc(46vw - 2px), 180px)" alt="" width="540" height="960" loading="lazy" decoding="async">						</a>
+						<div class="tpl-body">
+							<h3 class="tpl-name">Emerald Nikah</h3>
+							<p class="tpl-occ">Nikah · Walima · Wedding</p>
+							<a class="tpl-use" href="make/index.html@t=emerald-nikah.html">Use this design<span class="sr-only">: Emerald Nikah</span></a>
+													</div>
+					</li>
+														<li class="tpl">
+						<a class="tpl-img" href="make/index.html@t=mehndi-marigold.html" style="--tb:#f2b51f;--ta:#2f6b2a" tabindex="-1" aria-hidden="true">
+							<img src="wp-content/plugins/dawatlink/assets/img/thumbs/mehndi-marigold.webp@v=1792661711" srcset="wp-content/plugins/dawatlink/assets/img/thumbs/mehndi-marigold-160.webp@v=1792661711 160w, wp-content/plugins/dawatlink/assets/img/thumbs/mehndi-marigold-200.webp@v=1792661711 200w, wp-content/plugins/dawatlink/assets/img/thumbs/mehndi-marigold.webp@v=1792661711 240w, wp-content/plugins/dawatlink/assets/img/thumbs/mehndi-marigold-280.webp@v=1792661711 280w, wp-content/plugins/dawatlink/assets/img/thumbs/mehndi-marigold-320.webp@v=1792661711 320w, wp-content/plugins/dawatlink/assets/img/thumbs/mehndi-marigold-360.webp@v=1792661711 360w, wp-content/plugins/dawatlink/assets/img/thumbs/mehndi-marigold-400.webp@v=1792661711 400w, wp-content/plugins/dawatlink/assets/img/thumbs/mehndi-marigold-440.webp@v=1792661711 440w, wp-content/plugins/dawatlink/assets/img/thumbs/mehndi-marigold-480.webp@v=1792661711 480w, wp-content/plugins/dawatlink/assets/img/thumbs/mehndi-marigold-520.webp@v=1792661711 520w, wp-content/plugins/dawatlink/assets/img/showcase/mehndi-marigold.webp@v=1792661711 540w" sizes="(min-width: 1140px) 170px, (min-width: 900px) calc((100vw - 124px) / 6), min(calc(46vw - 2px), 180px)" alt="" width="540" height="960" loading="lazy" decoding="async">						</a>
+						<div class="tpl-body">
+							<h3 class="tpl-name">Mehndi Marigold</h3>
+							<p class="tpl-occ">Mehndi</p>
+							<a class="tpl-use" href="make/index.html@t=mehndi-marigold.html">Use this design<span class="sr-only">: Mehndi Marigold</span></a>
+															<a class="tpl-demo" href="dawat/mehndi-demo/index.html">Open live sample<span class="sr-only">: Mehndi Marigold</span></a>
+													</div>
+					</li>
+														<li class="tpl">
+						<a class="tpl-img" href="make/index.html@t=walima-blush.html" style="--tb:#f7e4df;--ta:#b08a3e" tabindex="-1" aria-hidden="true">
+							<img src="wp-content/plugins/dawatlink/assets/img/thumbs/walima-blush.webp@v=1792661711" srcset="wp-content/plugins/dawatlink/assets/img/thumbs/walima-blush-160.webp@v=1792661711 160w, wp-content/plugins/dawatlink/assets/img/thumbs/walima-blush-200.webp@v=1792661711 200w, wp-content/plugins/dawatlink/assets/img/thumbs/walima-blush.webp@v=1792661711 240w, wp-content/plugins/dawatlink/assets/img/thumbs/walima-blush-280.webp@v=1792661711 280w, wp-content/plugins/dawatlink/assets/img/thumbs/walima-blush-320.webp@v=1792661711 320w, wp-content/plugins/dawatlink/assets/img/thumbs/walima-blush-360.webp@v=1792661711 360w, wp-content/plugins/dawatlink/assets/img/thumbs/walima-blush-400.webp@v=1792661711 400w, wp-content/plugins/dawatlink/assets/img/thumbs/walima-blush-440.webp@v=1792661711 440w, wp-content/plugins/dawatlink/assets/img/thumbs/walima-blush-480.webp@v=1792661711 480w, wp-content/plugins/dawatlink/assets/img/thumbs/walima-blush-520.webp@v=1792661711 520w, wp-content/plugins/dawatlink/assets/img/showcase/walima-blush.webp@v=1792661711 540w" sizes="(min-width: 1140px) 170px, (min-width: 900px) calc((100vw - 124px) / 6), min(calc(46vw - 2px), 180px)" alt="" width="540" height="960" loading="lazy" decoding="async">						</a>
+						<div class="tpl-body">
+							<h3 class="tpl-name">Walima Blush</h3>
+							<p class="tpl-occ">Walima · Wedding · Nikah</p>
+							<a class="tpl-use" href="make/index.html@t=walima-blush.html">Use this design<span class="sr-only">: Walima Blush</span></a>
+													</div>
+					</li>
+														<li class="tpl">
+						<a class="tpl-img" href="make/index.html@t=midnight-lanterns.html" style="--tb:#0f1d45;--ta:#d4ae5a" tabindex="-1" aria-hidden="true">
+							<img src="wp-content/plugins/dawatlink/assets/img/thumbs/midnight-lanterns.webp@v=1792661711" srcset="wp-content/plugins/dawatlink/assets/img/thumbs/midnight-lanterns-160.webp@v=1792661711 160w, wp-content/plugins/dawatlink/assets/img/thumbs/midnight-lanterns-200.webp@v=1792661711 200w, wp-content/plugins/dawatlink/assets/img/thumbs/midnight-lanterns.webp@v=1792661711 240w, wp-content/plugins/dawatlink/assets/img/thumbs/midnight-lanterns-280.webp@v=1792661711 280w, wp-content/plugins/dawatlink/assets/img/thumbs/midnight-lanterns-320.webp@v=1792661711 320w, wp-content/plugins/dawatlink/assets/img/thumbs/midnight-lanterns-360.webp@v=1792661711 360w, wp-content/plugins/dawatlink/assets/img/thumbs/midnight-lanterns-400.webp@v=1792661711 400w, wp-content/plugins/dawatlink/assets/img/thumbs/midnight-lanterns-440.webp@v=1792661711 440w, wp-content/plugins/dawatlink/assets/img/thumbs/midnight-lanterns-480.webp@v=1792661711 480w, wp-content/plugins/dawatlink/assets/img/thumbs/midnight-lanterns-520.webp@v=1792661711 520w, wp-content/plugins/dawatlink/assets/img/showcase/midnight-lanterns.webp@v=1792661711 540w" sizes="(min-width: 1140px) 170px, (min-width: 900px) calc((100vw - 124px) / 6), min(calc(46vw - 2px), 180px)" alt="" width="540" height="960" loading="lazy" decoding="async">						</a>
+						<div class="tpl-body">
+							<h3 class="tpl-name">Midnight Lanterns</h3>
+							<p class="tpl-occ">Nikah · Barat · Wedding · Aqiqah</p>
+							<a class="tpl-use" href="make/index.html@t=midnight-lanterns.html">Use this design<span class="sr-only">: Midnight Lanterns</span></a>
+													</div>
+					</li>
+														<li class="tpl">
+						<a class="tpl-img" href="make/index.html@t=birthday-pink.html" style="--tb:#fbd3e6;--ta:#b4457f" tabindex="-1" aria-hidden="true">
+							<img src="wp-content/plugins/dawatlink/assets/img/thumbs/birthday-pink.webp@v=1792661711" srcset="wp-content/plugins/dawatlink/assets/img/thumbs/birthday-pink-160.webp@v=1792661711 160w, wp-content/plugins/dawatlink/assets/img/thumbs/birthday-pink-200.webp@v=1792661711 200w, wp-content/plugins/dawatlink/assets/img/thumbs/birthday-pink.webp@v=1792661711 240w, wp-content/plugins/dawatlink/assets/img/thumbs/birthday-pink-280.webp@v=1792661711 280w, wp-content/plugins/dawatlink/assets/img/thumbs/birthday-pink-320.webp@v=1792661711 320w, wp-content/plugins/dawatlink/assets/img/thumbs/birthday-pink-360.webp@v=1792661711 360w, wp-content/plugins/dawatlink/assets/img/thumbs/birthday-pink-400.webp@v=1792661711 400w, wp-content/plugins/dawatlink/assets/img/thumbs/birthday-pink-440.webp@v=1792661711 440w, wp-content/plugins/dawatlink/assets/img/thumbs/birthday-pink-480.webp@v=1792661711 480w, wp-content/plugins/dawatlink/assets/img/thumbs/birthday-pink-520.webp@v=1792661711 520w, wp-content/plugins/dawatlink/assets/img/showcase/birthday-pink.webp@v=1792661711 540w" sizes="(min-width: 1140px) 170px, (min-width: 900px) calc((100vw - 124px) / 6), min(calc(46vw - 2px), 180px)" alt="" width="540" height="960" loading="lazy" decoding="async">						</a>
+						<div class="tpl-body">
+							<h3 class="tpl-name">Birthday Pink</h3>
+							<p class="tpl-occ">Birthday</p>
+							<a class="tpl-use" href="make/index.html@t=birthday-pink.html">Use this design<span class="sr-only">: Birthday Pink</span></a>
+															<a class="tpl-demo" href="dawat/hania-birthday-demo/index.html">Open live sample<span class="sr-only">: Birthday Pink</span></a>
+													</div>
+					</li>
+														<li class="tpl">
+						<a class="tpl-img" href="make/index.html@t=birthday-blue.html" style="--tb:#cdeefa;--ta:#1f6f9f" tabindex="-1" aria-hidden="true">
+							<img src="wp-content/plugins/dawatlink/assets/img/thumbs/birthday-blue.webp@v=1792661711" srcset="wp-content/plugins/dawatlink/assets/img/thumbs/birthday-blue-160.webp@v=1792661711 160w, wp-content/plugins/dawatlink/assets/img/thumbs/birthday-blue-200.webp@v=1792661711 200w, wp-content/plugins/dawatlink/assets/img/thumbs/birthday-blue.webp@v=1792661711 240w, wp-content/plugins/dawatlink/assets/img/thumbs/birthday-blue-280.webp@v=1792661711 280w, wp-content/plugins/dawatlink/assets/img/thumbs/birthday-blue-320.webp@v=1792661711 320w, wp-content/plugins/dawatlink/assets/img/thumbs/birthday-blue-360.webp@v=1792661711 360w, wp-content/plugins/dawatlink/assets/img/thumbs/birthday-blue-400.webp@v=1792661711 400w, wp-content/plugins/dawatlink/assets/img/thumbs/birthday-blue-440.webp@v=1792661711 440w, wp-content/plugins/dawatlink/assets/img/thumbs/birthday-blue-480.webp@v=1792661711 480w, wp-content/plugins/dawatlink/assets/img/thumbs/birthday-blue-520.webp@v=1792661711 520w, wp-content/plugins/dawatlink/assets/img/showcase/birthday-blue.webp@v=1792661711 540w" sizes="(min-width: 1140px) 170px, (min-width: 900px) calc((100vw - 124px) / 6), min(calc(46vw - 2px), 180px)" alt="" width="540" height="960" loading="lazy" decoding="async">						</a>
+						<div class="tpl-body">
+							<h3 class="tpl-name">Birthday Blue</h3>
+							<p class="tpl-occ">Birthday</p>
+							<a class="tpl-use" href="make/index.html@t=birthday-blue.html">Use this design<span class="sr-only">: Birthday Blue</span></a>
+													</div>
+					</li>
+														<li class="tpl">
+						<a class="tpl-img" href="make/index.html@t=aqiqah-moon.html" style="--tb:#dce8f7;--ta:#c9a24a" tabindex="-1" aria-hidden="true">
+							<img src="wp-content/plugins/dawatlink/assets/img/thumbs/aqiqah-moon.webp@v=1792661711" srcset="wp-content/plugins/dawatlink/assets/img/thumbs/aqiqah-moon-160.webp@v=1792661711 160w, wp-content/plugins/dawatlink/assets/img/thumbs/aqiqah-moon-200.webp@v=1792661711 200w, wp-content/plugins/dawatlink/assets/img/thumbs/aqiqah-moon.webp@v=1792661711 240w, wp-content/plugins/dawatlink/assets/img/thumbs/aqiqah-moon-280.webp@v=1792661711 280w, wp-content/plugins/dawatlink/assets/img/thumbs/aqiqah-moon-320.webp@v=1792661711 320w, wp-content/plugins/dawatlink/assets/img/thumbs/aqiqah-moon-360.webp@v=1792661711 360w, wp-content/plugins/dawatlink/assets/img/thumbs/aqiqah-moon-400.webp@v=1792661711 400w, wp-content/plugins/dawatlink/assets/img/thumbs/aqiqah-moon-440.webp@v=1792661711 440w, wp-content/plugins/dawatlink/assets/img/thumbs/aqiqah-moon-480.webp@v=1792661711 480w, wp-content/plugins/dawatlink/assets/img/thumbs/aqiqah-moon-520.webp@v=1792661711 520w, wp-content/plugins/dawatlink/assets/img/showcase/aqiqah-moon.webp@v=1792661711 540w" sizes="(min-width: 1140px) 170px, (min-width: 900px) calc((100vw - 124px) / 6), min(calc(46vw - 2px), 180px)" alt="" width="540" height="960" loading="lazy" decoding="async">						</a>
+						<div class="tpl-body">
+							<h3 class="tpl-name">Aqiqah Moon</h3>
+							<p class="tpl-occ">Aqiqah</p>
+							<a class="tpl-use" href="make/index.html@t=aqiqah-moon.html">Use this design<span class="sr-only">: Aqiqah Moon</span></a>
+													</div>
+					</li>
+														<li class="tpl">
+						<a class="tpl-img" href="make/index.html@t=truck-art.html" style="--tb:#123a6b;--ta:#ffcf33" tabindex="-1" aria-hidden="true">
+							<img src="wp-content/plugins/dawatlink/assets/img/thumbs/truck-art.webp@v=1792661711" srcset="wp-content/plugins/dawatlink/assets/img/thumbs/truck-art-160.webp@v=1792661711 160w, wp-content/plugins/dawatlink/assets/img/thumbs/truck-art-200.webp@v=1792661711 200w, wp-content/plugins/dawatlink/assets/img/thumbs/truck-art.webp@v=1792661711 240w, wp-content/plugins/dawatlink/assets/img/thumbs/truck-art-280.webp@v=1792661711 280w, wp-content/plugins/dawatlink/assets/img/thumbs/truck-art-320.webp@v=1792661711 320w, wp-content/plugins/dawatlink/assets/img/thumbs/truck-art-360.webp@v=1792661711 360w, wp-content/plugins/dawatlink/assets/img/thumbs/truck-art-400.webp@v=1792661711 400w, wp-content/plugins/dawatlink/assets/img/thumbs/truck-art-440.webp@v=1792661711 440w, wp-content/plugins/dawatlink/assets/img/thumbs/truck-art-480.webp@v=1792661711 480w, wp-content/plugins/dawatlink/assets/img/thumbs/truck-art-520.webp@v=1792661711 520w, wp-content/plugins/dawatlink/assets/img/showcase/truck-art.webp@v=1792661711 540w" sizes="(min-width: 1140px) 170px, (min-width: 900px) calc((100vw - 124px) / 6), min(calc(46vw - 2px), 180px)" alt="" width="540" height="960" loading="lazy" decoding="async">						</a>
+						<div class="tpl-body">
+							<h3 class="tpl-name">Truck Art Phool</h3>
+							<p class="tpl-occ">Mehndi · Wedding · Birthday</p>
+							<a class="tpl-use" href="make/index.html@t=truck-art.html">Use this design<span class="sr-only">: Truck Art Phool</span></a>
+													</div>
+					</li>
+														<li class="tpl">
+						<a class="tpl-img" href="make/index.html@t=phulkari.html" style="--tb:#7a1035;--ta:#f5a623" tabindex="-1" aria-hidden="true">
+							<img src="wp-content/plugins/dawatlink/assets/img/thumbs/phulkari.webp@v=1792661711" srcset="wp-content/plugins/dawatlink/assets/img/thumbs/phulkari-160.webp@v=1792661711 160w, wp-content/plugins/dawatlink/assets/img/thumbs/phulkari-200.webp@v=1792661711 200w, wp-content/plugins/dawatlink/assets/img/thumbs/phulkari.webp@v=1792661711 240w, wp-content/plugins/dawatlink/assets/img/thumbs/phulkari-280.webp@v=1792661711 280w, wp-content/plugins/dawatlink/assets/img/thumbs/phulkari-320.webp@v=1792661711 320w, wp-content/plugins/dawatlink/assets/img/thumbs/phulkari-360.webp@v=1792661711 360w, wp-content/plugins/dawatlink/assets/img/thumbs/phulkari-400.webp@v=1792661711 400w, wp-content/plugins/dawatlink/assets/img/thumbs/phulkari-440.webp@v=1792661711 440w, wp-content/plugins/dawatlink/assets/img/thumbs/phulkari-480.webp@v=1792661711 480w, wp-content/plugins/dawatlink/assets/img/thumbs/phulkari-520.webp@v=1792661711 520w, wp-content/plugins/dawatlink/assets/img/showcase/phulkari.webp@v=1792661711 540w" sizes="(min-width: 1140px) 170px, (min-width: 900px) calc((100vw - 124px) / 6), min(calc(46vw - 2px), 180px)" alt="" width="540" height="960" loading="lazy" decoding="async">						</a>
+						<div class="tpl-body">
+							<h3 class="tpl-name">Phulkari Rang</h3>
+							<p class="tpl-occ">Mehndi · Wedding</p>
+							<a class="tpl-use" href="make/index.html@t=phulkari.html">Use this design<span class="sr-only">: Phulkari Rang</span></a>
+													</div>
+					</li>
+														<li class="tpl">
+						<a class="tpl-img" href="make/index.html@t=dholki-nights.html" style="--tb:#3b1450;--ta:#ff9f43" tabindex="-1" aria-hidden="true">
+							<img src="wp-content/plugins/dawatlink/assets/img/thumbs/dholki-nights.webp@v=1792661711" srcset="wp-content/plugins/dawatlink/assets/img/thumbs/dholki-nights-160.webp@v=1792661711 160w, wp-content/plugins/dawatlink/assets/img/thumbs/dholki-nights-200.webp@v=1792661711 200w, wp-content/plugins/dawatlink/assets/img/thumbs/dholki-nights.webp@v=1792661711 240w, wp-content/plugins/dawatlink/assets/img/thumbs/dholki-nights-280.webp@v=1792661711 280w, wp-content/plugins/dawatlink/assets/img/thumbs/dholki-nights-320.webp@v=1792661711 320w, wp-content/plugins/dawatlink/assets/img/thumbs/dholki-nights-360.webp@v=1792661711 360w, wp-content/plugins/dawatlink/assets/img/thumbs/dholki-nights-400.webp@v=1792661711 400w, wp-content/plugins/dawatlink/assets/img/thumbs/dholki-nights-440.webp@v=1792661711 440w, wp-content/plugins/dawatlink/assets/img/thumbs/dholki-nights-480.webp@v=1792661711 480w, wp-content/plugins/dawatlink/assets/img/thumbs/dholki-nights-520.webp@v=1792661711 520w, wp-content/plugins/dawatlink/assets/img/showcase/dholki-nights.webp@v=1792661711 540w" sizes="(min-width: 1140px) 170px, (min-width: 900px) calc((100vw - 124px) / 6), min(calc(46vw - 2px), 180px)" alt="" width="540" height="960" loading="lazy" decoding="async">						</a>
+						<div class="tpl-body">
+							<h3 class="tpl-name">Dholki Nights</h3>
+							<p class="tpl-occ">Mehndi</p>
+							<a class="tpl-use" href="make/index.html@t=dholki-nights.html">Use this design<span class="sr-only">: Dholki Nights</span></a>
+													</div>
+					</li>
+														<li class="tpl">
+						<a class="tpl-img" href="make/index.html@t=peacock-darbar.html" style="--tb:#0b4f55;--ta:#d8b25a" tabindex="-1" aria-hidden="true">
+							<img src="wp-content/plugins/dawatlink/assets/img/thumbs/peacock-darbar.webp@v=1792661711" srcset="wp-content/plugins/dawatlink/assets/img/thumbs/peacock-darbar-160.webp@v=1792661711 160w, wp-content/plugins/dawatlink/assets/img/thumbs/peacock-darbar-200.webp@v=1792661711 200w, wp-content/plugins/dawatlink/assets/img/thumbs/peacock-darbar.webp@v=1792661711 240w, wp-content/plugins/dawatlink/assets/img/thumbs/peacock-darbar-280.webp@v=1792661711 280w, wp-content/plugins/dawatlink/assets/img/thumbs/peacock-darbar-320.webp@v=1792661711 320w, wp-content/plugins/dawatlink/assets/img/thumbs/peacock-darbar-360.webp@v=1792661711 360w, wp-content/plugins/dawatlink/assets/img/thumbs/peacock-darbar-400.webp@v=1792661711 400w, wp-content/plugins/dawatlink/assets/img/thumbs/peacock-darbar-440.webp@v=1792661711 440w, wp-content/plugins/dawatlink/assets/img/thumbs/peacock-darbar-480.webp@v=1792661711 480w, wp-content/plugins/dawatlink/assets/img/thumbs/peacock-darbar-520.webp@v=1792661711 520w, wp-content/plugins/dawatlink/assets/img/showcase/peacock-darbar.webp@v=1792661711 540w" sizes="(min-width: 1140px) 170px, (min-width: 900px) calc((100vw - 124px) / 6), min(calc(46vw - 2px), 180px)" alt="" width="540" height="960" loading="lazy" decoding="async">						</a>
+						<div class="tpl-body">
+							<h3 class="tpl-name">Peacock Darbar</h3>
+							<p class="tpl-occ">Barat · Wedding · Nikah</p>
+							<a class="tpl-use" href="make/index.html@t=peacock-darbar.html">Use this design<span class="sr-only">: Peacock Darbar</span></a>
+													</div>
+					</li>
+							</ul>
+			<p class="center tpl-all"><a class="btn btn-ghost btn-lg" href="make/index.html">See all 35 designs<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
+		</div>
+	</section>
+
+	<section id="how" class="sec sec-alt" aria-labelledby="how-title">
+		<div class="wrap">
+			<div class="sec-hd">
+				<p class="eyebrow">How it works</p>
+				<h2 id="how-title">Ready in about 10 minutes</h2>
+			</div>
+			<ol class="steps">
+				<li class="step">
+					<span class="step-n" aria-hidden="true">1</span>
+					<h3>Design it, free</h3>
+					<p>Choose the occasion and a design, then type the names, date and venue. The animated preview updates as you type. No signup.</p>
+				</li>
+				<li class="step">
+					<span class="step-n" aria-hidden="true">2</span>
+											<h3>Pay by Easypaisa</h3>
+						<p>Pick a package, send the amount by Easypaisa, JazzCash or any bank app, and tell us whose account it came from. Your order page updates by itself once the payment is confirmed.</p>
+									</li>
+				<li class="step">
+					<span class="step-n" aria-hidden="true">3</span>
+					<h3>Share on WhatsApp</h3>
+					<p>Send your link to family groups, post the 9:16 video on your status, and see who is coming.</p>
+				</li>
+			</ol>
+			<p class="center"><a class="btn btn-primary btn-lg" href="make/index.html">Start your free preview<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
+		</div>
+	</section>
+
+	<section id="why" class="sec" aria-labelledby="why-title">
+		<div class="wrap">
+			<div class="sec-hd">
+				<p class="eyebrow">Why a link</p>
+				<h2 id="why-title">Card nahi, poori dawat</h2>
+				<p class="lead">A printed card shows the details. A DawatLink invitation helps your guests actually get there.</p>
+			</div>
+			<ul class="feats" role="list">
+				<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z" fill="none" stroke="currentColor" stroke-width="1.9"/><circle cx="12" cy="10" r="2.6" fill="none" stroke="currentColor" stroke-width="1.9"/></svg><h3>Map button</h3><p>Guests tap once to open the venue in Google Maps.</p></li>
+				<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M12 7v5l3.2 2" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg><h3>Live countdown</h3><p>Days, hours and minutes to the big day.</p></li>
+				<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 18.5l1.2-3.6A8 8 0 1 1 8.6 19z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M8.5 10.5h7M8.5 13.5h4.5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg><h3>RSVP on WhatsApp</h3><p>Guests reply to you in one tap. Premium adds an RSVP form and guest list.</p></li>
+				<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 6h9M7.5 4v2c0 4-2 7-4.5 8.5M5.5 9.5c1 2 3 3.6 5.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M12.5 20l4-9 4 9M14 17h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><h3>Urdu + English</h3><p>Names and lines in proper Nastaliq Urdu, English, or both.</p></li>
+				<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="6" y="2.5" width="12" height="19" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M10.5 9.2v5.6l4.5-2.8z" fill="currentColor"/></svg><h3>Status video</h3><p>A 9:16 animated video for your WhatsApp status.</p></li>
+				<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3l9 4.8-9 4.8-9-4.8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M3 12.2l9 4.8 9-4.8M3 16.4l9 4.8 9-4.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><h3>Up to 3 events</h3><p>Mehndi, barat and walima on one invitation.</p></li>
+				<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg><h3>Add to calendar</h3><p>One tap saves each event on the guest’s phone.</p></li>
+				<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M13.5 6.5l4 4" stroke="currentColor" stroke-width="1.9"/></svg><h3>Edits included</h3><p>Time or venue changed? Update it and the same link shows the new details.</p></li>
+				<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15.5 3.6a8.5 8.5 0 1 0 4.9 13.6A7 7 0 1 1 15.5 3.6z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg><h3>Bismillah options</h3><p>Bismillah, Bismihi Ta‘ala, 786 or none at the top.</p></li>
+			</ul>
+		</div>
+	</section>
+
+	<section id="pricing" class="sec sec-alt" aria-labelledby="pricing-title">
+		<div class="wrap">
+			<div class="sec-hd">
+				<p class="eyebrow">Pricing</p>
+				<h2 id="pricing-title">One-time price. No subscription.</h2>
+				<p class="lead">Make the full preview first. Pay only when you love it.</p>
+			</div>
+						<ul class="plans" role="list">
+														<li class="plan">
+												<h3>Web Invite</h3>
+						<p class="price">
+														<strong>Rs 100</strong>
+						</p>
+						<ul class="ticks">
+															<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Animated invitation link</li>
+															<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Up to 3 events with map buttons</li>
+															<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Countdown and add-to-calendar</li>
+															<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>WhatsApp RSVP button</li>
+															<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Image download (PNG)</li>
+															<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>1 edit after payment</li>
+													</ul>
+						<a class="btn btn-ghost btn-block" href="make/index.html">Start free preview<span class="sr-only"> for Web Invite</span></a>
+					</li>
+														<li class="plan plan-ft">
+													<p class="plan-badge">Recommended</p>
+												<h3>Link + Video</h3>
+						<p class="price">
+														<strong>Rs 300</strong>
+						</p>
+						<ul class="ticks">
+															<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Animated invitation link</li>
+															<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Up to 3 events with map buttons</li>
+															<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Countdown and add-to-calendar</li>
+															<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>WhatsApp RSVP button</li>
+															<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Image download (PNG)</li>
+															<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>9:16 video for WhatsApp status</li>
+															<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>1 edit after payment</li>
+													</ul>
+						<a class="btn btn-gold btn-block" href="make/index.html">Start free preview<span class="sr-only"> for Link + Video</span></a>
+					</li>
+														<li class="plan">
+												<h3>Premium</h3>
+						<p class="price">
+														<strong>Rs 500</strong>
+						</p>
+						<ul class="ticks">
+															<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Animated invitation link</li>
+															<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Up to 3 events with map buttons</li>
+															<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Countdown and add-to-calendar</li>
+															<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>WhatsApp RSVP button</li>
+															<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Image download (PNG)</li>
+															<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>9:16 video for WhatsApp status</li>
+															<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>RSVP form + guest list with head count and CSV</li>
+															<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>3 edits after payment</li>
+													</ul>
+						<a class="btn btn-ghost btn-block" href="make/index.html">Start free preview<span class="sr-only"> for Premium</span></a>
+					</li>
+							</ul>
+		</div>
+	</section>
+
+	<section id="trust" class="sec" aria-labelledby="trust-title">
+		<div class="wrap">
+			<div class="sec-hd">
+				<p class="eyebrow">Peace of mind</p>
+				<h2 id="trust-title">Pay only when you love it</h2>
+			</div>
+			<ul class="trust" role="list">
+				<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.9"/></svg><div><h3>Full preview first</h3><p>See your complete animated invitation free before paying. No signup.</p></div></li>
+				<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H18v3" fill="none" stroke="currentColor" stroke-width="1.9"/><rect x="4" y="8" width="16.5" height="11.5" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.9"/><circle cx="16" cy="13.8" r="1.4" fill="currentColor"/></svg><div><h3>Easypaisa with proof</h3><p>Every payment has a transaction ID on your receipt, your proof of payment.</p></div></li>
+				<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12a8 8 0 1 0 2.4-5.7" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><path d="M4 4v4.5h4.5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 8v8M14.2 9.6c-.5-.7-1.3-1-2.2-1-1.2 0-2.2.6-2.2 1.7 0 2.4 4.6 1.2 4.6 3.6 0 1.1-1 1.8-2.4 1.8-1 0-1.9-.4-2.4-1.1" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><div><h3>Refund if we don’t deliver</h3><p>Full refund if your invitation isn’t delivered within 24 hours of a verified payment. <a href="refund-policy/index.html">Refund policy</a></p></div></li>
+				<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3l7.5 3v5.5c0 4.6-3.2 8.3-7.5 9.5-4.3-1.2-7.5-4.9-7.5-9.5V6z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M8.6 12.2l2.4 2.4 4.6-4.8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg><div><h3>Private by default</h3><p>Your order page has a private link. Invitations are hidden from search engines.</p></div></li>
+			</ul>
+		</div>
+	</section>
+
+	<section id="faq" class="sec sec-alt" aria-labelledby="faq-title">
+		<div class="wrap wrap-n">
+			<div class="sec-hd">
+				<p class="eyebrow">FAQ</p>
+				<h2 id="faq-title">Questions families ask</h2>
+			</div>
+			<div class="faq">
+									<details>
+						<summary>How many designs can I choose from?</summary>
+						<p>There are 35 animated designs right now, from royal maroon and Islamic geometry to mehndi colours, walima pastels and kids’ themes, and more are being added. In the studio, pick your occasion and filter by style or colour.</p>
+					</details>
+									<details>
+						<summary>Do I have to pay before I see my invitation?</summary>
+						<p>No. Make your invitation and watch the full animated preview for free, without signing up. You pay only when you are happy with it. Until then the preview carries a “PREVIEW” watermark.</p>
+					</details>
+									<details>
+						<summary>Is it safe to pay by Easypaisa?</summary>
+						<p>You see your full preview free before paying. Then you send the amount to the Easypaisa account (IBAN) shown on your order page, from Easypaisa, JazzCash or any bank app, and tell us the name of the account you paid from. Your order page updates by itself once the payment is confirmed, and if your invitation is not delivered within 24 hours of a verified payment you get a full refund.</p>
+					</details>
+									<details>
+						<summary>How do you know my payment is mine?</summary>
+						<p>We match it by the amount and the name of the account it came from, so after paying you just type that name on your order page. Your receipt with its transaction ID stays your proof of payment.</p>
+					</details>
+									<details>
+						<summary>How do guests open the invitation?</summary>
+						<p>You get a link such as dawatlink.com/dawat/ali-ayesha-k3d9. Guests tap it in WhatsApp and it opens in their phone’s browser. No app, no download, no signup. It works on Android and iPhone.</p>
+					</details>
+									<details>
+						<summary>Can I write the names in Urdu?</summary>
+						<p>Yes. Choose English, Urdu or both. Type names and lines with your phone’s Urdu keyboard and they appear in Nastaliq script on the card and on the invitation page.</p>
+					</details>
+									<details>
+						<summary>Can I make changes after paying?</summary>
+						<p>Yes. Before payment you can change everything as often as you like. After payment, Web Invite and Link + Video include 1 edit and Premium includes 3. Your link stays the same after an edit.</p>
+					</details>
+									<details>
+						<summary>How do I put the video on my WhatsApp status?</summary>
+						<p>With Link + Video or Premium, download the 9:16 MP4 from your order page and post it as your status. The video is made on your own phone, so open your order page in Chrome on Android or Safari on iPhone to download it.</p>
+					</details>
+									<details>
+						<summary>Can I choose Bismillah or 786 at the top?</summary>
+						<p>Yes. Pick Bismillah, Bismihi Ta‘ala, 786 or nothing at all. Many families prefer Bismihi Ta‘ala or 786 on cards that are shared widely.</p>
+					</details>
+									<details>
+						<summary>How long does my link stay live?</summary>
+						<p>At least 12 months from your payment, so guests can open it before the event and look back at it afterwards.</p>
+					</details>
+									<details>
+						<summary>Can guests reply (RSVP)?</summary>
+						<p>If you add a WhatsApp number, guests get a button to reply to you on WhatsApp with a ready-made message. Premium also adds an RSVP form on the invitation and a private guest list with head count and CSV download.</p>
+					</details>
+									<details>
+						<summary>Can I call you?</summary>
+						<p>We don’t take calls. Use Help or WhatsApp messages; we reply within a few hours.</p>
+					</details>
+									<details>
+						<summary>What is your refund policy?</summary>
+						<p>You get a full refund if your invitation is not delivered within 24 hours of a verified payment, or if there is a technical fault we cannot fix. We cannot refund after delivery for a change of mind; use your included edits instead.</p>
+					</details>
+							</div>
+			<p class="center small muted">Read our <a href="refund-policy/index.html">refund policy</a>, <a href="terms/index.html">terms</a> and <a href="privacy-policy/index.html">privacy policy</a>.</p>
+		</div>
+	</section>
+
+	<section class="cta on-dark" aria-labelledby="cta-title">
+		<div class="wrap center">
+			<svg class="orn" viewBox="0 0 120 16" aria-hidden="true" focusable="false"><path d="M0 8h46M74 8h46" stroke="currentColor" stroke-width="1"/><path d="M60 1l7 7-7 7-7-7z" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="60" cy="8" r="2" fill="currentColor"/></svg>
+			<h2 id="cta-title">Apni dawat, aaj hi bhejein</h2>
+			<p class="cta-sub">Make your invitation now. The preview is free and takes a few minutes.</p>
+			<a class="btn btn-gold btn-lg" href="make/index.html">Make your invitation<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+		</div>
+	</section>
+</main>
+<footer class="ft">
+	<div class="wrap ft-grid">
+		<div>
+			<a class="brand" href="index.html" aria-label="DawatLink home">
+				<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor"><path d="M13 58V31C13 20.5 21 13 32 5.5 43 13 51 20.5 51 31v27" stroke-width="3.2" stroke-linejoin="round"/><path d="M19.5 58V32c0-7.4 5-12.6 12.5-18 7.5 5.4 12.5 10.6 12.5 18v26" stroke-width="1.4" opacity=".75"/><circle cx="28.3" cy="45" r="5.6" stroke-width="2.4"/><circle cx="35.7" cy="45" r="5.6" stroke-width="2.4"/><path d="M8 58.5h48" stroke-width="3.2" stroke-linecap="round"/></g><path fill="currentColor" d="M33.6 20.2a6.6 6.6 0 1 0 4.9 10.5 5.3 5.3 0 1 1-4.9-10.5zm5.6 1.4l.75 1.6 1.75.22-1.28 1.2.32 1.73-1.54-.85-1.54.85.32-1.73-1.28-1.2 1.75-.22z"/></svg>
+				<span class="brand-name" aria-hidden="true">Dawat<b>Link</b></span>
+			</a>
+			<p class="ft-note">Animated invitation links and WhatsApp status videos for Pakistani families. Made in Pakistan.</p>
+		</div>
+		<div>
+			<h2 class="sr-only">Policies</h2>
+			<ul class="ft-links">
+				<li><a href="make/index.html">Make your invitation</a></li>
+				<li><a href="privacy-policy/index.html">Privacy Policy</a></li>
+				<li><a href="terms/index.html">Terms of Service</a></li>
+				<li><a href="refund-policy/index.html">Refund Policy</a></li>
+			</ul>
+		</div>
+		<div>
+			<h2 class="sr-only">Support</h2>
+			<ul class="ft-links">
+									<li><button type="button" class="ft-help" data-dl-help aria-haspopup="dialog">Help</button></li>
+													<li><a href="https://wa.me/923268710114" rel="noopener" target="_blank">Chat on WhatsApp<span class="sr-only"> (messages only, no calls; opens in new tab)</span></a></li>
+							</ul>
+			<p class="ft-note">&copy; 2026 DawatLink. Operated by Faisal Hussain IT Services, Islamabad.</p>
+		</div>
+	</div>
+</footer>
+	<button type="button" class="hb no-print" id="dl-help-fab" data-dl-help aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 18.5l1.2-3.6A8 8 0 1 1 8.6 19z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M10.2 9.6a1.9 1.9 0 1 1 2.6 1.8c-.5.2-.8.6-.8 1.1v.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="15.2" r=".95" fill="currentColor"/></svg><span>Help</span></button>
+<script>(function(){var st=0,q=[],css="https://dawatlink.com/wp-content/plugins/dawatlink/assets/css/help.css?v=1792661711",js="https://dawatlink.com/wp-content/plugins/dawatlink/assets/js/help.js?v=1792661711";function ready(){if(--st===0&&window.DLHelp)window.DLHelp.open(q.pop())}document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-dl-help]');if(!b)return;e.preventDefault();if(window.DLHelp){window.DLHelp.open(b);return}q.push(b);if(st)return;st=2;b.setAttribute('aria-busy','true');var l=document.createElement('link');l.rel='stylesheet';l.href=css;l.onload=l.onerror=ready;document.head.appendChild(l);var s=document.createElement('script');s.src=js;s.onload=s.onerror=ready;document.head.appendChild(s)})})();</script>
+<nav class="mo-nav no-print" id="dl-myorder-nav" aria-label="Your order" hidden><a class="mo" id="dl-myorder" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 3h9l4 4v14H6z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M9 12h7M9 16h5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg><span>Your order</span><span aria-hidden="true">&rarr;</span></a></nav>
+<script>(function(){try{var a=document.getElementById('dl-myorder');if(!a)return;var l=JSON.parse(localStorage.getItem('dl_orders')||'[]').filter(function(o){return o&&o.c&&o.u&&Date.now()-o.t<1.2e10});var p=location.pathname,o=null;for(var i=0;i<l.length;i++){if(p.indexOf('/order/'+l[i].c+'/')!==0){o=l[i];break}}if(!o)return;var t=o.s==='awaiting_payment'?'Complete your order':(o.s==='pending_verification'?'Your order (checking payment)':'Your order');a.href=o.u;a.children[1].textContent=t;a.setAttribute('aria-label',t+' '+o.c);a.title=t+' '+o.c;a.parentNode.hidden=false}catch(e){}})();</script>
+<script>window.DAWATLINK={"rest":"https://dawatlink.com/wp-json/dawatlink/v1/","assets":"https://dawatlink.com/wp-content/plugins/dawatlink/assets/","fontBase":"https://dawatlink.com/wp-content/plugins/dawatlink/assets/fonts/","muxer":"https://dawatlink.com/wp-content/plugins/dawatlink/assets/vendor/mp4-muxer.min.js?v=1792661711","home":"https://dawatlink.com/","studio":"https://dawatlink.com/make/","privacy":"https://dawatlink.com/privacy-policy/","terms":"https://dawatlink.com/terms/","refund":"https://dawatlink.com/refund-policy/","brand":"DawatLink","currency":"Rs","packages":{"web":{"label":"Web Invite","price":100,"list_price":100,"video":false,"rsvp":false,"edits":1,"featured":false},"video":{"label":"Link + Video","price":300,"list_price":300,"video":true,"rsvp":false,"edits":1,"featured":true},"premium":{"label":"Premium","price":500,"list_price":500,"video":true,"rsvp":true,"edits":3,"featured":false}},"launch":{"active":false,"package":"video","price":1499,"remaining":98,"limit":100,"ends":"2026-12-31"},"friendDiscount":200,"minPrice":100,"templates":[{"id":"royal-maroon","name":"Royal Maroon","occasions":["nikah","barat","wedding"],"bg":"#5b1023","accent":"#c9a24a","style":["royal","traditional"],"colors":["maroon","gold"],"popular":true,"pack":"core"},{"id":"emerald-nikah","name":"Emerald Nikah","occasions":["nikah","walima","wedding"],"bg":"#0b3d2e","accent":"#c9a24a","style":["islamic","traditional"],"colors":["green","gold"],"popular":true,"pack":"core"},{"id":"mehndi-marigold","name":"Mehndi Marigold","occasions":["mehndi"],"bg":"#f2b51f","accent":"#2f6b2a","style":["cultural","floral"],"colors":["yellow","orange","green"],"popular":true,"pack":"core"},{"id":"walima-blush","name":"Walima Blush","occasions":["walima","wedding","nikah"],"bg":"#f7e4df","accent":"#b08a3e","style":["floral","modern"],"colors":["pink","pastel","gold"],"popular":true,"pack":"core"},{"id":"midnight-lanterns","name":"Midnight Lanterns","occasions":["nikah","barat","wedding","aqiqah"],"bg":"#0f1d45","accent":"#d4ae5a","style":["islamic","traditional"],"colors":["navy","gold","blue"],"popular":true,"pack":"core"},{"id":"birthday-pink","name":"Birthday Pink","occasions":["birthday"],"bg":"#fbd3e6","accent":"#b4457f","style":["kids"],"colors":["pink","purple","pastel"],"popular":true,"pack":"core"},{"id":"birthday-blue","name":"Birthday Blue","occasions":["birthday"],"bg":"#cdeefa","accent":"#1f6f9f","style":["kids"],"colors":["blue","teal","pastel"],"popular":true,"pack":"core"},{"id":"aqiqah-moon","name":"Aqiqah Moon","occasions":["aqiqah"],"bg":"#dce8f7","accent":"#c9a24a","style":["islamic","kids"],"colors":["blue","pastel","gold"],"popular":true,"pack":"core"},{"id":"truck-art","name":"Truck Art Phool","occasions":["mehndi","wedding","birthday"],"bg":"#123a6b","accent":"#ffcf33","style":["cultural"],"colors":["multi","blue","pink"],"popular":true,"pack":"heritage"},{"id":"phulkari","name":"Phulkari Rang","occasions":["mehndi","wedding"],"bg":"#7a1035","accent":"#f5a623","style":["cultural"],"colors":["orange","pink","multi"],"popular":true,"pack":"heritage"},{"id":"dholki-nights","name":"Dholki Nights","occasions":["mehndi"],"bg":"#3b1450","accent":"#ff9f43","style":["cultural","modern"],"colors":["purple","orange","pink"],"popular":true,"pack":"heritage"},{"id":"peacock-darbar","name":"Peacock Darbar","occasions":["barat","wedding","nikah"],"bg":"#0b4f55","accent":"#d8b25a","style":["royal","traditional"],"colors":["teal","green","gold"],"popular":true,"pack":"royal"},{"id":"crimson-gota","name":"Crimson Gota","occasions":["barat","wedding","nikah"],"bg":"#a10f1f","accent":"#e8c069","style":["traditional","royal"],"colors":["red","gold"],"popular":true,"pack":"royal"},{"id":"rosewood-jharokha","name":"Rosewood Jharokha","occasions":["barat","nikah","wedding"],"bg":"#4a1424","accent":"#c8a15a","style":["royal","traditional"],"colors":["maroon","gold"],"popular":true,"pack":"royal"},{"id":"haveli-darwaza","name":"Haveli Darwaza","occasions":["barat","wedding","nikah","walima"],"bg":"#3a2416","accent":"#d6a84f","style":["royal","traditional"],"colors":["maroon","gold","multi"],"popular":true,"pack":"royal"},{"id":"nikah-nama","name":"Nikah Nama","occasions":["nikah"],"bg":"#f3ecd9","accent":"#3d5a40","style":["islamic","minimal","traditional"],"colors":["ivory","green","black"],"popular":true,"pack":"regal"},{"id":"mehrab-noor","name":"Mehrab Noor","occasions":["nikah","walima","aqiqah"],"bg":"#f5f1e6","accent":"#7d9a6a","style":["islamic","minimal"],"colors":["ivory","green","gold"],"popular":true,"pack":"regal"},{"id":"marble-gold","name":"Marble \u0026 Gold","occasions":["walima","wedding","nikah"],"bg":"#f4f2ee","accent":"#b8913c","style":["modern","minimal"],"colors":["white","gold"],"popular":true,"pack":"regal"},{"id":"sage-garden","name":"Sage Garden","occasions":["walima","nikah","wedding"],"bg":"#e6ece1","accent":"#5f7a55","style":["floral","modern"],"colors":["green","pastel","pink"],"popular":true,"pack":"soft"},{"id":"space-explorer","name":"Space Explorer","occasions":["birthday"],"bg":"#0e1a3f","accent":"#5eead4","style":["kids"],"colors":["navy","blue","multi"],"popular":true,"pack":"kids"},{"id":"princess-castle","name":"Princess Castle","occasions":["birthday"],"bg":"#f7d6ec","accent":"#9d4edd","style":["kids"],"colors":["pink","purple","pastel"],"popular":true,"pack":"kids"},{"id":"pastel-clouds","name":"Little Star","occasions":["aqiqah","birthday"],"bg":"#e8eefc","accent":"#e48fb3","style":["kids","islamic"],"colors":["pastel","blue","pink"],"popular":true,"pack":"kids"},{"id":"ivory-classic","name":"Ivory Classic","occasions":["nikah","mehndi","barat","walima","wedding","birthday","aqiqah"],"bg":"#fbf6ee","accent":"#a8823a","style":["minimal","traditional"],"colors":["ivory","white","gold"],"popular":false,"pack":"core"},{"id":"ajrak","name":"Ajrak Heritage","occasions":["mehndi","wedding","barat"],"bg":"#7f1d1d","accent":"#1e3a8a","style":["cultural"],"colors":["red","navy","black"],"popular":false,"pack":"heritage"},{"id":"henna-vines","name":"Henna Garden","occasions":["mehndi","nikah"],"bg":"#f6ead7","accent":"#8a4b1f","style":["cultural","floral","minimal"],"colors":["ivory","orange","green"],"popular":false,"pack":"heritage"},{"id":"haldi-minimal","name":"Haldi Minimal","occasions":["mehndi","birthday"],"bg":"#f4b400","accent":"#ffffff","style":["minimal","modern"],"colors":["yellow","white"],"popular":false,"pack":"heritage"},{"id":"sheesh-mahal","name":"Sheesh Mahal","occasions":["barat","wedding"],"bg":"#13265c","accent":"#cfd8ff","style":["royal","traditional"],"colors":["blue","navy","white"],"popular":false,"pack":"royal"},{"id":"heritage-scroll","name":"Heritage Scroll","occasions":["wedding","nikah","barat"],"bg":"#5a1a1a","accent":"#d4af62","style":["traditional","royal"],"colors":["maroon","gold","ivory"],"popular":false,"pack":"regal"},{"id":"pearl-arabesque","name":"Pearl Arabesque","occasions":["nikah","walima","wedding"],"bg":"#14213d","accent":"#e5e7eb","style":["islamic","modern"],"colors":["navy","white","blue"],"popular":false,"pack":"regal"},{"id":"modern-monogram","name":"Modern Monogram","occasions":["walima","wedding","nikah"],"bg":"#faf7f2","accent":"#2b2b2b","style":["modern","minimal"],"colors":["ivory","black","gold"],"popular":false,"pack":"regal"},{"id":"champagne-pearl","name":"Pearl \u0026 Champagne","occasions":["walima","wedding"],"bg":"#efe3cf","accent":"#a8813c","style":["modern","minimal"],"colors":["ivory","gold","pastel"],"popular":false,"pack":"soft"},{"id":"blue-hour","name":"Blue Hour","occasions":["walima","nikah","wedding"],"bg":"#9fb4d1","accent":"#ffffff","style":["modern","islamic"],"colors":["blue","pastel","white"],"popular":false,"pack":"soft"},{"id":"lavender-dream","name":"Lavender Dream","occasions":["walima","wedding","birthday"],"bg":"#ece4f5","accent":"#7a5aa6","style":["floral","modern"],"colors":["purple","pastel","white"],"popular":false,"pack":"soft"},{"id":"jungle-safari","name":"Jungle Safari","occasions":["birthday","aqiqah"],"bg":"#e7f3d4","accent":"#2f7d32","style":["kids"],"colors":["green","yellow","orange"],"popular":false,"pack":"kids"},{"id":"olive-blessings","name":"Olive Blessings","occasions":["aqiqah","nikah","walima"],"bg":"#f3f0e3","accent":"#6b7d3a","style":["islamic","minimal","floral"],"colors":["green","ivory","gold"],"popular":false,"pack":"soft"}],"templateCount":35,"styles":["traditional","islamic","floral","modern","minimal","cultural","kids","royal"],"occasions":{"nikah":{"en":"Nikah","ur":"تقریبِ نکاح","default_template":"royal-maroon"},"mehndi":{"en":"Mehndi","ur":"رسمِ مہندی","default_template":"mehndi-marigold"},"barat":{"en":"Barat","ur":"بارات","default_template":"royal-maroon"},"walima":{"en":"Walima","ur":"دعوتِ ولیمہ","default_template":"walima-blush"},"wedding":{"en":"Wedding","ur":"دعوتِ شادی","default_template":"emerald-nikah"},"birthday":{"en":"Birthday","ur":"سالگرہ","default_template":"birthday-pink"},"aqiqah":{"en":"Aqiqah","ur":"دعوتِ عقیقہ","default_template":"aqiqah-moon"}},"ref":"","pixel":"1735860810840934","ga4":"G-GW0MVL93NH","supportWhatsapp":"","help":{"ask":"https://dawatlink.com/wp-json/dawatlink/v1/help/ask","support":"https://dawatlink.com/wp-json/dawatlink/v1/support"},"waLink":"https://wa.me/923268710114","replyEta":12};</script>
+<script src="wp-content/plugins/dawatlink/assets/js/track.js@v=1792661711" defer></script>
+<script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":["/wp-*.php","/wp-admin/*","/wp-content/uploads/*","/wp-content/*","/wp-content/plugins/*","/wp-content/themes/generatepress/*","/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+<script id="generate-a11y">
+!function(){"use strict";if("querySelector"in document&&"addEventListener"in window){var e=document.body;e.addEventListener("pointerdown",(function(){e.classList.add("using-mouse")}),{passive:!0}),e.addEventListener("keydown",(function(){e.classList.remove("using-mouse")}),{passive:!0})}}();
+</script>
+</body>
+</html>
+
+
+<!-- Page cached by LiteSpeed Cache 7.9.2 on 2026-10-28 17:53:52 -->

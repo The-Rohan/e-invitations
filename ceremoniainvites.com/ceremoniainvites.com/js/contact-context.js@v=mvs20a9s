@@ -1,0 +1,96 @@
+/* Every "message us" button says who is asking.
+
+   The buttons across the shop, the popup and the preview -- WhatsApp and email
+   alike -- open with one short line ("Hi! I have a question about my Elegant
+   Wedding preview."), so whoever answers has to begin by asking who it is,
+   which card, what they chose. This adds the rest when the button is pressed:
+   their names, email and number, the design, the add-ons in their basket with
+   prices, their functions, and a view-only link to their own card.
+
+   The text is built by the server (GET /try/api/context) from what THIS
+   browser has told us -- its own draft, or the account it is signed into --
+   and fetched ahead of time and kept, because a link has to be rewritten the
+   instant it is pressed and there is no waiting for a network in a click.
+   Where there is nothing to add (a first-time visitor who has told us nothing)
+   the links are left exactly as they were.
+
+   Only wa.me and mailto: links are touched. Anything already rewritten is
+   rewritten from its original, never twice. */
+(function () {
+  'use strict';
+  if (window.CIContext) return;
+
+  var text = '';
+  var design = '';
+
+  function store(name) { try { return sessionStorage.getItem(name) || ''; } catch (e) { return ''; } }
+
+  /* Which design the page is about: the address says so on the design pages
+     and the try pages; anywhere else, the last one looked at. */
+  function keyNow() {
+    var m = /^\/(?:templates|try|preview)\/([a-z0-9-]+)/i.exec(location.pathname);
+    if (m && m[1] !== 'api' && m[1] !== 'peek' && m[1] !== 'resume') return m[1];
+    return store('tf:last');
+  }
+
+  function refresh(opts) {
+    opts = opts || {};
+    var key = opts.key || keyNow();
+    var q = [];
+    if (key) {
+      q.push('key=' + encodeURIComponent(key));
+      var tier = opts.tier !== undefined ? opts.tier : store('tf:tier:' + key);
+      var setup = opts.setup !== undefined ? opts.setup : store('tf:setup:' + key);
+      var code = opts.code !== undefined ? opts.code : store('tf:code:' + key);
+      if (tier) q.push('tier=' + encodeURIComponent(tier));
+      if (setup) q.push('setup=' + (setup === '1' || setup === true ? '1' : '0'));
+      if (code) q.push('code=' + encodeURIComponent(code));
+    }
+    return fetch('/try/api/context' + (q.length ? '?' + q.join('&') : ''), { credentials: 'same-origin' })
+      .then(function (r) { return r.json(); })
+      .then(function (j) { text = (j && j.ok && j.text) || ''; design = (j && j.design) || ''; return text; })
+      .catch(function () { return text; });
+  }
+
+  function details() { return '\n\n— My details —\n' + text; }
+
+  function rewrite(a) {
+    var original = a.getAttribute('data-ci-original');
+    if (original === null) { original = a.getAttribute('href') || ''; a.setAttribute('data-ci-original', original); }
+
+    var wa = /^(https?:\/\/wa\.me\/\d+)(?:\?text=(.*))?$/i.exec(original);
+    if (wa) {
+      var said = '';
+      try { said = decodeURIComponent((wa[2] || '').replace(/\+/g, ' ')); } catch (e) { said = wa[2] || ''; }
+      a.setAttribute('href', wa[1] + '?text=' + encodeURIComponent((said || 'Hi!') + details()));
+      return;
+    }
+
+    var mail = /^mailto:([^?]*)(?:\?(.*))?$/i.exec(original);
+    if (mail) {
+      var params = new URLSearchParams(mail[2] || '');
+      var body = params.get('body') || 'Hi!';
+      if (!params.get('subject')) params.set('subject', design ? 'Question about ' + design : 'Question about my invitation');
+      params.set('body', body + details());
+      // URLSearchParams writes spaces as +, which a mail app shows literally.
+      a.setAttribute('href', 'mailto:' + mail[1] + '?' + params.toString().replace(/\+/g, '%20'));
+    }
+  }
+
+  /* Capture phase, for the same reason as the popup's own hook: some of the
+     places these buttons live (Quick Look) stop clicks from travelling up. */
+  document.addEventListener('click', function (e) {
+    if (!text) return;
+    var a = e.target.closest && e.target.closest('a[href^="https://wa.me/"], a[href^="http://wa.me/"], a[href^="mailto:"], a[data-ci-original]');
+    if (a) rewrite(a);
+  }, true);
+
+  window.CIContext = {
+    refresh: refresh,
+    get text() { return text; }
+  };
+
+  // Once the page has settled: it is not needed until somebody presses a button.
+  if (document.readyState === 'complete') refresh();
+  else window.addEventListener('load', function () { setTimeout(refresh, 200); });
+})();

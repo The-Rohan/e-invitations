@@ -1,0 +1,468 @@
+const fallbackPhone = '923303954244';
+const whatsapp = (phone, message) => `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+const safeUrl = (url, fallback = '#') => {
+  try {
+    const parsed = new URL(url, window.location.href);
+    return ['http:', 'https:'].includes(parsed.protocol) ? parsed.href : fallback;
+  } catch (_) {
+    return fallback;
+  }
+};
+
+const grid = document.getElementById('designs');
+const detailDialog = document.getElementById('design-dialog');
+const exploreMore = document.getElementById('explore-more');
+let designs = [];
+let webpageDesigns = [];
+let settings = {};
+let detailTrigger = null;
+let activeCategory = 'All';
+let visibleLimit = 8;
+
+function priceLabel(value) {
+  const number = Number(String(value || '').replace(/[^0-9.]/g, '')) || 0;
+  return `Rs. ${number.toLocaleString('en-PK', { maximumFractionDigits: 0 })}`;
+}
+
+function currentPhone() {
+  return String(settings.whatsapp_number || fallbackPhone).replace(/\D/g, '');
+}
+
+function applySettings() {
+  const text = (selector, value) => {
+    const element = document.querySelector(selector);
+    if (element && value) element.textContent = value;
+  };
+  if (settings.site_title) document.title = settings.site_title;
+  const description = document.querySelector('meta[name="description"]');
+  if (description && settings.meta_description) description.content = settings.meta_description;
+  text('.heading h1', settings.hero_heading);
+  text('.heading .tagline', settings.hero_tagline);
+  text('.collection-subtitle', settings.collection_subtitle);
+  text('.collection-meta .eyebrow', settings.collection_eyebrow);
+  text('#category-label', settings.collection_heading);
+  text('.contact h2', settings.contact_heading);
+  text('.contact div > p:last-child', settings.contact_copy);
+  text('footer > span:nth-child(2)', settings.footer_line);
+
+  const prePrice = priceLabel(settings.predesigned_price || 1500);
+  const customPrice = priceLabel(settings.customizable_price || 2800);
+  const packagePrices = document.querySelectorAll('.service-price');
+  if (packagePrices[0]) packagePrices[0].textContent = prePrice;
+  if (packagePrices[1]) packagePrices[1].textContent = customPrice;
+  const dialogPrices = document.querySelectorAll('.detail-option h3 span');
+  if (dialogPrices[0]) dialogPrices[0].textContent = prePrice;
+  if (dialogPrices[1]) dialogPrices[1].textContent = customPrice;
+
+  document.querySelectorAll('[data-whatsapp]').forEach(link => {
+    link.href = whatsapp(currentPhone(), link.dataset.message || "Hello OS Invites! I'd like to order an invitation. Please share the details.");
+    link.target = '_blank';
+    link.rel = 'noopener';
+  });
+  const contactButton = document.querySelector('.contact > .button');
+  if (contactButton) contactButton.firstChild.textContent = `+${currentPhone()} `;
+  document.querySelectorAll('.instagram-link, footer a[href*="instagram"]').forEach(link => {
+    if (settings.instagram_url) link.href = safeUrl(settings.instagram_url, link.href);
+  });
+}
+
+function renderOfferBanner(banner) {
+  document.querySelector('.offer-banner')?.remove();
+  if (!banner || Number(banner.is_enabled) !== 1) return;
+  const section = document.createElement('section');
+  section.className = `offer-banner${banner.image_path ? ' has-image' : ''}`;
+  const copy = document.createElement('div');
+  copy.className = 'offer-copy';
+  const kicker = document.createElement('p');
+  kicker.className = 'eyebrow';
+  kicker.textContent = banner.kicker || 'LIMITED TIME OFFER';
+  const heading = document.createElement('h2');
+  heading.textContent = banner.title || '';
+  const body = document.createElement('p');
+  body.textContent = banner.body || '';
+  const button = document.createElement('a');
+  button.className = 'button';
+  button.textContent = banner.button_text || 'Order on WhatsApp';
+  button.target = '_blank';
+  button.rel = 'noopener';
+  button.href = banner.button_url
+    ? safeUrl(banner.button_url, whatsapp(currentPhone(), `Hello OS Invites! I'm interested in the ${banner.title || 'current offer'}.`))
+    : whatsapp(currentPhone(), `Hello OS Invites! I'm interested in the ${banner.title || 'current offer'}.`);
+  copy.append(kicker, heading, body, button);
+  section.append(copy);
+  if (banner.image_path) {
+    const image = document.createElement('img');
+    image.src = `assets/${banner.image_path}`;
+    image.alt = banner.title || 'OS Invites offer';
+    image.loading = 'eager';
+    section.append(image);
+  }
+  document.querySelector('header').insertAdjacentElement('afterend', section);
+}
+
+function renderCategories() {
+  const categories = [...new Set(designs.map(item => item.category))];
+  const filters = document.querySelector('.filters');
+  const submenu = document.getElementById('category-submenu');
+  filters.replaceChildren();
+  submenu.replaceChildren();
+  [['All', 'All invitation'], ...categories.map(category => [category, category])].forEach(([value, label], index) => {
+    const filter = document.createElement('button');
+    filter.type = 'button';
+    filter.dataset.filter = value;
+    filter.setAttribute('aria-pressed', String(index === 0));
+    filter.textContent = label;
+    filters.append(filter);
+
+    const menuButton = document.createElement('button');
+    menuButton.type = 'button';
+    menuButton.dataset.categoryLink = value;
+    menuButton.textContent = label === 'All invitation' ? 'All invitations' : label;
+    submenu.append(menuButton);
+  });
+}
+
+function renderCards() {
+  grid.replaceChildren();
+  const prePrice = priceLabel(settings.predesigned_price || 1500);
+  const customPrice = priceLabel(settings.customizable_price || 2800);
+  designs.forEach((design, index) => {
+    const card = document.createElement('article');
+    card.className = 'design-card';
+    card.dataset.category = design.category;
+
+    const artwork = document.createElement('div');
+    artwork.className = 'artwork';
+    const image = document.createElement('img');
+    image.src = `assets/${design.image_path}`;
+    image.alt = `${design.title} invitation design`;
+    image.loading = index < 4 ? 'eager' : 'lazy';
+    image.decoding = 'async';
+    const label = document.createElement('span');
+    label.className = 'image-label';
+    label.textContent = design.category;
+    artwork.append(image, label);
+
+    const meta = document.createElement('div');
+    meta.className = 'card-meta';
+    const title = document.createElement('h2');
+    title.textContent = design.title;
+    const code = document.createElement('span');
+    code.textContent = design.code;
+    meta.append(title, code);
+
+    const prices = document.createElement('div');
+    prices.className = 'design-prices';
+    [['Pre-Designed', prePrice], ['Customizable', customPrice]].forEach(([name, price]) => {
+      const option = document.createElement('div');
+      const nameNode = document.createElement('span');
+      nameNode.textContent = name;
+      const priceNode = document.createElement('strong');
+      priceNode.textContent = price;
+      option.append(nameNode, priceNode);
+      prices.append(option);
+    });
+
+    const actions = document.createElement('div');
+    actions.className = 'design-actions';
+    const order = document.createElement('a');
+    order.className = 'order';
+    order.textContent = 'Order on WhatsApp';
+    order.target = '_blank';
+    order.rel = 'noopener';
+    order.href = whatsapp(currentPhone(), `Hello OS Invites! I'd like to order ${design.title} (${design.code}) for my ${design.category} event. I'm interested in the Pre-Designed (${prePrice}) or Customizable (${customPrice}) option. Please share the next steps.`);
+    const detail = document.createElement('button');
+    detail.type = 'button';
+    detail.className = 'view-details';
+    detail.dataset.designId = String(design.id);
+    detail.textContent = 'View Details';
+    actions.append(order, detail);
+    card.append(artwork, meta, prices, actions);
+    grid.append(card);
+  });
+}
+
+function renderWebpageShowcase() {
+  document.getElementById('webpage-showcase')?.remove();
+  if (!webpageDesigns.length) return;
+
+  const stats = document.querySelector('.stats');
+  if (!stats) return;
+
+  const section = document.createElement('section');
+  section.id = 'webpage-showcase';
+  section.className = 'webpage-showcase';
+  section.setAttribute('aria-labelledby', 'webpage-showcase-heading');
+
+  const heading = document.createElement('div');
+  heading.className = 'section-heading webpage-showcase-heading';
+  heading.innerHTML = '<div><p class="eyebrow">PREMIUM DIGITAL EXPERIENCE</p><h2 id="webpage-showcase-heading">Wedding Webpages</h2><p>Your complete celebration, beautifully online.</p></div>';
+
+  const controls = document.createElement('div');
+  controls.className = 'slider-controls webpage-slider-controls';
+  const previous = document.createElement('button');
+  previous.type = 'button';
+  previous.setAttribute('aria-label', 'Previous wedding webpage');
+  previous.textContent = '←';
+  const next = document.createElement('button');
+  next.type = 'button';
+  next.setAttribute('aria-label', 'Next wedding webpage');
+  next.textContent = '→';
+  controls.append(previous, next);
+  heading.append(controls);
+
+  const track = document.createElement('div');
+  track.className = 'webpage-preview-track';
+  track.setAttribute('role', 'region');
+  track.setAttribute('aria-roledescription', 'carousel');
+  track.setAttribute('aria-label', 'Wedding webpage invitation previews');
+  track.tabIndex = 0;
+
+  const webpagePrice = priceLabel(5999);
+  webpageDesigns.forEach((design, index) => {
+    const card = document.createElement('article');
+    card.className = 'webpage-preview-card';
+
+    const destination = design.demo_url
+      ? safeUrl(design.demo_url, 'wedding-webpages.php')
+      : 'wedding-webpages.php';
+    const artwork = document.createElement('a');
+    artwork.className = 'webpage-preview-art';
+    artwork.href = destination;
+    if (design.demo_url) {
+      artwork.target = '_blank';
+      artwork.rel = 'noopener';
+    }
+    artwork.setAttribute('aria-label', `View ${design.title}`);
+    const image = document.createElement('img');
+    image.src = `assets/${design.image_path}`;
+    image.alt = `${design.title} wedding webpage preview`;
+    image.loading = index < 4 ? 'eager' : 'lazy';
+    image.decoding = 'async';
+    artwork.append(image);
+
+    const copy = document.createElement('div');
+    copy.className = 'webpage-preview-copy';
+    const code = document.createElement('span');
+    code.textContent = design.code;
+    const title = document.createElement('h3');
+    title.textContent = design.title;
+    const footer = document.createElement('div');
+    const price = document.createElement('strong');
+    price.textContent = webpagePrice;
+    const view = document.createElement('a');
+    view.href = destination;
+    view.textContent = design.demo_url ? 'View Live Demo' : 'View Details';
+    if (design.demo_url) {
+      view.target = '_blank';
+      view.rel = 'noopener';
+    }
+    footer.append(price, view);
+    copy.append(code, title, footer);
+    card.append(artwork, copy);
+    track.append(card);
+  });
+
+  const explore = document.createElement('div');
+  explore.className = 'webpage-explore';
+  explore.innerHTML = '<a class="button" href="wedding-webpages.php">Explore All Webpages</a>';
+
+  section.append(heading, track, explore);
+  stats.insertAdjacentElement('afterend', section);
+
+  const updateControls = () => {
+    const maximum = track.scrollWidth - track.clientWidth;
+    previous.disabled = track.scrollLeft <= 6;
+    next.disabled = maximum <= 2 || track.scrollLeft >= maximum - 2;
+  };
+  const slide = direction => {
+    const card = track.querySelector('.webpage-preview-card');
+    if (!card) return;
+    const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+    track.scrollBy({
+      left: direction * (card.getBoundingClientRect().width + gap),
+      behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'
+    });
+  };
+  previous.addEventListener('click', () => slide(-1));
+  next.addEventListener('click', () => slide(1));
+  track.addEventListener('scroll', updateControls, { passive: true });
+  track.addEventListener('keydown', event => {
+    if (event.target === track && ['ArrowLeft', 'ArrowRight'].includes(event.key)) {
+      event.preventDefault();
+      slide(event.key === 'ArrowLeft' ? -1 : 1);
+    }
+  });
+  new ResizeObserver(updateControls).observe(track);
+  requestAnimationFrame(updateControls);
+}
+
+function updateCollection() {
+  const cards = [...grid.querySelectorAll('article')];
+  const matching = cards.filter(card => activeCategory === 'All' || card.dataset.category === activeCategory);
+  cards.forEach(card => { card.hidden = true; });
+  matching.slice(0, visibleLimit).forEach(card => { card.hidden = false; });
+  const shown = Math.min(visibleLimit, matching.length);
+  document.getElementById('result-count').textContent = `${shown} of ${matching.length} designs`;
+  document.getElementById('category-label').textContent = activeCategory === 'All'
+    ? (settings.collection_heading || 'Find your perfect invitation')
+    : `${activeCategory} invitations`;
+  exploreMore.hidden = shown >= matching.length;
+  const empty = document.getElementById('empty');
+  empty.hidden = matching.length !== 0;
+  if (!matching.length) {
+    empty.querySelector('h2').textContent = `${activeCategory} invitations`;
+    empty.querySelector('p').textContent = `Message us to explore designs for your ${activeCategory} celebration.`;
+    empty.querySelector('a').href = whatsapp(currentPhone(), `Hello OS Invites! Please share ${activeCategory} invitation designs and pricing.`);
+  }
+  return matching;
+}
+
+function bindCategoryControls() {
+  document.querySelectorAll('[data-filter]').forEach(button => button.addEventListener('click', () => {
+    activeCategory = button.dataset.filter;
+    visibleLimit = 8;
+    document.querySelectorAll('[data-filter]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+    updateCollection();
+  }));
+  document.querySelectorAll('[data-category-link]').forEach(button => button.addEventListener('click', () => {
+    const filter = [...document.querySelectorAll('[data-filter]')].find(item => item.dataset.filter === button.dataset.categoryLink);
+    if (filter) {
+      filter.click();
+      closeCategoryMenu();
+      filter.focus({ preventScroll: true });
+      document.querySelector('.filters').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'start' });
+    }
+  }));
+}
+
+grid.addEventListener('click', event => {
+  const button = event.target.closest('[data-design-id]');
+  if (!button) return;
+  const design = designs.find(item => String(item.id) === button.dataset.designId);
+  if (!design) return;
+  detailTrigger = button;
+  document.getElementById('detail-title').textContent = design.title;
+  document.getElementById('detail-code').textContent = `${design.category} · ${design.code}`;
+  const image = document.getElementById('detail-image');
+  image.src = `assets/${design.image_path}`;
+  image.alt = `${design.title} invitation design`;
+  const video = document.getElementById('detail-video');
+  video.pause();
+  video.hidden = !design.video_path;
+  image.hidden = Boolean(design.video_path);
+  document.getElementById('detail-play').hidden = !design.video_path;
+  document.getElementById('product-details').open = true;
+  document.getElementById('detail-duration').textContent = design.video_path && design.video_duration ? `Duration: ${design.video_duration} Seconds` : 'Video Duration';
+  document.getElementById('detail-duration-copy').textContent = design.video_path ? 'Perfect for sharing with your guests.' : 'Varies according to your selected design.';
+  if (design.video_path) {
+    video.src = `assets/${design.video_path}`;
+    video.poster = `assets/${design.image_path}`;
+  } else {
+    video.removeAttribute('src');
+    video.load();
+  }
+  const prePrice = priceLabel(settings.predesigned_price || 1500);
+  const customPrice = priceLabel(settings.customizable_price || 2800);
+  document.getElementById('detail-order').href = whatsapp(currentPhone(), `Hello OS Invites! I'd like to order ${design.title} (${design.code}). Please help me choose between Pre-Designed (${prePrice}) and Customizable (${customPrice}).`);
+  detailDialog.showModal();
+});
+
+document.getElementById('detail-close').addEventListener('click', () => detailDialog.close());
+detailDialog.addEventListener('click', event => {
+  if (event.target === detailDialog) {
+    const rect = detailDialog.getBoundingClientRect();
+    if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) detailDialog.close();
+  }
+});
+detailDialog.addEventListener('close', () => {
+  document.getElementById('detail-video').pause();
+  if (detailTrigger) detailTrigger.focus({ preventScroll: true });
+});
+exploreMore.addEventListener('click', () => {
+  const firstNew = visibleLimit;
+  visibleLimit += 8;
+  const matching = updateCollection();
+  matching[firstNew]?.querySelector('a')?.focus({ preventScroll: true });
+});
+
+const feedbackTrack = document.getElementById('feedback-track');
+const feedbackPrev = document.getElementById('feedback-prev');
+const feedbackNext = document.getElementById('feedback-next');
+function updateFeedback() {
+  const max = feedbackTrack.scrollWidth - feedbackTrack.clientWidth;
+  feedbackPrev.disabled = feedbackTrack.scrollLeft <= 2;
+  feedbackNext.disabled = max <= 2 || feedbackTrack.scrollLeft >= max - 2;
+}
+function slideFeedback(direction) {
+  const card = feedbackTrack.querySelector('.feedback-card');
+  if (!card) return;
+  const gap = parseFloat(getComputedStyle(feedbackTrack).columnGap) || 0;
+  feedbackTrack.scrollBy({ left: direction * (card.getBoundingClientRect().width + gap), behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+}
+feedbackPrev.addEventListener('click', () => slideFeedback(-1));
+feedbackNext.addEventListener('click', () => slideFeedback(1));
+feedbackTrack.addEventListener('scroll', updateFeedback, { passive: true });
+feedbackTrack.addEventListener('keydown', event => {
+  if (event.target === feedbackTrack && ['ArrowLeft', 'ArrowRight'].includes(event.key)) {
+    event.preventDefault();
+    slideFeedback(event.key === 'ArrowLeft' ? -1 : 1);
+  }
+});
+new ResizeObserver(updateFeedback).observe(feedbackTrack);
+requestAnimationFrame(updateFeedback);
+
+const categoryToggle = document.getElementById('category-toggle');
+const categorySubmenu = document.getElementById('category-submenu');
+function closeCategoryMenu() {
+  categoryToggle.setAttribute('aria-expanded', 'false');
+  categorySubmenu.hidden = true;
+}
+categoryToggle.addEventListener('click', () => {
+  const open = categoryToggle.getAttribute('aria-expanded') === 'true';
+  categoryToggle.setAttribute('aria-expanded', String(!open));
+  categorySubmenu.hidden = open;
+});
+document.addEventListener('click', event => { if (!event.target.closest('.category-menu')) closeCategoryMenu(); });
+document.querySelector('.category-menu').addEventListener('keydown', event => {
+  if (event.key === 'Escape') { closeCategoryMenu(); categoryToggle.focus(); }
+});
+document.querySelector('.category-menu').addEventListener('focusout', event => {
+  if (!event.currentTarget.contains(event.relatedTarget)) closeCategoryMenu();
+});
+
+const previewVideo = document.getElementById('detail-video');
+const previewPlay = document.getElementById('detail-play');
+previewPlay.addEventListener('click', () => previewVideo.play().catch(() => { previewPlay.hidden = false; }));
+previewVideo.addEventListener('play', () => { previewPlay.hidden = true; });
+previewVideo.addEventListener('pause', () => { previewPlay.hidden = !previewVideo.getAttribute('src'); });
+previewVideo.addEventListener('ended', () => { previewPlay.hidden = false; });
+
+async function startWebsite() {
+  try {
+    const response = await fetch('api/site-data.php', { credentials: 'same-origin', cache: 'no-store' });
+    if (!response.ok) throw new Error('Data request failed');
+    const data = await response.json();
+    if (!data.ok) throw new Error(data.message || 'Data unavailable');
+    settings = data.settings || {};
+    const invitations = data.invitations || [];
+    designs = invitations.filter(item => !item.invitation_type || item.invitation_type === 'animated');
+    webpageDesigns = invitations.filter(item => item.invitation_type === 'webpage');
+    applySettings();
+    renderOfferBanner(data.banner);
+    renderCategories();
+    renderCards();
+    renderWebpageShowcase();
+    bindCategoryControls();
+    const requestedEvent = new URLSearchParams(window.location.search).get('event');
+    const requestedFilter = requestedEvent ? [...document.querySelectorAll('[data-filter]')].find(item => item.dataset.filter === requestedEvent) : null;
+    if (requestedFilter) requestedFilter.click(); else updateCollection();
+  } catch (error) {
+    console.error(error);
+    document.getElementById('result-count').textContent = 'Unable to load designs';
+    document.getElementById('empty').hidden = false;
+    exploreMore.hidden = true;
+  }
+}
+
+startWebsite();

@@ -1,0 +1,139 @@
+/* ==========================================================================
+   Ceremonia Invites — design tokens.
+
+   The single place any colour, shadow or radius is defined. Loaded first on
+   every page, storefront and panel alike. Nothing below this file should
+   introduce a raw hex: two stylesheets each declaring their own :root is how
+   the storefront and the app drifted into different maroons.
+
+   Values follow the brand guidelines: deep maroon on soft ivory, an elegant
+   serif for headings against a legible sans for interface text.
+   ========================================================================== */
+
+:root {
+  /* ---------------------------------------------------------------- brand */
+  --maroon:        #5a1621;   /* the site's maroon since 2026-10-22 (home-2026.css) */
+  --maroon-deep:   #4b1520;
+  --maroon-lift:   #6a1f2c;   /* one step up, for hovers on dark ground */
+  --maroon-wash:   #f1e9de;   /* tint behind selected chips and rows */
+  --maroon-line:   rgba(90, 22, 33, 0.16);
+  --maroon-faint:  rgba(90, 22, 33, 0.07);
+
+  --gold:          #a8842f;
+  --gold-wash:     #f7f0e3;
+
+  /* --------------------------------------------------------------- ground */
+  --cream:         #fbf7f1;
+  --cream-deep:    #f9f4ee;
+  --surface:       #ffffff;
+  --surface-sunk:  #fbf7f1;
+  --on-brand:      #fffcfb;   /* type on maroon */
+
+  /* ------------------------------------------------------------------ ink */
+  --ink:           #2b211d;
+  --ink-soft:      rgba(43, 33, 29, 0.66);
+  --ink-faint:     rgba(43, 33, 29, 0.42);
+  --ink-ghost:     rgba(43, 33, 29, 0.12);
+
+  /* ------------------------------------------------- the floating header */
+  /* The storefront header is fixed at top:14px and its bar is 64px tall, so
+     nothing may sit above 78px without disappearing behind it.
+
+     A token because the number was being guessed separately everywhere it
+     mattered: checkout's main column cleared it by 120px while the order
+     summary beside it stuck at 24px — one leaving a visible gap, the other
+     sliding under the header on the same screen. One number, one place. */
+  --head-h:        78px;
+  --head-clear:    calc(var(--head-h) + 18px);
+
+  --line:          var(--maroon-line);
+  --line-soft:     var(--maroon-faint);
+
+  /* --------------------------------------------------------- semantic ---- */
+  /* Kept clearly apart from the brand maroon: a destructive action must never
+     read as a primary one. */
+  --ok:            #1f7a4c;
+  --ok-wash:       #e4f1ea;
+  --warn:          #8a6414;
+  --warn-wash:     #f7eedb;
+  --danger:        #b3402c;
+  --danger-deep:   #93321f;
+  --danger-wash:   #fae9e4;
+
+  /* ----------------------------------------------------------------- type */
+  --display: "Instrument Serif", "Cormorant Garamond", ui-serif, Georgia, serif;
+  --body:    "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* ------------------------------------------------------------ elevation */
+  /* Three steps, used everywhere. Shadows tinted with the ink rather than pure
+     black, so they sit warm against the cream. */
+  --lift-1: 0 1px 2px rgba(43, 33, 29, .04), 0 8px 20px -16px rgba(43, 33, 29, .28);
+  --lift-2: 0 18px 40px -26px rgba(43, 33, 29, .45);
+  --lift-3: 0 28px 56px -30px rgba(43, 33, 29, .50);
+
+  /* --------------------------------------------------------------- shape */
+  /* The page gutter. Every full-width block leaves this much either side, so
+     nothing on the page ever touches the edge of the window. Matches the
+     design's 56px at 1440 and tightens gracefully on a phone. */
+  --gutter: clamp(20px, 4.5vw, 56px);
+
+  /* The widest the content ever gets. 1440 less the design's 56px either side
+     — so at the width the page was drawn at, the columns land exactly where
+     they were drawn. Every .wrap and the header read this; it was being used
+     without ever being declared, which made `width: min(var(--wrap), …)`
+     invalid and left every section stretched edge to edge with no gutter at
+     all. */
+  --wrap: 1328px;
+
+  --radius-sm: 8px;
+  --radius:    12px;
+  --radius-lg: 18px;
+  --radius-xl: 22px;
+  --pill:      999px;
+
+  /* --------------------------------------------------------------- motion */
+  /* One curve and two durations, so nothing on the page eases differently
+     from anything else. */
+  --ease: cubic-bezier(.22, .61, .36, 1);
+  --quick: .18s;
+  --settle: .32s;
+
+  /* ------------------------------------------------------------- aliases */
+  /* The panel and the older storefront styles were written against these
+     names. Pointed at the tokens above rather than renamed across six files,
+     so there is still only one definition of each colour. */
+  --accent:       var(--maroon);
+  --accent-dark:  var(--maroon-deep);
+  --accent-wash:  var(--maroon-wash);
+  --bg:           var(--cream);
+  --border:       var(--line);
+  --radius-legacy: var(--radius);
+}
+
+/* Text on a guest's card is not selectable: nothing there needs selecting, and
+   a long-press that highlights the couple's names is a worse experience than
+   one that does nothing. Form fields and the panel are untouched — see
+   public/js/protect.js for what this does and does not achieve. */
+html[data-protect="card"] body {
+  -webkit-user-select: none; user-select: none;
+  -webkit-touch-callout: none;
+}
+html[data-protect="card"] input,
+html[data-protect="card"] textarea,
+html[data-protect="card"] [contenteditable="true"] {
+  -webkit-user-select: text; user-select: text;
+}
+
+/* Icons ---------------------------------------------------------------------
+   Here rather than in site.css because the sprite is included on every page
+   and the panel does not load site.css: without fill:none an icon renders as
+   a solid black square, which is exactly what the dashboard showed.
+   -------------------------------------------------------------------------- */
+.icon-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+.icon {
+  width: 24px; height: 24px; flex: none;
+  fill: none; stroke: currentColor; stroke-width: 1.5;
+  stroke-linecap: round; stroke-linejoin: round;
+  color: var(--accent, #5a1621);
+}
+.icon-lg { width: 30px; height: 30px; }

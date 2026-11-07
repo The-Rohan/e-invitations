@@ -1,0 +1,20 @@
+const categoryToggle = document.getElementById('category-toggle');
+const categorySubmenu = document.getElementById('category-submenu');
+function closeCategoryMenu() {
+  categoryToggle.setAttribute('aria-expanded', 'false');
+  categorySubmenu.hidden = true;
+}
+categoryToggle.addEventListener('click', () => {
+  const open = categoryToggle.getAttribute('aria-expanded') === 'true';
+  categoryToggle.setAttribute('aria-expanded', String(!open));
+  categorySubmenu.hidden = open;
+});
+document.addEventListener('click', event => {
+  if (!event.target.closest('.category-menu')) closeCategoryMenu();
+});
+document.querySelector('.category-menu').addEventListener('keydown', event => {
+  if (event.key === 'Escape') {
+    closeCategoryMenu();
+    categoryToggle.focus();
+  }
+});

@@ -1,0 +1,239 @@
+/* Full-screen compositions for the two closely studied reference families. */
+/* Every new motion uses the selected theme's artwork, with live editable text. */
+.ao-cinematic[data-effect=boundbook] .ao-scene{inset:auto;left:50%;top:46%;width:min(78vw,430px,48svh);height:auto;aspect-ratio:2/3;transform:translate(-50%,-50%);overflow:visible;background:var(--ao-paper);box-shadow:12px 18px 35px #261c2433;border-radius:4px 12px 12px 4px;perspective:1700px}
+.ao-cinematic[data-effect=boundbook] .ao-decor{overflow:visible;transform-style:preserve-3d}
+.ao-cinematic[data-effect=boundbook] .ao-letter{padding:22% 15% 27%;gap:15px;border-radius:4px 12px 12px 4px;box-shadow:inset 10px 0 20px #34231a16}
+.ao-cinematic[data-effect=boundbook] .ao-names{font-size:clamp(28px,6vw,42px)}
+.ao-book-pages{inset:auto -7px -6px 2px;height:8px;border-radius:0 0 12px 3px;background:repeating-linear-gradient(0deg,#f7ecd4 0 2px,#b7a988 2px 3px);box-shadow:5px 8px 15px #30231433}
+.ao-book-cover,.ao-book-leaf{inset:0;transform-origin:0 50%;transform-style:preserve-3d;border-radius:3px 12px 12px 3px;transition:transform 3.6s cubic-bezier(.35,.04,.16,1)}
+.ao-book-cover{z-index:5;box-shadow:4px 4px 14px #30231466}
+.ao-book-front,.ao-book-back{position:absolute;inset:0;backface-visibility:hidden;border-radius:inherit}
+.ao-book-front{background:linear-gradient(90deg,#20130c55,transparent 7%,transparent 95%,#fff4),var(--ao-art) center/100% 100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20%;gap:20px}
+.ao-book-back{transform:rotateY(180deg);background:linear-gradient(90deg,#dfceb0,var(--ao-paper) 18%,#f4e9d5 85%,#bba47d)}
+.ao-book-title{font:clamp(30px,5vw,48px)/1.5 var(--font-script,'Great Vibes',cursive);color:var(--ao-ink);text-align:center;overflow-wrap:anywhere}
+.ao-book-front small{font:10px/1.6 Georgia,serif;letter-spacing:.14em;color:var(--ao-ink);text-align:center}
+.ao-book-leaf{background:linear-gradient(90deg,#a4937333,var(--ao-paper) 13%,#fff9eb 85%,#b5a08055);box-shadow:2px 0 5px #30231425}
+.ao-leaf-one{z-index:4;transition-delay:.7s}.ao-leaf-two{z-index:3;transition-delay:1.2s}
+.ao-book-spine{left:-3px;top:0;bottom:0;width:7px;border-radius:4px;background:linear-gradient(90deg,#3e292455,var(--ao-gold),#fff4);z-index:6}
+.is-opening .ao-book-cover{transform:rotateY(-154deg)}
+.is-opening .ao-leaf-one{transform:rotateY(-148deg)}
+.is-opening .ao-leaf-two{transform:rotateY(-140deg)}
+.ao-cinematic[data-effect=boundbook]{background:radial-gradient(ellipse at center,var(--ao-paper),color-mix(in srgb,var(--ao-paper) 75%,var(--ao-gold)));}
+.ao-cinematic[data-effect=palacedoors] .ao-door{box-shadow:inset -7px 0 15px #24160933;transition-duration:5s}
+.ao-cinematic[data-effect=palacedoors] .ao-door::before{animation:none;opacity:.15}
+.ao-cinematic[data-effect=palacedoors].is-opening .ao-left{transform:rotateY(-108deg)}
+.ao-cinematic[data-effect=palacedoors].is-opening .ao-right{transform:rotateY(108deg)}
+.ao-fabric{inset:0;background:var(--ao-art) center/100% 100%;transform-origin:50% 0;box-shadow:0 20px 25px #26162333;transition:transform 5s cubic-bezier(.45,.02,.2,1),border-radius 4s;}
+.ao-fabric i{position:absolute;inset:0;background:repeating-linear-gradient(90deg,#fff2,transparent 3%,#24131b20 6%,transparent 9%);mix-blend-mode:multiply;opacity:.3;transition:opacity 1.4s}
+.is-opening .ao-fabric{transform:translateY(-98%) scaleY(.3);border-radius:0 0 42% 48%}
+.is-opening .ao-fabric i{opacity:1}
+.ao-landscape{inset:0;background:var(--ao-art) center/100% 100%;transform:scale(1.18);transition:transform 5.5s cubic-bezier(.2,.2,.1,1),opacity 1.6s 4s}
+.is-opening .ao-landscape{transform:scale(1);opacity:0}
+.ao-scene-wing{inset:0;background:var(--ao-art) center/100% 100%;transition:transform 5s cubic-bezier(.2,.2,.1,1),opacity 3s 1s;transform-origin:center;display:none}
+[data-effect=gardenscene] .ao-scene-wing,[data-effect=flowercurtain] .ao-scene-wing{display:block}
+.ao-wing-left{clip-path:polygon(0 0,24% 0,21% 22%,15% 38%,18% 65%,27% 100%,0 100%)}
+.ao-wing-right{clip-path:polygon(100% 0,78% 0,83% 27%,87% 50%,80% 80%,74% 100%,100% 100%)}
+.is-opening .ao-wing-left{transform:translateX(-35%) scale(1.2);opacity:0}
+.is-opening .ao-wing-right{transform:translateX(35%) scale(1.2);opacity:0}
+[data-effect=flowercurtain] .ao-wing-left{clip-path:inset(0 50% 0 0);transform-origin:left}
+[data-effect=flowercurtain] .ao-wing-right{clip-path:inset(0 0 0 50%);transform-origin:right}
+[data-effect=flowercurtain].is-opening .ao-wing-left{transform:rotateY(-85deg)}
+[data-effect=flowercurtain].is-opening .ao-wing-right{transform:rotateY(85deg)}
+.ao-water-light{inset:68% 0 0;opacity:.4;background:repeating-radial-gradient(ellipse at 50% 5%,transparent 0 17px,#fff8 18px,transparent 20px 35px);mask-image:linear-gradient(transparent,#000 50%,transparent);transform:scaleX(1.1);animation:aoWaterRipple 4s linear infinite;mix-blend-mode:soft-light}
+@keyframes aoWaterRipple{to{transform:scaleX(1.35) translateY(14px);opacity:.15}}
+.ao-cloud{width:80%;height:65%;top:8%;background:radial-gradient(ellipse at 40% 40%,#fffef9e8,transparent 65%);filter:blur(10px);transition:transform 5s,opacity 4s}
+.ao-cloud-left{left:-20%}.ao-cloud-right{right:-20%;top:30%}
+.is-opening .ao-cloud-left{transform:translateX(-80%);opacity:0}.is-opening .ao-cloud-right{transform:translateX(80%);opacity:0}
+.ao-evening-shade{inset:0;background:#100a19;opacity:.78;transition:opacity 4.8s}
+.is-opening .ao-evening-shade{opacity:0}
+.ao-lantern-glow{inset:0;opacity:.1;background:radial-gradient(ellipse at 15% 78%,#ffc67688,transparent 45%),radial-gradient(ellipse at 85% 78%,#ffd28a88,transparent 45%);mix-blend-mode:screen;transition:opacity 4s;}
+.is-opening .ao-lantern-glow{opacity:.65}
+.ao-falling-petals{inset:0}.ao-falling-petals i{position:absolute;top:-30px;left:calc(10% + var(--n)*10%);width:12px;height:19px;border-radius:80% 0 80% 30%;background:linear-gradient(120deg,#f4cbd0,#b87581);opacity:0}
+.is-opening .ao-falling-petals i{animation:aoScenePetal 5s calc(var(--n)*.16s) ease-in forwards}
+@keyframes aoScenePetal{15%{opacity:.7}to{opacity:0;transform:translate(35px,85vh) rotate(310deg)}}
+.ao-preview:has(.ao-cinematic){background:var(--ao-paper,#f9f5e9)}
+.ao-preview .ao-cinematic,.ao-cinematic{max-width:none;min-height:100svh;height:100svh;padding:0;display:block;overflow:hidden}
+.ao-cinematic .ao-heading{display:none}
+.ao-cinematic .ao-scene{position:absolute;inset:0;width:100%;height:100%;min-width:0;aspect-ratio:auto;box-shadow:none;perspective:1700px;background-size:cover}
+.ao-cinematic .ao-letter{padding:16vh max(16%,24px) 19vh;background-size:cover;gap:22px;opacity:0;transform:scale(.97);transition:opacity 2.1s 3.3s,transform 2.8s 3.2s;overflow:auto}
+.ao-cinematic.is-opening .ao-letter{opacity:1;transform:scale(1)}
+.ao-cinematic .ao-letter>*{max-width:660px;flex-shrink:0}
+.ao-cinematic .ao-names{font-size:clamp(34px,7vw,72px);width:100%;line-height:1.7}
+.ao-cinematic .ao-blessing{font-size:clamp(18px,3vw,28px)}
+.ao-cinematic .ao-date{font-size:clamp(13px,2vw,18px);letter-spacing:.14em}
+.ao-cinematic .ao-actions{position:absolute;inset:auto auto 5% 50%;transform:translateX(-50%);width:max-content;max-width:92%;min-width:180px;padding:8px 18px;gap:4px;border:1px solid color-mix(in srgb,var(--ao-gold) 55%,transparent);border-radius:24px;background:color-mix(in srgb,var(--ao-paper) 94%,transparent);box-shadow:0 6px 24px #251b1720;transition:opacity .5s}
+.ao-cinematic .ao-actions button{font-size:11px;color:var(--ao-ink);letter-spacing:.24em;padding:12px 22px}
+.ao-cinematic .ao-actions .ao-skip{font-size:9px;opacity:.7;padding:5px 16px}
+.ao-cinematic.is-opening:not(.is-ready) #atelierOpen{visibility:hidden}
+.ao-cinematic .ao-note{position:absolute;bottom:18%;left:15%;width:70%;max-width:none;font-size:16px;max-height:20vh;overflow:auto;z-index:3;opacity:0;transition:opacity 1s 4s}
+.ao-cinematic.is-opening .ao-note{opacity:1}
+.ao-cinematic .ao-door{background-size:200% 100%;backface-visibility:hidden;transform-style:preserve-3d;transition:transform 5.8s cubic-bezier(.32,.03,.12,1),filter 5s;will-change:transform}
+.ao-cinematic .ao-door::before{content:'';position:absolute;inset:0;background:linear-gradient(110deg,transparent 15%,#fff8 30%,transparent 50%,#fff5 65%,transparent 80%);background-size:250% 100%;opacity:.4;animation:aoGlassLight 9s ease-in-out infinite}
+.ao-cinematic .ao-door::after{width:3px;left:auto;right:0;background:linear-gradient(90deg,#493416,#f4d9a0,#85632b);border:0;box-shadow:0 0 3px #42291670}
+.ao-cinematic .ao-door.ao-right::after{right:auto;left:0}
+.ao-cinematic[data-effect=glass].is-opening .ao-door.ao-left{transform:rotateY(-102deg);filter:brightness(.8)}
+.ao-cinematic[data-effect=glass].is-opening .ao-door.ao-right{transform:rotateY(102deg);filter:brightness(.8)}
+@keyframes aoGlassLight{0%,100%{background-position:100% 0;opacity:.18}50%{background-position:0 0;opacity:.48}}
+.ao-cinematic[data-effect=theatre] .ao-curtain,.ao-cinematic[data-effect=theatre] .ao-valance{display:none}
+.ao-cinematic .ao-velvet-camera{inset:0;background:var(--ao-art) center/cover;transform:scale(1.35) translate(4%,3%);transition:transform 5.5s cubic-bezier(.22,.3,.17,1),opacity 1.5s 4.8s;will-change:transform}
+.ao-cinematic.is-opening .ao-velvet-camera{transform:scale(1);opacity:0}
+.ao-cinematic .ao-candlelight{inset:0;background:radial-gradient(ellipse at 6% 80%,#ffc96b25,transparent 20%),radial-gradient(ellipse at 94% 80%,#ffb54820,transparent 20%);animation:aoFlameLight 3.2s ease-in-out infinite alternate;mix-blend-mode:screen}
+@keyframes aoFlameLight{0%,100%{opacity:.4}40%{opacity:.8}60%{opacity:.55}80%{opacity:.9}}
+.ao-cinematic[data-effect=theatre]:not(.is-opening) .ao-actions{bottom:42%}
+.ao-cinematic[data-effect=theatre] #atelierOpen{border:1px solid color-mix(in srgb,var(--ao-gold) 55%,transparent);border-radius:40px;background:#1e081826}
+.ao-sky>*{position:absolute}.ao-bird{height:auto}
+html:is([data-theme="rang-e-noor"],[data-theme="makhmal-baithak"]) .demo-design{background:var(--card)}
+html:is([data-theme="rang-e-noor"],[data-theme="makhmal-baithak"]) .demo-design .card{max-width:none;margin:0;box-shadow:none;border-radius:0;background:var(--card)}
+html:is([data-theme="rang-e-noor"],[data-theme="makhmal-baithak"]) .demo-design .entrance{max-width:none}
+html:is([data-theme="rang-e-noor"],[data-theme="makhmal-baithak"]) .demo-design .controls{right:20px}
+html:is([data-theme="rang-e-noor"],[data-theme="makhmal-baithak"]) .demo-design .hero.hero-art{min-height:100svh;padding:140px max(16%,26px) 110px;background-size:cover;background-position:center;display:flex;flex-direction:column;justify-content:center}
+html:is([data-theme="rang-e-noor"],[data-theme="makhmal-baithak"]) .demo-design .hero .name{font-size:clamp(3.4rem,7vw,6.8rem);font-weight:400;line-height:1.35}
+html:is([data-theme="rang-e-noor"],[data-theme="makhmal-baithak"]) .hero .names{margin:22px 0;gap:8px}
+html:is([data-theme="rang-e-noor"],[data-theme="makhmal-baithak"]) .hero .amp{font-size:1.8rem;margin:0}
+html:is([data-theme="rang-e-noor"],[data-theme="makhmal-baithak"]) .hero .ornament{display:none}
+html:is([data-theme="rang-e-noor"],[data-theme="makhmal-baithak"]) .demo-design .atelier-scroll{border:0;background:none;box-shadow:none;margin-top:30px;letter-spacing:.18em}
+html:is([data-theme="rang-e-noor"],[data-theme="makhmal-baithak"]) .demo-design .sec:not(.hero){max-width:1100px;margin:auto;padding:90px 40px}
+html:is([data-theme="rang-e-noor"],[data-theme="makhmal-baithak"]) .demo-design .sec:not(.hero)::after{display:none}
+html:is([data-theme="rang-e-noor"],[data-theme="makhmal-baithak"]) .demo-design .frame{border:0;box-shadow:none;background:none;padding:30px;max-width:760px;margin:auto}
+html:is([data-theme="rang-e-noor"],[data-theme="makhmal-baithak"]) .demo-design .sec-title{font-family:var(--font-script);font-size:clamp(3rem,7vw,5rem);line-height:1.5}
+html:is([data-theme="rang-e-noor"],[data-theme="makhmal-baithak"]) .demo-design .event-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px}
+html:is([data-theme="rang-e-noor"],[data-theme="makhmal-baithak"]) .demo-design .event{margin:0;border:1px solid var(--line);border-radius:3px;background:none;padding:32px;min-width:0}
+html:is([data-theme="rang-e-noor"],[data-theme="makhmal-baithak"]) .demo-design .event .atelier-event-sketch{width:145px;margin:auto}
+html:is([data-theme="rang-e-noor"],[data-theme="makhmal-baithak"]) .demo-design .countdown{max-width:620px;margin:32px auto}
+html:is([data-theme="rang-e-noor"],[data-theme="makhmal-baithak"]) .demo-design .countdown b{font:400 clamp(40px,7vw,72px)/1.3 var(--font-display)}
+html[data-theme="makhmal-baithak"] .demo-design{--linen:none;--line:#cfa96045;--muted:#e0c99f;background:#240c13}
+html[data-theme="makhmal-baithak"] .demo-design .card{background:radial-gradient(ellipse at 50% 40%,#64172566,transparent 70%),#240c13}
+html[data-theme="makhmal-baithak"] .demo-design .sec:not(.hero){border-bottom:1px solid #cfa96025}
+html[data-theme="makhmal-baithak"] .demo-design .event{background:linear-gradient(145deg,#712a3433,#18080e55);border-color:#cfa96066}
+html[data-theme="makhmal-baithak"] .demo-design .sec-title{font-family:var(--font-display);text-transform:uppercase;letter-spacing:.07em;font-size:clamp(1.8rem,4vw,2.7rem)}
+html[data-theme="makhmal-baithak"] .demo-design .form,html[data-theme="makhmal-baithak"] .demo-design .info-card{background:#390f19;color:var(--ink);border-color:#cfa96055}
+html[data-theme="makhmal-baithak"] .demo-design :is(input,select,textarea){background:#220a11;color:#f8ead0;border-color:#cfa96066}
+html[data-theme="makhmal-baithak"] .demo-design :is(input,textarea)::placeholder{color:#baa58a}
+html[data-theme="makhmal-baithak"] .demo-design .btn.primary{background:#cfa960;color:#240c13;border-color:#cfa960}
+html[data-theme="makhmal-baithak"] .demo-design .hero .names{display:flex;flex-direction:row;align-items:center;justify-content:center;gap:25px;flex-wrap:wrap}
+html[data-theme="makhmal-baithak"] .demo-design .closing{background:linear-gradient(#240c13c9,#240c13e8),var(--atelier-art) center/cover}
+html[data-theme="rang-e-noor"] .demo-design .card{background:#faf7ef}
+html[data-theme="rang-e-noor"] .demo-design .event{background:linear-gradient(125deg,#f6e7df88,#fcfaf3,#dbe3d744);border-color:#bd9b6b77;border-radius:160px 160px 8px 8px;padding-top:55px}
+html[data-theme="rang-e-noor"] .demo-design .closing{background:linear-gradient(#faf7ef88,#faf7efbb),var(--atelier-art) center/cover}
+@media(max-width:600px){
+ .ao-cinematic .ao-scene,.ao-cinematic .ao-letter,.ao-cinematic .ao-velvet-camera{background-size:100% 100%}
+ .ao-cinematic .ao-letter{padding:20vh 17% 21vh;gap:20px}.ao-cinematic .ao-names{font-size:44px}.ao-cinematic .ao-blessing{font-size:19px}.ao-cinematic .ao-date{font-size:14px}
+ html:is([data-theme="rang-e-noor"],[data-theme="makhmal-baithak"]) .demo-design .hero.hero-art{padding:120px 17% 100px;min-height:100svh;background-size:100% 100%}
+ html:is([data-theme="rang-e-noor"],[data-theme="makhmal-baithak"]) .demo-design .hero .name{font-size:clamp(2.7rem,11vw,4.2rem)}
+ html:is([data-theme="rang-e-noor"],[data-theme="makhmal-baithak"]) .demo-design .sec:not(.hero){padding:65px 24px}
+ html:is([data-theme="rang-e-noor"],[data-theme="makhmal-baithak"]) .demo-design .event-list{grid-template-columns:1fr}
+ html:is([data-theme="rang-e-noor"],[data-theme="makhmal-baithak"]) .demo-design .frame{padding:20px 4px}
+ html[data-theme="makhmal-baithak"] .demo-design .hero .names{gap:5px;flex-direction:column}
+}
+@media(prefers-reduced-motion:reduce){.ao-cinematic *,.ao-cinematic *::before{animation:none!important;transition:none!important}}
+@media print{html:is([data-theme="rang-e-noor"],[data-theme="makhmal-baithak"]) .demo-design .hero.hero-art{min-height:0}}
+
+@media(min-aspect-ratio:1/1){
+ .ao-cinematic[data-theme="makhmal-baithak"]{--ao-art:url('https://sehra.pk/assets/img/collection/makhmal-baithak-wide-v3.webp')!important}
+ html[data-theme="makhmal-baithak"] .demo-design .hero.hero-art{background-image:url('https://sehra.pk/assets/img/collection/makhmal-baithak-wide-v3.webp')}
+}
+/* Keep the book and its controls in separate flow rows, including short previews. */
+.ao-cinematic[data-effect=boundbook]{display:flex;flex-direction:column;align-items:center;justify-content:safe center;gap:24px;padding:24px 20px max(20px,env(safe-area-inset-bottom));overflow:auto}
+.ao-cinematic[data-effect=boundbook] .ao-scene{position:relative;inset:auto;transform:none;flex:0 0 auto;width:min(78vw,430px,max(160px,calc((100svh - 190px)*.6667)))}
+.ao-cinematic[data-effect=boundbook] .ao-actions{position:relative;inset:auto;transform:none;flex:0 0 auto;margin:0}
+/* Text needs its own calm surface; no line is painted directly onto busy flowers. */
+.ao-copy,.ao-book-copy{display:flex;flex-direction:column;align-items:center;justify-content:safe center;gap:14px;width:100%;min-width:0;padding:22px 18px;border:1px solid color-mix(in srgb,var(--ao-gold) 30%,transparent);border-radius:12px;background:color-mix(in srgb,var(--ao-paper) 97%,transparent);color:var(--ao-ink);text-align:center;box-shadow:0 4px 22px #231a1310}
+.ao-letter>.ao-copy{max-width:660px;max-height:100%;flex-shrink:1;overflow:auto}
+.ao-copy>*{flex-shrink:0;max-width:100%;overflow-wrap:anywhere}
+.ao-copy .ao-date{font-size:15px;letter-spacing:.07em;color:inherit;margin:0;padding-top:12px}
+.ao-copy .ao-caption{font-size:16px;line-height:1.6}
+.ao-copy .ao-note{position:static;inset:auto;width:100%;max-height:none;opacity:1;margin:0;font-size:16px;line-height:1.8}
+.ao-cinematic .ao-letter{padding:12vh max(10%,18px) 19vh;gap:0}
+.ao-cinematic[data-effect=boundbook] .ao-letter{padding:10% 8% 13%;gap:0}
+.ao-cinematic[data-effect=boundbook] .ao-copy{padding:16px 12px;gap:12px}
+.ao-book-front{padding:10%}
+.ao-book-copy{padding:18px 12px;gap:12px}
+.ao-book-title{font-size:clamp(27px,5vw,42px);line-height:1.4}
+.ao-book-front small{font-size:12px;letter-spacing:.06em;line-height:1.6}
+body[data-design-family^="collection-"]{--muted:color-mix(in srgb,var(--atelier-ink) 90%,var(--atelier-paper))}
+body[data-design-family^="collection-"] .hero.hero-art{padding:100px max(10%,20px) 130px;min-height:max(760px,100svh)}
+.collection-copy{position:relative;z-index:1;isolation:isolate;align-self:center;width:100%;max-width:660px;padding:30px 24px;background:none;border:0;border-radius:0;color:var(--atelier-ink);box-shadow:none;text-shadow:0 0 2px var(--atelier-paper),0 0 9px color-mix(in srgb,var(--atelier-paper) 80%,transparent);text-align:center;overflow-wrap:anywhere}
+body[data-design-family^="collection-"] .hero .collection-copy .name{font-size:clamp(2.4rem,9vw,4.8rem);line-height:1.35}
+body[data-design-family^="collection-"] .hero .collection-copy .eyebrow{max-width:none;margin:0 0 20px;font-size:12px;line-height:1.8;letter-spacing:.12em}
+body[data-design-family^="collection-"] .hero .collection-copy .names{margin:0;gap:6px}
+body[data-design-family^="collection-"] .hero .collection-copy .date{font-size:13px;line-height:1.9;letter-spacing:.1em}
+body[data-design-family^="collection-"] .hero .collection-copy .atelier-hero-venue{font-size:14px;line-height:1.8;letter-spacing:.05em}
+body[data-design-family^="collection-"] .hero .collection-copy .atelier-scroll{font-size:11px;line-height:1.7;letter-spacing:.09em;margin-top:24px}
+/* No text box: the names sit straight on the art. Each design has its own quiet area, so the block is lifted by an amount measured from that design's art (--copy-lift, in 1% screen-height steps). */
+body[data-design-family^="collection-"] .hero .collection-copy{padding-top:8px;padding-bottom:8px;transform:translateY(calc(var(--copy-lift,-8.5) * max(7.4px,1svh)))}
+body[data-design-family^="collection-"] .hero .collection-copy .eyebrow{margin-bottom:8px}
+body[data-design-family^="collection-"] .hero .collection-copy .names{gap:0}
+body[data-design-family^="collection-"] .hero .collection-copy .name{line-height:1.12}
+html[data-theme="aasman-arch"]{--copy-lift:-4}
+html[data-theme="ambar-terrace"]{--copy-lift:-10.5}
+html[data-theme="badal-khwab"]{--copy-lift:-4}
+html[data-theme="bagh-haveli"]{--copy-lift:-8}
+html[data-theme="chameli-jaali"]{--copy-lift:-8}
+html[data-theme="choti-khushi"]{--copy-lift:-8}
+html[data-theme="darbar-letter"]{--copy-lift:-8}
+html[data-theme="dhaaga-garden"]{--copy-lift:-8}
+html[data-theme="gul-tilla"]{--copy-lift:-7}
+html[data-theme="gulab-angan"]{--copy-lift:-8}
+html[data-theme="gulabi-maison"]{--copy-lift:-8}
+html[data-theme="gulistan-letter"]{--copy-lift:-8}
+html[data-theme="hamsafar-swans"]{--copy-lift:-8.5}
+html[data-theme="harf-surkh"]{--copy-lift:-7}
+html[data-theme="jheel-kinara"]{--copy-lift:-13}
+html[data-theme="kaghaz-kahani"]{--copy-lift:-4}
+html[data-theme="kanwal-court"]{--copy-lift:-9.5}
+html[data-theme="kashti"]{--copy-lift:-8}
+html[data-theme="kesar-mehfil"]{--copy-lift:-8}
+html[data-theme="kohsar"]{--copy-lift:-13.5}
+html[data-theme="lemon-courtyard"]{--copy-lift:-4.5}
+html[data-theme="makhmal-baithak"]{--copy-lift:2}
+html[data-theme="meethi-yaad"]{--copy-lift:-8}
+html[data-theme="mehfil-stage"]{--copy-lift:-6}
+html[data-theme="mehr-mohar"]{--copy-lift:-7}
+html[data-theme="mehrab-e-noor"]{--copy-lift:1}
+html[data-theme="moti-jheel"]{--copy-lift:-8}
+html[data-theme="naariel-coast"]{--copy-lift:-8.5}
+html[data-theme="neel-mohar"]{--copy-lift:-5.5}
+html[data-theme="neeli-haveli"]{--copy-lift:-5}
+html[data-theme="noor-sukoon"]{--copy-lift:-10.5}
+html[data-theme="phool-bahaar"]{--copy-lift:-8}
+html[data-theme="phool-diary"]{--copy-lift:-8}
+html[data-theme="posheeda-bagh"]{--copy-lift:-8}
+html[data-theme="raah-e-gul"]{--copy-lift:-8}
+html[data-theme="rang-basti"]{--copy-lift:-5.5}
+html[data-theme="rang-e-noor"]{--copy-lift:-8}
+html[data-theme="ravi-kinara"]{--copy-lift:-13.5}
+html[data-theme="resham-lace"]{--copy-lift:-8}
+html[data-theme="roshan-bagh"]{--copy-lift:-12}
+html[data-theme="sabz-mehfil"]{--copy-lift:-1}
+html[data-theme="safar-nama"]{--copy-lift:-8}
+html[data-theme="sahil-blue"]{--copy-lift:-8}
+html[data-theme="sehra-sunset"]{--copy-lift:-4.5}
+html[data-theme="shab-noir"]{--copy-lift:-7.5}
+html[data-theme="shab-sitare"]{--copy-lift:-6.5}
+html[data-theme="sona-manzil"]{--copy-lift:-8}
+html[data-theme="subh-e-jheel"]{--copy-lift:-7}
+html[data-theme="subh-shaam"]{--copy-lift:0.5}
+html[data-theme="sukhan"]{--copy-lift:3}
+html[data-theme="taj-garden"]{--copy-lift:-8}
+html[data-theme="vow-journal"]{--copy-lift:-3.5}
+html[data-theme="yaad-locket"]{--copy-lift:-8}
+html[data-theme="zaitoon-vine"]{--copy-lift:-6.5}
+html[data-theme="zamrud-arch"]{--copy-lift:-6.5}
+/* Announcement cards keep their own panel. */
+.announcement-art .collection-copy{background:color-mix(in srgb,var(--atelier-paper) 97%,transparent);border:1px solid color-mix(in srgb,var(--atelier-accent) 28%,transparent);border-radius:14px;box-shadow:0 5px 28px #20181012;text-shadow:none}
+body[data-design-family^="collection-"] :is(.frame,.event,.form,.info-card){background:var(--atelier-paper);color:var(--atelier-ink)}
+body[data-design-family^="collection-"] :is(input,textarea,select){color:var(--atelier-ink);background:var(--atelier-paper)}
+body[data-design-family^="collection-"] .announcement-art{padding:90px 30px;min-height:720px}
+body[data-design-family^="collection-"] .announcement-art .name{font-size:clamp(2.2rem,8vw,3.8rem);line-height:1.45}
+@media(max-width:600px){
+ body[data-design-family^="collection-"] .hero.hero-art{padding:95px 9% 120px;min-height:max(740px,100svh)}
+ .collection-copy{padding:26px 18px}
+ .ao-cinematic .ao-letter{padding:12vh 9% 19vh}
+ .ao-copy{padding:20px 16px;gap:12px}
+ .ao-cinematic .ao-names{font-size:38px}
+ .ao-cinematic .ao-blessing{font-size:18px;line-height:2}
+}
+
+/* Cover the surface without independently stretching the illustration's axes. */
+body[data-design-family^="collection-"] .hero.hero-art,
+body[data-design-family^="collection-"] .announcement-art{background-size:cover;background-position:center}

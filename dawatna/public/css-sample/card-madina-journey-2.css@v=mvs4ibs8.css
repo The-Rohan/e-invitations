@@ -1,0 +1,663 @@
+/* Madina Journey 2 -- the Prophet's city, on film. See
+   views/templates/madina-journey-2/index.ejs.
+
+   Mehru Returns' mechanics (one fixed sky of backgrounds, pages scrolling
+   over it, --in / --leave from the script, everything moving on opacity and
+   transform) in this design's own dress: emerald night and gold, ivory type,
+   mihrab arches with an eight-pointed star at their head, the girih lattice
+   of a mosque ceiling inside them, lanterns at the top. */
+
+:root {
+  --mj-night: #04120d;
+  --mj-emerald: #0b3a2b;
+  --mj-emerald-deep: #062219;
+  --mj-ink: #fbf3e2;
+  --mj-ink-soft: rgba(251, 243, 226, .82);
+  --mj-gold: #d8b46a;
+  --mj-gold-soft: #f1d9a0;
+  --mj-gold-deep: #a9803a;
+  --mj-line: rgba(216, 180, 106, .42);
+  --mj-display: 'Cinzel', 'Trajan Pro', Georgia, serif;
+  --mj-script: 'Great Vibes', 'Segoe Script', cursive;
+  --mj-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --mj-caps: 'Cinzel', Georgia, serif;
+  --mj-arabic: 'Amiri', 'Noto Naskh Arabic', serif;
+  --mj-svh: 100vh;
+  --mj-ease: cubic-bezier(.22, .61, .36, 1);
+  --mj-ease-out: cubic-bezier(.16, 1, .3, 1);
+  /* The canopies, cut from one 780 x 1688 photograph (Madina Journey's). */
+  --mj-side-w: 47.18%;
+  --mj-side-t: 22.16%;
+  --mj-side-h: 55.81%;
+  --mj-right-x: 53.08%;
+  --mj-cap-h: 42.06%;
+  --mj-cap-t: 58%;
+  --mj-join-x: 50.13%;
+  --mj-join-y: 50.03%;
+  /* The credit pill, in this design's emerald and gold. */
+  --ci-credit-bg: rgba(4, 22, 16, .62);
+  --ci-credit-ink: rgba(251, 243, 226, .9);
+}
+@supports (height: 100svh) { :root { --mj-svh: 100svh; } }
+
+html.mj-html { background: var(--mj-night); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+html.mj-snap { scroll-snap-type: y mandatory; }
+.mj-body {
+  margin: 0; min-height: 100%; background: var(--mj-night); color: var(--mj-ink);
+  font-family: var(--mj-serif); font-weight: 500; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+}
+:where(.mj-body) :where(img, video) { display: block; }
+:where(.mj-body) :where(p, h1, h2, figure, ul) { margin: 0; }
+:where(.mj-body) :where(h1, h2) { font-weight: 400; }
+:where(.mj-body) button { font: inherit; color: inherit; }
+
+html.mj-sealed, html.mj-sealed > body { overflow: hidden; height: 100%; overscroll-behavior: none; }
+html.mj-sealed > body { position: fixed; inset: 0; width: 100%; }
+
+/* =================================================================== SKY */
+
+.mj-sky { position: fixed; inset: 0; z-index: 0; overflow: hidden; background: var(--mj-night); }
+/* A slow crossfade, and the incoming picture settles from a breath larger:
+   the change of scene is felt, never jumped. */
+.mj-layer {
+  position: absolute; inset: 0; opacity: 0;
+  transform: scale(1.06);
+  transition: opacity 1.8s var(--mj-ease), transform 2.6s var(--mj-ease-out);
+  will-change: opacity, transform;
+}
+.mj-layer.is-on { opacity: 1; transform: scale(1); }
+.mj-layer.is-going { opacity: 0; transform: scale(1.02); transition-duration: 2s, 2.4s; }
+.mj-layer-img, .mj-film-video {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: 50% var(--mj-focus, 50%);
+}
+.mj-film-video { opacity: 0; transition: opacity .9s ease; }
+.mj-film-video.is-playing { opacity: 1; }
+.mj-film-video.is-held { animation: mj-hold 45s linear forwards; }
+@keyframes mj-hold { to { transform: scale(1.07); } }
+/* Photographs breathe: a slow drift so no page ever sits as a flat still. */
+.mj-layer.is-photo.is-on .mj-layer-img { animation: mj-drift 30s ease-in-out infinite alternate; }
+.mj-film.is-dim .mj-layer-img { filter: brightness(.6) saturate(.9); }
+@keyframes mj-drift { from { transform: scale(1); } to { transform: scale(1.09) translateY(-1.6%); } }
+
+/* Light falling through the sky on the photographs: slow turning rays. */
+.mj-rays {
+  position: absolute; left: 50%; top: -30%; width: 180vmax; height: 180vmax; translate: -50% 0;
+  pointer-events: none; opacity: .5; mix-blend-mode: soft-light; transition: opacity 1.2s ease;
+  background: repeating-conic-gradient(from 0deg at 50% 50%, rgba(255, 236, 190, .55) 0deg 4deg, transparent 4deg 16deg);
+  -webkit-mask: radial-gradient(circle at 50% 50%, #000 0%, transparent 52%); mask: radial-gradient(circle at 50% 50%, #000 0%, transparent 52%);
+  animation: mj-rays 80s linear infinite;
+}
+@keyframes mj-rays { to { rotate: 360deg; } }
+.mj-sky[data-on^="film"] .mj-rays { opacity: 0; }
+
+/* A wash of gold light over each change of scene. */
+.mj-glow {
+  position: absolute; inset: -10%; pointer-events: none; opacity: 0;
+  background: radial-gradient(ellipse 62% 46% at 50% 52%, rgba(255, 220, 150, .55), rgba(216, 180, 106, .18) 45%, transparent 70%);
+  mix-blend-mode: screen;
+}
+.mj-glow.is-flash { animation: mj-flash 1.8s var(--mj-ease) both; }
+@keyframes mj-flash { 0% { opacity: 0; transform: scale(.9); } 35% { opacity: 1; } 100% { opacity: 0; transform: scale(1.15); } }
+
+/* Every word readable on every picture: an emerald dusk at top and foot. */
+.mj-veil {
+  position: absolute; inset: 0; pointer-events: none; transition: opacity 1.2s ease;
+  background: linear-gradient(180deg, rgba(3, 18, 12, .7) 0%, rgba(3, 18, 12, .32) 32%, rgba(3, 18, 12, .38) 62%, rgba(3, 18, 12, .86) 100%);
+}
+.mj-sky[data-on^="film"] .mj-veil { opacity: .55; }
+.mj-dust { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: .95; transition: opacity 1s ease; }
+.mj-sky[data-on^="film"] .mj-dust { opacity: 0; }
+
+/* A wide screen: the films and pictures are upright, so they play full
+   height in the middle over a soft, blurred copy of themselves. */
+@media (min-aspect-ratio: 4 / 5) {
+  .mj-layer::before {
+    content: ''; position: absolute; inset: -60px; background: var(--back, none) center / cover no-repeat;
+    filter: blur(34px) brightness(.5) saturate(1.1);
+  }
+  .mj-layer-img, .mj-film-video { left: 50%; right: auto; width: calc(var(--mj-svh) * 9 / 16); transform: translateX(-50%); }
+  .mj-film-video.is-held, .mj-layer.is-photo.is-on .mj-layer-img { animation: none; }
+  .mj-veil { background: radial-gradient(ellipse 40% 70% at 50% 50%, rgba(3, 18, 12, .2), rgba(3, 18, 12, .6)); }
+}
+
+/* ============================================================ LANTERNS */
+
+.mj-lanterns { position: fixed; top: 0; left: 0; right: 0; height: 92px; z-index: 30; pointer-events: none; }
+.mj-lanterns svg { width: 100%; height: 100%; overflow: visible; }
+.mj-chain { fill: none; stroke: rgba(216, 180, 106, .55); stroke-width: 1; stroke-dasharray: 2 2.5; }
+.mj-cord { stroke: rgba(216, 180, 106, .6); stroke-width: .8; }
+.mj-lamp { animation: mj-swing 4.6s ease-in-out infinite; animation-delay: var(--d, 0s); }
+@keyframes mj-swing { 0%, 100% { rotate: -2.5deg; } 50% { rotate: 2.5deg; } }
+.mj-lamp-cap { fill: #8a6a33; }
+.mj-lamp-glass { fill: rgba(40, 30, 16, .7); stroke: #b08a45; stroke-width: .7; transition: fill .8s ease, filter .8s ease; }
+.mj-lamp-ribs { fill: none; stroke: rgba(176, 138, 69, .7); stroke-width: .6; }
+.mj-lamp-flame { fill: rgba(255, 200, 110, 0); transition: fill .8s ease; }
+.mj-lamp.on .mj-lamp-glass { fill: rgba(255, 196, 102, .55); filter: drop-shadow(0 0 4px #ffcf7a) drop-shadow(0 0 12px rgba(255, 190, 90, .7)); }
+.mj-lamp.on .mj-lamp-flame { fill: #fff1c4; animation: mj-flicker 2.2s ease-in-out infinite; animation-delay: var(--d, 0s); }
+@keyframes mj-flicker { 0%, 100% { opacity: 1; } 40% { opacity: .65; } 70% { opacity: .9; } }
+@media (min-width: 900px) { .mj-lanterns { left: 50%; right: auto; width: min(100vw, 720px); transform: translateX(-50%); } }
+
+/* ================================================================ PAGES */
+
+.mj-main { position: relative; z-index: 1; }
+.mj-page {
+  position: relative; box-sizing: border-box; min-height: var(--mj-svh);
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+  padding: calc(84px + env(safe-area-inset-top, 0px)) 18px calc(96px + env(safe-area-inset-bottom, 0px));
+  scroll-snap-align: start;
+  overflow-x: clip;
+  --in: 1; --leave: 0;
+}
+/* The words come and go with the scroll (see Mehru Returns): rising a little
+   as the page arrives, fading slowly once it is well on its way out. */
+.mj-flow, .mj-event-card, .mj-tapnote {
+  --in: 1; --leave: 0;
+  opacity: calc(var(--in) * (1 - var(--leave)));
+  transform: translate3d(0, calc((1 - var(--in)) * 32px), 0) scale(calc(1 - var(--leave) * .04));
+  will-change: opacity, transform;
+}
+.mj-flow { position: relative; width: min(100%, 380px); display: flex; flex-direction: column; align-items: center; text-align: center; }
+@media (min-width: 900px) { .mj-flow { width: min(100%, 460px); } }
+
+/* Each thing on a page, in turn, the first time it is seen. */
+.mj-rise { opacity: 0; transform: translate3d(0, 22px, 0) scale(.98); transition: opacity 1.1s var(--mj-ease), transform 1.2s var(--mj-ease-out); transition-delay: calc(var(--i, 0) * 120ms + 120ms); }
+.mj-rise.is-in { opacity: 1; transform: none; }
+
+/* ============================================================ TYPE */
+
+.mj-label, .mj-eyebrow, .mj-event-num {
+  font-family: var(--mj-caps); font-weight: 700; font-size: 11.5px; letter-spacing: .26em; text-transform: uppercase; color: var(--mj-gold-soft);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, .9), 0 0 14px rgba(0, 0, 0, .7);
+}
+.mj-eyebrow { max-width: 30ch; line-height: 1.6; }
+.mj-heading, .mj-title { font-family: var(--mj-display); font-weight: 600; font-size: clamp(25px, 7vw, 34px); line-height: 1.2; letter-spacing: .06em; color: var(--mj-gold-soft); text-shadow: 0 2px 18px rgba(0, 0, 0, .55); text-wrap: balance; }
+.mj-note, .mj-lede { font-family: var(--mj-serif); font-weight: 500; font-size: 18.5px; line-height: 1.55; color: var(--mj-ink-soft); text-shadow: 0 1px 10px rgba(0, 0, 0, .6); white-space: pre-line; }
+.mj-center { text-align: center; }
+/* The rule: a line of gold with an eight-pointed star at its middle. */
+.mj-rule { position: relative; display: block; width: 150px; height: 16px; margin: 12px auto 14px;
+  background: linear-gradient(90deg, transparent, var(--mj-gold) 28%, transparent 44%, transparent 56%, var(--mj-gold) 72%, transparent) center / 100% 1px no-repeat; }
+.mj-rule svg { position: absolute; left: 50%; top: 0; width: 16px; height: 16px; translate: -50% 0; fill: var(--mj-gold); filter: drop-shadow(0 0 6px rgba(255, 210, 130, .7)); animation: mj-turn 18s linear infinite; }
+@keyframes mj-turn { to { rotate: 360deg; } }
+.mj-amp { font-family: var(--mj-script); color: var(--mj-gold); }
+
+/* The names, in gold leaf that catches the light as it moves. */
+.mj-gate-names, .mj-names .mj-name > span, .mj-closing-names, .mj-portrait-names {
+  font-family: var(--mj-script); font-weight: 400; line-height: 1.1;
+  background: linear-gradient(100deg, #a9803a 0%, #f6e2a8 26%, #d8b46a 44%, #fff6dc 52%, #b88d45 70%, #f1d9a0 100%);
+  background-size: 220% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent;
+  animation: mj-leaf 7s ease-in-out infinite;
+}
+@keyframes mj-leaf { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+.mj-gate-names .mj-amp, .mj-closing-names .mj-amp, .mj-portrait-names .mj-amp {
+  font-size: .62em; margin: 0 .2em; -webkit-text-fill-color: var(--mj-gold); }
+
+/* =================================================== ARCHED PANELS
+   A mihrab: the top an ogee-soft arch, a hairline of gold inside it, the
+   lattice faint across it, and an eight-pointed star at its head. */
+.mj-arch {
+  position: relative; width: 100%; box-sizing: border-box; padding: 40px 22px 24px;
+  border-radius: 50% 50% 20px 20px / 76px 76px 20px 20px;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(216, 180, 106, .16), transparent 70%),
+    linear-gradient(170deg, rgba(10, 52, 38, .62), rgba(4, 22, 16, .74));
+  border: 1px solid rgba(216, 180, 106, .55);
+  -webkit-backdrop-filter: blur(5px) saturate(1.1); backdrop-filter: blur(5px) saturate(1.1);
+  text-align: center;
+}
+.mj-arch::before {
+  content: ''; position: absolute; inset: 6px; border-radius: inherit; border: 1px solid rgba(216, 180, 106, .2); pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Cpath d='M20 4 24 16 36 20 24 24 20 36 16 24 4 20 16 16Z M0 0 6 0 0 6Z M40 0 34 0 40 6Z M0 40 6 40 0 34Z M40 40 34 40 40 34Z' fill='none' stroke='%23d8b46a' stroke-opacity='.11' stroke-width='.8'/%3E%3C/svg%3E") repeat;
+  -webkit-mask: linear-gradient(180deg, #000, rgba(0, 0, 0, .25) 70%); mask: linear-gradient(180deg, #000, rgba(0, 0, 0, .25) 70%);
+}
+.mj-arch::after {
+  content: ''; position: absolute; left: 50%; top: -13px; width: 26px; height: 26px; translate: -50% 0;
+  background: linear-gradient(135deg, #fff2c8, #c99a4c);
+  clip-path: polygon(50% 0, 61% 26%, 85% 15%, 74% 39%, 100% 50%, 74% 61%, 85% 85%, 61% 74%, 50% 100%, 39% 74%, 15% 85%, 26% 61%, 0 50%, 26% 39%, 15% 15%, 39% 26%);
+  filter: drop-shadow(0 0 8px rgba(255, 210, 130, .9));
+  animation: mj-turn 24s linear infinite;
+}
+.mj-glow-card { animation: mj-lamp 4.4s ease-in-out infinite; }
+@keyframes mj-lamp { 0%, 100% { box-shadow: 0 0 44px -14px rgba(255, 196, 102, .38); } 50% { box-shadow: 0 0 62px -10px rgba(255, 196, 102, .55); } }
+
+/* ===================================================== THE CANOPIES */
+
+.mj-gate { position: fixed; inset: 0; z-index: 40; overflow: hidden; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: opacity 1.2s ease; }
+.mj-gate[hidden] { display: none; }
+.mj-gate.is-leaving { opacity: 0; pointer-events: none; }
+.mj-gate:focus-visible { outline: 2px solid var(--mj-gold); outline-offset: -6px; }
+/* The four panels fill a box of the photograph's own shape, as large as it
+   needs to be to cover the screen, centred -- so the cuts still meet. */
+.mj-doors {
+  position: absolute; left: 50%; top: 50%;
+  width: max(100vw, calc(var(--mj-svh) * 780 / 1688)); height: max(var(--mj-svh), calc(100vw * 1688 / 780));
+  transform: translate(-50%, -50%);
+  perspective: 1400px; perspective-origin: 50% 50%;
+}
+.mj-door { position: absolute; background: center / 100% 100% no-repeat; will-change: transform; transition: transform 620ms ease; }
+.mj-door-left { left: 0; top: var(--mj-side-t); width: var(--mj-side-w); height: var(--mj-side-h); z-index: 2; transform-origin: left center; }
+.mj-door-right { left: var(--mj-right-x); top: var(--mj-side-t); width: calc(100% - var(--mj-right-x)); height: var(--mj-side-h); z-index: 2; transform-origin: right center; }
+.mj-door-top { left: 0; top: 0; width: 100%; height: var(--mj-cap-h); z-index: 1; transform-origin: center top; }
+.mj-door-bottom { left: 0; top: var(--mj-cap-t); width: 100%; height: calc(100% - var(--mj-cap-t)); z-index: 1; transform-origin: center bottom; }
+/* The light where they meet. */
+.mj-seam { position: absolute; z-index: 0; opacity: 0; pointer-events: none; transition: opacity 600ms ease; }
+.mj-seam-y { top: 0; bottom: 0; left: var(--mj-join-x); width: 9px; transform: translateX(-50%); background: linear-gradient(to right, transparent, #fffdf6 50%, transparent); box-shadow: 0 0 54px 10px rgba(255, 248, 226, .6); }
+.mj-seam-x { left: 0; right: 0; top: var(--mj-join-y); height: 9px; transform: translateY(-50%); background: linear-gradient(to bottom, transparent, #fffdf6 50%, transparent); box-shadow: 0 0 54px 10px rgba(255, 248, 226, .6); }
+.mj-doors.is-ajar .mj-seam { opacity: 1; }
+.mj-doors.is-ajar .mj-door-left { transform: translateX(-4px); }
+.mj-doors.is-ajar .mj-door-right { transform: translateX(4px); }
+.mj-doors.is-ajar .mj-door-top { transform: translateY(-4px); }
+.mj-doors.is-ajar .mj-door-bottom { transform: translateY(4px); }
+.mj-gate.is-opening .mj-door { transition: transform 3s cubic-bezier(.22, .61, .28, 1); }
+.mj-gate.is-opening .mj-door-left { transform: rotateY(96deg); }
+.mj-gate.is-opening .mj-door-right { transform: rotateY(-96deg); }
+.mj-gate.is-opening .mj-door-top { transform: rotateX(-96deg); }
+.mj-gate.is-opening .mj-door-bottom { transform: rotateX(96deg); }
+.mj-gate.is-opening .mj-seam { opacity: 0; transition-duration: 900ms; }
+/* What the closed card says: the names on a medallion of emerald glass,
+   "Tap to Open" beneath, both over the meeting of the canopies. */
+.mj-gate-words { position: absolute; z-index: 5; left: 50%; top: 50%; translate: -50% calc(-50% - 52px); width: min(86vw, 360px); padding: 22px 18px 18px; box-sizing: border-box;
+  border-radius: 999px 999px 26px 26px / 120px 120px 26px 26px; background: rgba(4, 26, 18, .66); border: 1px solid rgba(216, 180, 106, .6);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); text-align: center; box-shadow: 0 20px 60px -20px rgba(0, 0, 0, .8);
+  transition: opacity .7s ease, transform .7s ease; }
+.mj-gate-names { font-size: clamp(40px, 11.5vw, 58px); filter: drop-shadow(0 2px 10px rgba(0, 0, 0, .6)); }
+.mj-tap { position: absolute; z-index: 5; left: 50%; top: 50%; translate: -50% 62px; display: inline-flex; align-items: center; gap: 9px; padding: 10px 22px; border-radius: 999px;
+  background: linear-gradient(135deg, #f6e2a8, #c99a4c); color: #10291f; font-family: var(--mj-caps); font-weight: 700; font-size: 13px; letter-spacing: .24em; text-transform: uppercase;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, .8), 0 0 30px -6px rgba(255, 210, 130, .7); opacity: 0;
+  animation: mj-tap-in .9s ease 1s forwards, mj-tap-breathe 2.8s ease-in-out 1.9s infinite; transition: opacity .5s ease; }
+.mj-tap svg { width: 15px; height: 15px; fill: currentColor; animation: mj-turn 10s linear infinite; }
+@keyframes mj-tap-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes mj-tap-breathe { 50% { transform: scale(.96); box-shadow: 0 10px 30px -10px rgba(0, 0, 0, .8), 0 0 46px -4px rgba(255, 210, 130, .9); } }
+.mj-gate.is-opening .mj-gate-words, .mj-gate.is-opening .mj-tap, .mj-gate.is-opening > .ci-credit-gate { opacity: 0; pointer-events: none; animation: none; }
+.mj-gate.is-opening .mj-gate-words { transform: scale(.94); }
+
+/* the editor's still cover */
+.mj-cover-still { padding: 0; overflow: hidden; justify-content: center; }
+.mj-cover-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.mj-cover-words { position: relative; z-index: 1; text-align: center; padding: 0 18px; }
+.mj-cover-bism { width: min(76vw, 300px); margin: 0 auto 10px; opacity: .9; }
+
+/* ============================================================ BISMILLAH
+   The names in the middle of the screen (2026-10-11): the Bismillah and the
+   blessing at the head, the names and the invitation centred below. */
+.mj-hero { justify-content: center; padding-top: calc(70px + env(safe-area-inset-top, 0px)); }
+.mj-hero-flow { min-height: calc(var(--mj-svh) - 170px); justify-content: space-between; }
+.mj-bism { position: relative; width: min(88vw, 360px); display: grid; place-items: center; }
+.mj-bism-text { position: relative; font-family: var(--mj-arabic); font-weight: 700; font-size: clamp(27px, 7.6vw, 34px); line-height: 1.9;
+  background: linear-gradient(100deg, #a9803a 0%, #f6e2a8 30%, #fff6dc 50%, #d8b46a 70%, #f1d9a0 100%); background-size: 220% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 12px rgba(255, 220, 150, .45)) drop-shadow(0 2px 6px rgba(0, 0, 0, .6)); animation: mj-leaf 7s ease-in-out infinite; }
+/* Written in light: the calligraphy is drawn across, right to left, as Arabic is. */
+.mj-bism.mj-rise { clip-path: inset(0 0 0 100%); transition: clip-path 2.6s var(--mj-ease), opacity 1s ease; transition-delay: .2s; }
+.mj-bism.mj-rise.is-in { clip-path: inset(0 0 0 0); }
+.mj-kicker { margin-top: 6px; font-family: var(--mj-serif); font-style: italic; font-size: 17px; line-height: 1.45; color: var(--mj-ink); text-shadow: 0 1px 10px rgba(0, 0, 0, .75); white-space: pre-line; max-width: 30ch; }
+.mj-hero-mid { display: flex; flex-direction: column; align-items: center; margin: auto 0; padding: 18px 0; }
+.mj-names { display: flex; flex-direction: column; align-items: center; margin: 6px 0 2px; font-size: clamp(56px, 16vw, 86px); filter: drop-shadow(0 3px 16px rgba(0, 0, 0, .65)); }
+.mj-names .mj-amp { font-size: .5em; margin: -.08em 0; }
+/* Each name written in as if with a pen of light, the first time it is seen. */
+/* Wide margins on the clip: the script's flourishes reach well past each
+   name's box, and a tight one cut the last letter's tail off. */
+.mj-write > * { clip-path: inset(-45% 100% -45% -20%); }
+.mj-write.is-in > * { animation: mj-write 1.6s var(--mj-ease) forwards; animation-delay: calc(var(--w, 0) * .6s + .3s); }
+@keyframes mj-write { to { clip-path: inset(-45% -40% -45% -20%); } }
+.mj-lede { margin-top: 2px; }
+
+/* ============================================================= FAMILIES */
+
+.mj-fam { gap: 0; }
+.mj-fam > .mj-label { margin-bottom: 14px; }
+.mj-switch { position: relative; display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; padding: 4px; border-radius: 999px; background: rgba(4, 22, 16, .72); border: 1px solid var(--mj-line); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); margin-bottom: 26px; }
+.mj-switch-btn { position: relative; z-index: 1; border: 0; background: none; padding: 11px 18px; border-radius: 999px; font-family: var(--mj-caps); font-weight: 600; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: rgba(251, 243, 226, .72); cursor: pointer; transition: color .45s var(--mj-ease); white-space: nowrap; -webkit-tap-highlight-color: transparent; }
+.mj-switch-btn.is-on { color: #10291f; }
+.mj-switch-thumb { position: absolute; z-index: 0; top: 4px; bottom: 4px; left: 4px; width: calc(50% - 4px); border-radius: 999px; background: linear-gradient(135deg, #f6e2a8, #c99a4c); box-shadow: 0 6px 18px -8px rgba(255, 200, 110, .8); transition: transform .6s var(--mj-ease-out); }
+.mj-switch[data-on="1"] .mj-switch-thumb { transform: translateX(100%); }
+.mj-switch-btn:focus-visible { outline: 2px solid var(--mj-gold); outline-offset: 2px; }
+.mj-switch-one { margin-bottom: 26px; padding: 10px 22px; border-radius: 999px; background: linear-gradient(135deg, #f6e2a8, #c99a4c); font-family: var(--mj-caps); font-weight: 600; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: #10291f; }
+.mj-fam-panes { display: grid; width: 100%; }
+.mj-fam-pane { grid-area: 1 / 1; opacity: 0; visibility: hidden; transform: translate3d(24px, 0, 0); transition: opacity .55s var(--mj-ease), transform .7s var(--mj-ease-out), visibility 0s linear .7s; }
+.mj-fam-pane.is-on { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
+.mj-fam-pane.is-left { transform: translate3d(-24px, 0, 0); }
+.mj-fam-card { padding-top: 34px; }
+.mj-fam-parents { font-family: var(--mj-display); font-weight: 600; font-size: clamp(19px, 5.4vw, 24px); letter-spacing: .03em; line-height: 1.3; color: var(--mj-gold-soft); text-shadow: 0 2px 14px rgba(0, 0, 0, .6); }
+.mj-fam-and { margin-top: 4px; font-family: var(--mj-script); font-size: 22px; color: var(--mj-gold); }
+.mj-fam-list { list-style: none; padding: 0; margin-top: 14px; border-top: 1px solid rgba(216, 180, 106, .25); text-align: left; }
+.mj-person { display: flex; align-items: center; gap: 12px; padding: 11px 4px; opacity: 0; transform: translate3d(0, 10px, 0); }
+.mj-fam-pane.is-on .mj-fam-list.is-in .mj-person { animation: mj-row .7s var(--mj-ease-out) forwards; animation-delay: calc(var(--n, 0) * 80ms + .1s); }
+@keyframes mj-row { to { opacity: 1; transform: none; } }
+.mj-person + .mj-person { border-top: 1px solid rgba(216, 180, 106, .14); }
+.mj-person.is-lead .mj-person-text b { color: var(--mj-gold-soft); }
+/* Initials in a small eight-pointed star of gold. */
+.mj-ini { flex: none; width: 40px; height: 40px; display: grid; place-items: center; font-family: var(--mj-caps); font-weight: 700; font-size: 12px; color: #10291f;
+  background: linear-gradient(135deg, #f6e2a8, #b88d45);
+  clip-path: polygon(50% 0, 64% 15%, 85% 15%, 85% 36%, 100% 50%, 85% 64%, 85% 85%, 64% 85%, 50% 100%, 36% 85%, 15% 85%, 15% 64%, 0 50%, 15% 36%, 15% 15%, 36% 15%); }
+.mj-person-text { min-width: 0; flex: 1; }
+.mj-person-text b { display: block; font-weight: 600; font-size: 18px; line-height: 1.25; color: var(--mj-ink); overflow-wrap: anywhere; }
+.mj-person-text small { font-family: 'Jost', sans-serif; font-size: 12.5px; letter-spacing: .05em; color: rgba(216, 180, 106, .95); }
+.mj-call { flex: none; font-family: var(--mj-caps); font-weight: 600; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; padding: 9px 13px; border-radius: 999px; border: 1px solid rgba(216, 180, 106, .7); color: var(--mj-ink); text-decoration: none; transition: background .25s, transform .15s; }
+.mj-call:hover { background: rgba(216, 180, 106, .2); }
+.mj-call:active { transform: scale(.94); }
+
+/* ============================================================ GUESTS */
+
+.mj-chips { list-style: none; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 18px; }
+.mj-chip { padding: 8px 15px; border-radius: 999px; border: 1px solid rgba(216, 180, 106, .6); background: rgba(216, 180, 106, .1); font-family: var(--mj-caps); font-weight: 600; font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--mj-ink); cursor: pointer; transition: background .25s, transform .15s; }
+.mj-chip:hover { background: rgba(216, 180, 106, .24); }
+.mj-chip:active { transform: scale(.95); }
+
+/* ============================================================ COUNTDOWN */
+
+.mj-count .mj-label { margin-bottom: 4px; }
+.mj-scratch { position: relative; width: min(100%, 290px); aspect-ratio: 4 / 5; margin: 26px auto 0; border-radius: 50% 50% 18px 18px / 36% 36% 18px 18px; overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(216, 180, 106, .7), 0 0 0 8px rgba(216, 180, 106, .1), 0 30px 60px -20px rgba(0, 0, 0, .85), 0 0 60px -14px rgba(255, 210, 130, .5); -webkit-user-select: none; user-select: none; }
+.mj-scratch-under { position: absolute; inset: 0; display: grid; place-content: center; gap: 4px; text-align: center;
+  background: radial-gradient(circle at 50% 30%, #fffaf0 0%, #f2e2bb 55%, #d8b46a 100%); color: #10291f; }
+.mj-scratch-star { width: 26px; height: 26px; margin: 0 auto 6px; fill: #0b3a2b; }
+.mj-date-day { font-family: var(--mj-caps); font-weight: 600; font-size: 12px; letter-spacing: .34em; text-transform: uppercase; }
+.mj-date-main { font-family: var(--mj-script); font-size: 54px; line-height: 1.05; color: #0b3a2b; }
+.mj-date-year { font-family: var(--mj-caps); font-weight: 600; font-size: 22px; letter-spacing: .3em; }
+.mj-date-city { font-family: var(--mj-serif); font-style: italic; font-size: 19px; margin-top: 4px; }
+.mj-scratch-sky { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; cursor: grab; transition: opacity 1s var(--mj-ease); }
+.mj-scratch.is-done .mj-scratch-sky { opacity: 0; pointer-events: none; }
+.mj-fireworks { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; }
+.mj-hint { margin-top: 14px; font-size: 16px; font-style: italic; color: var(--mj-ink); text-shadow: 0 1px 3px rgba(0, 0, 0, .9), 0 0 14px rgba(0, 0, 0, .8); }
+.mj-moonrow { display: flex; align-items: center; gap: 16px; margin-top: 18px; padding: 10px 18px; border-radius: 999px; background: rgba(4, 22, 16, .55); border: 1px solid var(--mj-line); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.mj-moon { width: 52px; height: 52px; filter: drop-shadow(0 0 14px rgba(255, 236, 190, .45)); }
+.mj-count-cells { display: flex; gap: 14px; }
+.mj-count-cells div { min-width: 50px; text-align: center; }
+.mj-count-cells b { display: block; font-family: var(--mj-display); font-weight: 600; font-size: 30px; color: #fff6e0; font-variant-numeric: tabular-nums; }
+.mj-count-cells b.is-tick { animation: mj-tick .6s var(--mj-ease-out); }
+@keyframes mj-tick { from { opacity: 0; transform: translateY(-40%); } }
+.mj-count-cells span { font-family: var(--mj-caps); font-weight: 600; font-size: 9.5px; letter-spacing: .24em; text-transform: uppercase; color: var(--mj-gold); }
+.mj-until { margin-top: 12px; font-family: var(--mj-serif); font-style: italic; font-size: 18px; color: var(--mj-ink-soft); text-shadow: 0 1px 8px rgba(0, 0, 0, .85); }
+
+/* ============================================================ FUNCTIONS */
+
+.mj-event { padding-top: calc(96px + env(safe-area-inset-top, 0px)); }
+.mj-event-card { width: min(100%, 322px); padding: 34px 18px 16px; border-radius: 50% 50% 18px 18px / 58px 58px 18px 18px; }
+.mj-event-card::after { width: 22px; height: 22px; top: -11px; }
+.mj-event-num { font-size: 10px; color: rgba(216, 180, 106, .9); }
+.mj-event-name { margin-top: 2px; font-family: var(--mj-script); font-size: 48px; line-height: 1.1;
+  background: linear-gradient(100deg, #a9803a, #f6e2a8 35%, #fff6dc 50%, #b88d45 75%); background-size: 220% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; animation: mj-leaf 7s ease-in-out infinite;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, .5)); }
+.mj-event-when { margin-top: 4px; font-family: var(--mj-display); font-weight: 600; font-size: 15px; letter-spacing: .04em; line-height: 1.4; text-shadow: 0 1px 8px rgba(0, 0, 0, .7); }
+.mj-event-when strong { font-weight: 700; }
+.mj-event-where { margin-top: 4px; font-size: 16px; text-shadow: 0 1px 8px rgba(0, 0, 0, .7); color: var(--mj-ink-soft); display: grid; }
+.mj-event-addr { font-size: 14.5px; opacity: .85; }
+.mj-event-dress { margin-top: 5px; font-size: 15px; color: rgba(251, 243, 226, .78); }
+.mj-actions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 12px; }
+.mj-event-card .mj-btn { padding: 9px 14px; font-size: 10px; }
+.mj-btn { display: inline-flex; align-items: center; justify-content: center; padding: 11px 18px; border-radius: 999px; border: 1px solid rgba(216, 180, 106, .7); background: rgba(216, 180, 106, .1); font-family: var(--mj-caps); font-weight: 600; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--mj-ink); text-decoration: none; cursor: pointer; transition: background .25s, transform .15s, box-shadow .25s; }
+.mj-btn:hover { background: rgba(216, 180, 106, .24); }
+.mj-btn:active { transform: scale(.95); }
+.mj-btn-solid { background: linear-gradient(135deg, #f6e2a8, #c99a4c); color: #10291f; border-color: transparent; box-shadow: 0 8px 20px -10px rgba(255, 200, 110, .7); }
+.mj-seats { display: inline-block; margin-top: 10px; padding: 6px 12px; border-radius: 999px; background: var(--mj-gold); color: #10291f; font-family: var(--mj-caps); font-weight: 700; font-size: 10px; letter-spacing: .18em; text-transform: uppercase; }
+.mj-event-card .ci-sehra { margin-top: 8px; }
+.mj-tapnote { position: relative; margin-top: 14px; display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; padding: 8px 16px 8px 12px; border-radius: 999px; background: rgba(4, 22, 16, .66); border: 1px solid rgba(216, 180, 106, .55); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); font-size: 15px; color: var(--mj-ink); pointer-events: none; animation: mj-lamp 4.4s ease-in-out infinite; }
+.mj-tapnote-star { width: 14px; height: 14px; fill: var(--mj-gold); animation: mj-turn 6s linear infinite; }
+/* The shower: gold stars, and a rose petal among them. */
+.mj-spark { position: fixed; z-index: 20; width: 14px; height: 14px; margin: -7px 0 0 -7px; pointer-events: none;
+  background: radial-gradient(circle, #fff6dc 0 20%, #f1d9a0 40%, transparent 62%);
+  clip-path: polygon(50% 0, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0 50%, 40% 40%);
+  animation: mj-fall var(--t, 2.4s) cubic-bezier(.25, .6, .4, 1) forwards; }
+.mj-petal { position: fixed; z-index: 20; width: 15px; height: 19px; margin: -9px 0 0 -7px; border-radius: 80% 0 80% 0; background: radial-gradient(circle at 30% 30%, #ffb1c0, #c0394f); pointer-events: none; animation: mj-fall var(--t, 2.6s) cubic-bezier(.25, .6, .4, 1) forwards; }
+@keyframes mj-fall { to { opacity: 0; transform: translate(var(--dx), var(--dy)) rotate(var(--r)); } }
+.mj-wah { position: fixed; z-index: 21; white-space: nowrap; font-family: var(--mj-script); font-size: 34px; color: #ffe8b0; text-shadow: 0 0 12px rgba(255, 200, 110, .9); pointer-events: none; animation: mj-wah 1.7s ease-out forwards; }
+@keyframes mj-wah { 0% { opacity: 0; transform: translate(-50%, 0) scale(.6); } 20% { opacity: 1; transform: translate(-50%, -14px) scale(1.08); } 100% { opacity: 0; transform: translate(-50%, -96px); } }
+
+/* ============================================================== PORTRAIT */
+
+.mj-portrait { margin: 2px 0 6px; }
+.mj-portrait-arch { position: relative; width: min(60vw, 226px, calc(var(--mj-svh) * .34)); margin: 12px auto 0; padding: 7px; box-sizing: border-box;
+  border-radius: 999px 999px 14px 14px; border: 1px solid rgba(216, 180, 106, .8);
+  box-shadow: 0 0 0 5px rgba(216, 180, 106, .08), 0 0 60px -14px rgba(255, 200, 110, .55), 0 26px 50px -24px rgba(0, 0, 0, .9); }
+.mj-portrait-frame { aspect-ratio: 3 / 4; border-radius: 999px 999px 9px 9px; overflow: hidden; border: 1px solid rgba(216, 180, 106, .45); background: #0b2a20; }
+.mj-portrait-img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
+.mj-portrait-img.is-art { object-fit: contain; object-position: 50% 100%; padding: 18px 12px 0; box-sizing: border-box; background: radial-gradient(ellipse at 50% 40%, #145a43 0%, #06231a 75%); }
+.mj-portrait-names { margin-top: 12px; font-size: clamp(36px, 10vw, 46px); }
+
+/* ============================================================ DRESS CODE */
+
+.mj-dress-list { display: grid; gap: 10px; margin-top: 12px; }
+.mj-dress-row { padding-top: 10px; border-top: 1px solid rgba(216, 180, 106, .22); }
+.mj-dress-event { font-family: var(--mj-caps); font-weight: 600; font-size: 11.5px; letter-spacing: .24em; text-transform: uppercase; color: var(--mj-gold); }
+.mj-dress-what { margin-top: 2px; font-family: var(--mj-serif); font-size: 19px; color: var(--mj-ink); }
+
+/* ================================================================== FAQS */
+
+.mj-faq-list { display: grid; gap: 10px; width: 100%; text-align: left; }
+.mj-faq { border-radius: 16px; background: rgba(4, 22, 16, .6); border: 1px solid rgba(216, 180, 106, .32); -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px); overflow: hidden; transition: border-color .4s, box-shadow .4s; }
+.mj-faq[open] { border-color: rgba(216, 180, 106, .75); box-shadow: 0 0 36px -14px rgba(255, 200, 110, .5); }
+.mj-faq summary { display: flex; align-items: center; gap: 12px; padding: 13px 14px; list-style: none; cursor: pointer; font-family: var(--mj-serif); font-weight: 700; font-size: 18px; -webkit-tap-highlight-color: transparent; }
+.mj-faq summary::-webkit-details-marker { display: none; }
+.mj-faq-n { position: relative; flex: none; width: 26px; height: 26px; display: grid; place-items: center; }
+.mj-faq-n svg { position: absolute; inset: 0; width: 100%; height: 100%; fill: rgba(216, 180, 106, .9); }
+.mj-faq-n b { position: relative; font-family: var(--mj-caps); font-size: 11px; color: #10291f; }
+.mj-faq-q { flex: 1; }
+.mj-faq summary i { flex: none; width: 26px; height: 26px; border-radius: 50%; border: 1px solid rgba(216, 180, 106, .6); display: grid; place-items: center; transition: background .35s, transform .45s var(--mj-ease-out); }
+.mj-faq summary i::before { content: '+'; font-style: normal; color: var(--mj-gold); font-size: 16px; line-height: 1; }
+.mj-faq[open] summary i { background: var(--mj-gold); transform: rotate(45deg); }
+.mj-faq[open] summary i::before { color: #10291f; }
+.mj-faq-a { padding: 0 16px 16px 52px; font-size: 17px; line-height: 1.5; color: var(--mj-ink-soft); animation: mj-open .55s var(--mj-ease-out); }
+@keyframes mj-open { from { opacity: 0; transform: translateY(-8px); } }
+
+/* ======================================================= LOOKING FORWARD */
+
+.mj-forward-list { margin: 4px auto 0; width: 100%; font-size: clamp(17px, 4.8vw, 20px); }
+.mj-forward-names { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+.mj-forward-names li { padding: .6em .9em; border-radius: 14px; background: rgba(216, 180, 106, .08); border: 1px solid rgba(216, 180, 106, .32);
+  font-family: var(--mj-serif); font-weight: 600; font-size: inherit; line-height: 1.3; color: var(--mj-ink); overflow-wrap: anywhere; }
+.mj-forward-list.is-two { display: grid; grid-template-columns: 1fr auto 1fr; align-items: start; column-gap: 10px; font-size: clamp(14px, 3.9vw, 17px); }
+.mj-forward-list.is-two li { padding: .6em .55em; border-radius: 12px; }
+.mj-forward-rule { align-self: stretch; width: 1px; background: linear-gradient(180deg, transparent, var(--mj-gold) 12%, var(--mj-gold) 88%, transparent); }
+.mj-forward-empty { font-style: italic; opacity: .7; font-size: 16px; }
+
+/* ============================================================== CLOSING */
+
+.mj-closing { justify-content: center; }
+.mj-closing-star { width: 34px; height: 34px; margin-bottom: 12px; fill: var(--mj-gold); filter: drop-shadow(0 0 12px rgba(255, 210, 130, .9)); animation: mj-turn 20s linear infinite; }
+.mj-farewell { font-family: var(--mj-display); font-weight: 600; font-size: clamp(24px, 6.6vw, 32px); letter-spacing: .06em; line-height: 1.3; text-wrap: balance; color: var(--mj-gold-soft); text-shadow: 0 3px 18px rgba(0, 0, 0, .7); white-space: pre-line; }
+.mj-closing-names { margin: 10px 0 20px; font-size: clamp(46px, 13vw, 64px); filter: drop-shadow(0 3px 14px rgba(0, 0, 0, .6)); }
+/* A fanoos rising: a gold lantern with its light inside. */
+.mj-fanoos { position: fixed; z-index: 2; width: 22px; height: 34px; pointer-events: none;
+  background: radial-gradient(ellipse at 50% 60%, #fff4d0 0%, #ffcf7a 40%, #b8742c 100%);
+  clip-path: polygon(35% 0, 65% 0, 70% 10%, 100% 30%, 88% 82%, 64% 92%, 60% 100%, 40% 100%, 36% 92%, 12% 82%, 0 30%, 30% 10%);
+  filter: drop-shadow(0 0 12px rgba(255, 180, 80, .85)); animation: mj-float var(--t, 10s) linear forwards; }
+@keyframes mj-float { 0% { transform: translate(0, 0) scale(1); opacity: 0; } 8% { opacity: 1; } 50% { transform: translate(var(--dx1), -46vh) scale(.82); } 100% { transform: translate(var(--dx2), -96vh) scale(.5); opacity: 0; } }
+
+/* ================================================================== CUE
+   An eight-pointed star whose outline fills as the guest reads down. */
+.mj-cue { position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); z-index: 25;
+  display: inline-flex; align-items: center; gap: 9px; padding: 5px 18px 5px 5px; border-radius: 999px;
+  border: 1px solid rgba(216, 180, 106, .75); background: rgba(4, 22, 16, .7); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  box-shadow: 0 10px 26px -12px rgba(0, 0, 0, .8), 0 0 26px -10px rgba(255, 200, 110, .5);
+  font-family: var(--mj-caps); font-weight: 600; font-size: 11.5px; letter-spacing: .2em; text-transform: uppercase; color: var(--mj-gold-soft);
+  overflow: hidden; isolation: isolate; transform: translateX(-50%); cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: opacity .6s ease, transform .26s cubic-bezier(.3, .7, .3, 1); }
+.mj-cue:active { transform: translateX(-50%) scale(.95); transition-duration: .12s; }
+.mj-cue:focus-visible { outline: 2px solid var(--mj-gold); outline-offset: 3px; }
+.mj-cue-star { position: relative; width: 32px; height: 32px; flex: none; }
+.mj-cue-star svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; animation: mj-turn 16s linear infinite; }
+.mj-cue-track { fill: rgba(216, 180, 106, .12); stroke: rgba(216, 180, 106, .35); stroke-width: .9; }
+.mj-cue-fill { fill: none; stroke: var(--mj-gold-soft); stroke-width: 1.3; stroke-linejoin: round; stroke-dasharray: 100; stroke-dashoffset: calc(100 - var(--mj-progress, 0) * 100); transition: stroke-dashoffset .2s linear; }
+.mj-cue-chev { position: absolute; inset: 0; }
+.mj-cue-chev i { position: absolute; left: 50%; top: 50%; width: 6px; height: 6px; margin: -5px 0 0 -3px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg); opacity: 0; animation: mj-chev 1.8s cubic-bezier(.4, 0, .4, 1) infinite; }
+.mj-cue-chev i + i { animation-delay: .6s; }
+@keyframes mj-chev { 0% { opacity: 0; translate: 0 -5px; } 35% { opacity: 1; } 80%, 100% { opacity: 0; translate: 0 6px; } }
+.mj-cue::after { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(105deg, transparent 30%, rgba(255, 226, 160, .22) 50%, transparent 70%); translate: -120% 0; animation: mj-sheen 5.2s ease-in-out 2.4s infinite; }
+@keyframes mj-sheen { 0%, 70% { translate: -120% 0; } 100% { translate: 120% 0; } }
+html.mj-sealed .mj-cue, .mj-cue.is-done { opacity: 0; pointer-events: none; transform: translateX(-50%) translateY(12px); }
+/* The language button shows on the closed card too (2026-10-15) -- see .ci-lang in card-sections.css. */
+
+/* Extra timings on a function (lib/event-stops.js). */
+.mj-stops { list-style: none; padding: 0; margin: 12px 0 4px; display: grid; gap: 10px; text-align: center; }
+.mj-stops li { display: grid; gap: 2px; padding-top: 10px; border-top: 1px solid var(--mj-line); }
+.mj-stops li:first-child { border-top: 0; padding-top: 0; }
+.mj-stop-what { font-family: var(--mj-display); font-weight: 600; font-size: 15px; letter-spacing: .04em; color: var(--mj-gold-soft); }
+.mj-stop-time { font-size: 16px; font-weight: 700; color: var(--mj-ink); }
+.mj-stop-place { font-size: 15px; color: var(--mj-ink-soft); text-decoration: underline; text-decoration-color: rgba(216, 180, 106, .5); text-underline-offset: 3px; }
+.mj-stops li.mj-stop-more { border-top: 0; padding-top: 0; margin-top: -4px; font-size: 15px; color: var(--mj-ink-soft); font-style: italic; }
+
+/* ================================================================ EDITOR */
+
+html.mj-editing .mj-rise, html.mj-editing .mj-person { opacity: 1; transform: none; transition: none; animation: none; }
+html.mj-editing .mj-write > *, html.mj-editing .mj-bism.mj-rise { clip-path: none; }
+
+/* ========================================================= LESS MOVEMENT */
+
+@media (prefers-reduced-motion: reduce) {
+  html.mj-snap { scroll-snap-type: none; }
+  .mj-layer, .mj-layer.is-on, .mj-layer.is-going { transform: none; filter: none; transition: opacity .6s ease; }
+  .mj-flow, .mj-event-card, .mj-tapnote { transform: none !important; }
+  .mj-rise, .mj-person, .mj-tap { opacity: 1; transform: none; transition: none; animation: none; }
+  .mj-write > *, .mj-bism.mj-rise { clip-path: none; }
+  .mj-layer.is-photo.is-on .mj-layer-img, .mj-film-video.is-held, .mj-glow-card, .mj-lamp, .mj-lamp.on .mj-lamp-flame, .mj-gate-names, .mj-names .mj-name > span,
+  .mj-cue-chev i, .mj-cue::after, .mj-cue-star svg, .mj-tapnote, .mj-rays, .mj-rule svg, .mj-arch::after, .mj-tap svg, .mj-closing-star, .mj-event-name { animation: none; }
+  .mj-glow.is-flash { animation: none; }
+}
+
+/* Room for the script's tall letters inside the gold (2026-10-11): gold
+   painted by clipping to the text only covers the element's own box, and the
+   ascender of a "d" or an "h" in Great Vibes rises above it -- "Ahmad" came
+   out "Ahmaa". Padding grows the box; the matching negative margin keeps the
+   names exactly where they were. */
+.mj-names .mj-name > span, .mj-event-name, .mj-bism-text, .mj-gate-names, .mj-closing-names, .mj-portrait-names {
+  padding: .32em .3em .22em; margin: -.32em -.3em -.22em;
+}
+.mj-names .mj-name > span { display: inline-block; }
+.mj-closing-names { margin: calc(10px - .32em) -.3em calc(20px - .22em); }
+
+/* A wide screen: the canopies keep the photograph's own upright shape in
+   the middle of the screen (stretched to the width, only their centre was
+   seen and the mosque showed through the gaps), over the mosque softened
+   and darkened, which gives way as they open. */
+@media (min-aspect-ratio: 4 / 5) {
+  .mj-gate::before {
+    content: ''; position: absolute; inset: -60px; z-index: 0;
+    background: url('../img-sample/templates/madina-journey/cover/open.png.webp') center / cover no-repeat;
+    filter: blur(30px) brightness(.42) saturate(1.1);
+    transition: opacity 1.6s ease .6s;
+  }
+  .mj-gate.is-opening::before { opacity: 0; }
+  .mj-doors { width: calc(var(--mj-svh) * 780 / 1688); height: var(--mj-svh); z-index: 1; }
+  .mj-gate-words, .mj-tap { z-index: 6; }
+}
+
+/* The canopies hide the card's first page until they open: the four cuts
+   leave gaps where they meet, and in the editor -- where every line shows
+   at once -- its words were read through them, behind the closed card. */
+.mj-hero { transition: opacity .9s ease; }
+html.mj-sealed .mj-hero { opacity: 0; }
+
+/* "2 guests invited": a tag at the card's top right, not a third button. */
+.mj-event-card .mj-seats {
+  position: absolute; z-index: 2; top: 30px; right: 20px; margin: 0;
+  padding: 4px 9px 4px 8px; border-radius: 999px 6px 6px 999px;
+  font-size: 8.5px; letter-spacing: .14em; line-height: 1.3;
+  box-shadow: 0 4px 12px -6px rgba(0, 0, 0, .8);
+}
+html.ci-rtl .mj-event-card .mj-seats { right: auto; left: 20px; border-radius: 6px 999px 999px 6px; }
+
+/* With the tag at the top right, "02 / 04" moves to the left shoulder of the
+   arch, so the two share the row and neither covers the other. */
+.mj-event-card.has-seats .mj-event-num { align-self: stretch; text-align: left; padding: 0 0 0 16px; }
+html.ci-rtl .mj-event-card.has-seats .mj-event-num { text-align: right; padding: 0 16px 0 0; }
+
+/* ============================================================= A DUA */
+
+#mjDua { gap: 9px; }
+.mj-dua-hands { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.mj-dua { position: relative; width: min(100%, 340px); box-sizing: border-box; margin-top: 18px; padding: 20px 18px 16px; border-radius: 18px;
+  background: linear-gradient(170deg, rgba(10, 52, 38, .7), rgba(4, 22, 16, .8)); border: 1px solid rgba(216, 180, 106, .6);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); box-shadow: 0 0 50px -14px rgba(255, 200, 110, .5); text-align: center; }
+.mj-dua[hidden] { display: none; }
+.mj-dua > * { opacity: 0; transform: translateY(10px); }
+.mj-dua.is-in > * { animation: mj-row .8s var(--mj-ease-out) forwards; }
+.mj-dua.is-in > :nth-child(2) { animation-delay: .5s; }
+.mj-dua.is-in > :nth-child(3) { animation-delay: .8s; }
+.mj-dua.is-in > :nth-child(4) { animation-delay: 1.1s; }
+.mj-dua.is-in > :nth-child(5) { animation-delay: 1.2s; }
+/* The Arabic written in from the right, as it is read. */
+.mj-dua-ar { font-family: var(--mj-arabic); font-weight: 700; font-size: clamp(22px, 6.2vw, 27px); line-height: 1.9; color: var(--mj-gold-soft);
+  text-shadow: 0 0 14px rgba(255, 220, 150, .35); }
+.mj-dua.is-in .mj-dua-ar { opacity: 1; transform: none; animation: none; clip-path: inset(-20% -2% -20% 100%); animation: mj-write-rtl 2.2s var(--mj-ease) .1s forwards; }
+@keyframes mj-write-rtl { to { clip-path: inset(-20% -2% -20% -2%); } }
+.mj-dua-tr { margin-top: 6px; font-style: italic; font-size: 15.5px; line-height: 1.45; color: var(--mj-gold); }
+.mj-dua-en { margin-top: 8px; font-size: 17px; line-height: 1.5; color: var(--mj-ink-soft); }
+.mj-amin { margin-top: 14px; min-width: 120px; font-size: 13px; letter-spacing: .2em; }
+.mj-dua-count { min-height: 1.3em; margin-top: 10px; font-style: italic; font-size: 15px; color: var(--mj-gold-soft); }
+
+/* ======================================================== SMALL JOYS */
+
+/* A lantern touched: a hard swing and a flare. */
+.mj-lamp { pointer-events: auto; cursor: pointer; }
+.mj-lamp.is-touched { animation: mj-swing-hard 1.6s cubic-bezier(.3, .6, .3, 1); }
+.mj-lamp.is-touched .mj-lamp-glass { fill: rgba(255, 214, 140, .85); filter: drop-shadow(0 0 6px #ffe2a6) drop-shadow(0 0 20px rgba(255, 200, 110, .95)); }
+@keyframes mj-swing-hard { 0% { rotate: 0deg; } 15% { rotate: 16deg; } 35% { rotate: -11deg; } 55% { rotate: 7deg; } 75% { rotate: -3deg; } 100% { rotate: 0deg; } }
+
+/* A ring of gold from where a button is pressed. */
+.mj-btn, .mj-chip, .mj-call, .mj-switch-btn { position: relative; overflow: hidden; }
+.mj-press { position: absolute; z-index: 0; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(circle, rgba(255, 236, 190, .75), rgba(216, 180, 106, .35) 50%, transparent 70%);
+  animation: mj-press .7s ease-out forwards; }
+@keyframes mj-press { to { transform: scale(22); opacity: 0; } }
+
+/* The light on an arch, following the finger. */
+.mj-arch { --mx: 50%; --my: -30%; }
+.mj-arch > * { position: relative; z-index: 1; }
+.mj-arch.is-lit { background:
+    radial-gradient(circle at var(--mx) var(--my), rgba(255, 232, 175, .2), transparent 42%),
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(216, 180, 106, .16), transparent 70%),
+    linear-gradient(170deg, rgba(10, 52, 38, .62), rgba(4, 22, 16, .74)); }
+.mj-arch.mj-event-card .mj-seats { position: absolute; }
+
+/* The Bismillah touched: light sweeps across it, right to left. */
+.mj-bism { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.mj-bism::after { content: ''; position: absolute; inset: -10% -5%; pointer-events: none; opacity: 0;
+  background: linear-gradient(255deg, transparent 35%, rgba(255, 244, 210, .7) 50%, transparent 65%); mix-blend-mode: overlay; }
+.mj-bism.is-shine::after { animation: mj-shine 1.3s ease-out; }
+@keyframes mj-shine { 0% { opacity: 1; transform: translateX(60%); } 100% { opacity: 0; transform: translateX(-60%); } }
+.mj-bism.is-shine .mj-bism-text { animation: mj-leaf 7s ease-in-out infinite, mj-pulse 1.3s ease-out; }
+@keyframes mj-pulse { 40% { filter: drop-shadow(0 0 22px rgba(255, 226, 160, .9)) drop-shadow(0 2px 6px rgba(0, 0, 0, .6)); } }
+
+/* Each page's star blooms once as the page arrives. */
+.mj-arch.is-bloom::after, .mj-rule.is-bloom svg { animation: mj-bloom 1.4s var(--mj-ease-out), mj-turn 24s linear 1.4s infinite; }
+@keyframes mj-bloom { 0% { transform: scale(.2); opacity: 0; } 55% { transform: scale(1.6); opacity: 1; filter: drop-shadow(0 0 16px #ffe2a6); } 100% { transform: scale(1); } }
+
+/* The opening touched: a ring of light from the finger. */
+.mj-ripple { position: fixed; z-index: 7; width: 20px; height: 20px; margin: -10px 0 0 -10px; border-radius: 50%; pointer-events: none; opacity: 0;
+  border: 2px solid rgba(255, 240, 200, .9); box-shadow: 0 0 24px 6px rgba(255, 230, 170, .6), inset 0 0 16px rgba(255, 230, 170, .6); }
+.mj-ripple.is-on { animation: mj-ripple 1.1s ease-out; }
+@keyframes mj-ripple { 0% { opacity: 1; transform: scale(.4); } 100% { opacity: 0; transform: scale(14); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .mj-lamp.is-touched, .mj-press, .mj-bism.is-shine::after, .mj-arch.is-bloom::after, .mj-rule.is-bloom svg, .mj-ripple.is-on { animation: none; }
+  .mj-dua > *, .mj-dua.is-in .mj-dua-ar { opacity: 1; transform: none; animation: none; clip-path: none; }
+}
+
+/* The line under the names on the Welcome page (welcome.tagline,
+   2026-10-15): the eyebrow's type, just below. */
+.mj-tagline { margin-top: 6px; white-space: pre-line; }
+
+/* Urdu in the gold lettering (2026-10-15, Ahmad: "the urdu words are cutting
+   if you increase the sizes"). The gold is painted inside the element's own
+   box and only shows where the letters are -- and Nastaliq reaches far above
+   and below a box drawn for Latin capitals, the more so the bigger it is set,
+   so the tops of ک and گ and the tails of ے and ی came out cut flat. The box
+   is given room above and below for the letters to be painted in, and the
+   same room is taken back in its margins -- on top of the margins it already
+   had -- so nothing on the card moves. English cards are untouched.
+
+   `body` in each selector puts it ahead of the shared lines' own padding. */
+html.ci-lang-rtl body .mj-gate-names,
+html.ci-lang-rtl body .mj-names .mj-name > span,
+html.ci-lang-rtl body .mj-event-name,
+html.ci-lang-rtl body .mj-portrait-names,
+html.ci-lang-rtl body .mj-closing-names {
+  padding-block: .9em;
+  margin-block: -.9em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+html.ci-lang-rtl body .mj-closing-names { margin-top: calc(10px - .9em); margin-bottom: calc(20px - .9em); }

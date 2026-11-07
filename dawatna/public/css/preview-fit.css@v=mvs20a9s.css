@@ -1,0 +1,42 @@
+/* Live previews, everywhere one appears.
+
+   A file of its own because every surface that shows a card needs these rules
+   and they do not share a head: the shop's homepage is a compiled bundle with
+   a head of its own, the panel has another, the super admin a third.
+
+   Every card in this catalogue is designed against a phone, 390 by 844. A
+   preview that hands its iframe some other size is not showing the card -- it
+   is showing the card reflowed into a box nobody will ever open it in, with
+   the type wrapping somewhere else and the artwork cropped to a ratio it was
+   never drawn for. Six previews at six sizes is six different cards.
+
+   So the iframe is always exactly 390 by 844, and the whole of it is scaled
+   down to whatever room the slot has. The card inside goes on believing it is
+   on a phone; the only thing that changes is how large that phone is drawn.
+
+   The factor comes from /js/preview-fit.js, which measures each slot and
+   follows it as it changes.
+   ========================================================================== */
+
+.ci-fit {
+  position: relative;
+  overflow: hidden;
+  /* Nothing rather than everything until the script has measured: a card at
+     full size for one frame is a card spilling out of its slot. */
+  --ci-fit: 0;
+}
+
+.ci-fit > iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* Set by preview-fit.js from the box's own data-w / data-h, so the same
+     machinery can hold a desktop mock-up as well as a phone. */
+  width: var(--ci-w, 390px);
+  height: var(--ci-h, 844px);
+  border: 0;
+  transform-origin: 0 0;
+  /* Centred by the offsets, so a slot that is not quite the card's shape
+     letterboxes rather than crops. */
+  transform: translate(var(--ci-fit-x, 0px), var(--ci-fit-y, 0px)) scale(var(--ci-fit, 1));
+}

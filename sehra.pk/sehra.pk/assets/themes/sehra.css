@@ -1,0 +1,85 @@
+/* Theme: Sehra Signature – warm antique gold, pearl garlands, rosewater & royal ruby */
+:root {
+  --primary: #851e3e; --accent: #d4a742; --bg: #f8f4ec; --card: #fffdf9; --ink: #271c21; --muted: #7d6b73; --line: rgba(212,167,66,.2);
+  --backdrop: radial-gradient(circle at 50% 25%, #541628, #1c050d 80%);
+  --env: #851e3e; --env-dark: #63132c; --door: #3d1421; --curtain: #851e3e;
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-script: 'Great Vibes', cursive;
+  --ornament: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 38' fill='none' stroke='%23d4a742' stroke-width='1.2' stroke-linecap='round'%3E%3Cpath d='M2 19h45M113 19h45'/%3E%3Cpath d='M80 4c5 5 5 16 0 22-5-5-5-16 0-22z' fill='%23851e3e' fill-opacity='.15'/%3E%3Cpath d='M62 19c6-6 12-6 18 0-6 6-12 6-18 0zM80 19c6-6 12-6 18 0-6 6-12 6-18 0z'/%3E%3Ccircle cx='80' cy='32' r='2' fill='%23d4a742'/%3E%3Ccircle cx='70' cy='28' r='1.5' fill='%23d4a742'/%3E%3Ccircle cx='90' cy='28' r='1.5' fill='%23d4a742'/%3E%3Ccircle cx='52' cy='19' r='2' fill='%23851e3e' stroke='none'/%3E%3Ccircle cx='108' cy='19' r='2' fill='%23851e3e' stroke='none'/%3E%3C/svg%3E");
+}
+
+.hero {
+  background-color: var(--card);
+  background-image:
+    radial-gradient(circle at 50% 0%, rgba(212,167,66,.12) 0, transparent 65%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48' fill='none' stroke='%23d4a742' stroke-opacity='.10' stroke-width='1'%3E%3Ccircle cx='24' cy='24' r='14'/%3E%3Cpath d='M24 6v36M6 24h36'/%3E%3Ccircle cx='24' cy='24' r='2' fill='%23851e3e' fill-opacity='.12'/%3E%3C/svg%3E");
+}
+
+.hero::before, .hero::after {
+  content: ''; position: absolute; top: 50px; width: 90px; height: 90px; opacity: .85;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 90 90' fill='none' stroke='%23d4a742' stroke-width='1.2' stroke-linecap='round'%3E%3Cpath d='M4 4h38M4 4v38'/%3E%3Cpath d='M10 10q32 0 32 32M10 10q0 32 32 32' stroke='%23851e3e' stroke-opacity='.4'/%3E%3Ccircle cx='10' cy='10' r='3' fill='%23d4a742'/%3E%3Ccircle cx='26' cy='26' r='2' fill='%23d4a742'/%3E%3Cpath d='M18 6l2 6 6 2-6 2-2 6-2-6-6-2 6-2z' fill='%23d4a742' stroke='none'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+.hero::before { left: 14px; }
+.hero::after { right: 14px; transform: scaleX(-1); }
+
+.name {
+  color: var(--primary);
+  text-shadow: 0 2px 4px rgba(133,30,62,.15);
+}
+.amp { color: var(--accent); }
+.monogram {
+  border-color: var(--accent);
+  color: var(--primary);
+  background: linear-gradient(135deg, #fffdf8, #f5ebd5);
+  box-shadow: 0 4px 14px rgba(212,167,66,.2);
+}
+
+.frame {
+  border-width: 2px;
+  border-color: var(--accent);
+  background: #fff;
+  border-radius: 24px 6px 24px 6px;
+  box-shadow: 0 10px 30px -10px rgba(133,30,62,.08);
+}
+.frame::before {
+  inset: 6px;
+  border-color: var(--line);
+  border-radius: 18px 4px 18px 4px;
+}
+
+.event {
+  border-radius: 18px 4px 18px 4px;
+  border-color: rgba(212,167,66,.25);
+  background: #fff;
+  box-shadow: 0 4px 18px -4px rgba(39,28,33,.05);
+}
+.ev-icon {
+  background-color: var(--primary);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(133,30,62,.25);
+}
+
+.countdown > div {
+  background: #fff;
+  border: 1px solid var(--line);
+  box-shadow: 0 4px 12px -2px rgba(212,167,66,.15);
+}
+.countdown b { color: var(--primary); }
+
+.seal {
+  background: radial-gradient(circle at 35% 30%, #e5bd5e, #9e731d 75%);
+  color: #fffaf0;
+  box-shadow: 0 12px 28px -6px rgba(158,115,29,.6);
+}
+.diya-bowl {
+  background: linear-gradient(#d4a742, #7a5510);
+}
+.actionbar {
+  background: rgba(39,28,33,.94);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+.btn.primary {
+  background: linear-gradient(135deg, #851e3e, #6e1530);
+  box-shadow: 0 6px 18px -4px rgba(133,30,62,.4);
+}

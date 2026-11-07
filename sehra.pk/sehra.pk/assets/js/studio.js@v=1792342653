@@ -1,0 +1,83 @@
+/* Studio pages: password strength + rules, show/hide, suggest a strong password, trial countdown, copy buttons. No dependencies. */
+(() => {
+  'use strict';
+  const COMMON = ['password', 'passw0rd', 'qwerty', 'letmein', 'welcome', 'iloveyou', 'admin', 'sehra', 'wedding', 'shaadi', 'pakistan', 'allah', 'bismillah', 'muhammad', 'mohammad', 'abcdef', 'asdfgh', 'zxcvbn', '123456', '111111', '000000', 'monkey', 'dragon', 'football', 'master', 'login', 'princess', 'sunshine', 'changeme', 'trustno1', 'lahore', 'karachi', 'islamabad'];
+  const WORDS = ['Rose', 'Jasmine', 'Pearl', 'Lantern', 'Silk', 'Marigold', 'Henna', 'Saffron', 'Garden', 'Moon', 'River', 'Candle', 'Amber', 'Velvet', 'Orchid', 'Cedar', 'Mango', 'Coral', 'Ivory', 'Sapphire'];
+  const pick = n => { const a = new Uint32Array(1); crypto.getRandomValues(a); return a[0] % n; };
+  const suggest = () => WORDS[pick(20)] + '-' + WORDS[pick(20)] + '-' + (100 + pick(900)) + '!#$%&*?@'[pick(8)] + WORDS[pick(20)];
+
+  /** Same rules as includes/studio.php studio_password_problem(); the server is the authority. */
+  const rules = (pw, user) => {
+    const low = pw.toLowerCase(), len = [...pw].length;
+    const classes = (/[a-z]/.test(pw) ? 1 : 0) + (/[A-Z]/.test(pw) ? 1 : 0) + (/\d/.test(pw) ? 1 : 0) + (/[^a-zA-Z\d]/.test(pw) ? 1 : 0);
+    return [
+      ['At least 12 characters', len >= 12],
+      ['Three of: small letters, CAPITALS, numbers, symbols (or 20+ characters)', classes >= 3 || len >= 20],
+      ['No common words like "password" or "wedding"', len >= 20 || !COMMON.some(c => low.includes(c))],
+      ['Does not contain your username', !(user.length >= 3 && low.includes(user.toLowerCase()))],
+    ];
+  };
+
+  document.querySelectorAll('[data-pw]').forEach(box => {
+    const input = box.querySelector('input[type=password], input[type=text]');
+    const toggle = box.querySelector('[data-pw-toggle]');
+    toggle?.addEventListener('click', () => {
+      const show = input.type === 'password'; input.type = show ? 'text' : 'password';
+      toggle.textContent = show ? 'Hide' : 'Show'; toggle.setAttribute('aria-pressed', show ? 'true' : 'false');
+    });
+  });
+
+  document.querySelectorAll('[data-pw-check]').forEach(root => {
+    const input = root.querySelector('input[name=password], input[name=new]');
+    const confirm = root.querySelector('input[name=password2], input[name=confirm]');
+    const user = root.querySelector('input[name=username]');
+    const list = root.querySelector('.rules'), bar = root.querySelector('.meter i');
+    const suggestBtn = root.querySelector('[data-pw-suggest]');
+    const update = () => {
+      const r = rules(input.value, user ? user.value.trim() : root.dataset.user || '');
+      list.innerHTML = r.map(([t, ok]) => `<li class="${ok ? 'ok' : ''}">${t}</li>`).join('');
+      const score = r.filter(x => x[1]).length + ([...input.value].length >= 16 ? 1 : 0);
+      bar.style.width = (input.value ? Math.min(100, score * 20) : 0) + '%';
+      bar.style.background = score >= 5 ? '#1f7a4d' : score >= 4 ? '#c9a227' : '#b3261e';
+    };
+    input.addEventListener('input', update); user?.addEventListener('input', update); update();
+    suggestBtn?.addEventListener('click', () => {
+      const p = suggest(); input.value = p; if (confirm) confirm.value = p;
+      [input, confirm].forEach(i => { if (i) i.type = 'text'; });
+      root.querySelectorAll('[data-pw-toggle]').forEach(t => { t.textContent = 'Hide'; });
+      update(); input.focus();
+    });
+    root.closest('form')?.addEventListener('submit', e => {
+      if (confirm && input.value !== confirm.value) { e.preventDefault(); confirm.setCustomValidity('The two passwords do not match.'); confirm.reportValidity(); confirm.setCustomValidity(''); }
+    });
+  });
+
+  document.querySelectorAll('[data-countdown]').forEach(el => {
+    const end = Number(el.dataset.countdown) * 1000;
+    const tick = () => {
+      const s = Math.max(0, Math.floor((end - Date.now()) / 1000));
+      const d = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600), m = Math.floor(s % 3600 / 60), sec = s % 60;
+      el.textContent = s <= 0 ? 'ended' : (d ? d + 'd ' : '') + String(h).padStart(2, '0') + 'h ' + String(m).padStart(2, '0') + 'm' + (d ? '' : ' ' + String(sec).padStart(2, '0') + 's');
+      if (s <= 0) { clearInterval(t); setTimeout(() => location.reload(), 1200); }
+    };
+    const t = setInterval(tick, 1000); tick();
+  });
+
+  document.querySelectorAll('[data-copy]').forEach(b => b.addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(b.dataset.copy); const o = b.textContent; b.textContent = 'Copied'; setTimeout(() => { b.textContent = o; }, 1400); } catch (_) {}
+  }));
+
+  document.querySelectorAll('input[name=plan][data-plan-amount]').forEach(r => r.addEventListener('change', () => {   // advance or pay in full
+    if (!r.checked) return;
+    const n = parseInt(r.dataset.planAmount, 10);
+    document.querySelectorAll('[data-plan-due]').forEach(el => { el.textContent = 'Rs ' + n.toLocaleString('en-US'); });
+    document.querySelectorAll('[data-plan-label]').forEach(el => { el.textContent = r.dataset.planTitle; });
+    const amt = document.querySelector('input[name=amount]'); if (amt) amt.value = n;
+  }));
+
+  document.querySelectorAll('[data-show-when]').forEach(el => {
+    const [name, vals] = el.dataset.showWhen.split('=');
+    const set = () => { const c = document.querySelector(`input[name="${name}"]:checked`); el.hidden = !(c && vals.split(',').includes(c.value)); };
+    document.querySelectorAll(`input[name="${name}"]`).forEach(i => i.addEventListener('change', set)); set();
+  });
+})();

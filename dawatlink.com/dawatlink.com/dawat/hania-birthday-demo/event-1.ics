@@ -1,0 +1,19 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//DawatLink//Invitation//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:hania-birthday-demo-1@dawatlink.com
+DTSTAMP:20261028T130445Z
+DTSTART:20261212T110000Z
+DTEND:20261212T140000Z
+SUMMARY:Birthday — Hania
+LOCATION:Funland Party Hall\, Bahria Town Phase 4\, Rawalpindi
+DESCRIPTION:Cake\, games and lots of fun!\n\nhttps://dawatlink.com/dawat/h
+ ania-birthday-demo/\nhttps://maps.app.goo.gl/dawatlinkDemo7
+URL:https://dawatlink.com/dawat/hania-birthday-demo/
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

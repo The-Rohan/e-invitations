@@ -1,0 +1,36 @@
+/* Theme: Navy – graduation / corporate: navy & gold, crisp editorial */
+:root {
+  --primary: #14274e; --accent: #d4a63a; --bg: #f4f6fa; --card: #ffffff; --ink: #1b2233; --muted: #6a7386; --line: rgba(20,39,78,.14);
+  --backdrop: radial-gradient(circle at 30% 20%, #27406f, #0b1530 70%);
+  --env: #14274e; --env-dark: #0b1530; --door: #0b1530; --curtain: #14274e;
+  --font-display: 'Fraunces', Georgia, serif; --font-script: 'Fraunces', Georgia, serif;
+  --ornament: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 34' fill='none' stroke='%23d4a63a' stroke-width='1.2'%3E%3Cpath d='M0 17h64M96 17h64'/%3E%3Crect x='72' y='9' width='16' height='16' transform='rotate(45 80 17)'/%3E%3Crect x='76' y='13' width='8' height='8' transform='rotate(45 80 17)' fill='%23d4a63a'/%3E%3C/svg%3E");
+  --radius: 8px;
+}
+.hero { background: radial-gradient(ellipse at 50% 25%, #1e3a75 0%, #14274e 65%, #0b1530 100%); color: #fff; }
+.hero .eyebrow, .hero .greeting { color: #d4a63a; }
+.hero .name { color: #ffffff; font-family: var(--font-display); font-weight: 600; font-style: normal; font-size: clamp(2.4rem, 9vw, 3.6rem); letter-spacing: -.01em; }
+.hero .name.shimmer [lang="en"] { background-image: linear-gradient(110deg, #fff 40%, #fae29c 50%, #fff 60%); background-size: 250% 100%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.hero .amp { color: #d4a63a; }
+.hero .monogram { border-color: #d4a63a; color: #d4a63a; background: rgba(255,255,255,.08); }
+.hero .date { color: #e2e8f0; }
+.countdown > div { background: #fff; box-shadow: 0 12px 30px -18px rgba(20,39,78,.6); border-color: var(--line); }
+.countdown b { color: var(--primary); }
+.sec-title { font-family: var(--font-display); font-weight: 600; font-size: 1.7rem; letter-spacing: 0; }
+.frame { border: 0; border-left: 4px solid var(--accent); background: var(--bg); text-align: left; }
+.frame::before { display: none; }
+.families { grid-template-columns: 1fr; }
+.events, .gallery, .travel { background: var(--bg); }
+.event, .info-card { border-left: 4px solid var(--accent); }
+.ev-icon { background-color: var(--primary); border-radius: 10px; box-shadow: none; }
+.btn { border-radius: 6px; }
+.btn.primary { background: var(--primary); }
+.timeline { border-color: var(--accent); }
+.hashtag { color: var(--primary); }
+.wish { border-left-color: var(--accent); background: var(--bg); }
+.closing { background: var(--bg); }
+.ent-names { font-family: var(--font-display); font-style: normal; font-weight: 600; }
+.seal { background: radial-gradient(circle at 35% 30%, #e6c26a, #8a6a1e 70%); color: #14274e; }
+.diya-bowl { background: linear-gradient(#d4a63a, #7a5d18); }
+.door .panel { border-color: var(--accent); border-radius: 0; }
+.actionbar { background: rgba(11,21,48,.94); }

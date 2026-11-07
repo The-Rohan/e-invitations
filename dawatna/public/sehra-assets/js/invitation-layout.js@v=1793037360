@@ -1,0 +1,75 @@
+/* Keep closing and opening name lines together without cutting off names. */
+(() => {
+  'use strict';
+  const boxes = [...document.querySelectorAll('.fit-names')];
+  const singleNames = [...document.querySelectorAll('.fit-single-name')];
+  const opening = document.querySelector('.gf-custom');
+  if (!boxes.length && !singleNames.length && !opening) return;
+  let frame = 0;
+  const fit = () => {
+    frame = 0;
+    for (const box of boxes) {
+      if (!box.isConnected || !box.clientWidth) continue;
+      const line = box.querySelector('.fit-names-line');
+      if (!line) continue;
+      const style = getComputedStyle(box);
+      const available = box.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight) - 14;
+      const base = parseFloat(style.fontSize);
+      // offsetWidth ignores entrance/reveal transforms. The extra inset allows
+      // for calligraphic overhangs which are not included in text advance widths.
+      // The natural width is measured on a hidden copy at the full size. Measuring the live line right after resetting its size can return the old size
+      // (with "reduce motion" every property has a tiny transition), which left long names unfitted and made the page scroll sideways.
+      const probe = line.cloneNode(true);
+      probe.style.cssText = `position:absolute;left:0;top:0;visibility:hidden;pointer-events:none;font-size:${base}px`;
+      box.appendChild(probe);
+      const natural = probe.offsetWidth; probe.remove();
+      const scale = Math.min(1, Math.max(1, available) / Math.max(1, natural));
+      line.style.setProperty('--fit-name-size', `${base * scale}px`);
+    }
+    for (const name of singleNames) {
+      if (!name.isConnected) continue;
+      const group = name.closest('.names');
+      if (!group?.clientWidth) continue;
+      const computed = getComputedStyle(name);
+      const base = Number(name.dataset.fitBaseSize) || parseFloat(computed.fontSize);
+      name.dataset.fitBaseSize = String(base);
+      const style = getComputedStyle(group);
+      const available = Math.max(1, group.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight) - 10);
+      const probe = name.cloneNode(true);
+      probe.removeAttribute('id');
+      probe.removeAttribute('data-fit-wrap');
+      probe.style.cssText += `;position:fixed;left:-100000px;top:0;display:block;width:max-content;max-width:none;white-space:nowrap;visibility:hidden;pointer-events:none;font-size:${base}px`;
+      group.appendChild(probe);
+      const natural = probe.getBoundingClientRect().width;
+      probe.remove();
+      const minSize = Math.min(base, 20);
+      const fitted = natural > available ? Math.max(minSize, base * available / natural) : base;
+      name.style.setProperty('--fit-single-name-size', `${fitted}px`);
+      if (natural * fitted / base > available + 1) name.setAttribute('data-fit-wrap', '1');
+      else name.removeAttribute('data-fit-wrap');
+    }
+    if(opening?.isConnected){
+      const parent=opening.parentElement, style=getComputedStyle(parent);
+      const available=parent.clientHeight-parseFloat(style.paddingTop)-parseFloat(style.paddingBottom);
+      opening.style.setProperty('--opening-fit',Math.min(1,Math.max(1,available)/Math.max(1,opening.scrollHeight)));
+    }
+  };
+  const schedule = () => { if (!frame) frame = requestAnimationFrame(fit); };
+  const widths = new WeakMap();
+  const resize = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(entries => {
+    for (const entry of entries) {
+      const width = entry.contentRect.width;
+      if (widths.get(entry.target) !== width) { widths.set(entry.target, width); schedule(); }
+    }
+  }) : null;
+  boxes.forEach(box => resize?.observe(box));
+  singleNames.map(name => name.closest('.names')).filter(Boolean).forEach(box => resize?.observe(box));
+  const language = new MutationObserver(schedule);
+  language.observe(document.documentElement, { attributes:true, attributeFilter:['data-lang'] });
+  document.fonts?.ready.then(schedule);
+  document.fonts?.addEventListener('loadingdone', schedule);
+  window.addEventListener('resize', schedule, { passive:true });
+  window.addEventListener('pagehide', () => { resize?.disconnect(); language.disconnect(); cancelAnimationFrame(frame); });
+  window.addEventListener('pageshow', schedule);
+  schedule();
+})();

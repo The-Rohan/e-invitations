@@ -1,0 +1,1439 @@
+/* ==========================================================================
+   MAKKAH JOURNEY — sections one, two and three
+
+   The invitation arrives shut: the two carved doors of the Prophet's Mosque,
+   brass and rosewood, met down the middle of the screen. Pressed, a thread of
+   light appears in the seam between them; pressed again it widens; on the
+   third they swing apart like a book over three unhurried seconds onto the
+   Kaaba with the pigeons turning over it.
+
+   WHAT IT IS DRAWN IN
+
+   Photographs of one place, and two faces over them. Nothing here recolours
+   and the design says so -- `recolourable: false` takes the Theme screen out
+   of the customer's panel. So there are no palette variables in this file:
+   the colours below are the design's own and are meant to be read as fixed.
+
+     --mk-ink     #111417   the near-black every heading is set in
+     --mk-body    #75787C   the grey every paragraph is read in
+     --mk-paper   #EEF2F8   the pale sky the pages between photographs sit on
+
+   HOW EVERY SIZE IS GIVEN
+
+   The design is drawn at 390 across by 844 down, and the sizes it specifies
+   -- a 40px heading, a 64px name, an 18px paragraph -- are that design's
+   sizes at that width. So they are given as a fraction of `--mk-u`:
+   `calc(40 / 390 * var(--mk-u))` is exactly 40px on the card it was drawn
+   for, and the same share of a narrower or shorter one.
+   ========================================================================== */
+
+:root {
+  /* The script every heading and both names are set in, and the serif
+     everything else is read in. */
+  --mk-script: 'Tangerine', 'Snell Roundhand', cursive;
+  --mk-serif: 'Tai Heritage Pro', 'Iowan Old Style', Georgia, serif;
+
+  --mk-ink: #111417;
+  --mk-body: #75787c;
+  --mk-paper: #eef2f8;
+
+  /* Never wider than the screen, and never wider than the height can carry:
+     the smaller of the two wins, so a short window narrows the card rather
+     than running a page off the bottom of it. */
+  --mk-u: min(100vw, calc(100svh * 390 / 844));
+
+  /* Three seconds of door, and the easing that reads as weight rather than as
+     a transition: slow to leave, slow to arrive, almost no hurry between. */
+  --mk-swing: 3000ms;
+
+  /* Where the two cover photographs meet, as a share of the card's width.
+     594 of 1170 on a phone; the wide pair are 1446 of 2880. */
+  --mk-join: 50.8%;
+  --mk-swing-ease: cubic-bezier(.42, .02, .18, 1);
+}
+
+/* Sealed: the invitation is behind the doors and must not be scrolled past
+   before they have been opened. */
+html.mk-sealed, html.mk-sealed body { overflow: hidden; height: 100%; }
+
+/* Each page is one screenful, so the card settles on a page rather than
+   leaving a reader between two. */
+html { scroll-snap-type: y proximity; }
+
+body.mk-body {
+  margin: 0;
+  background: var(--mk-paper);
+  font-family: var(--mk-serif);
+  /* Nothing on the doors is text to be selected, and a long press that
+     selects a photograph instead of opening the card is the commonest way
+     this kind of gate feels broken. */
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.mk-card { position: relative; width: 100%; }
+
+/* A column, so the pages can be rearranged: `order` is what moves a page when
+   somebody drags its tile in either editor. */
+.mk-main {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.mk-sec {
+  position: relative;
+  width: 100%;
+  min-height: 100svh;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  scroll-snap-align: start;
+  overflow: hidden;
+  background: var(--mk-paper);
+}
+
+.mk-col {
+  position: relative;
+  z-index: 2;
+  width: min(100% - 24px, calc(342 / 390 * var(--mk-u)));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* ---------------------------------------------------------------- the type */
+
+/* Every section heading, and both names. Tangerine is a script with a small
+   x-height, so forty of it is nothing like forty of a serif -- these are the
+   design's own numbers and are meant to look this way. */
+.mk-heading {
+  margin: 0;
+  font-family: var(--mk-script);
+  font-weight: 700;
+  font-size: calc(40 / 390 * var(--mk-u));
+  line-height: 1.16;
+  color: var(--mk-ink);
+  text-wrap: balance;
+}
+
+.mk-name {
+  font-family: var(--mk-script);
+  font-weight: 400;
+  font-size: calc(64 / 390 * var(--mk-u));
+  line-height: 1.04;
+  color: var(--mk-ink);
+}
+
+/* The same name, at the size the pages after the doors set it. */
+.mk-name-sm { font-size: calc(46 / 390 * var(--mk-u)); }
+
+/* The one word between two names. */
+.mk-amp {
+  font-family: var(--mk-script);
+  font-weight: 400;
+  font-size: calc(30 / 390 * var(--mk-u));
+  line-height: 1;
+  color: var(--mk-ink);
+}
+
+/* Everything that is read rather than looked at. */
+.mk-para {
+  margin: 0;
+  font-family: var(--mk-serif);
+  font-weight: 400;
+  font-size: calc(18 / 390 * var(--mk-u));
+  line-height: calc(25 / 18);
+  color: var(--mk-body);
+  white-space: pre-line;
+}
+
+/* ==========================================================================
+   SECTION 1 — the doors, and the Haram behind them
+   ========================================================================== */
+
+.mk-hero { background: #0d1419; }
+
+/* The courtyard, behind the doors the whole time. A film on a phone, where
+   the pigeons actually turn; the photograph of the same scene on a wide
+   screen, where the film was never cut. */
+.mk-haram {
+  position: absolute;
+  inset: 0;
+  background: #0d1419 center / cover no-repeat;
+  opacity: 0;
+  transition: opacity 1200ms ease 220ms;
+}
+
+.mk-haram-film {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+html.mk-painted .mk-haram {
+  background-image: url('../img-sample/templates/makkah-journey/hero/kaaba-web.png.webp');
+}
+
+.mk-hero.is-opening .mk-haram { opacity: 1; }
+
+.mk-hero-names {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  /* Low on the page, where the drawing has them: the courtyard is the
+     picture and the names sit on the marble at the foot of it. A little
+     higher than the drawing has them, though -- the drawing has no cue, and
+     a card whose cue is printed across the couple's names is the one thing
+     nobody would draw. */
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(92 / 844 * 100%);
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: calc(10 / 390 * var(--mk-u));
+  color: #ffffff;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, .45);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 900ms ease 1100ms, transform 900ms ease 1100ms;
+}
+
+.mk-hero-names .mk-name,
+.mk-hero-names .mk-amp { color: #ffffff; }
+
+.mk-hero.is-opening .mk-hero-names { opacity: 1; transform: none; }
+
+/* ---- the doors ----
+
+   Two photographs met down the middle of the card, each hinged on its own
+   outer edge. One perspective on the pair rather than one per door, so both
+   are seen from the same place -- which is the whole of what makes two
+   pictures read as one doorway. */
+.mk-doors {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  perspective: 1400px;
+  perspective-origin: 50% 50%;
+  transform-style: preserve-3d;
+  cursor: pointer;
+  /* How far apart the doors stand, in steps. Set by the script on each press;
+     zero until something has been pressed. */
+  --mk-gap: 0;
+}
+
+.mk-door {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50.4%;
+  background: center / cover no-repeat;
+  will-change: transform;
+  /* The design asks for no shadow on the closed cover, and there is none:
+     what separates the two halves is the light between them. */
+}
+
+/* Where the two photographs meet, read off their own widths: 594 and 576 of a
+   1170 card. Not the middle of the card, which is why the light used to come
+   up beside the join rather than out of it -- the seam was at 50% and the
+   doors met at 50.8. One number now, and everything that has to line up with
+   the join is written in terms of it. */
+.mk-door-left {
+  left: 0;
+  width: var(--mk-join);
+  transform-origin: left center;
+  background-image: url('../img-sample/templates/makkah-journey/cover/left.png.webp');
+}
+
+.mk-door-right {
+  right: 0;
+  width: calc(100% - var(--mk-join));
+  transform-origin: right center;
+  background-image: url('../img-sample/templates/makkah-journey/cover/right.png.webp');
+}
+
+/* ---- the light in the seam ----
+
+   Under both doors and over the courtyard, so what widens between them is a
+   thread of the Haram's own daylight rather than a white bar drawn on top.
+   It is the answer to the first press: without it, two presses that appear to
+   do nothing are two presses nobody makes. */
+.mk-seam {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--mk-join);
+  z-index: 1;
+  width: calc(2px + var(--mk-gap) * 6px);
+  transform: translateX(-50%);
+  background:
+    linear-gradient(to right,
+      rgba(255, 249, 232, 0) 0%,
+      rgba(255, 249, 232, .92) 38%,
+      #fffdf6 50%,
+      rgba(255, 249, 232, .92) 62%,
+      rgba(255, 249, 232, 0) 100%);
+  box-shadow: 0 0 calc(12px + var(--mk-gap) * 34px) calc(1px + var(--mk-gap) * 7px) rgba(255, 244, 214, .55);
+  opacity: 0;
+  transition: opacity 620ms ease, width 620ms ease, box-shadow 620ms ease;
+}
+
+/* The first knock shows a thread of light, the second a good deal more of it:
+   the card is answering, and answering more the second time. */
+.mk-doors.is-ajar .mk-seam { opacity: calc(.52 + var(--mk-gap) * .24); }
+
+/* Each press draws the doors a hair off the seam, so the light has somewhere
+   to come from. Barely anything -- the movement is the point, not the
+   distance. */
+.mk-doors.is-ajar .mk-door-left { transform: translateX(calc(var(--mk-gap) * -3px)); }
+.mk-doors.is-ajar .mk-door-right { transform: translateX(calc(var(--mk-gap) * 3px)); }
+
+.mk-door { transition: transform 620ms ease; }
+
+/* ---- and the third press ----
+
+   They swing outwards about their own outer edges, like the covers of a book
+   opening away from the reader. Not the full quarter turn: a door hinged on
+   the card's left edge is edge-on at ninety and lies wholly outside the page
+   beyond it, so every degree past about that is turned where nobody can see
+   it. Ninety-six leaves each one clear of the card and spends the whole three
+   seconds on the part that can actually be watched. */
+.mk-hero.is-opening .mk-door-left {
+  transform: rotateY(96deg);
+  transition: transform var(--mk-swing) var(--mk-swing-ease);
+}
+
+.mk-hero.is-opening .mk-door-right {
+  transform: rotateY(-96deg);
+  transition: transform var(--mk-swing) var(--mk-swing-ease) 90ms;
+}
+
+.mk-hero.is-opening .mk-seam {
+  opacity: 0;
+  transition: opacity 700ms ease;
+}
+
+/* ---- what the closed card says ----
+
+   A pale lozenge low on the doors, which is where the drawing puts it. %>
+*/
+.mk-press {
+  position: absolute;
+  left: 50%;
+  bottom: calc(52 / 844 * 100%);
+  z-index: 6;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: calc(9 / 390 * var(--mk-u)) calc(26 / 390 * var(--mk-u));
+  border: 0;
+  border-radius: 999px;
+  background: rgba(240, 238, 233, .93);
+  font-family: var(--mk-serif);
+  font-weight: 400;
+  font-size: calc(17 / 390 * var(--mk-u));
+  line-height: 1.3;
+  white-space: nowrap;
+  color: #1b1b1b;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  /* Breathing, so the one thing to press is the one thing moving. */
+  animation: mk-breathe 2600ms ease-in-out infinite;
+}
+
+@keyframes mk-breathe {
+  0%, 100% { transform: translateX(-50%) scale(1); opacity: .92; }
+  50%      { transform: translateX(-50%) scale(1.035); opacity: 1; }
+}
+
+.mk-hero.is-opening .mk-press {
+  opacity: 0;
+  animation: none;
+  transition: opacity 420ms ease;
+}
+
+/* ==========================================================================
+   SECTION 2 — the letter
+   ========================================================================== */
+
+.mk-invite { justify-content: flex-start; }
+
+/* The corner of the Kaaba, at the foot of the page, with the sky above it
+   carrying the words. */
+.mk-invite-art {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--mk-paper) center / cover no-repeat;
+}
+
+html.mk-painted .mk-invite-art {
+  background-image: url('../img-sample/templates/makkah-journey/invite/background.png.webp');
+}
+
+.mk-invite .mk-col { padding-top: calc(20 / 390 * var(--mk-u)); }
+
+.mk-bismillah {
+  display: block;
+  width: calc(150 / 390 * var(--mk-u));
+  height: auto;
+}
+
+.mk-dear { margin-top: calc(20 / 390 * var(--mk-u)); }
+
+.mk-invite .mk-para {
+  margin-top: calc(18 / 390 * var(--mk-u));
+  width: calc(312 / 390 * var(--mk-u));
+}
+
+/* The functions this guest is asked to, each with a small ring before it.
+   They wrap, so a card with three reads as one line and a card with five as
+   two -- which is what the drawing shows. */
+.mk-chips {
+  margin: calc(20 / 390 * var(--mk-u)) 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: calc(10 / 390 * var(--mk-u)) calc(26 / 390 * var(--mk-u));
+}
+
+.mk-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(9 / 390 * var(--mk-u));
+  font-family: var(--mk-script);
+  font-weight: 400;
+  font-size: calc(28 / 390 * var(--mk-u));
+  line-height: 1.1;
+  color: var(--mk-body);
+}
+
+.mk-chip::before {
+  content: '';
+  width: calc(7 / 390 * var(--mk-u));
+  height: calc(7 / 390 * var(--mk-u));
+  border: 1px solid var(--mk-body);
+  border-radius: 50%;
+}
+
+/* ==========================================================================
+   SECTION 3 — you are joyfully invited
+   ========================================================================== */
+
+.mk-welcome { justify-content: flex-start; }
+
+.mk-welcome-art {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: #808e98 center / cover no-repeat;
+}
+
+html.mk-painted .mk-welcome-art {
+  background-image: url('../img-sample/templates/makkah-journey/welcome/background.png.webp');
+}
+
+/* The film fills the frame the way the photograph behind it does. It had no
+   rule at all, so it laid itself out at whatever size the file happens to be
+   -- which on a screen read as a video pasted across the page rather than as
+   the page itself moving. */
+.mk-welcome-film {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* A flourish in each top corner, laid over the photograph. */
+.mk-corner {
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  width: calc(140 / 390 * var(--mk-u));
+  height: auto;
+  pointer-events: none;
+}
+
+.mk-corner-left { left: 0; }
+.mk-corner-right { right: 0; }
+
+.mk-welcome-body { padding-top: calc(44 / 390 * var(--mk-u)); }
+
+.mk-welcome .mk-blessing { color: #ffffff; }
+.mk-welcome .mk-heading { margin-top: calc(14 / 390 * var(--mk-u)); color: #ffffff; }
+
+/* The pane of glass the two names are set in. */
+.mk-pane {
+  margin-top: calc(22 / 390 * var(--mk-u));
+  width: calc(268 / 390 * var(--mk-u));
+  padding: calc(16 / 390 * var(--mk-u)) calc(14 / 390 * var(--mk-u));
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 255, 255, .55);
+  border-radius: calc(14 / 390 * var(--mk-u));
+  background: rgba(255, 255, 255, .14);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.mk-pair {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(2 / 390 * var(--mk-u));
+}
+
+.mk-pane .mk-name,
+.mk-pane .mk-amp { color: #ffffff; }
+
+.mk-under { margin-top: calc(28 / 390 * var(--mk-u)); color: #ffffff; }
+
+
+/* ==========================================================================
+   THE PIECES THE PAGES AFTER THE INVITATION ARE BUILT FROM
+
+   Two of them, and every page below is made of these rather than of its own
+   one-off boxes: the black lozenge and the small heading.
+   ========================================================================== */
+
+/* The black lozenge: the dress code, the reply date, the way to a venue, the
+   two family tabs. Set in the heading's own face and colour reversed out, so
+   it belongs to the same card as everything above it. */
+.mk-pill {
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  margin: 0;
+  padding: calc(6 / 390 * var(--mk-u)) calc(24 / 390 * var(--mk-u));
+  border: 0;
+  border-radius: 999px;
+  background: #0a0c0e;
+  font-family: var(--mk-script);
+  font-weight: 700;
+  font-size: calc(40 / 390 * var(--mk-u));
+  line-height: 1.24;
+  text-align: center;
+  text-decoration: none;
+  color: #ffffff;
+}
+
+/* A heading that is a line inside a page rather than the name of one -- a
+   function's name, a question. The same face and weight; only smaller. */
+.mk-heading-sm { font-size: calc(30 / 390 * var(--mk-u)); }
+
+/* ==========================================================================
+   SECTION 4 — the two of them, and both families
+   ========================================================================== */
+
+.mk-people { justify-content: flex-start; }
+.mk-people .mk-col { padding: calc(40 / 390 * var(--mk-u)) 0 calc(30 / 390 * var(--mk-u)); }
+
+.mk-faces {
+  margin-top: calc(28 / 390 * var(--mk-u));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(14 / 390 * var(--mk-u));
+  width: 100%;
+}
+
+.mk-faces-amp { flex: none; color: #9aa3ab; }
+
+.mk-face {
+  margin: 0;
+  flex: 0 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(14 / 390 * var(--mk-u));
+}
+
+/* The torn-edge frame the design draws round each portrait: the picture is
+   masked to it rather than laid over it, so the ragged edge is the edge of
+   the photograph. */
+.mk-face-frame {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: calc(128 / 390 * var(--mk-u));
+  height: calc(128 / 390 * var(--mk-u));
+  overflow: hidden;
+  -webkit-mask: url('../img-sample/templates/makkah-journey/portraits/frame.png.webp') center / contain no-repeat;
+  mask: url('../img-sample/templates/makkah-journey/portraits/frame.png.webp') center / contain no-repeat;
+  background: #c6d3dd;
+}
+
+/* A photograph fills the frame; a drawing sits inside it with air around it.
+
+   The drawing is placed rather than sized in percentages. A percentage height
+   on a grid item whose row is sized by its own content has nothing to resolve
+   against, so the browser falls back to the picture's natural size -- which
+   for the family drawings was 233 by 602 in a box 76 by 100, clipped to a
+   sliver. Positioned against a box with a definite size, the maximums mean
+   what they say. */
+.mk-face-art { display: block; width: 100%; height: 100%; object-fit: cover; }
+.mk-face-art:not(.is-photo) {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+  max-width: 84%;
+  max-height: 84%;
+  margin: auto;
+  object-fit: contain;
+}
+
+.mk-face-name {
+  font-family: var(--mk-serif);
+  font-weight: 400;
+  font-size: calc(22 / 390 * var(--mk-u));
+  line-height: 1.24;
+  color: var(--mk-body);
+}
+
+.mk-fam-head { margin-top: calc(56 / 390 * var(--mk-u)); }
+
+.mk-fams {
+  margin-top: calc(24 / 390 * var(--mk-u));
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: calc(20 / 390 * var(--mk-u));
+  width: 100%;
+}
+
+.mk-fam {
+  flex: 1 1 0;
+  max-width: calc(160 / 390 * var(--mk-u));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(12 / 390 * var(--mk-u));
+}
+
+/* The tab over each side. Smaller than the shared lozenge -- it is a label on
+   a block rather than a thing to press. */
+.mk-tab {
+  margin: 0;
+  padding: calc(5 / 390 * var(--mk-u)) calc(20 / 390 * var(--mk-u));
+  border-radius: 999px;
+  background: #0a0c0e;
+  font-family: var(--mk-script);
+  font-weight: 700;
+  font-size: calc(30 / 390 * var(--mk-u));
+  line-height: 1.2;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+.mk-fam-pic {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: calc(76 / 390 * var(--mk-u));
+  height: calc(100 / 390 * var(--mk-u));
+  border-radius: calc(6 / 390 * var(--mk-u));
+  overflow: hidden;
+  background: #d9dcdf;
+}
+
+.mk-fam-art { display: block; width: 100%; height: 100%; object-fit: cover; }
+.mk-fam-art:not(.is-photo) {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+  max-width: 86%;
+  max-height: 86%;
+  margin: auto;
+  object-fit: contain;
+}
+
+.mk-fam-parents {
+  margin: 0;
+  font-family: var(--mk-serif);
+  font-weight: 400;
+  font-size: calc(17 / 390 * var(--mk-u));
+  line-height: 1.3;
+  color: #14171a;
+}
+
+.mk-fam-people {
+  margin: 0;
+  padding: calc(12 / 390 * var(--mk-u)) calc(10 / 390 * var(--mk-u));
+  width: 100%;
+  box-sizing: border-box;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(20, 23, 26, .1);
+  border-radius: calc(10 / 390 * var(--mk-u));
+  background: rgba(255, 255, 255, .5);
+}
+
+/* A hairline between one person and the next, and none above the first. */
+.mk-fam-people li + li {
+  margin-top: calc(10 / 390 * var(--mk-u));
+  padding-top: calc(10 / 390 * var(--mk-u));
+  border-top: 1px solid rgba(20, 23, 26, .1);
+}
+
+.mk-fam-name,
+.mk-fam-call {
+  display: block;
+  font-family: var(--mk-serif);
+  font-weight: 400;
+  font-size: calc(16 / 390 * var(--mk-u));
+  line-height: 1.5;
+  text-decoration: none;
+  color: var(--mk-body);
+}
+
+.mk-fam-call { color: #14171a; }
+.mk-fam-call:hover { text-decoration: underline; }
+
+/* ==========================================================================
+   SECTION 5 — the countdown, under four cards to be rubbed away
+   ========================================================================== */
+
+.mk-count { justify-content: flex-start; }
+
+.mk-count-art {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--mk-paper) center / cover no-repeat;
+}
+
+.mk-count.is-near .mk-count-art {
+  background-image: url('../img-sample/templates/makkah-journey/countdown/background.png.webp');
+}
+
+.mk-count .mk-col { padding-top: calc(88 / 390 * var(--mk-u)); }
+
+/* Every measurement on this page is taken off the drawing, in the drawing's
+   own units: it is a phone screen at twice the size, so a card measured at
+   226 by 136 there is 113 by 68 here. Read the first time in the picture's
+   pixels, the clock came out at double and four cards no longer fitted on a
+   screen. */
+.mk-clock {
+  margin-top: calc(50 / 390 * var(--mk-u));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(13 / 390 * var(--mk-u));
+}
+
+.mk-tick {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(7 / 390 * var(--mk-u));
+}
+
+/* The card itself IS the drawing: the blue rounded rectangle with the ragged
+   edge, painted rather than cut out of white. Used only as a mask it left a
+   pale shape behind, and a white number on a white card is a countdown that
+   cannot be read -- which is exactly what a scratched card showed. */
+.mk-tick-card {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: calc(125 / 390 * var(--mk-u));
+  height: calc(82 / 390 * var(--mk-u));
+  background: url('../img-sample/templates/makkah-journey/countdown/card-open.svg.webp') center / contain no-repeat;
+}
+
+/* The numbers are the names' face at the names' weight, small -- the drawing
+   writes them in the script, in white, over the blue of the card. */
+.mk-tick-n {
+  font-family: var(--mk-script);
+  font-weight: 400;
+  font-size: calc(44 / 390 * var(--mk-u));
+  line-height: 1;
+  color: #ffffff;
+  font-variant-numeric: tabular-nums;
+}
+
+.mk-tick-w {
+  font-family: var(--mk-serif);
+  font-weight: 400;
+  font-size: calc(18 / 390 * var(--mk-u));
+  line-height: 1.3;
+  color: var(--mk-body);
+}
+
+/* The covering. Painted by script, so a browser with none shows the clock
+   rather than four blank cards. Cut to the card's own outline: the card is a
+   painting now, so nothing else clips this to the ragged edge. */
+.mk-rub {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  touch-action: none;
+  -webkit-mask: url('../img-sample/templates/makkah-journey/countdown/card-open.svg.webp') center / contain no-repeat;
+  mask: url('../img-sample/templates/makkah-journey/countdown/card-open.svg.webp') center / contain no-repeat;
+  transition: opacity 500ms ease;
+}
+
+.mk-clock.is-rubbed .mk-rub { opacity: 0; pointer-events: none; }
+
+.mk-count-note {
+  margin-top: calc(40 / 390 * var(--mk-u));
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  color: #14171a;
+}
+
+/* ==========================================================================
+   SECTION 6 — one word over the street
+   ========================================================================== */
+
+.mk-peace { justify-content: flex-start; }
+
+.mk-peace-art {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--mk-paper) center / cover no-repeat;
+}
+
+.mk-peace.is-near .mk-peace-art {
+  background-image: url('../img-sample/templates/makkah-journey/peace/background.png.webp');
+}
+
+/* ==========================================================================
+   SECTION 7 — the functions
+
+   The one page drawn on black. Taller than a screen once there are five of
+   them, so it opts out of the snapping: a page that cannot be seen at once
+   must not be snapped past.
+   ========================================================================== */
+
+.mk-events {
+  background: #000000;
+  justify-content: flex-start;
+  scroll-snap-align: none;
+  padding: calc(34 / 390 * var(--mk-u)) calc(16 / 390 * var(--mk-u)) calc(46 / 390 * var(--mk-u));
+}
+
+.mk-ev-corner {
+  position: absolute;
+  z-index: 1;
+  width: calc(110 / 390 * var(--mk-u));
+  height: auto;
+  pointer-events: none;
+}
+
+.mk-ev-tl { top: 0; left: 0; }
+.mk-ev-tr { top: 0; right: 0; }
+.mk-ev-bl { bottom: 0; left: 0; }
+.mk-ev-br { bottom: 0; right: 0; }
+
+.mk-events-head { position: relative; z-index: 2; color: #ffffff; }
+
+.mk-ev-grid {
+  position: relative;
+  z-index: 2;
+  margin-top: calc(28 / 390 * var(--mk-u));
+  display: flex;
+  flex-direction: column;
+  gap: calc(28 / 390 * var(--mk-u));
+  width: 100%;
+  max-width: calc(358 / 390 * var(--mk-u));
+}
+
+/* A card: the drawing on one side and what a guest needs on the other, the
+   sides swapping down the run so five of them do not read as a list. */
+.mk-ev {
+  display: flex;
+  align-items: center;
+  gap: calc(6 / 390 * var(--mk-u));
+  padding: calc(14 / 390 * var(--mk-u)) calc(12 / 390 * var(--mk-u));
+  background: #ffffff;
+}
+
+.mk-ev.is-flipped { flex-direction: row-reverse; }
+
+.mk-ev-art {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: calc(128 / 390 * var(--mk-u));
+}
+
+.mk-ev-img { display: block; width: 100%; height: auto; }
+svg.mk-ev-img { width: auto; height: calc(110 / 390 * var(--mk-u)); }
+
+.mk-ev-body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(4 / 390 * var(--mk-u));
+  text-align: center;
+}
+
+.mk-ev-name { margin: 0 0 calc(2 / 390 * var(--mk-u)); font-size: calc(40 / 390 * var(--mk-u)); }
+.mk-ev-line { font-size: calc(15 / 390 * var(--mk-u)); line-height: 1.45; }
+.mk-ev-btns {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: calc(8 / 390 * var(--mk-u));
+  margin-top: calc(10 / 390 * var(--mk-u));
+}
+
+.mk-ev-map {
+  margin-top: 0;
+  font-size: calc(19 / 390 * var(--mk-u));
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   SECTION 8 — what to wear
+   ========================================================================== */
+
+.mk-dress-art {
+  display: block;
+  width: calc(310 / 390 * var(--mk-u));
+  height: auto;
+  margin-top: calc(30 / 390 * var(--mk-u));
+}
+
+.mk-dress-intro { margin-top: calc(34 / 390 * var(--mk-u)); width: calc(300 / 390 * var(--mk-u)); }
+.mk-dress-code { margin-top: calc(22 / 390 * var(--mk-u)); width: calc(288 / 390 * var(--mk-u)); }
+.mk-dress-aside { margin-top: calc(20 / 390 * var(--mk-u)); }
+
+/* ==========================================================================
+   SECTION 9 — the photographs
+   ========================================================================== */
+
+.mk-shots {
+  margin-top: calc(34 / 390 * var(--mk-u));
+  display: grid;
+  grid-template-columns: repeat(2, calc(150 / 390 * var(--mk-u)));
+  justify-content: center;
+  gap: calc(22 / 390 * var(--mk-u)) calc(30 / 390 * var(--mk-u));
+}
+
+.mk-shot {
+  display: block;
+  aspect-ratio: 1;
+  border-radius: calc(18 / 390 * var(--mk-u));
+  overflow: hidden;
+  background: #d9dcdf;
+}
+
+.mk-shot img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* ==========================================================================
+   SECTION 10 — the reply
+   ========================================================================== */
+
+.mk-rsvp { justify-content: flex-start; }
+.mk-rsvp .mk-col { padding-top: calc(60 / 390 * var(--mk-u)); }
+
+.mk-rsvp-prompt { margin-top: calc(22 / 390 * var(--mk-u)); width: calc(300 / 390 * var(--mk-u)); }
+.mk-rsvp-by {
+  margin-top: calc(26 / 390 * var(--mk-u));
+  width: calc(300 / 390 * var(--mk-u));
+  flex-direction: column;
+  padding-top: calc(10 / 390 * var(--mk-u));
+  padding-bottom: calc(12 / 390 * var(--mk-u));
+  line-height: 1.05;
+}
+
+/* The tower, at the foot of the page, with the birds turning behind it. */
+.mk-tower {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  z-index: 1;
+  width: calc(260 / 390 * var(--mk-u));
+  height: auto;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.mk-birds {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(80 / 390 * var(--mk-u));
+  z-index: 0;
+  width: 100%;
+  height: auto;
+  opacity: .5;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   SECTION 11 — the questions
+   ========================================================================== */
+
+.mk-qs {
+  margin-top: calc(34 / 390 * var(--mk-u));
+  display: flex;
+  flex-direction: column;
+  gap: calc(38 / 390 * var(--mk-u));
+  width: 100%;
+}
+
+.mk-q {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(8 / 390 * var(--mk-u));
+}
+
+/* The small ring over each question, which is the only thing separating one
+   from the next on this page. */
+.mk-q::before {
+  content: '';
+  width: calc(8 / 390 * var(--mk-u));
+  height: calc(8 / 390 * var(--mk-u));
+  margin-bottom: calc(4 / 390 * var(--mk-u));
+  border: 1px solid #14171a;
+  border-radius: 50%;
+}
+
+.mk-q-head { color: #0a0c0e; }
+
+/* ==========================================================================
+   SECTION 12 — the farewell
+   ========================================================================== */
+
+.mk-closing { justify-content: flex-start; }
+.mk-closing .mk-col { padding-top: calc(20 / 390 * var(--mk-u)); }
+
+.mk-close-date { margin-top: calc(26 / 390 * var(--mk-u)); }
+
+.mk-close-names {
+  margin: calc(18 / 390 * var(--mk-u)) 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(2 / 390 * var(--mk-u));
+}
+
+.mk-name-md { font-size: calc(52 / 390 * var(--mk-u)); }
+
+/* The one word between the two names, with a rule either side of it. */
+.mk-weds {
+  display: flex;
+  align-items: center;
+  gap: calc(12 / 390 * var(--mk-u));
+  font-family: var(--mk-serif);
+  font-weight: 400;
+  font-size: calc(13 / 390 * var(--mk-u));
+  line-height: 1;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--mk-body);
+}
+
+.mk-weds::before,
+.mk-weds::after {
+  content: '';
+  width: calc(58 / 390 * var(--mk-u));
+  height: 1px;
+  background: rgba(20, 23, 26, .28);
+}
+
+/* Ours, in a band of its own across the foot of the page. */
+.mk-credit {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(10 / 390 * var(--mk-u));
+  padding: calc(9 / 390 * var(--mk-u)) calc(16 / 390 * var(--mk-u));
+  background: #f6f1e7;
+  font-family: var(--mk-serif);
+  font-weight: 700;
+  font-size: calc(21 / 390 * var(--mk-u));
+  line-height: 1.2;
+  text-decoration: none;
+  color: #7a1425;
+}
+
+.mk-credit .credit-mark { width: calc(28 / 390 * var(--mk-u)); height: auto; }
+.mk-credit:hover span { text-decoration: underline; }
+
+/* ==========================================================================
+   THE THINGS THAT FLOAT
+
+   The song and the language buttons are drawn by shared partials and styled
+   by card-sections.css, which loads after this file so its rules win by
+   default. This design draws them as glass discs, so its own are scoped to
+   `body.mk-body` to outweigh the shared ones here and nowhere else.
+
+   They are there from the first moment, shut doors and all: somebody who does
+   not want sound in the room wants the mute button before the music starts
+   rather than three seconds into it.
+   ========================================================================== */
+
+body.mk-body .ci-lang,
+body.mk-body .ci-song,
+body.mk-body .ci-view {
+  position: fixed;
+  top: calc(env(safe-area-inset-top, 0px) + 20px);
+  left: auto;
+  bottom: auto;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, .5);
+  border-radius: 999px;
+  background: rgba(20, 24, 28, .42);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: #ffffff;
+  cursor: pointer;
+  opacity: 1;
+  pointer-events: auto;
+  transition: transform 200ms ease;
+}
+
+body.mk-body .ci-lang { right: 16px; }
+body.mk-body .ci-song { right: 64px; }
+body.mk-body .ci-view { right: 112px; }
+
+body.mk-body .ci-lang svg,
+body.mk-body .ci-song svg,
+body.mk-body .ci-view svg { width: 19px; height: 19px; }
+
+body.mk-body .ci-lang:active,
+body.mk-body .ci-song:active,
+body.mk-body .ci-view:active { transform: scale(.95); }
+
+body.mk-body .ci-lang-menu {
+  position: fixed;
+  top: calc(env(safe-area-inset-top, 0px) + 68px);
+  left: auto;
+  bottom: auto;
+  right: 16px;
+  z-index: 41;
+  min-width: 148px;
+  padding: 6px;
+  border: 1px solid rgba(255, 255, 255, .35);
+  border-radius: 14px;
+  background: rgba(20, 24, 28, .82);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+body.mk-body .ci-lang-menu button {
+  display: block;
+  width: 100%;
+  padding: 9px 12px;
+  border: 0;
+  border-radius: 9px;
+  background: none;
+  font-family: var(--mk-serif);
+  font-size: 17px;
+  text-align: start;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+body.mk-body .ci-lang-menu button:hover { background: rgba(255, 255, 255, .14); }
+
+/* ------------------------------------------------------------- the cue */
+
+.mk-scroll {
+  position: fixed;
+  left: 50%;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 18px);
+  z-index: 30;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 18px;
+  border: 1px solid rgba(255, 255, 255, .5);
+  border-radius: 999px;
+  background: rgba(20, 24, 28, .42);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  font-family: var(--mk-serif);
+  font-size: calc(15 / 390 * var(--mk-u));
+  letter-spacing: .02em;
+  color: #ffffff;
+  transform: translateX(-50%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 700ms ease 900ms;
+}
+
+html.mk-open .mk-scroll { opacity: .78; pointer-events: auto; }
+
+/* The cue is fixed, so it sits over the foot of whichever page is being read.
+   Nothing should have to be read out from under it: every page keeps its last
+   line clear of the button and the air around it. */
+.mk-sec { padding-bottom: calc(76 / 390 * var(--mk-u)); }
+
+/* It is a button now -- see /js/scroll-cue.js. */
+.mk-scroll { -webkit-appearance: none; appearance: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.mk-scroll:active { transform: translateX(-50%) scale(.96); }
+.mk-scroll:focus-visible { outline: 2px solid #ffffff; outline-offset: 3px; }
+
+html.mk-end .mk-scroll {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 400ms ease;
+}
+
+.mk-scroll svg { animation: mk-nudge 2200ms ease-in-out infinite; }
+
+@keyframes mk-nudge {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(3px); }
+}
+
+/* ======================================================= held back, at first
+
+   None of the photographs behind the doors shows while they are shut, and
+   named in the stylesheet outright they are fetched the moment it is read --
+   on the same connection as the two doors, which are the only thing anybody
+   is looking at.
+   ========================================================================= */
+html:not(.mk-painted) .mk-haram,
+html:not(.mk-painted) .mk-invite-art,
+html:not(.mk-painted) .mk-welcome-art { background-image: none; }
+
+/* ==================================================== and on a wide screen
+
+   The doors are the two wide photographs rather than the phone's, the Haram
+   is the photograph the film was cut from, and the column stays the column.
+   ========================================================================= */
+@media (min-width: 900px) {
+  :root { --mk-u: 390px; }
+
+  /* The wide pair are 1446 and 1434 of 2880. */
+  body.mk-body { --mk-join: 50.21%; }
+
+  /* ---- the letter, section 2 ----
+
+     The wide drawing keeps every word in the sky and stops them above the
+     corner of the Kaaba. On a screen the stone starts much higher than it
+     does on a phone, so the block is set to the drawing's own measurements
+     rather than left at the phone's. */
+  .mk-invite .mk-col { width: 700px; padding-top: 18px; }
+  .mk-invite .mk-bismillah { width: 144px; }
+  .mk-dear { margin-top: 28px; }
+  .mk-invite .mk-para { margin-top: 8px; width: 623px; }
+  .mk-chips { margin-top: 22px; }
+
+  .mk-door-left { background-image: url('../img-sample/templates/makkah-journey/cover/left-web.png.webp'); }
+  .mk-door-right { background-image: url('../img-sample/templates/makkah-journey/cover/right-web.png.webp'); }
+
+  /* No film on a wide screen: both were cut at a phone's proportions and the
+     photographs of the same two scenes were drawn for this one. */
+  .mk-haram-film,
+  .mk-welcome-film { display: none; }
+
+  .mk-invite-art { background-image: none; }
+  html.mk-painted .mk-invite-art {
+    background-image: url('../img-sample/templates/makkah-journey/invite/background-web.png.webp');
+  }
+
+  .mk-welcome-art { background-image: none; }
+  html.mk-painted .mk-welcome-art {
+    background-image: url('../img-sample/templates/makkah-journey/welcome/background-web.png.webp');
+  }
+
+  .mk-col { width: 560px; }
+  .mk-corner { width: 210px; }
+  .mk-bismillah { width: 144px; }
+  .mk-pane { width: 420px; }
+  .mk-hero-names { bottom: 78px; }
+  .mk-press { bottom: 56px; }
+
+  /* ---- the portraits and the families, section 4 ----
+
+     The same page, given the room a screen has: larger portraits, and the
+     two people a side read across rather than down, which is how the wide
+     drawing has them. */
+  .mk-people .mk-col { width: 708px; }
+  .mk-face-frame { width: 176px; height: 176px; }
+  .mk-faces { gap: 56px; }
+
+  .mk-fams { gap: 80px; margin-top: 40px; }
+  .mk-fam { max-width: 314px; }
+  .mk-fam-pic { width: 110px; height: 144px; }
+
+  .mk-fam-people { flex-direction: row; padding: 14px 6px; }
+  .mk-fam-people li { flex: 1 1 0; text-align: center; }
+  .mk-fam-people li + li {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+    margin-left: 0;
+    padding-left: 12px;
+    border-left: 1px solid rgba(20, 23, 26, .1);
+  }
+
+  /* ---- the countdown, section 5 ----
+
+     Four cards in a row rather than a column: a screen is wider than it is
+     tall, and the drawing lays them across it. */
+  .mk-count { justify-content: center; }
+  .mk-count .mk-col { width: 620px; padding-top: 0; }
+
+  .mk-count.is-near .mk-count-art {
+    background-image: url('../img-sample/templates/makkah-journey/countdown/background-web.png.webp');
+  }
+
+  .mk-clock { flex-direction: row; justify-content: center; margin-top: 56px; gap: 21px; }
+  .mk-tick-card { width: 131px; height: 86px; }
+  .mk-count-note { margin-top: 56px; }
+
+  /* ---- the street, section 6 ---- */
+  .mk-peace.is-near .mk-peace-art {
+    background-image: url('../img-sample/templates/makkah-journey/peace/background-web.png.webp');
+  }
+
+
+  /* ---- the functions, section 7 ----
+
+     Three across and then the rest centred under them, each card with its
+     drawing on the left -- the alternation is a phone's answer to a column
+     of five, and a screen does not need it. */
+  .mk-events { padding: 70px 60px 90px; }
+  .mk-ev-corner { width: 137px; }
+
+  .mk-ev-grid {
+    margin-top: 60px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 43px 37px;
+    max-width: 1136px;
+  }
+
+  .mk-ev {
+    width: 354px;
+    box-sizing: border-box;
+    padding: 18px 16px;
+    gap: 10px;
+  }
+
+  .mk-ev.is-flipped { flex-direction: row; }
+  .mk-ev-art { width: 150px; }
+  svg.mk-ev-img { height: 130px; }
+
+  /* ---- what to wear, section 8 ---- */
+  .mk-dress-art { width: 412px; }
+  .mk-dress-intro { width: 470px; }
+
+  /* ---- the farewell, section 12 ----
+
+     The wide drawing sets the two names on ONE line with a rule standing
+     between them, under the bismillah and its line of blessing, and finishes
+     the whole block just above the corner of the Kaaba -- so the photograph
+     starts where the words stop. */
+  .mk-closing .mk-col { width: 760px; padding-top: 21px; }
+  .mk-close-date { margin-top: 32px; }
+
+  .mk-close-names {
+    margin-top: 26px;
+    flex-direction: row;
+    align-items: center;
+    gap: 0;
+  }
+
+  .mk-closing .mk-name-md { font-size: 64px; }
+
+  /* Standing rules rather than lying ones: on one line the pair separate the
+     names side to side. The drawing sets them 66 apart and 23 clear of each
+     name, which is what these two numbers are. */
+  .mk-weds { gap: 11px; margin: 0 23px; padding: 0; }
+  .mk-weds::before,
+  .mk-weds::after { width: 1px; height: 38px; }
+
+  /* ---- the photographs, section 9 ----
+
+     Three across, on a column of its own: six squares at the drawing's size
+     are wider than the column every other page is set in. */
+  .mk-gallery .mk-col { width: 680px; }
+  .mk-shots { grid-template-columns: repeat(3, 200px); gap: 26px 40px; }
+  .mk-shot { border-radius: 22px; }
+}
+
+/* =================================================== less movement, asked for
+
+   The doors still open and the courtyard still arrives -- the card cannot be
+   read otherwise. What goes is the travel and the breathing.
+   ========================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-snap-type: none; }
+  .mk-press { animation: none; opacity: .95; }
+  .mk-scroll svg { animation: none; }
+  .mk-hero.is-opening .mk-door-left,
+  .mk-hero.is-opening .mk-door-right { transition-duration: 320ms; transition-delay: 0ms; }
+  .mk-haram, .mk-hero-names { transition-duration: 320ms; transition-delay: 0ms; }
+}
+
+/* ---------------------------------------------------- the sparks on a knock
+
+   Eight of them thrown out from where the knuckle landed, in the card's gold,
+   falling as they go. Fixed, because they belong to the tap rather than to
+   anything on the page, and ignoring pointers so a spark can never eat the
+   next knock. */
+.mk-sparks {
+  position: fixed;
+  z-index: 60;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.mk-sparks i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 5px;
+  height: 5px;
+  margin: -2.5px 0 0 -2.5px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fffdf3 0%, #f4dda1 46%, rgba(214, 178, 96, 0) 72%);
+  animation: mk-spark 620ms cubic-bezier(.2, .7, .3, 1) forwards;
+}
+
+@keyframes mk-spark {
+  0%   { transform: translate(0, 0) scale(1); opacity: 1; }
+  70%  { opacity: .85; }
+  100% { transform: translate(var(--dx), calc(var(--dy) + 14px)) scale(.3); opacity: 0; }
+}
+
+/* ------------------------------------------------ the paper on the countdown
+
+   Thrown across the whole page when the four cards give up their numbers.
+   Fixed and over everything, and gone the moment it has fallen. */
+.mk-confetti {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  pointer-events: none;
+}

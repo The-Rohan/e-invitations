@@ -1,0 +1,67 @@
+/* ==========================================================================
+   Ceremonia Invites — the wordmark.
+
+   A file of its own, and a small one, because the four surfaces of this
+   product do not share a stylesheet: the shop front's landing page, the
+   account screens, the platform admin and a guest's card each build their own
+   head. There is nowhere else all four already look.
+
+   A card is the exception and keeps its own copy -- see the same block at the
+   foot of /css/card-sections.css, and the note there saying why.
+   ========================================================================== */
+/* ==========================================================================
+   THE WORDMARK
+
+   "Ceremonia Invites" is set one way, everywhere it is written.
+
+   It was set six ways: Cormorant at 27 in the shop's bar, Cormorant at 40 in
+   its footer, the account sidebar's display face with "Ceremonia" bold and
+   "Invites" not, a bare span on the sign-up screens inheriting whatever was
+   around it, a 12.5px bold sans in the platform admin, and the card's own
+   serif on "Made with Ceremonia Invites". Six settings of two words is not a
+   name, it is six names.
+
+   One class, and the only thing a place is allowed to change is how big it is
+   and what colour: --ci-wordmark-size, and colour from whatever it sits in.
+   Everything that makes it the name -- the face, the weight, the fit of the
+   letters -- is decided here.
+
+   Cormorant Garamond, because that is what the shop front and the card credit
+   already used and it is the face the invitations are set in. Every surface
+   that prints the name loads it: see /css/fonts.css and
+   /css/fonts/cormorant-garamond.css.
+
+   Never italic, never uppercased, never letter-spaced apart: those are the
+   three things a page does to a run of text that would turn the name into
+   decoration. Said outright so a heading style further down a page cannot do
+   any of them by inheritance. */
+.ci-wordmark {
+  font-family: 'Cormorant Garamond', ui-serif, Georgia, 'Times New Roman', serif;
+  font-size: var(--ci-wordmark-size, 27px);
+  font-weight: 600;
+  font-style: normal;
+  font-variant: normal;
+  letter-spacing: -.02em;
+  line-height: 1.05;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+/* The name inside a line of other words -- "Made with Ceremonia Invites" --
+   where the whole line is the credit and setting only the two words apart
+   would read as a link dropped into a sentence. */
+.ci-wordmark-inline {
+  font-family: 'Cormorant Garamond', ui-serif, Georgia, 'Times New Roman', serif;
+  font-weight: 600;
+  font-style: normal;
+  letter-spacing: -.01em;
+  text-transform: none;
+}
+
+/* Where the name was written as two pieces so one could be bold. It is one
+   name; the pieces are kept in the markup only because a screen reader and a
+   search engine both read the element, not the file. */
+.ci-wordmark strong,
+.ci-wordmark b {
+  font-weight: inherit;
+}

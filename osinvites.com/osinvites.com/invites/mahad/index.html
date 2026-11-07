@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mahad &amp; Jaweria — Baraat Invitation</title>
+  <meta name="description" content="You are warmly invited to celebrate the Baraat of Mahad and Jaweria on 20 November 2026 at Golden Garden, North Nazimabad, Karachi.">
+  <meta name="theme-color" content="#8b173c">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%238b173c'/%3E%3Ccircle cx='32' cy='32' r='21' fill='none' stroke='%23d9b36c' stroke-width='3'/%3E%3Cpath d='M20 38V24l12 12 12-12v14' fill='none' stroke='%23fff8f2' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&amp;display=swap" rel="stylesheet">
+  <link rel="preload" href="assets/floral-arch.webp" as="image" type="image/webp">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="opening-cover" data-invite-cover hidden aria-label="Invitation cover">
+    <div class="cover-panel cover-panel-left" data-panel="left" aria-hidden="true"></div>
+    <div class="cover-panel cover-panel-right" data-panel="right" aria-hidden="true"></div>
+    <div class="cover-wash" aria-hidden="true"></div>
+    <div class="cover-center">
+      <p class="cover-eyebrow">A celebration awaits</p>
+      <button class="seal-button" type="button" data-open-invite aria-label="Open Mahad and Jaweria's invitation">
+        <span class="seal-monogram">M <i>&amp;</i> J</span>
+        <span class="seal-action">Open invitation</span>
+      </button>
+    </div>
+    <button class="skip-button" type="button" data-skip-invite>Skip animation</button>
+  </div>
+
+  <div class="seamless-frame" data-invite-frame aria-hidden="true">
+    <span class="frame-cap frame-cap-top"></span>
+    <span class="frame-cap frame-cap-bottom"></span>
+  </div>
+  <div class="ambient-layer" data-ambient aria-hidden="true"></div>
+  <div class="celebration-layer" data-celebration-layer aria-hidden="true"></div>
+  <audio data-invite-music src="assets/sab-tera-instrumental.mp3" preload="none" loop></audio>
+  <button class="music-toggle" type="button" data-music-toggle aria-label="Play background music" aria-pressed="false"><span class="music-icon" aria-hidden="true">♫</span><span data-music-label>Music off</span></button>
+
+  <main id="invitation" class="invite-page" data-invite-page data-invite-content tabindex="-1">
+    <section class="hero invite-section" data-invite-section aria-labelledby="couple-names">
+      <div class="hero-blur" aria-hidden="true"></div>
+      <div class="hero-art" role="img" aria-label="Ivory Mughal arch framed with pink flowers and gold details"></div>
+      <div class="hero-veil" aria-hidden="true"></div>
+      <div class="hero-copy" data-scroll-reveal>
+        <p class="family-line">Together with their families</p>
+        <p class="occasion-kicker">request the pleasure of your company at their</p>
+        <div class="occasion-badge">Baraat</div>
+        <h1 id="couple-names"><span>Mahad</span><b>&amp;</b><span>Jaweria</span></h1>
+        <p class="invitation-line">as they begin a beautiful new chapter</p>
+        <div class="hero-details" aria-label="Event details">
+          <span>Friday</span>
+          <strong>20 November 2026</strong>
+          <span>9:00 PM</span>
+        </div>
+        <a class="scroll-cue" href="index.html#date-reveal" aria-label="Scroll to reveal the date">
+          <span>Discover the celebration</span>
+          <i aria-hidden="true"></i>
+        </a>
+      </div>
+    </section>
+
+    <section id="date-reveal" class="invite-section reveal-section" data-invite-section aria-labelledby="reveal-title">
+      <div class="section-heading" data-scroll-reveal>
+        <p class="section-kicker">A date to remember</p>
+        <h2 id="reveal-title">Scratch the royal medallion</h2>
+        <p>Use your finger or mouse—or reveal it with the button.</p>
+      </div>
+
+      <div class="scratch-medallion" data-scroll-reveal data-scratch-card data-scratch-shape="round" data-scratch-color="#a41f4c" data-scratch-label="Scratch to reveal">
+        <div class="medallion-inner" data-reveal-date>
+          <span class="medallion-day">Friday</span>
+          <strong>20</strong>
+          <span class="medallion-month">November · 2026</span>
+          <span class="medallion-time">9:00 PM</span>
+        </div>
+        <canvas data-scratch-canvas aria-hidden="true"></canvas>
+        <button class="reveal-button" type="button" data-scratch-reveal>Reveal date</button>
+        <div data-particle-layer aria-hidden="true"></div>
+      </div>
+      <p class="scratch-hint" data-scroll-reveal>Scratch away the berry-gold surface to uncover the celebration date.</p>
+    </section>
+
+    <section class="invite-section countdown-section" data-invite-section aria-labelledby="countdown-title">
+      <div class="section-heading light-heading" data-scroll-reveal>
+        <p class="section-kicker">Counting every moment</p>
+        <h2 id="countdown-title">Until the Baraat</h2>
+      </div>
+      <div class="countdown-strip" data-countdown aria-live="polite" data-scroll-reveal>
+        <div><strong data-countdown-part="days">00</strong><span>Days</span></div>
+        <div><strong data-countdown-part="hours">00</strong><span>Hours</span></div>
+        <div><strong data-countdown-part="minutes">00</strong><span>Minutes</span></div>
+        <div><strong data-countdown-part="seconds">00</strong><span>Seconds</span></div>
+      </div>
+      <p class="countdown-status" data-countdown-status>20 November 2026 · 9:00 PM PKT</p>
+    </section>
+
+    <section class="invite-section programme-section" data-invite-section aria-labelledby="programme-title">
+      <div class="section-heading" data-scroll-reveal>
+        <p class="section-kicker">The evening unfolds</p>
+        <h2 id="programme-title">Baraat Programme</h2>
+        <p class="preview-note">Preview timings — please confirm before sharing</p>
+      </div>
+      <ol class="programme-list">
+        <li data-scroll-reveal>
+          <div class="programme-time">9:00 <span>PM</span></div>
+          <div class="programme-copy"><span>01</span><h3>Guest Gathering</h3><p>A warm welcome as family and friends arrive.</p></div>
+        </li>
+        <li data-scroll-reveal>
+          <div class="programme-time">9:30 <span>PM</span></div>
+          <div class="programme-copy"><span>02</span><h3>Baraat Welcome</h3><p>The celebration begins with the couple's grand welcome.</p></div>
+        </li>
+        <li data-scroll-reveal>
+          <div class="programme-time">10:30 <span>PM</span></div>
+          <div class="programme-copy"><span>03</span><h3>Dinner</h3><p>An evening of togetherness, blessings and celebration.</p></div>
+        </li>
+      </ol>
+    </section>
+
+    <section class="invite-section pre-events-section" data-invite-section aria-labelledby="events-title">
+      <div class="section-heading" data-scroll-reveal>
+        <p class="section-kicker">Before the big day</p>
+        <h2 id="events-title">Pre-Wedding Celebrations</h2>
+        <p class="preview-note">Sample dates for design preview</p>
+      </div>
+      <div class="event-stories">
+        <article class="event-story event-story-one" data-scroll-reveal>
+          <span class="event-number">01</span>
+          <p class="event-label">Preview details</p>
+          <h3>Mayun</h3>
+          <time datetime="2026-11-17T19:30:00+05:00">17 Nov 2026</time>
+          <p>7:30 PM</p>
+          <small>Venue to be confirmed</small>
+        </article>
+        <article class="event-story event-story-two" data-scroll-reveal>
+          <span class="event-number">02</span>
+          <p class="event-label">Preview details</p>
+          <h3>Mehndi</h3>
+          <time datetime="2026-11-18T20:00:00+05:00">18 Nov 2026</time>
+          <p>8:00 PM</p>
+          <small>Venue to be confirmed</small>
+        </article>
+        <article class="event-story event-story-three" data-scroll-reveal>
+          <span class="event-number">03</span>
+          <p class="event-label">Preview details</p>
+          <h3>Dholki</h3>
+          <time datetime="2026-11-19T20:30:00+05:00">19 Nov 2026</time>
+          <p>8:30 PM</p>
+          <small>Venue to be confirmed</small>
+        </article>
+      </div>
+    </section>
+
+    <section class="invite-section venue-section" data-invite-section aria-labelledby="venue-title">
+      <div class="venue-copy" data-scroll-reveal>
+        <p class="section-kicker">Join us in Karachi</p>
+        <h2 id="venue-title">Golden Garden</h2>
+        <p>North Nazimabad, Karachi</p>
+        <p class="venue-time">Friday · 20 November 2026 · 9:00 PM</p>
+        <a class="map-button" href="https://www.google.com/maps/search/?api=1&amp;query=Golden+Garden+North+Nazimabad+Karachi" target="_blank" rel="noopener noreferrer">Search venue on Google Maps</a>
+      </div>
+    </section>
+
+    <section class="invite-section closing-section" data-invite-section aria-labelledby="closing-title">
+      <div class="closing-flourish" aria-hidden="true">✦</div>
+      <p class="section-kicker">With love and warm wishes</p>
+      <h2 id="closing-title">Waiting to see you all!</h2>
+      <p>Your presence will make our celebration truly special.</p>
+      <div class="closing-monogram" aria-label="Mahad and Jaweria">M <span>&amp;</span> J</div>
+    </section>
+  </main>
+
+  <noscript><p class="noscript-note">All invitation details are available on this page. Interactive animation requires JavaScript.</p></noscript>
+  <script type="module" src="js/site.mjs"></script>
+</body>
+</html>

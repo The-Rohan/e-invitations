@@ -1,0 +1,167 @@
+/* Live previews, always at the size the cards are drawn at.
+
+   Every card in this catalogue is designed against a phone: 390 by 844. A
+   preview that hands its iframe some other size is not showing the card, it
+   is showing the card reflowed to a box it will never be opened in -- type
+   wrapping in different places, a section that fits on a real phone spilling
+   over here, artwork cropped by a ratio nobody designed to.
+
+   So each preview gives its iframe exactly 390 by 844 and scales the whole
+   thing down to whatever room there is. The card inside always believes it is
+   on a phone; what changes is how big that phone is drawn.
+
+   Scaled by the smaller of the two ratios and centred, so a slot that is not
+   quite the right shape letterboxes rather than crops. */
+(function () {
+  'use strict';
+
+  /* A phone unless the box says otherwise.
+
+     The panel can now show the card as a desktop reader would see it, and a
+     desktop is a different shape rather than a bigger phone -- so the size
+     comes off the box as data-w / data-h, and 390 by 844 is what a box that
+     says nothing means. Everything below is the same arithmetic; it just
+     stopped being told the answer in advance. */
+  var W = 390;
+  var H = 844;
+
+  function sizeOf(el) {
+    var w = parseInt(el.getAttribute('data-w'), 10);
+    var h = parseInt(el.getAttribute('data-h'), 10);
+    return { w: w > 0 ? w : W, h: h > 0 ? h : H };
+  }
+
+  function fit(box) {
+    var w = box.clientWidth;
+    var h = box.clientHeight;
+    if (!w || !h) return;
+
+    var size = sizeOf(box);
+    box.style.setProperty('--ci-w', size.w + 'px');
+    box.style.setProperty('--ci-h', size.h + 'px');
+
+    var k = Math.min(w / size.w, h / size.h);
+    box.style.setProperty('--ci-fit', k);
+    box.style.setProperty('--ci-fit-x', Math.round((w - size.w * k) / 2) + 'px');
+    box.style.setProperty('--ci-fit-y', Math.round((h - size.h * k) / 2) + 'px');
+  }
+
+  /* How wide the phone itself should be.
+
+     The card is 390 by 844 and the phone around it has 9px of bezel a side.
+     Whichever of the three limits is smallest decides: the cap the design
+     uses, the room across the column, and the room down it. Before this the
+     width was pinned at the cap and only the height was capped, so a short
+     column gave a phone the wrong shape and the card sat between two strips
+     of white inside it.
+
+     Set as a variable on the column rather than on the box, because the cover
+     that stands in before the preview is asked for wears the same frame and
+     has to be the same size. */
+  var CAP = 282;
+  var BEZEL = 18;
+
+  function phone(col) {
+    var w = col.clientWidth;
+    var h = col.clientHeight;
+    if (!w || !h) return;
+    var box = col.querySelector('.ci-fit') || col;
+    var size = sizeOf(box);
+    /* A desktop mock-up is drawn as wide as the column allows; only a phone
+       is held to a cap, because a phone drawn bigger than a phone stops
+       reading as one. */
+    var cap = size.w > size.h ? (w - BEZEL) : CAP;
+    var wide = Math.min(cap, w - BEZEL, (h - BEZEL) * size.w / size.h);
+    col.style.setProperty('--phone-w', Math.max(0, Math.floor(wide)) + 'px');
+    col.style.setProperty('--phone-ratio', size.w + ' / ' + size.h);
+  }
+
+  var phoneRo = typeof ResizeObserver === 'function'
+    ? new ResizeObserver(function (entries) {
+        for (var i = 0; i < entries.length; i++) phone(entries[i].target);
+      })
+    : null;
+
+  function watchPhone(col) {
+    phone(col);
+    if (phoneRo) phoneRo.observe(col);
+  }
+
+  var seen = typeof WeakSet === 'function' ? new WeakSet() : null;
+  var seenPhones = typeof WeakSet === 'function' ? new WeakSet() : null;
+  var ro = typeof ResizeObserver === 'function'
+    ? new ResizeObserver(function (entries) {
+        for (var i = 0; i < entries.length; i++) fit(entries[i].target);
+      })
+    : null;
+
+  function watch(box) {
+    if (seen && seen.has(box)) return;
+    if (seen) seen.add(box);
+    fit(box);
+    if (ro) ro.observe(box);
+  }
+
+  function scan() {
+    var cols = document.querySelectorAll('.preview-phone');
+    for (var j = 0; j < cols.length; j++) {
+      if (seenPhones && seenPhones.has(cols[j])) continue;
+      if (seenPhones) seenPhones.add(cols[j]);
+      watchPhone(cols[j]);
+    }
+    var boxes = document.querySelectorAll('.ci-fit');
+    for (var i = 0; i < boxes.length; i++) watch(boxes[i]);
+  }
+
+  /* Asked for by whatever changed the size -- the panel's phone/desktop
+     toggle -- because a data attribute changing is not something the resize
+     observers can see.
+
+     Measures again rather than calling scan(): scan skips every box it has
+     already seen, which is the right answer for a box that appeared later and
+     the wrong one for a box that is the same box at a different size. */
+  window.ciFit = {
+    refit: function () {
+      /* Cleared first, then measured.
+
+         The column's height and the frame's width feed each other: the frame
+         is sized from the room in the column, and the column is only that tall
+         because of the frame in it. Measuring on top of the last answer walks
+         the two of them downwards a step at a time -- switching to web and
+         back left the phone a third of the size it started.
+
+         Letting go of the width first gives the column its natural height back
+         before anything reads it, and a frame between the two lets the browser
+         lay that out rather than answering from the previous frame. */
+      var cols = document.querySelectorAll('.preview-phone');
+      for (var j = 0; j < cols.length; j++) cols[j].style.removeProperty('--phone-w');
+
+      var settle = function () {
+        for (var a = 0; a < cols.length; a++) phone(cols[a]);
+        var boxes = document.querySelectorAll('.ci-fit');
+        for (var b = 0; b < boxes.length; b++) fit(boxes[b]);
+        scan();
+      };
+      /* A timeout rather than requestAnimationFrame: rAF does not run while
+         the tab is in the background, so a toggle pressed and then left
+         behind would come back never having re-measured. A timeout is
+         throttled there rather than stopped. */
+      window.setTimeout(settle, 0);
+    }
+  };
+
+  scan();
+  document.addEventListener('DOMContentLoaded', scan);
+
+  /* Several of these previews are built after the page is -- the shop's Quick
+     Look, the panel's colour screen -- and one that appears later still has
+     to be measured. */
+  if (typeof MutationObserver === 'function') {
+    new MutationObserver(scan).observe(document.documentElement, {
+      childList: true, subtree: true
+    });
+  }
+
+  /* Without ResizeObserver, the window is the next best signal. */
+  if (!ro) window.addEventListener('resize', scan);
+}());

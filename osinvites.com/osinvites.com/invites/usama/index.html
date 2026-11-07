@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Usama &amp; Fatima — Wedding Invitation</title>
+  <meta name="description" content="You are warmly invited to the wedding celebration of Usama and Fatima on 16 November 2026 at The Mansion, Shahrah-e-Faisal, Karachi.">
+  <meta name="theme-color" content="#2d211c">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%232d211c'/%3E%3Cpath d='M17 18v19c0 8 5 12 15 12s15-4 15-12V18' fill='none' stroke='%23c8a25a' stroke-width='5' stroke-linecap='round'/%3E%3Cpath d='M24 18v17c0 5 3 7 8 7s8-2 8-7V18' fill='none' stroke='%23fbf7f0' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&amp;family=Great+Vibes&amp;family=Lora:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet">
+  <link rel="preload" href="assets/royal-doors-mobile.webp" as="image" type="image/webp">
+  <link rel="preload" href="assets/royal-foyer-mobile.webp" as="image" type="image/webp">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="opening-cover" data-invite-cover hidden aria-label="Invitation entrance">
+    <div class="cover-panel cover-panel-left" data-panel="left" aria-hidden="true">
+      <img class="panel-art" src="assets/royal-doors-mobile.webp" alt="" fetchpriority="high">
+    </div>
+    <div class="cover-panel cover-panel-right" data-panel="right" aria-hidden="true">
+      <img class="panel-art" src="assets/royal-doors-mobile.webp" alt="" fetchpriority="high">
+    </div>
+    <div class="cover-center">
+      <p>A royal celebration awaits</p>
+      <button class="open-seal" type="button" data-open-invite aria-label="Open Usama and Fatima's invitation">
+        <span class="seal-mark">U <i>&amp;</i> F</span>
+        <span class="seal-action">Tap to open</span>
+      </button>
+    </div>
+    <button class="skip-button" type="button" data-skip-invite>Skip animation</button>
+  </div>
+
+  <div class="seamless-frame" data-invite-frame aria-hidden="true"></div>
+  <div class="ambient-layer" data-ambient aria-hidden="true"></div>
+  <audio data-invite-music src="assets/pyar-ka-kalma-instrumental.mp3" preload="none" loop></audio>
+  <button class="music-toggle" type="button" data-music-toggle aria-label="Play background music" aria-pressed="false">
+    <span class="music-toggle-icon" aria-hidden="true">♫</span>
+    <span data-music-label>Music off</span>
+  </button>
+
+  <main id="invitation" class="invite-page" data-invite-page data-invite-content tabindex="-1">
+    <section class="hero invite-section" data-invite-section aria-labelledby="couple-names">
+      <video class="hero-video" data-hero-video muted playsinline preload="auto" poster="assets/royal-foyer-mobile.webp" aria-hidden="true">
+        <source src="assets/royal-foyer-motion-mobile.mp4" type="video/mp4">
+      </video>
+      <div class="hero-veil" aria-hidden="true"></div>
+      <div class="hero-copy" data-hero-copy>
+        <span class="heart-mark" aria-hidden="true">◆</span>
+        <p class="hero-kicker">We're getting married</p>
+        <h1 id="couple-names"><span>Usama</span><b>&amp;</b><span>Fatima</span></h1>
+        <p class="hero-message">Together with their families, they request the pleasure of your company as they begin their journey together.</p>
+        <a class="scroll-cue" href="index.html#date-reveal">Scroll <i aria-hidden="true"></i></a>
+      </div>
+    </section>
+
+    <section id="date-reveal" class="invite-section reveal-section" data-invite-section aria-labelledby="reveal-title">
+      <div class="section-heading" data-scroll-reveal>
+        <p class="section-kicker">A date to remember</p>
+        <h2 id="reveal-title">Scratch to Reveal</h2>
+        <p>Gently scratch the royal card—or use the reveal button.</p>
+      </div>
+      <div class="scratch-arch" data-scroll-reveal data-scratch-card data-scratch-shape="arch" data-scratch-color="#8f2337" data-scratch-label="Scratch to reveal">
+        <div class="scratch-detail" data-reveal-date>
+          <span>You're invited</span>
+          <strong>16</strong>
+          <p>November · 2026</p>
+          <small>Monday · 9:00 PM</small>
+        </div>
+        <canvas data-scratch-canvas aria-hidden="true"></canvas>
+        <button class="reveal-button" type="button" data-scratch-reveal>Reveal date</button>
+        <div class="particle-layer" data-particle-layer aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <section class="invite-section countdown-section" data-invite-section aria-labelledby="countdown-title">
+      <div class="section-heading section-heading-light" data-scroll-reveal>
+        <p class="section-kicker">Counting every moment</p>
+        <h2 id="countdown-title">Counting Down to Forever</h2>
+      </div>
+      <div class="countdown-grid" data-countdown data-scroll-reveal aria-live="polite">
+        <div><strong data-countdown-part="days">00</strong><span>Days</span></div>
+        <div><strong data-countdown-part="hours">00</strong><span>Hours</span></div>
+        <div><strong data-countdown-part="minutes">00</strong><span>Minutes</span></div>
+        <div><strong data-countdown-part="seconds">00</strong><span>Seconds</span></div>
+      </div>
+      <p class="countdown-status" data-countdown-status>16 November 2026 · 9:00 PM PKT</p>
+    </section>
+
+    <section class="invite-section programme-section" data-invite-section aria-labelledby="programme-title">
+      <div class="section-heading" data-scroll-reveal>
+        <p class="section-kicker">The evening unfolds</p>
+        <h2 id="programme-title">Program Timeline</h2>
+      </div>
+      <ol class="programme-list">
+        <li data-scroll-reveal>
+          <span class="programme-number">01</span>
+          <div><time datetime="2026-11-16T21:00:00+05:00">9:00 PM</time><h3>Guest Arrival</h3><p>A warm welcome as family and friends gather.</p></div>
+        </li>
+        <li data-scroll-reveal>
+          <span class="programme-number">02</span>
+          <div><time datetime="2026-11-16T21:30:00+05:00">9:30 PM</time><h3>Wedding Celebration</h3><p>Blessings, joy and the beginning of a beautiful chapter.</p></div>
+        </li>
+        <li data-scroll-reveal>
+          <span class="programme-number">03</span>
+          <div><time datetime="2026-11-16T22:30:00+05:00">10:30 PM</time><h3>Dinner</h3><p>An evening of togetherness and celebration.</p></div>
+        </li>
+      </ol>
+    </section>
+
+    <section class="invite-section pre-events-section" data-invite-section aria-labelledby="events-title">
+      <div class="section-heading" data-scroll-reveal>
+        <p class="section-kicker">Before the big day</p>
+        <h2 id="events-title">Pre-Wedding Events</h2>
+        <p class="preview-note">Preview details · sample dates</p>
+      </div>
+      <div class="event-row">
+        <article data-scroll-reveal><span>01</span><h3>Mehndi</h3><time datetime="2026-11-13T20:00:00+05:00">13 Nov 2026</time><p>8:00 PM</p><small>Venue to be confirmed</small></article>
+        <article data-scroll-reveal><span>02</span><h3>Dholki</h3><time datetime="2026-11-14T20:00:00+05:00">14 Nov 2026</time><p>8:00 PM</p><small>Venue to be confirmed</small></article>
+        <article data-scroll-reveal><span>03</span><h3>Mayun</h3><time datetime="2026-11-15T19:30:00+05:00">15 Nov 2026</time><p>7:30 PM</p><small>Venue to be confirmed</small></article>
+      </div>
+    </section>
+
+    <section class="invite-section venue-section" data-invite-section aria-labelledby="venue-title">
+      <div class="venue-card" data-scroll-reveal>
+        <p class="section-kicker">Join us in Karachi</p>
+        <h2 id="venue-title">The Mansion</h2>
+        <p>Shahrah-e-Faisal, Karachi</p>
+        <p class="venue-date">Monday · 16 November 2026 · 9:00 PM</p>
+        <a class="map-button" href="https://www.google.com/maps/search/?api=1&amp;query=The+Mansion+Shahrah-e-Faisal+Karachi" target="_blank" rel="noopener noreferrer">View on Google Maps</a>
+      </div>
+    </section>
+
+    <section class="invite-section closing-section" data-invite-section aria-labelledby="closing-title">
+      <p class="section-kicker" data-scroll-reveal>With love and warm wishes</p>
+      <h2 id="closing-title" data-scroll-reveal>Waiting to see you all!</h2>
+      <p data-scroll-reveal>Your presence will make our celebration truly special.</p>
+      <div class="closing-names" data-scroll-reveal>Usama <i>&amp;</i> Fatima</div>
+    </section>
+  </main>
+
+  <noscript><p class="noscript-note">All invitation details are available on this page. Interactive animation requires JavaScript.</p></noscript>
+  <script type="module" src="js/site.mjs"></script>
+</body>
+</html>

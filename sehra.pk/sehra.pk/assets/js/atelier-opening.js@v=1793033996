@@ -1,0 +1,93 @@
+/* Sehra's original stationery interactions. No dependency, autoplay or third-party assets. */
+(() => {
+  'use strict';
+  window.SehraAtelierOpening = { mount(stage, enter, unlock, preview = false) {
+    if (!stage || stage.dataset.mounted) return;
+    stage.dataset.mounted = '1';
+    const open = stage.querySelector('#atelierOpen');
+    const next = stage.querySelector('#atelierContinue');
+    const skip = stage.querySelector('#atelierSkip');
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const status = stage.querySelector('#atelierStatus');
+    const ur = document.documentElement.lang === 'ur';
+    const cinematic = stage.classList.contains('ao-cinematic');
+    let started = false, timer = 0, finished = false;
+    const done = () => {
+      if (finished) return;
+      if (!preview && stage.dataset.autoEnter === '1') { leave(); return; }
+      stage.classList.add('is-ready');
+      clearTimeout(timer); next.hidden = false; open.hidden = true;
+      status.textContent = ur ? 'دعوت نامہ تیار ہے' : 'Your invitation is ready.';
+      next.focus({preventScroll:true}); window.dispatchEvent(new Event('resize'));
+    };
+    function reveal() {
+      if (started || finished) return;
+      started = true; unlock(); stage.classList.add('is-opening');
+      const surface=stage.querySelector('.ao-surface'); if(surface){surface.disabled=true;surface.hidden=true;}
+      open.setAttribute('aria-expanded','true'); open.disabled = true;
+      // Custom opening words stay visible; default cinematic openings enter the card.
+      timer = setTimeout(done, reduced ? 0 : (cinematic ? 6600 : 3500));
+    }
+    const leave = () => { if (finished) return; finished=true; clearTimeout(timer); unlock(); enter(); };
+    open.addEventListener('click', reveal);
+    stage.querySelector('.ao-surface')?.addEventListener('click', reveal);
+    next.addEventListener('click', leave); skip.addEventListener('click', leave);
+    if (preview) {
+      next.querySelector('[lang=en]').textContent = 'Replay opening ↻';
+      next.querySelector('[lang=ur]').textContent = 'دوبارہ دیکھیے';
+      skip.querySelector('[lang=en]').textContent = 'Restart preview';
+    }
+    const walk = stage.querySelector('.ao-walk-scroll');
+    if (walk) {
+      walk.addEventListener('scroll', () => {
+        if (started || finished) return;
+        const distance = walk.scrollHeight - walk.clientHeight;
+        const progress = distance > 0 ? Math.min(1, walk.scrollTop / distance) : 0;
+        stage.style.setProperty('--ao-progress', progress.toFixed(3));
+        if (progress >= .85) reveal();
+      }, {passive:true});
+    }
+    // The tap button is always available to keyboard and assistive-technology users.
+    const tassel = stage.querySelector('.ao-tassel');
+    if (tassel) {
+      let y = null;
+      tassel.style.pointerEvents = 'auto';
+      tassel.addEventListener('pointerdown', e => { y=e.clientY; tassel.setPointerCapture(e.pointerId); });
+      tassel.addEventListener('pointermove', e => { if(y!==null && e.clientY-y>30) {y=null;reveal();} });
+      ['pointerup','pointercancel'].forEach(evt=>tassel.addEventListener(evt,()=>{y=null;}));
+    }
+    const canvas = stage.querySelector('canvas');
+    if (canvas) {
+      const ctx=canvas.getContext('2d'); let down=false, cells=new Set(), last=null;
+      if (ctx) {
+        function paint() {
+          if(started) return;
+          const r=canvas.getBoundingClientRect(), dpr=Math.min(devicePixelRatio||1,2);
+          canvas.width=Math.max(1,Math.round(r.width*dpr)); canvas.height=Math.max(1,Math.round(r.height*dpr));
+          ctx.setTransform(dpr,0,0,dpr,0,0);ctx.globalCompositeOperation='source-over';
+          const g=ctx.createLinearGradient(0,0,r.width,r.height);
+          g.addColorStop(0,'#cfb67d');g.addColorStop(.5,'#f3e7c5');g.addColorStop(1,'#ab8852');
+          ctx.fillStyle=g;ctx.fillRect(0,0,r.width,r.height);
+          ctx.fillStyle='#685331';ctx.font='18px Georgia';ctx.textAlign='center';ctx.fillText(ur?'ایک خوبصورت یاد':'A beautiful little secret',r.width/2,r.height/2);
+          cells=new Set();last=null;
+        }
+        function scratch(e) {
+          if(!down||started) return;
+          const r=canvas.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
+          ctx.globalCompositeOperation='destination-out';ctx.lineWidth=48;ctx.lineCap='round';ctx.lineJoin='round';
+          ctx.beginPath();ctx.moveTo(last?last.x:x,last?last.y:y);ctx.lineTo(x,y);ctx.stroke();
+          ctx.beginPath();ctx.arc(x,y,24,0,Math.PI*2);ctx.fill();last={x,y};
+          const col=Math.min(9,Math.max(0,Math.floor(x/r.width*10))),row=Math.min(13,Math.max(0,Math.floor(y/r.height*14)));
+          cells.add(row*10+col);if(cells.size>=34) reveal();
+        }
+        canvas.addEventListener('pointerdown',e=>{down=true;last=null;unlock();canvas.setPointerCapture(e.pointerId);scratch(e);});
+        canvas.addEventListener('pointermove',scratch);
+        ['pointerup','pointercancel'].forEach(evt=>canvas.addEventListener(evt,()=>{down=false;last=null;}));
+        const observer = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(paint) : null;observer?.observe(canvas);paint();
+        addEventListener('pagehide',()=>observer?.disconnect(),{once:true});
+      }
+    }
+    addEventListener('pagehide',()=>clearTimeout(timer),{once:true});
+    addEventListener('pageshow',()=>{if(started&&!finished){clearTimeout(timer);done();}});
+  }};
+})();

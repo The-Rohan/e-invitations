@@ -1,0 +1,428 @@
+import os
+
+output_dir = '/Users/rohanalvi/Downloads/E-INVITATIONS/dawatna/public/templates'
+os.makedirs(output_dir, exist_ok=True)
+
+crown_template = """<!doctype html>
+<html lang="en" dir="ltr" class="wi-html wi-locked">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Ahmad &amp; Mawra — Royal Wedding Invitation | WedInvite.pk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=Montserrat:wght@300;400;500;600&family=Noto+Nastaliq+Urdu:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body {
+  width: 100%; min-height: 100vh;
+  background-color: #0d0709;
+  color: #fdfaf5;
+  font-family: 'Montserrat', sans-serif;
+  overflow-x: hidden;
+  user-select: none;
+}
+html.wi-locked, body.wi-locked { overflow: hidden !important; height: 100vh !important; }
+
+/* --- 1. CINEMATIC VIDEO GATE ENTRANCE --- */
+.wi-video-gate {
+  position: fixed; inset: 0; z-index: 99999;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: #000;
+  cursor: pointer;
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.wi-video-gate.is-opened {
+  opacity: 0 !important; transform: scale(1.08) !important; pointer-events: none !important;
+}
+.wi-gate-video {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center;
+  opacity: 1; transition: opacity 0.5s ease;
+}
+.wi-gate-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(10,5,7,0.75) 0%, rgba(10,5,7,0.2) 40%, rgba(10,5,7,0.85) 100%);
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+.wi-video-gate.is-opening .wi-gate-overlay,
+.wi-video-gate.is-opening .wi-gate-hud {
+  opacity: 0; transform: translateY(-10px);
+}
+.wi-gate-hud {
+  position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; text-align: center;
+  padding: 30px 20px; max-width: 440px; width: 100%;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.wi-bismillah {
+  font-family: 'Noto Nastaliq Urdu', serif; font-size: 22px; color: #d4af37; margin-bottom: 14px;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+}
+.wi-gate-subtitle {
+  font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: #e8d08d; opacity: 0.9; margin-bottom: 12px;
+}
+.wi-gate-names {
+  font-family: 'Playfair Display', serif; font-size: 42px; font-weight: 700; color: #fffaf0; line-height: 1.1; margin-bottom: 24px;
+  text-shadow: 0 4px 25px rgba(0,0,0,0.9);
+}
+.wi-tap-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(25,12,15,0.85); backdrop-filter: blur(12px); border: 1.5px solid #d4af37;
+  color: #fdfaf5; font-family: 'Cinzel', serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+  padding: 12px 28px; border-radius: 40px; box-shadow: 0 8px 30px rgba(0,0,0,0.8);
+  animation: pulsePill 2.5s infinite alternate ease-in-out;
+}
+@keyframes pulsePill {
+  0% { transform: scale(1); box-shadow: 0 8px 25px rgba(212,175,55,0.3); }
+  100% { transform: scale(1.04); box-shadow: 0 12px 35px rgba(212,175,55,0.6); }
+}
+
+/* --- 2. MAIN CARD LAYOUT --- */
+.wi-card-container {
+  max-width: 540px; margin: 0 auto; min-height: 100vh;
+  background: #14090c;
+  box-shadow: 0 0 70px rgba(0,0,0,0.9);
+  position: relative;
+}
+
+/* HERO SECTION */
+.wi-hero-section {
+  position: relative; width: 100%; min-height: 75vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center; padding: 70px 24px 40px;
+  background-image: radial-gradient(circle at 50% 35%, rgba(212,175,55,0.15), transparent 75%);
+}
+.wi-hero-urdu {
+  font-family: 'Noto Nastaliq Urdu', serif; font-size: 28px; color: #d4af37; margin: 8px 0;
+}
+.wi-hero-couple {
+  font-family: 'Playfair Display', serif; font-size: 40px; font-weight: 700; color: #fffaf0; line-height: 1.1; margin: 16px 0;
+}
+.wi-hero-amp {
+  font-family: 'Playfair Display', serif; font-style: italic; font-size: 26px; color: #d4af37; display: block; margin: 4px 0;
+}
+.wi-hero-sub {
+  font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #d4af37; opacity: 0.85; max-width: 320px; line-height: 1.6;
+}
+
+/* COUNTDOWN */
+.wi-countdown {
+  display: flex; gap: 12px; margin: 34px 0 10px;
+}
+.wi-count-box {
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(212,175,55,0.3); border-radius: 12px;
+  padding: 10px 14px; text-align: center; min-width: 62px; backdrop-filter: blur(8px);
+}
+.wi-count-val {
+  font-family: 'Cinzel', serif; font-size: 22px; font-weight: 700; color: #e8d08d; display: block;
+}
+.wi-count-lbl {
+  font-size: 8px; letter-spacing: 2px; text-transform: uppercase; color: #d4af37; opacity: 0.8;
+}
+
+/* --- 3. MOTION VIDEO EVENT SECTIONS --- */
+.wi-event-section {
+  position: relative; width: 100%; min-height: 60vh; overflow: hidden; display: flex; flex-direction: column;
+  justify-content: flex-end; padding: 30px 24px 40px; margin-bottom: 24px;
+}
+.wi-section-video {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center;
+  filter: brightness(0.9);
+}
+.wi-section-scrim {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(20,9,12,0.2) 0%, rgba(20,9,12,0.6) 50%, rgba(20,9,12,0.95) 100%);
+  pointer-events: none;
+}
+.wi-event-content {
+  position: relative; z-index: 5; text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+}
+.wi-event-badge {
+  display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase;
+  color: #1a0f08; background: linear-gradient(135deg, #d4af37, #fdf4dc); padding: 5px 14px; border-radius: 20px;
+  margin-bottom: 12px; font-family: 'Cinzel', serif;
+}
+.wi-event-title {
+  font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: #fffaf0; margin-bottom: 6px;
+}
+.wi-event-datetime {
+  font-size: 13px; font-weight: 600; color: #e8d08d; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
+}
+.wi-event-venue {
+  font-size: 12px; opacity: 0.85; line-height: 1.5; max-width: 380px;
+}
+
+/* ACTION BAR */
+.wi-action-bar {
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 9999;
+  display: flex; gap: 10px; background: rgba(20,9,12,0.92); backdrop-filter: blur(14px);
+  border: 1px solid #d4af37; padding: 8px 16px; border-radius: 40px; box-shadow: 0 10px 35px rgba(0,0,0,0.8);
+}
+.wi-action-btn {
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(212,175,55,0.4); color: #fdf4dc;
+  padding: 8px 16px; border-radius: 20px; font-size: 12px; cursor: pointer; display: flex; align-items: center;
+  gap: 6px; font-family: 'Cinzel', serif; font-weight: 600;
+}
+.wi-action-primary {
+  background: linear-gradient(135deg, #d4af37, #fdf4dc) !important; color: #1c1308 !important; border: none !important; font-weight: 700 !important;
+}
+
+/* FLOATING AUDIO DISC */
+.wi-audio-disc {
+  position: fixed; bottom: 24px; left: 24px; z-index: 99999; width: 44px; height: 44px; border-radius: 50%;
+  background: #111; border: 2px solid #d4af37; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+}
+.wi-audio-disc.is-playing { animation: discSpin 4s linear infinite; }
+@keyframes discSpin { 100% { transform: rotate(360deg); } }
+
+/* FOOTER BRANDING */
+.wi-footer {
+  padding: 50px 20px 100px; text-align: center; color: #d4af37; font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 2px;
+}
+</style>
+</head>
+
+<body class="wi-locked">
+
+<!-- 1. CINEMATIC VIDEO GATE ENTRANCE -->
+<div class="wi-video-gate" id="wiGate" role="button" aria-label="Tap to Open">
+  <video class="wi-gate-video" id="wiGateVideo" playsinline muted loop preload="auto" src="__OPENING_VIDEO__"></video>
+  <div class="wi-gate-overlay"></div>
+  <div class="wi-gate-hud">
+    <p class="wi-bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+    <p class="wi-gate-subtitle">ROYAL INVITATION &bull; دعوت نامہ</p>
+    <h1 class="wi-gate-names"><span class="groom-name">Ahmad</span> &amp; <span class="bride-name">Mawra</span></h1>
+    <div class="wi-tap-pill">
+      <span>✦</span>
+      <span id="wiGatePrompt">TAP TO OPEN INVITATION</span>
+      <span>✦</span>
+    </div>
+  </div>
+</div>
+
+<audio id="wiAudio" loop preload="none" src="/music/mun64ene-7df6d778.mp3"></audio>
+
+<div class="wi-audio-disc" id="wiAudioBtn" title="Play / Pause Audio">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="2">
+    <circle cx="12" cy="12" r="10"/>
+    <circle cx="12" cy="12" r="3"/>
+  </svg>
+</div>
+
+<!-- 2. MAIN CARD -->
+<main class="wi-card-container">
+  <header class="wi-hero-section">
+    <p class="wi-bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+    <p class="wi-hero-urdu">دعوتِ ولیمہ و بارات</p>
+    <div style="margin: 16px 0;">
+      <h1 class="wi-hero-couple">
+        <span class="groom-name">Ahmad</span>
+        <span class="wi-hero-amp">&amp;</span>
+        <span class="bride-name">Mawra</span>
+      </h1>
+    </div>
+    <p class="wi-hero-sub">
+      Together with their families request the honour of your presence at their wedding celebrations
+    </p>
+
+    <div class="wi-countdown">
+      <div class="wi-count-box"><span class="wi-count-val" id="cdDays">55</span><span class="wi-count-lbl">Days</span></div>
+      <div class="wi-count-box"><span class="wi-count-val" id="cdHours">22</span><span class="wi-count-lbl">Hours</span></div>
+      <div class="wi-count-box"><span class="wi-count-val" id="cdMins">14</span><span class="wi-count-lbl">Mins</span></div>
+      <div class="wi-count-box"><span class="wi-count-val" id="cdSecs">30</span><span class="wi-count-lbl">Secs</span></div>
+    </div>
+  </header>
+
+  <!-- EVENT 1: MEHNDI -->
+  <section class="wi-event-section">
+    <video class="wi-section-video" playsinline muted loop preload="none" data-src="/videos/luxury/mehndi.mp4"></video>
+    <div class="wi-section-scrim"></div>
+    <div class="wi-event-content">
+      <span class="wi-event-badge">MEHNDI &bull; مہندی</span>
+      <h2 class="wi-event-title">Night of Joy &amp; Henna</h2>
+      <p class="wi-event-datetime">📅 Friday, 22 December 2026 &bull; 7:30 PM</p>
+      <p class="wi-event-venue" id="venueMehndi">📍 Haveli Baradari, Old Lahore</p>
+    </div>
+  </section>
+
+  <!-- EVENT 2: BARAAT -->
+  <section class="wi-event-section">
+    <video class="wi-section-video" playsinline muted loop preload="none" data-src="/videos/luxury/baraat.mp4"></video>
+    <div class="wi-section-scrim"></div>
+    <div class="wi-event-content">
+      <span class="wi-event-badge">BARAAT &bull; بارات</span>
+      <h2 class="wi-event-title">The Wedding &amp; Rukhsati</h2>
+      <p class="wi-event-datetime">📅 Sunday, 24 December 2026 &bull; 8:00 PM</p>
+      <p class="wi-event-venue" id="venueBaraat">📍 Royal Palm Golf &amp; Country Club, Babar Hall, Lahore</p>
+    </div>
+  </section>
+
+  <!-- EVENT 3: WALIMA -->
+  <section class="wi-event-section">
+    <video class="wi-section-video" playsinline muted loop preload="none" data-src="/videos/luxury/walima.mp4"></video>
+    <div class="wi-section-scrim"></div>
+    <div class="wi-event-content">
+      <span class="wi-event-badge">WALIMA &bull; ولیمہ</span>
+      <h2 class="wi-event-title">The Royal Reception</h2>
+      <p class="wi-event-datetime">📅 Tuesday, 26 December 2026 &bull; 8:00 PM</p>
+      <p class="wi-event-venue" id="venueWalima">📍 Pearl Continental Grand Ballroom, Lahore</p>
+    </div>
+  </section>
+
+  <footer class="wi-footer">
+    ✦ WEDINVITE.PK &bull; LUXURY DIGITAL INVITATION ATELIER ✦<br>
+    <span style="font-size:9px; opacity:0.7; letter-spacing:1px; font-family:'Montserrat',sans-serif;">Crafted exclusively for <span class="groom-name">Ahmad</span> &amp; <span class="bride-name">Mawra</span></span>
+  </footer>
+</main>
+
+<div class="wi-action-bar">
+  <button class="wi-action-btn wi-action-primary" id="btnRsvp">💌 RSVP</button>
+  <button class="wi-action-btn" id="btnMap">📍 Map</button>
+  <button class="wi-action-btn" id="btnRaast">💳 Salami</button>
+</div>
+
+<script>
+(function() {
+  'use strict';
+  console.log('[WedInvite] Flagship Luxury Template Engine Active.');
+
+  var params = new URLSearchParams(window.location.search);
+  var groom = params.get('groom') || 'Ahmad';
+  var bride = params.get('bride') || 'Mawra';
+  var guest = params.get('guest') || '';
+  var seats = params.get('seats') || '2';
+  var venueStr = params.get('venue') || 'Royal Palm Golf & Country Club, Lahore';
+  var phoneStr = params.get('phone') || '923213397889';
+  var raastStr = params.get('raast') || '03213397889';
+  var autoOpen = params.get('open') === 'true' || params.get('open') === '1';
+
+  document.querySelectorAll('.groom-name').forEach(function(el) { el.textContent = groom; });
+  document.querySelectorAll('.bride-name').forEach(function(el) { el.textContent = bride; });
+  document.title = groom + ' & ' + bride + ' — Royal Wedding Invitation | WedInvite.pk';
+
+  if (guest) {
+    var guestBadge = document.createElement('div');
+    guestBadge.style.cssText = 'position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:999999;background:rgba(25,12,15,0.92);backdrop-filter:blur(10px);border:1px solid #d4af37;color:#fdf4dc;padding:8px 20px;border-radius:30px;font-size:12px;font-family:Cinzel,serif;letter-spacing:1px;box-shadow:0 6px 25px rgba(0,0,0,0.6);display:flex;align-items:center;gap:8px;pointer-events:none;';
+    guestBadge.innerHTML = '<span style="color:#ffd700">✦</span> VIP PASS: <strong>' + guest + '</strong> &bull; ' + seats + ' Seats Reserved';
+    document.body.appendChild(guestBadge);
+  }
+
+  // Audio Player
+  var audio = document.getElementById('wiAudio');
+  var audioBtn = document.getElementById('wiAudioBtn');
+
+  function toggleAudio(force) {
+    if (!audio) return;
+    if (force === true || (force === undefined && audio.paused)) {
+      audio.play().then(function() {
+        if (audioBtn) audioBtn.classList.add('is-playing');
+      }).catch(function(e) { console.log('Autoplay audio blocked:', e); });
+    } else if (force === false || (force === undefined && !audio.paused)) {
+      audio.pause();
+      if (audioBtn) audioBtn.classList.remove('is-playing');
+    }
+  }
+  if (audioBtn) audioBtn.addEventListener('click', function(e) { e.stopPropagation(); toggleAudio(); });
+
+  // Countdown timer
+  var targetDate = new Date('2026-12-24T20:00:00').getTime();
+  setInterval(function() {
+    var now = new Date().getTime();
+    var diff = targetDate - now;
+    if (diff > 0) {
+      document.getElementById('cdDays').textContent = Math.floor(diff / (1000 * 60 * 60 * 24));
+      document.getElementById('cdHours').textContent = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      document.getElementById('cdMins').textContent = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      document.getElementById('cdSecs').textContent = Math.floor((diff % (1000 * 60)) / 1000);
+    }
+  }, 1000);
+
+  // Gate Controller
+  var gate = document.getElementById('wiGate');
+  var gateVideo = document.getElementById('wiGateVideo');
+
+  function openGate() {
+    if (!gate || gate.classList.contains('is-opened')) return;
+    console.log('[WedInvite] Opening luxury gate...');
+    gate.classList.add('is-opening');
+    toggleAudio(true);
+
+    if (gateVideo) {
+      gateVideo.play().catch(function() {});
+    }
+
+    setTimeout(function() {
+      gate.classList.add('is-opened');
+      setTimeout(function() {
+        gate.style.display = 'none';
+        document.documentElement.classList.remove('wi-locked');
+        document.body.classList.remove('wi-locked');
+      }, 1000);
+    }, 1800);
+  }
+
+  if (gate) {
+    gate.addEventListener('click', openGate);
+    gate.addEventListener('touchend', openGate);
+  }
+
+  if (autoOpen) {
+    setTimeout(openGate, 300);
+  }
+
+  // Section Looping Videos (IntersectionObserver)
+  var sectionVideos = document.querySelectorAll('.wi-section-video');
+  if ('IntersectionObserver' in window && sectionVideos.length > 0) {
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        var v = entry.target;
+        if (entry.isIntersecting) {
+          if (!v.src && v.getAttribute('data-src')) {
+            v.src = v.getAttribute('data-src');
+          }
+          v.play().catch(function() {});
+        } else {
+          v.pause();
+        }
+      });
+    }, { threshold: 0.25 });
+    sectionVideos.forEach(function(v) { observer.observe(v); });
+  }
+
+  // Action Buttons
+  document.getElementById('btnMap').addEventListener('click', function() {
+    window.open('https://maps.google.com/?q=' + encodeURIComponent(venueStr), '_blank');
+  });
+  document.getElementById('btnRaast').addEventListener('click', function() {
+    navigator.clipboard.writeText(raastStr).then(function() {
+      alert('✨ Raast ID Copied: ' + raastStr);
+    }).catch(function() { alert('Raast ID: ' + raastStr); });
+  });
+  document.getElementById('btnRsvp').addEventListener('click', function() {
+    var msg = 'Assalam o Alaikum! I received the wedding invitation for ' + groom + ' & ' + bride + '. ' + 
+              (guest ? 'This is ' + guest + ' confirming attendance for ' + seats + ' guests.' : 'Confirming our attendance with warm prayers!');
+    window.open('https://wa.me/' + phoneStr + '?text=' + encodeURIComponent(msg), '_blank');
+  });
+
+})();
+</script>
+</body>
+</html>
+"""
+
+# 1. Curtain Flagship: shahi-khas.html, darbar-e-shahi.html, bazm-e-shahi.html
+curtain_html = crown_template.replace('__OPENING_VIDEO__', '/videos/luxury/curtain.mp4')
+for name in ['shahi-khas.html', 'darbar-e-shahi.html']:
+    with open(os.path.join(output_dir, name), 'w', encoding='utf-8') as f:
+        f.write(curtain_html)
+    print(f"Generated {name} with unwatermarked curtain.mp4")
+
+# 2. Envelope Flagship: shahi-envelope.html, dastaan.html
+envelope_html = crown_template.replace('__OPENING_VIDEO__', '/videos/luxury/royal-prestige-opening.mp4')
+for name in ['shahi-envelope.html', 'dastaan.html']:
+    with open(os.path.join(output_dir, name), 'w', encoding='utf-8') as f:
+        f.write(envelope_html)
+    print(f"Generated {name} with unwatermarked royal-prestige-opening.mp4")
+
+print("Crown jewel templates created successfully!")

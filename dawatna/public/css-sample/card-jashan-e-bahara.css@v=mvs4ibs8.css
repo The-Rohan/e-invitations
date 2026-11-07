@@ -1,0 +1,2427 @@
+/* ==========================================================================
+   JASHAN-E-BAHARA — section one
+
+   The invitation arrives shut: two panels of the couple's colour with a
+   flourish drawn into each and a wax seal across the seam. Pressed, the seal
+   gives and the panels swing open like the covers of a book onto a white arch
+   heavy with roses.
+
+   WHAT RECOLOURS, AND FROM WHAT
+
+   Everything the customer can change comes from the palette the card was
+   bought in. `--maroon` is their first colour whatever it is named, `--gold`
+   their second and `--cream` the paper underneath -- see paletteFrom in
+   lib/color.js, which every design in the catalogue reads from.
+
+     the two doors        the first colour, exactly
+     the arch             the painting, retinted -- --jb-art-arch
+     the blossom          the same, two sprays -- --jb-art-petal-*
+     the names            the first colour
+     the two icons        the first colour, on the second
+     the scroll cue       the first colour, on the second
+
+   Two things do not, on purpose. The wax is painted ivory with its own bevel
+   and gloss and stays the colour it was drawn. The flourishes on the doors are
+   white at a low opacity, which reads the same whatever the panel becomes.
+   ========================================================================== */
+
+:root {
+  /* The design's own colours, exactly as lib/color.js computes them from
+     this design's own palette (lib/templates/jashan-e-bahara.js). A card kept in its
+     own colours is sent no inline style at all -- these are what the page
+     falls back to in that case, and what every var(--primary) etc. below
+     resolves to until a customer chooses something else. Regenerate with
+     paletteToStyle(withArt(key, paletteFrom(definition.palette))) if this
+     design's base palette ever changes. */
+  --maroon:#747e4c;
+  --primary:#747e4c;
+  --secondary:#ffffff;
+  --box-bg:color-mix(in srgb, #747e4c 20%, #ffffff 80%);
+  --box-border:#747e4c;
+  --on-maroon:#ffffff;
+  --maroon-deep:#4b5231;
+  --maroon-light:#8d956c;
+  --maroon-pale:#c7cbb7;
+  --gold:#ffffff;
+  --on-gold:#383838;
+  --gold-light:#ffffff;
+  --gold-deep:#bfbfbf;
+  --cream:#ffffff;
+  --cream-deep:#ffffff;
+  --ink:#575f39;
+  --ink-soft:#70755c;
+  --shadow:0 20px 55px rgba(0, 0, 0, 0.22);
+  --rose-dark:#747e4c;
+  --rose-mid:#939a73;
+  --leaf:#5d6c42;
+  --lehnga:#747e4c;
+  --lehnga-soft:#a0a785;
+  --sherwani:#ffffff;
+  --jb-art-arch:url('../art/jashan-e-bahara/arch.svg@c=747e4c&d=ffffff');
+  --jb-art-drape:url('../art/jashan-e-bahara/drape.svg@c=747e4c&d=ffffff');
+  --jb-art-countdown:url('../art/jashan-e-bahara/countdown-arch.svg@c=747e4c&d=ffffff');
+  --jb-art-posy:url('../art/jashan-e-bahara/family-flowers.svg@c=747e4c&d=ffffff');
+  --jb-art-petal-left:url('../art/jashan-e-bahara/petal-left.svg@c=747e4c&d=ffffff');
+  --jb-art-petal-right:url('../art/jashan-e-bahara/petal-right.svg@c=747e4c&d=ffffff');
+
+  /* The serif the whole design is set in.
+
+     Bodoni 72 Oldstyle is an Apple system face -- on the machine this was
+     drawn on and on every iPhone, and on nothing else. Asked for first so the
+     design reads as drawn where it exists, with Playfair Display behind it for
+     everyone else: the closest didone in the catalogue's own self-hosted set,
+     and the face this card already loads. A licensed web cut of Bodoni is the
+     only thing that would make the two one. */
+  --jb-serif: 'Bodoni 72 Oldstyle', 'Bodoni 72', 'Playfair Display', Georgia, 'Times New Roman', serif;
+
+  /* The design's own measure. Every position on this page is a fraction of
+     the 390 x 844 it was drawn at, so the composition holds at any size. */
+  --jb-w: 390px;
+  --jb-h: 844px;
+
+  /* Three seconds of paper, and the easing that makes it read as weight
+     rather than as a transition. Slow to leave, slow to arrive, and almost no
+     hurry in the middle. */
+  --jb-swing: 3000ms;
+  --jb-swing-ease: cubic-bezier(.42, .02, .18, 1);
+}
+
+/* The browser's own 8px body margin was never taken back, so the card --
+   sized in JS-exact pixels via --jb-u -- always sat 8px short of the real
+   width, and the deficit showed as a bar of the page behind it down each
+   side. Every other design in the catalogue resets this; this one hadn't. */
+body.jb-body { margin: 0; }
+
+/* -------------------------------------------------------------- the stage */
+
+.jb-stage {
+  min-height: 100svh;
+  display: flex;
+  justify-content: center;
+  background: var(--cream, #f7f6f2);
+}
+
+/* The card, at the width it was drawn at.
+
+   Never wider than the screen, and never wider than the height can carry --
+   the smaller of the two wins, so a short window narrows the card rather than
+   running the arch off the bottom of it. */
+.jb-card {
+  position: relative;
+  /* The card's own width, and the unit every size on it is given in.
+
+     The design is drawn at 390 across, and the sizes it specifies -- a 32px
+     heading, a 72px name, a 16px paragraph -- are that design's sizes at that
+     width. Written as plain pixels they would be right on one phone and wrong
+     on the next: 72px of script is a name that fits on a 390 screen and a name
+     that runs off a 360 one.
+
+     So they are given as a fraction of this: `calc(72 / 390 * var(--jb-u))` is
+     exactly 72px on the card the design was drawn for, and the same share of a
+     narrower or wider one. Nothing on this page is sized any other way. */
+  --jb-u: min(100vw, calc(100svh * 390 / 844));
+  width: var(--jb-u);
+  min-height: 100svh;
+  /* `clip`, not `hidden`.
+
+     Both cut the doors and the paintings off at the card's edge, but `hidden`
+     also makes this a scroll container -- and a section's snap points belong
+     to the nearest scroll container, which was this box rather than the
+     window. So every page carried `scroll-snap-align: start` and nothing ever
+     snapped: the container they were snapping to does not scroll.
+
+     `clip` clips without any of that, so the pages snap to the window, which
+     is the thing a reader is actually scrolling. */
+  overflow: clip;
+  background: var(--cream, #f7f6f2);
+  /* A column, so each page can be given its place in it. The order comes from
+     the card's own section list -- see orderOf() in the template. Without this
+     the `order` on each page is a property nothing reads, and a page dragged
+     in the editor stays exactly where it was drawn. */
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 520px) {
+  .jb-card { --jb-u: min(var(--jb-w), 100vw, calc(100svh * 390 / 844)); }
+}
+
+/* A phone: the whole width of the screen, always (2026-10-17, Ahmad: "the
+   mobile view isn't in full width ... there is padding on left and right in
+   each section"). A phone browser's own bars leave the page well short of
+   844 tall for every 390 across -- an iPhone with Safari's bars showing gives
+   about 660 -- so the card above came out about 305 wide on a 390 phone, with
+   cream down both sides of every page. The card fills the screen now and only
+   the type and furniture (--jb-u) keep to what the height can carry, so each
+   page still fits its screenful. */
+@media (max-width: 519.98px) {
+  .jb-card { width: 100%; }
+}
+
+/* ================================================================ the arch
+
+   The page underneath. Always drawn; the doors are what is covering it.
+   ========================================================================= */
+
+.jb-arch {
+  position: relative;
+  z-index: 1;
+  min-height: 100svh;
+  overflow: hidden;
+  background: var(--cream, #fdfdfb);
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+/* The painting, on a layer of its own so the words sit over it rather than in
+   it. Held back until the page has loaded -- see .jb-painted at the foot. */
+.jb-arch-art {
+  position: absolute;
+  inset: 0;
+  background-image: var(--jb-art-arch, url('../img-sample/templates/jashan-e-bahara/cover/arch.svg.webp'));
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* --------------------------------------------------------------- the words
+
+   Set into the opening the arch leaves, which is the middle of the page
+   between the two columns. Every measurement is a fraction of the 390 x 844
+   the design was drawn at.
+
+   At rest they are not there at all: the doors open onto the painting and the
+   words arrive afterwards. */
+/* Placed rather than centred. The opening the arch leaves is not the middle of
+   the page -- the canopy of roses takes the top third and the columns stand in
+   the bottom quarter -- so the words are set at the fractions of 390 x 844 the
+   design puts them at: the first line a third of the way down, the last ending
+   just above the column bases. Centred in the page they floated a tenth of a
+   screen high, with the note landing on the plinths. */
+.jb-arch-text {
+  position: absolute;
+  top: calc(280 / 844 * 100%);
+  left: 50%;
+  z-index: 2;
+  width: calc(268 / 390 * 100%);
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.jb-eyebrow,
+.jb-blessing,
+.jb-names,
+.jb-note {
+  margin: 0;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+/* ---- the three kinds of text on this card ----
+
+   A section heading, the couple's names, and a paragraph. Every design in
+   Jashan-e-Bahara is set in one of the three, and each is given here once so
+   the sections that follow can use them rather than inventing a fourth.
+
+   1. THE SECTION HEADING -- "With Love", "You are joyfully invited". 32px,
+      not bold, in the serif. Italic is the design's own drawing of it. */
+/* Wider than the column the paragraphs are set in. "Programmes & Venue" is
+   263 wide at the size the design gives it, and a 292 column with padding
+   broke it over two lines. */
+.jb-heading { width: calc(330 / 390 * var(--jb-u)); max-width: none; }
+
+.jb-eyebrow,
+.jb-heading {
+  font-family: var(--jb-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: calc(32 / 390 * var(--jb-u));
+  line-height: 1.15;
+  color: #16130f;
+}
+
+/* The blessing. Line breaks are the customer's own -- they type it on three
+   lines in the panel and it is printed on three. */
+/* 3. THE PARAGRAPH -- everything that is read rather than announced. 16px,
+      regular, grey, in the same serif. */
+.jb-blessing,
+.jb-note,
+.jb-para {
+  font-family: var(--jb-serif);
+  font-weight: 400;
+  font-size: calc(16 / 390 * var(--jb-u));
+  line-height: 1.45;
+  white-space: pre-line;
+  color: #666666;
+}
+
+.jb-blessing { margin-top: calc(16 / 844 * 100%); }
+
+/* The names, in the couple's colour and in the script the design is written
+   in. The largest thing on the page by some distance -- this is the line the
+   invitation exists to print. */
+.jb-names {
+  margin-top: calc(50 / 844 * 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+  color: var(--maroon, #747e4c);
+}
+
+/* 2. THE NAMES -- Savoye LET, 72px, with the word between them at 50.
+
+      Savoye LET is an Apple system face. It is on the machine this design was
+      drawn on and on every iPhone, and on nothing else: a guest on Android --
+      most of them -- has never had it. It is asked for first so the design
+      reads as drawn where it exists, with a licensed web roundhand behind it
+      for everyone else. The two are close in colour and weight; they are not
+      the same face, and a licensed web cut of Savoye is the only thing that
+      would make them one. */
+.jb-name {
+  font-family: 'Savoye LET', 'Great Vibes', 'Alex Brush', cursive;
+  font-weight: 400;
+  font-size: calc(72 / 390 * var(--jb-u));
+  /* The script hangs below its baseline and loops above it, so the two names
+     are set tight and the word between them carries the space. */
+  line-height: 1.05;
+}
+
+.jb-weds {
+  font-family: 'Savoye LET', 'Great Vibes', 'Alex Brush', cursive;
+  font-weight: 400;
+  font-size: calc(50 / 390 * var(--jb-u));
+  line-height: 1.05;
+  margin: calc(2 / 844 * 100%) 0;
+}
+
+.jb-note { margin-top: calc(77 / 844 * 100%); }
+
+/* They arrive once the doors have stopped, one after another rather than all
+   at once -- four things appearing together is a slide, four things arriving
+   in order is somebody turning a page. */
+html.jb-open .jb-eyebrow,
+html.jb-open .jb-blessing,
+html.jb-open .jb-names,
+html.jb-open .jb-note {
+  opacity: 1;
+  transform: none;
+  transition: opacity 900ms ease, transform 900ms cubic-bezier(.2, .7, .3, 1);
+}
+
+html.jb-open .jb-eyebrow  { transition-delay: 0ms; }
+html.jb-open .jb-blessing { transition-delay: 220ms; }
+html.jb-open .jb-names    { transition-delay: 470ms; }
+html.jb-open .jb-note     { transition-delay: 760ms; }
+
+/* A preview that never had doors is past all of it from the first frame. */
+html.jb-instant .jb-eyebrow,
+html.jb-instant .jb-blessing,
+html.jb-instant .jb-names,
+html.jb-instant .jb-note { transition: none; }
+
+/* ============================================================ the opening
+
+   A film (2026-10-07, Ahmad: "this will hype the card a lot more"): sage and
+   ivory curtains, tied with a bow, drawing back onto an arch of light. It
+   waits on its first frame with "Tap to Open" under the bow and the couple's
+   names on the floor; a tap plays it, and for its last two seconds it fades away over
+   the card, so the arch the curtains open onto becomes the card's own arch.
+   The script is /js/jashan-e-bahara.js.
+
+   Fixed to the window and over everything but the floating buttons -- the
+   mute button is above it on purpose, so the song can be turned off before
+   the curtains move.
+   ========================================================================= */
+
+.jb-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 35;
+  overflow: hidden;
+  background: #e9ebe0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+}
+
+.jb-gate[hidden] { display: none; }
+
+/* The last two seconds: the curtains are open and the light behind them
+   gives way to the card. Nothing in the gate takes a tap from then on. */
+.jb-gate.is-fading {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 2000ms cubic-bezier(.45, 0, .25, 1);
+}
+
+/* The film's own frame. A phone shows it filling the screen (the sides are
+   what is cut, and they are curtain); anything wider than a tall tablet shows
+   the whole frame at full height, over a blurred wash of itself, rather than
+   a band cut across the middle of it. The seal and the names are placed in
+   this box, so they sit under the bow and on the floor whichever it is. */
+.jb-gate-box {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: max(100vw, 100svh * 9 / 16);
+  height: max(100svh, 100vw * 16 / 9);
+  transform: translate(-50%, -50%);
+}
+
+.jb-gate-back { display: none; }
+
+@media (min-aspect-ratio: 4 / 5) {
+  .jb-gate-box {
+    width: calc(100svh * 9 / 16);
+    height: 100svh;
+    box-shadow: 0 0 80px rgba(42, 50, 30, .28);
+  }
+  .jb-gate-back {
+    display: block;
+    position: absolute;
+    inset: -60px;
+    background: url('../img/templates/jashan-e-bahara/opening/backdrop.jpg') center / cover no-repeat;
+    filter: blur(26px) saturate(.9) brightness(1.08);
+  }
+  .jb-gate-back::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(250, 249, 242, .45), rgba(226, 230, 214, .7));
+  }
+}
+
+.jb-gate-poster,
+.jb-gate-film {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.jb-gate-poster img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* The poster stays until the film is really moving: a film that has been
+   asked to play but has no frame yet is a black box, and the poster is that
+   same first frame. */
+.jb-gate-film { opacity: 0; }
+.jb-gate.is-playing .jb-gate-film { opacity: 1; }
+
+/* The wall behind the curtains is bare white, and as they part it was most
+   of the screen (2026-10-17, Ahmad: "a white background which is annoying").
+   Laid over the film as it plays, a warm ivory multiplied into it: the white
+   becomes the card's own cream, deepest in the opening where the wall shows
+   and next to nothing at the edges, where the curtains are -- so the sage
+   and the flowers keep their colour. */
+.jb-gate-box::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    radial-gradient(ellipse 62% 54% at 50% 46%, rgba(226, 221, 196, 1) 0%, rgba(232, 228, 207, .9) 45%, rgba(246, 244, 234, 0) 100%),
+    linear-gradient(to bottom, rgba(238, 235, 218, .55), rgba(238, 235, 218, 0) 40%);
+  mix-blend-mode: multiply;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1600ms ease 900ms;
+}
+.jb-gate.is-playing .jb-gate-box::after { opacity: 1; }
+
+/* A light floor under the names, so they read on the curtain hems. */
+.jb-gate-veil {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 34%;
+  background: linear-gradient(to top, rgba(250, 249, 242, .92) 0%, rgba(250, 249, 242, .72) 45%, rgba(250, 249, 242, 0) 100%);
+  pointer-events: none;
+  transition: opacity 900ms ease;
+}
+
+/* "Tap to Open", just under the bow (44% down the frame), on a frosted pill
+   so it reads on the folds. The wax seal that sat on the bow came off on
+   2026-10-07 (Ahmad); the bow itself is the thing to press. */
+.jb-tap {
+  position: absolute;
+  left: 50%;
+  top: calc(44% + 9.5%);
+  z-index: 2;
+  transform: translateX(-50%);
+  padding: .42em 1.15em;
+  border-radius: 999px;
+  background: rgba(253, 253, 248, .62);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  white-space: nowrap;
+  font-family: var(--jb-serif);
+  font-style: italic;
+  font-size: clamp(14px, calc(16 / 390 * var(--jb-u)), 18px);
+  letter-spacing: .05em;
+  color: var(--maroon, #747e4c);
+  pointer-events: none;
+  animation: jb-breathe 2600ms ease-in-out infinite;
+}
+
+@keyframes jb-breathe {
+  0%, 100% { opacity: .78; }
+  50%      { opacity: 1; }
+}
+
+.jb-gate.is-pressing .jb-tap { animation: none; opacity: 1; transform: translateX(-50%) scale(.94); transition: transform 160ms ease; }
+
+/* The names, on the floor in front of the curtains. */
+.jb-gate-names {
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  bottom: calc(7% + env(safe-area-inset-bottom, 0px));
+  z-index: 2;
+  margin: 0;
+  text-align: center;
+  color: var(--maroon, #747e4c);
+  pointer-events: none;
+}
+
+.jb-gate-eyebrow {
+  display: block;
+  margin-bottom: .2em;
+  font-family: var(--jb-serif);
+  font-size: clamp(11px, calc(12 / 390 * var(--jb-u)), 14px);
+  letter-spacing: .32em;
+  text-transform: uppercase;
+  opacity: .85;
+}
+
+.jb-gate-couple {
+  display: block;
+  font-family: 'Savoye LET', 'Great Vibes', 'Alex Brush', cursive;
+  font-size: clamp(38px, calc(50 / 390 * var(--jb-u)), 64px);
+  line-height: 1.1;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .6);
+}
+
+.jb-gate-couple .jb-gate-amp { font-size: .62em; margin: 0 .18em; }
+
+/* The words go as the curtains start to move: the film is the thing now. */
+.jb-gate.is-opening .jb-tap,
+.jb-gate.is-opening .jb-gate-names,
+.jb-gate.is-opening .jb-gate-veil {
+  animation: none;
+  opacity: 0;
+  transform: translate(-50%, 8px);
+  transition: opacity 600ms ease, transform 600ms ease;
+}
+.jb-gate.is-opening .jb-gate-names,
+.jb-gate.is-opening .jb-gate-veil { transform: translateY(8px); }
+
+.jb-gate:focus-visible .jb-tap { outline: 2px solid var(--maroon, #747e4c); outline-offset: 3px; }
+
+/* ============================================================= the blossom
+
+   Nine sprays thrown across the page as the doors come to rest, each given its
+   own lane, size, delay, drift and spin by the script so no two fall together.
+   They are removed once they have fallen.
+   ========================================================================= */
+
+/* Over the first screenful, like the doors -- blossom thrown down fourteen
+   thousand pixels of card is blossom nobody sees. */
+.jb-petals {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: auto;
+  height: 100svh;
+  z-index: 20;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.jb-petal {
+  position: absolute;
+  top: 0;
+  left: var(--x, 50%);
+  width: var(--size, 44px);
+  aspect-ratio: 130 / 179;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  will-change: transform, opacity;
+  animation: jb-fall var(--fall, 3600ms) cubic-bezier(.35, .1, .5, 1) var(--delay, 0ms) forwards;
+  /* The sprays are white roses and the page they fall across is a white arch.
+     Without something to lift them off it they cross the middle of the screen
+     and simply are not there. A soft shadow at a low opacity is enough to
+     separate them and reads as blossom close to the page rather than as a
+     drawing with an outline. */
+  filter: drop-shadow(0 2px 5px rgba(40, 44, 30, .28));
+}
+
+.jb-petal.is-left  { background-image: var(--jb-art-petal-left,  url('../img-sample/templates/jashan-e-bahara/cover/petal-left.svg.webp')); }
+.jb-petal.is-right { background-image: var(--jb-art-petal-right, url('../img-sample/templates/jashan-e-bahara/cover/petal-right.svg.webp')); }
+
+/* Down the page, drifting and turning, and gone before it lands. A petal that
+   reaches the bottom edge and disappears there reads as a bug; one that has
+   faded by then reads as blossom. */
+@keyframes jb-fall {
+  0% {
+    opacity: 0;
+    transform: translate3d(-50%, -22%, 0) rotate(0deg) scale(.82);
+  }
+  12% { opacity: 1; }
+  70% { opacity: 1; }
+  100% {
+    opacity: 0;
+    transform:
+      translate3d(calc(-50% + var(--drift, 0px)), 104svh, 0)
+      rotate(var(--spin, 20deg))
+      scale(1);
+  }
+}
+
+/* ========================================================== the floating UI
+
+   The two icons and the cue at the foot. Fixed to the card's own column rather
+   than to the window: on a wide screen the card is a strip in the middle and a
+   button in the window's corner belongs to nothing.
+   ========================================================================= */
+
+/* The shared partials draw these -- views/partials/_languages.ejs and
+   _music.ejs -- so the switching and the player are the ones every card in the
+   catalogue uses. What is here is only what this design makes them look like:
+   a white pill with the couple's colour in it, which is what the design draws.
+
+   Every rule is scoped to `body.jb-body`, and the ones that reveal them carry
+   the state class as well. card-sections.css draws these as dark circles at
+   the bottom left and is loaded after this file -- deliberately, so its lock
+   and its bidi rules win -- so matching its weight would not be enough: on
+   equal weight the later file takes it. Scoped, this design's look wins on
+   this design's page and changes nothing anywhere else.
+
+   They are hidden while the doors are shut. There is nothing to change the
+   language of and nothing to mute behind a card nobody has opened yet -- and
+   the shared stylesheet shows them by default on any design it does not know
+   about, which is why the sealed rule below is written out rather than left
+   to the absence of the open one. */
+body.jb-body .ci-lang,
+body.jb-body .ci-song,
+body.jb-body .ci-view {
+  position: fixed;
+  top: calc(env(safe-area-inset-top, 0px) + 22px);
+  left: auto;
+  bottom: auto;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  height: 40px;
+  padding: 0;
+  border: 1px solid var(--maroon, #747e4c);
+  border-radius: 999px;
+  background: var(--on-maroon, #fff);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  color: var(--maroon, #747e4c);
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 700ms ease, transform 200ms ease;
+}
+
+/* Measured to the card's own right edge, not the window's: on a wide screen
+   the card is a column in the middle and a button in the window's corner
+   belongs to nothing. */
+/* The language pill on the outside and the note beside it, which is the order
+   the design draws them in. */
+body.jb-body .ci-lang {
+  right: calc(50vw - min(50vw, 50svh * 390 / 844) + 16px);
+  width: auto;
+  min-width: 67px;
+  padding: 0 14px;
+}
+
+body.jb-body .ci-song {
+  right: calc(50vw - min(50vw, 50svh * 390 / 844) + 91px);
+  width: 40px;
+}
+
+body.jb-body .ci-view {
+  right: calc(50vw - min(50vw, 50svh * 390 / 844) + 139px);
+  bottom: auto;
+  left: auto;
+  width: 40px;
+  border-radius: 999px;
+  background: var(--on-maroon, #fff);
+  border: 1px solid var(--maroon, #747e4c);
+  color: var(--maroon, #747e4c);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+body.jb-body .ci-lang svg,
+body.jb-body .ci-song svg,
+body.jb-body .ci-view svg { width: 19px; height: 19px; }
+
+body.jb-body .ci-lang:active,
+body.jb-body .ci-song:active,
+body.jb-body .ci-view:active { transform: scale(.95); }
+
+/* Shut, and still there.
+
+   They used to be hidden until the doors opened, on the reasoning that there
+   is nothing to mute and nothing to translate behind a card nobody has opened
+   yet. That is wrong on both counts: a guest who reads Urdu wants the card in
+   Urdu before they open it, not after, and somebody who does not want sound
+   in the room wants the mute button before the music starts rather than three
+   seconds into it. */
+html.jb-sealed body.jb-body .ci-lang,
+html.jb-sealed body.jb-body .ci-song,
+html.jb-sealed body.jb-body .ci-view {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+html.jb-open body.jb-body .ci-lang,
+html.jb-open body.jb-body .ci-song,
+html.jb-open body.jb-body .ci-view,
+html.jb-instant body.jb-body .ci-lang,
+html.jb-instant body.jb-body .ci-song,
+html.jb-instant body.jb-body .ci-view {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* The list the toggle opens, in the same pill language and under it. */
+body.jb-body .ci-lang-menu {
+  position: fixed;
+  top: calc(env(safe-area-inset-top, 0px) + 70px);
+  left: auto;
+  bottom: auto;
+  right: calc(50vw - min(50vw, 50svh * 390 / 844) + 16px);
+  z-index: 41;
+  min-width: 148px;
+  padding: 6px;
+  border: 1px solid color-mix(in srgb, var(--maroon, #747e4c) 35%, transparent);
+  border-radius: 14px;
+  background: var(--on-maroon, #fff);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: 0 18px 40px -22px rgba(20, 22, 14, .5);
+}
+
+body.jb-body .ci-lang-menu button {
+  display: block;
+  width: 100%;
+  padding: 9px 12px;
+  border: 0;
+  border-radius: 9px;
+  background: none;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 17px;
+  text-align: start;
+  color: var(--maroon, #747e4c);
+  cursor: pointer;
+}
+
+body.jb-body .ci-lang-menu button:hover {
+  background: color-mix(in srgb, var(--maroon, #747e4c) 10%, transparent);
+}
+
+/* ------------------------------------------------------------- the cue
+
+   A pill with a ring that fills as the reader goes down the card, two
+   chevrons falling through it, and a sheen that passes over it now and then
+   -- enough to be noticed on a page that is mostly still, not enough to
+   compete with it. --jb-progress is set by /js/jashan-e-bahara.js. */
+
+.jb-scroll {
+  position: fixed;
+  left: 50%;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 22px);
+  z-index: 30;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 5px 18px 5px 5px;
+  border: 1px solid var(--maroon, #747e4c);
+  border-radius: 999px;
+  background: var(--on-maroon, #fff);
+  box-shadow: 0 10px 24px -14px rgba(48, 56, 30, .55);
+  font-family: var(--jb-serif);
+  font-size: clamp(14px, calc(15 / 390 * var(--jb-u)), 17px);
+  letter-spacing: .03em;
+  color: var(--maroon, #747e4c);
+  overflow: hidden;
+  isolation: isolate;
+  transform: translateX(-50%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 700ms ease 900ms, transform 260ms cubic-bezier(.3, .7, .3, 1), box-shadow 260ms ease;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html.jb-open .jb-scroll,
+html.jb-instant .jb-scroll { opacity: 1; pointer-events: auto; }
+
+@media (hover: hover) {
+  .jb-scroll:hover { transform: translateX(-50%) translateY(-2px); box-shadow: 0 14px 28px -14px rgba(48, 56, 30, .6); }
+}
+.jb-scroll:active { transform: translateX(-50%) scale(.95); transition-duration: 120ms; }
+.jb-scroll:focus-visible { outline: 2px solid var(--maroon, #747e4c); outline-offset: 3px; }
+
+/* The ring and what falls through it. */
+.jb-scroll-ring {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  flex: none;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--maroon, #747e4c) 9%, var(--on-maroon, #fff));
+}
+.jb-scroll-ring svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); overflow: visible; }
+.jb-scroll-ring circle { fill: none; stroke-width: 2; }
+.jb-ring-track { stroke: color-mix(in srgb, var(--maroon, #747e4c) 18%, transparent); }
+.jb-ring-fill {
+  stroke: var(--maroon, #747e4c);
+  stroke-linecap: round;
+  stroke-dasharray: 100;
+  stroke-dashoffset: calc(100 - var(--jb-progress, 0) * 100);
+  transition: stroke-dashoffset 200ms linear;
+}
+
+.jb-chev { position: absolute; inset: 0; display: grid; place-items: center; }
+.jb-chev i {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  margin: -6px 0 0 -3.5px;
+  border-right: 1.6px solid currentColor;
+  border-bottom: 1.6px solid currentColor;
+  transform: rotate(45deg);
+  opacity: 0;
+  animation: jb-chev 1800ms cubic-bezier(.4, 0, .4, 1) infinite;
+}
+.jb-chev i + i { animation-delay: 600ms; }
+
+@keyframes jb-chev {
+  0%   { opacity: 0; translate: 0 -5px; }
+  35%  { opacity: 1; }
+  80%  { opacity: 0; translate: 0 6px; }
+  100% { opacity: 0; translate: 0 6px; }
+}
+
+/* The sheen. */
+.jb-scroll::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(105deg, transparent 30%, color-mix(in srgb, var(--maroon, #747e4c) 14%, transparent) 50%, transparent 70%);
+  translate: -120% 0;
+  animation: jb-sheen 5200ms ease-in-out 2400ms infinite;
+}
+
+@keyframes jb-sheen {
+  0%, 70% { translate: -120% 0; }
+  100%    { translate: 120% 0; }
+}
+
+/* Not on the last page. There is nothing below it, and the cue was sitting on
+   top of the credit -- the one thing on that page somebody might press. */
+html.jb-end .jb-scroll {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(12px);
+  transition: opacity 400ms ease, transform 400ms ease;
+}
+
+/* ============================================================ as it scrolls
+
+   Only once the script has said motion is wanted (html.jb-motion): never in
+   the editor, never for somebody who has asked for less movement, and never
+   without the script -- so a page that cannot animate shows everything.
+
+   Leaving a page, its contents sink back and dim while the next page comes up
+   over them -- the stack of cards being turned. The page itself never moves,
+   so the snap points and the cue still measure true; only what is in it does.
+   --leave runs 0 to 1 over the last screen of the page (the script). */
+html.jb-motion .jb-page { position: relative; }
+html.jb-motion .jb-page.is-leaving > * {
+  translate: 0 calc(var(--leave, 0) * 34svh);
+  scale: calc(1 - var(--leave, 0) * .07);
+  opacity: calc(1 - var(--leave, 0) * .65);
+  will-change: translate, scale, opacity;
+}
+html.jb-motion .jb-page::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  background: var(--maroon, #747e4c);
+  opacity: calc(var(--leave, 0) * .2);
+  pointer-events: none;
+}
+/* The edge of the page coming up, so it reads as laid over the last one. */
+html.jb-motion .jb-page + .jb-page,
+html.jb-motion .jb-page ~ .jb-page { box-shadow: 0 -22px 34px -26px rgba(42, 50, 30, .55); }
+
+/* Arriving: each thing on a page rises into place as it comes into view, a
+   moment after the one before it. */
+html.jb-motion .jb-rise {
+  opacity: 0;
+  translate: 0 22px;
+  filter: blur(3px);
+  transition: opacity 800ms ease, translate 900ms cubic-bezier(.2, .7, .2, 1), filter 800ms ease;
+  transition-delay: calc(var(--rise-i, 0) * 110ms);
+}
+html.jb-motion .jb-rise.is-in { opacity: 1; translate: 0 0; filter: none; }
+
+/* -------------------------------------------------------------- the touch */
+
+/* A function's card lifts to a finger or a pointer. */
+.jb-ev { transition: translate 260ms cubic-bezier(.3, .7, .3, 1), box-shadow 260ms ease; }
+@media (hover: hover) { .jb-ev:hover { translate: 0 -4px; box-shadow: 0 18px 30px -22px rgba(20, 24, 12, .7); } }
+.jb-ev:active { translate: 0 -2px; }
+
+/* Buttons answer the press. */
+.jb-ev-cal a, .jb-ev-cal button, .jb-ev-btns a, .jb-ev-btns button, .jb-reply a, .jb-reply button {
+  transition: transform 160ms ease, background-color 200ms ease, color 200ms ease;
+}
+.jb-ev-cal a:active, .jb-ev-cal button:active, .jb-ev-btns a:active, .jb-ev-btns button:active,
+.jb-reply a:active, .jb-reply button:active { transform: scale(.95); }
+
+/* The photographs and the portraits come forward under a finger. */
+.jb-shot, .jb-face-shot, .jb-fam-shot { transition: translate 300ms cubic-bezier(.3, .7, .3, 1), box-shadow 300ms ease; }
+.jb-shot img, .jb-face-shot img, .jb-fam-shot img { transition: scale 600ms cubic-bezier(.2, .7, .2, 1); }
+@media (hover: hover) {
+  .jb-shot:hover, .jb-face-shot:hover, .jb-fam-shot:hover { translate: 0 -4px; box-shadow: 0 16px 26px -16px rgba(24, 26, 18, .55); }
+  .jb-shot:hover img, .jb-face-shot:hover img, .jb-fam-shot:hover img { scale: 1.06; }
+}
+.jb-shot:active img, .jb-face-shot:active img, .jb-fam-shot:active img { scale: 1.04; }
+
+/* The rings turn, slowly, the whole time they are on screen. */
+html.jb-motion .jb-rings svg, html.jb-motion .jb-shots-rings svg { animation: jb-turn 14s linear infinite; }
+@keyframes jb-turn { to { rotate: 1turn; } }
+
+/* The countdown's numbers turn over when they change. */
+.jb-count-num.is-tick { animation: jb-tick 600ms cubic-bezier(.3, .7, .3, 1); }
+@keyframes jb-tick {
+  0%   { translate: 0 -40%; opacity: 0; }
+  100% { translate: 0 0;    opacity: 1; }
+}
+
+/* The petals the curtains leave behind drift a little as the page moves. */
+
+/* ======================================================== held back, at first
+
+   The arch is three quarters of a megabyte and none of it shows while the
+   doors are shut. Named in the stylesheet outright it is fetched the moment
+   the stylesheet is read -- on the same connection, at the same moment, as the
+   three pieces of the doors, which are the only thing anybody is looking at.
+   On a phone on mobile data that is a card that sits there.
+
+   So it is held back until the page has finished loading, and asked for again
+   at the first press in case the load event never came. A browser with no
+   script is given it outright -- see the noscript block in the card's head.
+   ========================================================================= */
+html:not(.jb-painted) .jb-arch-art { background-image: none; }
+
+/* ===================================================== less movement, asked for
+
+   The film is not played at all (the script checks the same query): the
+   first frame gives way to the card in a short fade. The words still arrive,
+   nothing breathes, the cue's chevrons and sheen are still, and the pages
+   neither sink nor rise (the script never adds .jb-motion).
+   ========================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  .jb-gate.is-fading { transition-duration: 500ms; }
+  .jb-tap { animation: none; }
+  .jb-scroll::after, .jb-chev i { animation: none; }
+  .jb-chev i:first-child { opacity: 1; }
+  .jb-count-num.is-tick { animation: none; }
+  html.jb-open .jb-eyebrow,
+  html.jb-open .jb-blessing,
+  html.jb-open .jb-names,
+  html.jb-open .jb-note { transition-duration: 300ms; transition-delay: 0ms; }
+}
+
+/* ==========================================================================
+   THE PAGES AFTER THE DOORS
+
+   Everything below is measured in --jb-u, the card's own width, so the whole
+   design holds its proportions on any phone -- see the note beside .jb-card.
+   ========================================================================== */
+
+/* Every page is a screenful, and the card settles on one rather than leaving a
+   reader between two -- page by page, the way Mehru, Bazm e Shahi and Rewind
+   turn (2026-10-17, Ahmad: "sticky scroll is not working"). It was
+   `proximity`, which only snaps when a scroll happens to stop near a page, so
+   most of the time the card stopped wherever the finger did. Not while the
+   curtains are still drawn: there is nothing to scroll then.
+
+   Only while every page fits the screen, which the script checks and says
+   with html.jb-snap (a phone, where each page is exactly one). A page taller
+   than the window -- the wide countdown is the drawing's own 1440 by 1118 --
+   under `mandatory` held the reader at its foot: every turn of the wheel was
+   pulled back to it, since its end was always nearer than the next page. */
+html { scroll-snap-type: y proximity; }
+html.jb-snap:not(.jb-sealed) { scroll-snap-type: y mandatory; }
+
+.jb-sec {
+  position: relative;
+  min-height: 100svh;
+  /* Padding counts inside the screenful, not on top of it: a function's page
+     with its room above and below came to 1012 on an 844 screen, so the snap
+     had nowhere true to land. */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--cream, #fdfdfb);
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+/* The measure every page is set in: 292 of the design's 390. */
+.jb-sec-body {
+  position: relative;
+  z-index: 2;
+  width: calc(292 / 390 * 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* "Dear Sarah & Family," -- the line that makes a card this guest's rather
+   than everybody's. Set in the paragraph face at the paragraph size, because
+   it is a salutation and not a heading, with the name itself picked out. */
+.jb-dear {
+  margin: calc(20 / 390 * var(--jb-u)) 0 calc(10 / 390 * var(--jb-u));
+  font-family: var(--jb-serif);
+  /* Well above the paragraph it introduces, because on a card whose whole
+     point is that every guest gets their own, the guest's name should not be
+     the smallest thing on the page. */
+  font-size: calc(29.4 / 390 * var(--jb-u));
+  line-height: 1.45;
+  color: var(--maroon, #747e4c);
+}
+.jb-dear strong { font-weight: 700; }
+
+/* The hairline under a heading, and between the parts of a page. Short,
+   centred, and the one piece of furniture this design uses to separate
+   anything. */
+.jb-rule {
+  width: calc(73 / 390 * var(--jb-u));
+  height: 1px;
+  margin: calc(18 / 390 * var(--jb-u)) 0;
+  background: #d8d8d8;
+}
+
+.jb-italic { font-style: italic; }
+
+/* ------------------------------------------------ 2. the invitation ----- */
+
+/* A spray of blossom in each top corner, cropped by the edge it sits in --
+   the same two drawings the doors throw as confetti. */
+/* A third of the card across, which is what the design gives them. At half
+   they reached the middle of the page and the heading was set across the
+   roses. */
+.jb-corner {
+  position: absolute;
+  top: calc(26 / 844 * 100%);
+  width: calc(128 / 390 * 100%);
+  aspect-ratio: 130 / 179;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  pointer-events: none;
+}
+
+.jb-corner-left {
+  left: calc(-16 / 390 * 100%);
+  background-image: var(--jb-art-petal-left, url('../img-sample/templates/jashan-e-bahara/cover/petal-left.svg.webp'));
+}
+
+/* And the page itself begins below them.
+
+   The sprays reach a little under a quarter of the way down, and at 38 the
+   heading was still set across the lower roses. The page has the room: with
+   the weds line gone it ends thirty-nine pixels short of the bottom. */
+.jb-invite .jb-sec-body { transform: translateY(calc(56 / 844 * 100svh)); }
+
+.jb-corner-right {
+  right: calc(-16 / 390 * 100%);
+  background-image: var(--jb-art-petal-right, url('../img-sample/templates/jashan-e-bahara/cover/petal-right.svg.webp'));
+}
+
+/* The two names side by side with a hairline between them -- the one place on
+   the card they are not stacked. */
+/* Side by side rather than stacked, so they are set smaller than the 72 the
+   cover gives them -- two names at 72 on one line do not fit a phone, and the
+   design draws them at 56. */
+.jb-pair .jb-name { font-size: calc(56 / 390 * var(--jb-u)); }
+
+.jb-pair {
+  margin: calc(26 / 390 * var(--jb-u)) 0 calc(22 / 390 * var(--jb-u));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(18 / 390 * var(--jb-u));
+  color: var(--maroon, #747e4c);
+}
+
+.jb-pair-bar {
+  width: 1px;
+  height: calc(46 / 390 * var(--jb-u));
+  background: #cfcfcf;
+  flex: none;
+}
+
+/* The functions, named only, in a box with the card's colour down one edge. */
+.jb-chips {
+  width: 100%;
+  margin: calc(6 / 390 * var(--jb-u)) 0 0;
+  padding: calc(16 / 390 * var(--jb-u)) calc(10 / 390 * var(--jb-u));
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: calc(10 / 390 * var(--jb-u)) 0;
+  box-sizing: border-box;
+  border-left: 3px solid var(--maroon, #747e4c);
+  background: color-mix(in srgb, var(--maroon, #747e4c) 7%, var(--cream, #fff));
+}
+
+.jb-chip {
+  font-family: var(--jb-serif);
+  font-size: calc(20 / 390 * var(--jb-u));
+  color: var(--maroon, #747e4c);
+}
+
+/* A hairline between the two in a row, drawn on the first of each pair. */
+.jb-chip:nth-child(odd):not(:last-child) { border-right: 1px solid color-mix(in srgb, var(--maroon, #747e4c) 30%, transparent); }
+
+/* An odd one out sits across both columns rather than alone on the left. */
+.jb-chip:last-child:nth-child(odd) { grid-column: 1 / -1; }
+
+/* ------------------------------------------------- 3. the countdown ----- */
+
+.jb-drape-art {
+  position: absolute;
+  inset: 0;
+  background-image: var(--jb-art-drape, url('../img-sample/templates/jashan-e-bahara/cover/drape.svg.webp'));
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* Set into the opening the drape leaves, which is below its middle. */
+.jb-countdown-body { transform: translateY(6svh); }
+
+.jb-count {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(14 / 390 * var(--jb-u));
+}
+
+.jb-count-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: calc(62 / 390 * var(--jb-u));
+}
+
+.jb-count-bar {
+  width: 1px;
+  align-self: stretch;
+  background: #d4d4d4;
+  flex: none;
+}
+
+.jb-count-num {
+  font-family: var(--jb-serif);
+  font-size: calc(40 / 390 * var(--jb-u));
+  line-height: 1.1;
+  color: var(--maroon, #747e4c);
+  font-variant-numeric: tabular-nums;
+}
+
+.jb-count-label {
+  margin-top: calc(2 / 390 * var(--jb-u));
+  font-family: var(--jb-serif);
+  font-size: calc(12 / 390 * var(--jb-u));
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #8d8d8d;
+}
+
+.jb-count-until {
+  margin: 0;
+  font-family: var(--jb-serif);
+  font-size: calc(20 / 390 * var(--jb-u));
+  color: #3a3a38;
+}
+
+/* ------------------------------------------------- 4. the portraits ----- */
+
+/* A card with the couple's colour down one edge -- the same shape the
+   functions box on the invitation page uses, so the two read as one design. */
+/* A card with the couple's colour down both edges and the corners all but
+   square -- one pixel of radius, which is what the design draws. */
+.jb-panel {
+  width: 100%;
+  box-sizing: border-box;
+  border-left: 3px solid var(--maroon, #747e4c);
+  border-right: 3px solid var(--maroon, #747e4c);
+  border-radius: 1px;
+  background: color-mix(in srgb, var(--maroon, #747e4c) 7%, var(--cream, #fff));
+}
+
+/* Measured off the design: the cards run from 32 to 359 -- 327 across -- and
+   stand 115 tall, with the rings 72 square and nine pixels of air above and
+   below them. */
+.jb-portraits .jb-sec-body { width: calc(327 / 390 * 100%); }
+
+.jb-face {
+  display: flex;
+  align-items: center;
+  gap: calc(20 / 390 * var(--jb-u));
+  padding: calc(10 / 390 * var(--jb-u)) calc(14 / 390 * var(--jb-u));
+  min-height: calc(115 / 390 * var(--jb-u));
+  box-sizing: border-box;
+  text-align: start;
+}
+
+.jb-face-shot {
+  width: calc(92 / 390 * var(--jb-u));
+  aspect-ratio: 1;
+  flex: none;
+  border-radius: calc(12 / 390 * var(--jb-u));
+  overflow: hidden;
+  background: #e6e6e2;
+  display: grid;
+  place-items: center;
+}
+
+.jb-face-shot img,
+.jb-face-art { width: 100%; height: 100%; object-fit: cover; }
+
+.jb-face-name {
+  margin: 0;
+  font-family: 'Savoye LET', 'Great Vibes', 'Alex Brush', cursive;
+  font-size: calc(34 / 390 * var(--jb-u));
+  line-height: 1.15;
+  color: var(--maroon, #747e4c);
+  /* Two given names on one line, the way the design sets them. */
+  text-wrap: balance;
+}
+
+/* The rings between the two.
+
+   Ours rather than the design's: the drawing in the screenshot is a rendered
+   pair of gold bands and it is not among the files for this template. This is
+   the artwork library's own two-rings emblem, which takes the card's colours
+   like everything else here. Swap it the moment the drawn one arrives -- it is
+   one include in the view and this box. */
+.jb-rings {
+  width: calc(72 / 390 * var(--jb-u));
+  aspect-ratio: 1;
+  margin: calc(9 / 390 * var(--jb-u)) 0;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--maroon, #747e4c) 9%, var(--cream, #fff));
+  display: grid;
+  place-items: center;
+}
+
+.jb-rings-art { width: 62%; height: 62%; }
+
+/* -------------------------------------------------- 5. the families ----- */
+
+/* Measured off the design, band by band: the bouquet is 97 across and 63 down
+   at y205, the heading at 278, the rule in the 51 between them, and the two
+   blocks 141 tall with 24 of air between, running from x32 to x358.
+
+   The bouquet is the design's own now -- Family flowers.svg, a square spray
+   drawn for this page, which arrived after the first pass. It replaced a crop
+   of the tall confetti spray standing in for it. */
+.jb-families .jb-sec-body { width: calc(326 / 390 * 100%); }
+
+.jb-posy {
+  width: calc(97 / 390 * var(--jb-u));
+  height: calc(63 / 390 * var(--jb-u));
+  margin-bottom: calc(10 / 390 * var(--jb-u));
+  background-image: var(--jb-art-posy, url('../img-sample/templates/jashan-e-bahara/cover/family-flowers.svg.webp'));
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+/* The rule between the heading and the first family carries the whole of the
+   51 the design leaves there. */
+.jb-families .jb-rule { margin: calc(22 / 390 * var(--jb-u)) 0; }
+
+.jb-fam {
+  width: 100%;
+  min-height: calc(141 / 390 * var(--jb-u));
+  display: flex;
+  align-items: flex-start;
+  gap: calc(16 / 390 * var(--jb-u));
+  text-align: start;
+}
+
+.jb-fam + .jb-fam { margin-top: calc(24 / 390 * var(--jb-u)); }
+
+.jb-fam-shot {
+  width: calc(62 / 390 * var(--jb-u));
+  height: calc(104 / 390 * var(--jb-u));
+  flex: none;
+  border-radius: calc(10 / 390 * var(--jb-u));
+  overflow: hidden;
+  background: #9a9a9a;
+  display: grid;
+  place-items: center;
+}
+
+.jb-fam-shot img,
+.jb-fam-art { width: 100%; height: 100%; object-fit: cover; }
+
+.jb-fam-side { min-width: 0; flex: 1; }
+
+.jb-fam-parents {
+  margin: 0 0 calc(10 / 390 * var(--jb-u));
+  font-family: var(--jb-serif);
+  font-size: calc(21 / 390 * var(--jb-u));
+  line-height: 1.2;
+  color: #1b1b19;
+}
+
+/* The people to ring, behind a rule in the card's colour. */
+.jb-fam-people {
+  padding-left: calc(12 / 390 * var(--jb-u));
+  border-left: 2px solid var(--maroon, #747e4c);
+}
+
+.jb-fam-name,
+.jb-fam-phone {
+  margin: 0;
+  display: block;
+  font-family: var(--jb-serif);
+  font-size: calc(17 / 390 * var(--jb-u));
+  line-height: 1.45;
+  color: #8d8d8d;
+  text-decoration: none;
+}
+
+/* Somebody marked Prominent in the panel is the one a guest should ring
+   first, so they are the one in the card's colour. */
+.jb-fam-name.is-prominent,
+.jb-fam-phone.is-prominent {
+  font-weight: 700;
+  color: var(--maroon, #747e4c);
+}
+
+.jb-fam-phone + .jb-fam-name { margin-top: calc(8 / 390 * var(--jb-u)); }
+
+/* ------------------------------------------------- 6. the programme ----- */
+
+.jb-thread {
+  width: 100%;
+  margin: 0;
+  padding: 0 0 0 calc(30 / 390 * var(--jb-u));
+  list-style: none;
+  text-align: start;
+  position: relative;
+}
+
+/* The thread itself, from the first dot to the last. */
+.jb-thread::before {
+  content: '';
+  position: absolute;
+  left: calc(7 / 390 * var(--jb-u));
+  top: calc(9 / 390 * var(--jb-u));
+  bottom: calc(9 / 390 * var(--jb-u));
+  width: 1px;
+  background: var(--maroon, #747e4c);
+}
+
+.jb-thread-stop {
+  position: relative;
+  padding-bottom: calc(14 / 390 * var(--jb-u));
+}
+
+.jb-thread-stop:last-child { padding-bottom: 0; }
+
+/* The stop on the thread: a ring with the card's colour inside it. */
+.jb-thread-stop::before {
+  content: '';
+  position: absolute;
+  left: calc(-30 / 390 * var(--jb-u));
+  top: calc(4 / 390 * var(--jb-u));
+  width: calc(15 / 390 * var(--jb-u));
+  height: calc(15 / 390 * var(--jb-u));
+  border-radius: 50%;
+  border: 1px solid var(--maroon, #747e4c);
+  background: var(--maroon, #747e4c);
+  box-shadow: 0 0 0 2px var(--cream, #fff) inset;
+}
+
+.jb-thread-name {
+  margin: 0 0 calc(3 / 390 * var(--jb-u));
+  font-family: var(--jb-serif);
+  font-weight: 700;
+  font-size: calc(21 / 390 * var(--jb-u));
+  color: var(--maroon, #747e4c);
+}
+
+.jb-thread-stop .jb-para { text-align: start; line-height: 1.42; }
+
+/* ------------------------------------------------- 7. the functions ----- */
+
+/* Two screenfuls of cards on the card's own colour, read down rather than
+   snapped through.
+
+   `scroll-snap-align: none` is the whole of the exception: every other page
+   here settles under the reader, and this one lets them scroll freely, which
+   is what a page of five cards wants.
+
+   Its height comes from the cards in it. Five make about two screenfuls, which
+   is what the design shows; three make a shorter page, which is what three
+   functions should make. Nothing here is a fixed height. */
+.jb-events {
+  min-height: 100svh;
+  justify-content: flex-start;
+  /* Measured off the design: the first card's title row begins at 133, the
+     cards repeat every 310, and five of them bring the page to 1777 -- a
+     little over two screenfuls. The room at the top and bottom is also what
+     keeps the two sprays off the first and last card. */
+  padding: calc(133 / 390 * var(--jb-u)) 0 calc(185 / 390 * var(--jb-u));
+  background: var(--maroon, #747e4c);
+  scroll-snap-align: none;
+  scroll-snap-stop: normal;
+}
+
+/* A hairline frame inset from the edge, the way the design draws it. */
+.jb-ev-frame {
+  position: absolute;
+  inset: calc(24 / 390 * var(--jb-u));
+  border: 1px solid color-mix(in srgb, var(--on-maroon, #fff) 32%, transparent);
+  pointer-events: none;
+}
+
+/* A spray in the top corner and another in the far one. */
+.jb-ev-corner {
+  position: absolute;
+  width: calc(150 / 390 * 100%);
+  aspect-ratio: 130 / 179;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  pointer-events: none;
+}
+
+.jb-ev-corner-top {
+  top: calc(-30 / 390 * var(--jb-u));
+  left: calc(-34 / 390 * var(--jb-u));
+  background-image: var(--jb-art-petal-left, url('../img-sample/templates/jashan-e-bahara/cover/petal-left.svg.webp'));
+}
+
+.jb-ev-corner-bottom {
+  bottom: calc(-30 / 390 * var(--jb-u));
+  right: calc(-34 / 390 * var(--jb-u));
+  background-image: var(--jb-art-petal-right, url('../img-sample/templates/jashan-e-bahara/cover/petal-right.svg.webp'));
+}
+
+.jb-ev-list {
+  position: relative;
+  z-index: 2;
+  width: calc(295 / 390 * 100%);
+  display: flex;
+  flex-direction: column;
+  /* Five cards come to about two screenfuls at this rhythm, which is the
+     height the design gives them. Three come to less, which is what three
+     functions should come to -- nothing here is a fixed height. */
+  gap: calc(58 / 390 * var(--jb-u));
+}
+
+.jb-ev-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(12 / 390 * var(--jb-u));
+}
+
+.jb-ev-name {
+  margin: 0;
+  font-family: var(--jb-serif);
+  font-weight: 700;
+  font-size: calc(32 / 390 * var(--jb-u));
+  line-height: 1.1;
+  color: var(--on-maroon, #fff);
+}
+
+/* The one control on this page, so it is the one white thing on it. */
+.jb-ev-btns {
+  flex: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: calc(8 / 390 * var(--jb-u));
+}
+
+.jb-ev-cal {
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  border: none;
+  flex: none;
+  padding: calc(9 / 390 * var(--jb-u)) calc(16 / 390 * var(--jb-u));
+  border-radius: 999px;
+  background: var(--on-maroon, #fff);
+  font-family: var(--jb-serif);
+  font-size: calc(14 / 390 * var(--jb-u));
+  color: var(--maroon, #747e4c);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* Who this guest is invited with. The design gives it the same pill as the
+   button above, centred under the title row -- it is the one line on the card
+   addressed to the person holding it rather than to everybody. */
+.jb-ev-guests {
+  margin: calc(9 / 390 * var(--jb-u)) auto 0;
+  width: fit-content;
+  padding: calc(9 / 390 * var(--jb-u)) calc(20 / 390 * var(--jb-u));
+  border-radius: 999px;
+  background: var(--on-maroon, #fff);
+  font-family: var(--jb-serif);
+  font-size: calc(14 / 390 * var(--jb-u));
+  color: var(--maroon, #747e4c);
+  white-space: nowrap;
+}
+
+.jb-ev-panel {
+  margin-top: calc(14 / 390 * var(--jb-u));
+  padding: calc(26 / 390 * var(--jb-u)) calc(14 / 390 * var(--jb-u));
+  background: color-mix(in srgb, var(--on-maroon, #fff) 12%, transparent);
+  text-align: center;
+}
+
+.jb-ev-line {
+  margin: 0;
+  font-family: var(--jb-serif);
+  font-size: calc(16 / 390 * var(--jb-u));
+  line-height: 2;
+  color: color-mix(in srgb, var(--on-maroon, #fff) 88%, transparent);
+}
+
+/* --------------------------------------------------- 8. the moments ----- */
+
+/* Two rows of three with the rings in the gap between them, which is where
+   the design puts them: the photographs clear the middle rather than being
+   covered by it, so the row gap is the height of the rings and a little more.
+   The columns stay tight. */
+/* The page carries both halves, so its own measure is the wider of the two and
+   the heading is given the width the design draws it at. */
+.jb-moments .jb-sec-body { width: calc(354 / 390 * 100%); }
+.jb-moments .jb-heading { width: calc(300 / 390 * var(--jb-u)); }
+.jb-moments .jb-para { width: calc(308 / 390 * var(--jb-u)); }
+
+/* The reply, under the photographs on the same screenful. Measured off the
+   design: the photographs end at 479 and "RSVP" begins at 593. */
+/* Both halves inside one screenful. The gap is what is left of the screen
+   after the photographs, not a number of its own -- at a fixed margin the page
+   came out 862 on an 844 screen and stopped being one page.
+
+   Held clear of the two floating buttons at the top and the cue at the foot.
+   The drawing has neither on this page, so it sets the heading at 69 and the
+   reply date at 799; on a real card both of those sit under something. */
+/* Measured against the screen rather than guessed: heading, photographs,
+   reply and date come to 730 of the design's 844, and the room left over is
+   what keeps the heading clear of the two buttons at the top and the date
+   clear of the cue at the foot. The rules on this page are tighter than
+   elsewhere because there are four of them on one screenful. */
+.jb-moments {
+  justify-content: center;
+  padding: calc(48 / 844 * 100svh) 0 calc(46 / 844 * 100svh);
+  box-sizing: border-box;
+}
+
+.jb-moments .jb-rule { margin: calc(11 / 390 * var(--jb-u)) 0; }
+
+.jb-reply {
+  width: 100%;
+  margin-top: calc(26 / 844 * 100svh);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.jb-shots {
+  position: relative;
+  width: 100%;
+  margin-top: calc(10 / 390 * var(--jb-u));
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: calc(8 / 390 * var(--jb-u));
+  row-gap: calc(62 / 390 * var(--jb-u));
+  place-items: center;
+}
+
+/* Scattered rather than ruled: each frame is turned a little, and the turn is
+   its own so no two match. Six of them leave the middle of the grid free,
+   which is where the rings sit. */
+/* Capped, so six of them and the reply underneath come to one screenful. The
+   design gives the whole cluster 301 of the 844. */
+.jb-shot {
+  margin: 0;
+  width: 100%;
+  max-width: calc(98 / 390 * var(--jb-u));
+  aspect-ratio: 1;
+  border-radius: calc(12 / 390 * var(--jb-u));
+  overflow: hidden;
+  background: #e6e6e2;
+  /* Turned and lifted by its own amount, so the six read as a handful of
+     prints laid down rather than a grid. The middle of each row sits a little
+     proud of the two beside it, which is the scatter the design draws. */
+  transform: rotate(calc((var(--i) - 2.5) * 2.6deg));
+  box-shadow: 0 6px 18px -10px rgba(24, 26, 18, .45);
+}
+
+/* The middle of the top row rides up, the middle of the bottom row drops --
+   written per child because `calc` has no conditionals. */
+.jb-shot:nth-child(2) { transform: translateY(calc(-14 / 390 * var(--jb-u))) rotate(-1.2deg); }
+.jb-shot:nth-child(5) { transform: translateY(calc(14 / 390 * var(--jb-u))) rotate(1.4deg); }
+
+.jb-shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.jb-shot.is-empty { background: color-mix(in srgb, var(--maroon, #747e4c) 8%, var(--cream, #fff)); box-shadow: none; }
+
+/* The rings, over the middle of the scatter. */
+.jb-shots-rings {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(84 / 390 * var(--jb-u));
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: var(--cream, #fff);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 4px 16px -8px rgba(24, 26, 18, .4);
+}
+
+/* --------------------------------------------------- 10. the farewell --- */
+
+.jb-closing { justify-content: flex-start; }
+
+.jb-closing-text {
+  position: absolute;
+  top: calc(300 / 844 * 100%);
+  left: 50%;
+  z-index: 2;
+  width: calc(268 / 390 * 100%);
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+/* Measured: the date's ink runs 304 to 333 and "Ahmad" begins at 515, so the
+   names carry the 180 between them. */
+.jb-closing .jb-names { margin-top: calc(180 / 844 * 100%); }
+
+/* The line at the foot, in this design's own serif. Everything else about it
+   -- its size, the mark beside it, the underline, the jiggle -- is the same on
+   every card in the catalogue and is set in /css/card-sections.css. */
+.jb-credit {
+  position: absolute;
+  left: 50%;
+  bottom: calc(34 / 844 * 100%);
+  z-index: 3;
+  transform: translateX(-50%);
+  font-family: var(--jb-serif);
+  color: var(--maroon, #747e4c);
+  white-space: nowrap;
+}
+
+/* ---------------------------------------------------------- less movement */
+
+@media (prefers-reduced-motion: reduce) {
+  html, html.jb-snap:not(.jb-sealed) { scroll-snap-type: none; }
+  .jb-shot { transform: none; }
+}
+
+/* ==========================================================================
+   THE WIDE LAYOUT
+
+   Below 900 this design is a phone: one card the width of the artwork, every
+   page a screenful, every size a fraction of that card.
+
+   Above it the card stops being a column and becomes the page. The type does
+   not grow with it -- measured off the wide drawings, a heading is the same
+   280 pixels across at 1440 that it is at 390 -- so --jb-u keeps the phone's
+   measure and only the layout widens. What changes is where things sit: the
+   sprays move out to the margins, the portraits and the families stand side by
+   side on one screen, and the functions become a grid.
+   ========================================================================== */
+
+@media (min-width: 900px) {
+  /* The card is the page. --jb-u stays the phone's measure, because that is
+     what the type is drawn at on both. */
+  .jb-card {
+    --jb-u: 390px;
+    width: 100%;
+    max-width: none;
+    min-height: 100svh;
+  }
+
+  .jb-stage { display: block; }
+
+  /* The cream the card is laid on, rather than the arch showing around it. */
+  .jb-arch { background: var(--cream, #f7f6f2); }
+
+  html:not(.jb-open) .jb-arch-art { opacity: 0; }
+
+  /* ---- the arch, opened ----
+
+     Full bleed, and the drawing is a portrait one, so it is scaled to cover
+     and held near its top: the crown of the arch and the heads of the columns
+     are the part that reads at this shape. */
+  .jb-arch-art {
+    background-size: cover;
+    background-position: center 18%;
+    /* In as the film's last two seconds fade over it (it was after the doors). */
+    transition: opacity 1200ms ease 200ms;
+  }
+
+  .jb-arch-text {
+    top: calc(330 / 800 * 100%);
+    width: calc(320 / 390 * var(--jb-u));
+  }
+
+  /* The words stay in the phone's column, centred on the page -- the block is
+     a share of the card, and the card is the whole width up here. */
+  .jb-closing-text {
+    top: calc(300 / 908 * 100%);
+    width: calc(300 / 390 * var(--jb-u));
+  }
+
+  /* ---- the invitation ----
+
+     The words stay in the phone's column in the middle; the two sprays move
+     out to the margins and grow. */
+  .jb-invite .jb-sec-body { width: calc(320 / 390 * var(--jb-u)); transform: none; }
+
+  .jb-corner {
+    top: calc(61 / 964 * 100%);
+    width: min(320px, 23vw);
+  }
+
+  .jb-corner-left { left: min(195px, 13.5vw); }
+  .jb-corner-right { right: min(195px, 13.5vw); }
+
+  /* ---- the countdown ----
+
+     The wide drawing has its own arch: 1440 across by 1118, the whole scene
+     rather than the column the phone crops out of it. Pointed at the phone's
+     drape and stretched to fill two screenfuls, it left a screenful of empty
+     white above the arch and put the drawing's own guide rules adrift in it.
+
+     So: one screenful at the drawing's own proportions, the art laid in at
+     that ratio, and the words set where the drawing sets them. The drawing
+     puts its two hairlines at y 598.5 and y 700.5 of 1118, which is where the
+     three numbers sit between them -- so the block's middle belongs at
+     (598.5 + 700.5) / 2 / 1118, a little past halfway down. */
+  .jb-countdown {
+    min-height: 100svh;
+    /* Never shorter than the drawing's own shape, so the arch is never cut. */
+    aspect-ratio: 1440 / 1118;
+    justify-content: flex-start;
+  }
+
+  /* The art box: the drawing's ratio, centred, never wider than it was drawn.
+     `contain` on a full-bleed layer would have left the words to guess where
+     the arch ended up; this way the words can share the same box. */
+  .jb-drape-art {
+    inset: auto;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: min(1440px, 100%);
+    aspect-ratio: 1440 / 1118;
+    height: auto;
+    background-image: var(--jb-art-countdown, url('../img-sample/templates/jashan-e-bahara/cover/countdown-arch.svg.webp'));
+    background-size: 100% 100%;
+    background-position: center;
+  }
+
+  /* The same box, so 58.1% down means 58.1% down the drawing however wide the
+     window is. -50% would be the middle of it; the extra 8.1% is the drop to
+     the line the drawing draws. */
+  .jb-countdown-body {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: min(1440px, 100%);
+    aspect-ratio: 1440 / 1118;
+    transform: translate(-50%, -41.9%);
+    justify-content: center;
+  }
+
+  /* ---- the portraits and the families, on one page ----
+
+     Two pages on a phone. Here the wrapper below is the page and each pair
+     stands side by side, which is what the wide drawing shows: the portraits
+     840 across with the rings between them, the families 659. */
+  .jb-spread {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: calc(60 / 800 * 100svh);
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    background: var(--cream, #fdfdfb);
+  }
+
+  .jb-spread > .jb-sec {
+    min-height: 0;
+    scroll-snap-align: none;
+    scroll-snap-stop: normal;
+  }
+
+  .jb-portraits .jb-sec-body,
+  .jb-families .jb-sec-body { width: auto; max-width: none; }
+
+  /* The two cards and the rings, in a row. */
+  .jb-portraits .jb-sec-body {
+    display: grid;
+    grid-template-columns: 354px 70px 354px;
+    grid-template-areas: 'head head head' 'rule rule rule' 'one rings two';
+    align-items: center;
+    justify-items: center;
+    column-gap: 31px;
+  }
+
+  .jb-portraits .jb-heading { grid-area: head; }
+  .jb-portraits .jb-rule { grid-area: rule; }
+  .jb-portraits .jb-face:nth-of-type(1) { grid-area: one; }
+  .jb-portraits .jb-rings { grid-area: rings; margin: 0; }
+  .jb-portraits .jb-face:nth-of-type(2) { grid-area: two; }
+
+  /* The bouquet, the heading, then both families in a row. */
+  .jb-families .jb-sec-body {
+    display: grid;
+    grid-template-columns: 320px 320px;
+    grid-template-areas: 'posy posy' 'head head' 'rule rule' 'one two';
+    justify-items: center;
+    column-gap: 20px;
+  }
+
+  .jb-posy {
+    grid-area: posy;
+    width: 194px;
+    height: 126px;
+  }
+
+  .jb-families .jb-heading { grid-area: head; }
+  .jb-families .jb-rule { grid-area: rule; }
+  .jb-families .jb-fam:nth-of-type(1) { grid-area: one; }
+  .jb-families .jb-fam:nth-of-type(2) { grid-area: two; margin-top: 0; }
+  .jb-fam + .jb-fam { margin-top: 0; }
+
+  /* ---- the floating controls ----
+
+     Their offsets are measured from the middle of a 390-wide column, which is
+     where the card is on a phone. On a wide screen the card is the whole
+     window, so that put all three adrift near the top centre -- over the
+     functions page they landed on the cards. Pinned to the window's own
+     corner here, in the same order: the language pill outermost. */
+  body.jb-body .ci-lang { right: 24px; }
+  body.jb-body .ci-song { right: 99px; }
+  body.jb-body .ci-view { right: 147px; }
+
+  /* ---- the functions ----
+
+     Three across, and every card the same shape as the one beside it. It was
+     a three-column grid already and it read as a mess: each card was only as
+     tall as its own address, so a long one pushed its panel down past its
+     neighbours; the two left over were nudged sideways with a half-column
+     margin and landed between columns; the section held a screenful of empty
+     green under the cards; and the top spray sat over the first card's name.
+
+     Everything below is one idea -- the cards are a block, and the frame, the
+     sprays and the section's height all follow that block. */
+
+  /* One number, so the frame, the sprays and the cards cannot drift apart. */
+  .jb-events {
+    --jb-ev-w: min(950px, 74vw);
+    --jb-ev-x: calc((100% - var(--jb-ev-w)) / 2);
+
+    /* Was content-box, so the padding was added on top of a full screenful
+       and left 235px of green below the last card at every window size. */
+    box-sizing: border-box;
+    min-height: 100svh;
+    height: auto;
+    padding: calc(150 / 830 * 100svh) 0 calc(110 / 830 * 100svh);
+  }
+
+  /* The rule goes around the cards, which is what the drawing shows, and the
+     only way it can follow them at any number of functions is to be their own
+     border rather than a layer measured against the section. Positioned
+     against the section it trailed a couple of hundred pixels below the last
+     card whenever there was a screenful's slack. */
+  .jb-ev-frame { display: none; }
+
+  .jb-ev-list {
+    box-sizing: border-box;
+    border: 1px solid color-mix(in srgb, var(--on-maroon, #fff) 32%, transparent);
+    padding: 48px;
+  }
+
+  /* Centred in the screenful now that the block is the whole of the page. */
+  .jb-events { justify-content: center; }
+
+  /* Outside the block, not over it. The drawing overlaps the frame's corner
+     with the spray; sized to this window that put the flowers across the
+     first card's name, so each spray now stops where the cards begin. */
+  .jb-ev-corner { width: min(190px, 13.5vw); }
+  /* The frame sits 48px outside the cards, so each spray is placed to end
+     24px inside the frame -- over the rule's corner, the way the drawing has
+     it, and still clear of the first and last card. */
+  .jb-ev-corner-top {
+    top: calc(10 / 830 * 100svh);
+    left: calc(var(--jb-ev-x) - 24px - min(190px, 13.5vw));
+  }
+  .jb-ev-corner-bottom {
+    bottom: calc(6 / 830 * 100svh);
+    right: calc(var(--jb-ev-x) - 24px - min(190px, 13.5vw));
+  }
+
+  /* Six columns, two to a card. A row of three fills it; a row of two or one
+     is centred by starting a column or two in, which is what the drawing does
+     with Barat and Walima. */
+  .jb-ev-list {
+    width: calc(var(--jb-ev-w) + 96px);
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    align-items: stretch;
+    gap: calc(26 / 830 * 100svh) 20px;
+  }
+
+  .jb-ev { grid-column: span 2; }
+
+  /* The card that starts the last row, when that row is short. */
+  .jb-ev:nth-child(3n + 1):nth-last-child(2) { grid-column: 2 / span 2; }
+  .jb-ev:nth-child(3n + 1):nth-last-child(1) { grid-column: 3 / span 2; }
+
+  /* Every card the height of the tallest in its row, and every panel starting
+     on the same line: the name row and the pill are what they are, and the
+     panel takes whatever is left. A four-line address no longer drags one
+     card's panel below its neighbours'. */
+  .jb-ev {
+    display: flex;
+    flex-direction: column;
+  }
+  .jb-ev-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .jb-ev-name { font-size: calc(30 / 390 * var(--jb-u)); }
+
+  /* ---- the moments, and the farewell ---- */
+  .jb-moments { min-height: 108svh; }
+  .jb-moments .jb-sec-body { width: min(420px, 34vw); }
+
+  .jb-closing { min-height: 108svh; }
+
+  /* The arch drawn to its width rather than its height: the drawing is a tall
+     one and the wide farewell shows it 760 across, which is taller than the
+     page and cropped top and bottom. Sized by height instead it came out a
+     four-hundred-pixel strip down the middle. */
+  .jb-closing .jb-arch-art {
+    background-size: min(780px, 56vw) auto;
+    background-position: center 34%;
+    opacity: 1;
+  }
+
+  .jb-credit { bottom: calc(70 / 908 * 100%); }
+}
+
+/* ==========================================================================
+   READ RIGHT TO LEFT
+
+   Urdu and Punjabi are set in Nastaliq, and every line on this card names its
+   own face -- var(--jb-serif) for the type, Savoye LET for the names. Neither
+   has a single Arabic glyph in it, so an Urdu card was being drawn in whatever
+   the browser fell back to, differently on every phone.
+
+   One swap does the whole card: --jb-serif becomes the language's own face,
+   and the names follow it. --ci-lang-font is set by the language partial for
+   the language the card is rendered in and by /js/lang.js when a guest presses
+   the toggle, so this holds either way.
+
+   Nothing moves. The artwork, the doors and the layout stay exactly as drawn;
+   only the words turn round, which is what a printed Urdu invitation does.
+   ========================================================================== */
+
+html[dir="rtl"] .jb-card,
+html.ci-rtl .jb-card {
+  --jb-serif: var(--ci-lang-font, 'Noto Nastaliq Urdu', 'Noto Naskh Arabic', serif);
+}
+
+html[dir="rtl"] .jb-name,
+html[dir="rtl"] .jb-weds,
+html[dir="rtl"] .jb-face-name,
+html.ci-rtl .jb-name,
+html.ci-rtl .jb-weds,
+html.ci-rtl .jb-face-name {
+  font-family: var(--ci-lang-font, 'Noto Nastaliq Urdu', 'Noto Naskh Arabic', serif);
+  /* Nastaliq carries far more height than a Latin script at the same size, so
+     a name set at 72 for Savoye is a name that overruns its page here. */
+  font-size: calc(46 / 390 * var(--jb-u));
+  line-height: 1.9;
+}
+
+html[dir="rtl"] .jb-weds,
+html.ci-rtl .jb-weds { font-size: calc(30 / 390 * var(--jb-u)); }
+
+html[dir="rtl"] .jb-pair .jb-name,
+html.ci-rtl .jb-pair .jb-name { font-size: calc(34 / 390 * var(--jb-u)); }
+
+/* The descenders hang well below the baseline and the headings are set tight,
+   so they are given room rather than clipped. */
+html[dir="rtl"] .jb-heading,
+html[dir="rtl"] .jb-eyebrow,
+html.ci-rtl .jb-heading,
+html.ci-rtl .jb-eyebrow {
+  font-style: normal;
+  line-height: 1.9;
+}
+
+/* The one line that is ours rather than the couple's, and the one place a
+   Latin word is printed inside an Urdu card. */
+html[dir="rtl"] .jb-credit,
+html.ci-rtl .jb-credit { font-size: 12px; }
+
+/* The heading on the farewell is given the block's own width rather than the
+   330 every other heading gets -- that block is narrower than the measure, so
+   the date was hanging fifteen pixels past it in both languages. */
+.jb-closing-text .jb-heading { width: 100%; }
+
+/* Nastaliq is taller than Latin at the same size, and the moments page carries
+   two headings, four rules, six photographs and the reply on one screenful.
+   In Urdu that came to 899 of an 844 screen, so the page gives back what the
+   taller script takes. */
+html[dir="rtl"] .jb-moments,
+html.ci-rtl .jb-moments {
+  padding: calc(34 / 844 * 100svh) 0 calc(30 / 844 * 100svh);
+}
+
+html[dir="rtl"] .jb-moments .jb-shot,
+html.ci-rtl .jb-moments .jb-shot { max-width: calc(86 / 390 * var(--jb-u)); }
+
+html[dir="rtl"] .jb-moments .jb-shots,
+html.ci-rtl .jb-moments .jb-shots { row-gap: calc(54 / 390 * var(--jb-u)); }
+
+/* ===================================================== 7. the functions, again
+
+   One page a function (2026-10-17, Ahmad: "they have only one event so make
+   this one event per section and for next events you can scroll exactly like
+   other templates ... make it pretty and match the overall jashan e bahara
+   template"). Each settles like every other page, on the stage the opening
+   leaves behind -- its last frame, the sage curtains drawn open on the light
+   (opening/stage-*.jpg) -- with the function on a card of the design's own
+   paper in the light between them: the posy over its edge, the hairline
+   frame inside it, the heading's italic for the name, the countdown's row for
+   the date, the paragraph's grey for the rest, the couple's green for what
+   matters, and the two buttons in that green. */
+.jb-event {
+  justify-content: center;
+  padding: calc(64 / 390 * var(--jb-u)) 0 calc(104 / 390 * var(--jb-u));
+  background: #f6f5f0 url('../img-sample/templates/jashan-e-bahara/opening/stage-mob.jpg.webp') center 40% / cover no-repeat;
+}
+@media (min-aspect-ratio: 4 / 5) {
+  .jb-event { background-image: url('../img-sample/templates/jashan-e-bahara/opening/stage-web.jpg.webp'); background-position: center 45%; }
+}
+
+.jb-event-card {
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+  width: calc(292 / 390 * 100%);
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: calc(40 / 390 * var(--jb-u)) calc(18 / 390 * var(--jb-u)) calc(24 / 390 * var(--jb-u));
+  text-align: center;
+  background: rgba(255, 255, 253, .9);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  border: 1px solid color-mix(in srgb, var(--maroon, #747e4c) 38%, transparent);
+  box-shadow: 0 24px 48px -30px rgba(52, 60, 30, .55);
+}
+/* The hairline inside the edge, as the design frames its pages. */
+.jb-event-card::before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border: 1px solid color-mix(in srgb, var(--maroon, #747e4c) 20%, transparent);
+  pointer-events: none;
+}
+/* The families' posy, sitting over the card's top edge. */
+.jb-event-posy {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: calc(96 / 390 * var(--jb-u));
+  aspect-ratio: 1 / 1;
+  transform: translate(-50%, -52%);
+  background: var(--jb-art-posy, url('../img-sample/templates/jashan-e-bahara/cover/family-flowers.svg.webp')) center / contain no-repeat;
+  pointer-events: none;
+}
+.jb-event-num {
+  margin: 0 0 calc(4 / 390 * var(--jb-u));
+  font-family: var(--jb-serif);
+  font-size: calc(11.5 / 390 * var(--jb-u));
+  letter-spacing: .22em;
+  color: #8d8d8d;
+  font-variant-numeric: lining-nums;
+}
+.jb-event-name.jb-heading {
+  width: auto;
+  margin: 0;
+  font-size: calc(34 / 390 * var(--jb-u));
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+.jb-event-rule.jb-rule { margin: calc(14 / 390 * var(--jb-u)) 0; background: color-mix(in srgb, var(--maroon, #747e4c) 32%, #d8d8d8); }
+.jb-event-guests {
+  margin: calc(10 / 390 * var(--jb-u)) 0 0;
+  padding: calc(6 / 390 * var(--jb-u)) calc(16 / 390 * var(--jb-u));
+  border: 1px solid color-mix(in srgb, var(--maroon, #747e4c) 55%, transparent);
+  border-radius: 999px;
+  font-family: var(--jb-serif);
+  font-size: calc(13.5 / 390 * var(--jb-u));
+  color: var(--maroon, #747e4c);
+}
+/* The date, in the countdown's row: day | date | month and year. */
+.jb-count.jb-event-date { gap: calc(12 / 390 * var(--jb-u)); margin: 0 0 calc(4 / 390 * var(--jb-u)); }
+.jb-event-date .jb-count-cell { min-width: calc(70 / 390 * var(--jb-u)); }
+.jb-event-date .jb-count-num { font-size: calc(44 / 390 * var(--jb-u)); font-variant-numeric: lining-nums; }
+.jb-event-date .jb-count-label { margin: 0; line-height: 1.45; color: #6f6f6c; font-variant-numeric: lining-nums; }
+.jb-event-line {
+  margin: 0;
+  font-family: var(--jb-serif);
+  font-size: calc(17 / 390 * var(--jb-u));
+  line-height: 1.5;
+  color: #3a3a38;
+  font-variant-numeric: lining-nums;
+}
+.jb-event-time { margin-top: calc(10 / 390 * var(--jb-u)); }
+.jb-event-sehra .ci-sehra { margin: calc(8 / 390 * var(--jb-u)) 0 0; font-family: var(--jb-serif); color: #3a3a38; }
+.jb-event-where { margin-top: calc(12 / 390 * var(--jb-u)); }
+.jb-event-venue {
+  margin: 0;
+  font-family: var(--jb-serif);
+  font-weight: 700;
+  font-size: calc(18.5 / 390 * var(--jb-u));
+  line-height: 1.3;
+  color: var(--maroon, #747e4c);
+}
+.jb-event-address {
+  margin: calc(3 / 390 * var(--jb-u)) 0 0;
+  font-family: var(--jb-serif);
+  font-size: calc(14.5 / 390 * var(--jb-u));
+  line-height: 1.45;
+  color: #7d7d7a;
+  font-variant-numeric: lining-nums;
+}
+.jb-event-host {
+  margin: calc(10 / 390 * var(--jb-u)) 0 0;
+  font-family: var(--jb-serif);
+  font-style: italic;
+  font-size: calc(15 / 390 * var(--jb-u));
+  color: #5b5b58;
+}
+.jb-event-btns {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: calc(8 / 390 * var(--jb-u));
+  margin-top: calc(18 / 390 * var(--jb-u));
+}
+.jb-event-btn {
+  appearance: none;
+  -webkit-appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 40px;
+  padding: 0 calc(15 / 390 * var(--jb-u));
+  border: 1px solid var(--maroon, #747e4c);
+  border-radius: 999px;
+  background: #fff;
+  font-family: var(--jb-serif);
+  font-size: calc(14 / 390 * var(--jb-u));
+  color: var(--maroon, #747e4c);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.jb-event-btn.is-solid { background: var(--maroon, #747e4c); color: var(--on-maroon, #fff); }
+.jb-event-btn svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.jb-event-btn:active { transform: scale(.97); }
+@media (hover: hover) { .jb-event-btn:hover { box-shadow: 0 8px 18px -12px rgba(52, 60, 30, .7); } }
+
+@media (min-width: 900px) {
+  .jb-event { padding: 90px 0 110px; }
+  .jb-event-card { width: min(440px, 40vw); padding: 52px 34px 30px; }
+  .jb-event-name.jb-heading { font-size: 40px; }
+  .jb-event-posy { width: 120px; }
+  .jb-event-date .jb-count-num { font-size: 50px; }
+  .jb-event-line { font-size: 19px; }
+  .jb-event-venue { font-size: 20px; }
+  .jb-event-address { font-size: 15.5px; }
+  .jb-event-btn { font-size: 15px; padding: 0 18px; }
+}
+
+/* ======================================================= the heading line
+
+   Every page's heading on the same line near the top (2026-10-17, Ahmad: "the
+   headings of each section should be on top but some are in the middle some
+   are on the top"). Pages were centred, so a short page set its heading low
+   and a full one set it high. Now each starts from the top and the heading
+   lands on --jb-head, clear of the music button: anything drawn above a
+   heading (the families' posy, a function card's posy and number) sits in the
+   room over that line rather than pushing the heading down.
+
+   The invitation keeps its own place under the two sprays, which is already
+   this line; the farewell is the arch with the date in its opening, and is
+   the drawing's, not a heading's. A moments page with its photographs is a
+   full screen already and starts where it always did. Phone only -- the wide
+   layout lays its pages out in its own way. */
+@media (max-width: 899.98px) {
+  .jb-card { --jb-head: calc(150 / 844 * 100svh); }
+
+  .jb-portraits,
+  .jb-families,
+  .jb-event,
+  .jb-moments:not(:has(.jb-shots)) {
+    justify-content: flex-start;
+    padding-bottom: calc(96 / 844 * 100svh);
+  }
+  .jb-portraits { padding-top: var(--jb-head); }
+  /* The posy (63) and its 10 of air above the heading. */
+  .jb-families { padding-top: calc(var(--jb-head) - 73 / 390 * var(--jb-u)); }
+  .jb-moments:not(:has(.jb-shots)) { padding-top: var(--jb-head); }
+  .jb-moments:not(:has(.jb-shots)) .jb-reply { margin-top: 0; }
+  /* Its card a little lower than the line would put it, so the posy over its
+     edge clears the music button; the name lands just under the line. */
+  .jb-event { padding-top: calc(var(--jb-head) - 32 / 390 * var(--jb-u)); }
+
+  /* The countdown: straight under the garland, rather than halfway down the
+     opening. The drape is drawn 390 by 844 and laid in to cover, so it grows
+     with whichever of the width and the height asks more of it, and the
+     garland's foot (about 290 down the drawing) with it -- the heading follows
+     the drawing, not the screen. */
+  .jb-countdown {
+    justify-content: flex-start;
+    padding-top: max(calc(263 / 390 * 100%), calc(263 / 844 * 100svh));
+  }
+  .jb-countdown-body { transform: none; }
+}
+
+/* ================================================= the countdown, scratched
+
+   Each figure under a leaf of the drape's own sage (/js/scratch-reveal.js
+   paints it with a pressed star in the middle and takes it off under a
+   finger; a swipe across can clear all three). The arch at the top of each
+   is the arch the drape makes. Until somebody touches them the three give a
+   small nudge in turn and a light runs across the leaf, so they read as
+   something to do; when the last of it goes the blossom is thrown, the
+   figures spring up one after another, and the date arrives underneath. */
+.jb-countdown .jb-count {
+  direction: ltr;
+  gap: calc(12 / 390 * var(--jb-u));
+  align-items: stretch;
+  margin: calc(4 / 390 * var(--jb-u)) 0 0;
+}
+.jb-countdown .jb-count-cell {
+  position: relative;
+  box-sizing: border-box;
+  width: calc(84 / 390 * var(--jb-u));
+  min-width: 0;
+  min-height: calc(104 / 390 * var(--jb-u));
+  justify-content: center;
+  padding: calc(16 / 390 * var(--jb-u)) calc(4 / 390 * var(--jb-u)) calc(10 / 390 * var(--jb-u));
+  border: 1px solid color-mix(in srgb, var(--maroon, #747e4c) 40%, transparent);
+  border-radius: 999px 999px 6px 6px;
+  background: rgba(255, 255, 253, .86);
+  box-shadow: 0 14px 26px -18px rgba(52, 60, 30, .6);
+  overflow: hidden;
+}
+/* The hairline inside the edge, as the function cards have. */
+.jb-countdown .jb-count-cell::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border: 1px solid color-mix(in srgb, var(--maroon, #747e4c) 22%, transparent);
+  border-radius: 999px 999px 4px 4px;
+  pointer-events: none;
+}
+.jb-countdown .jb-count-num { font-size: calc(36 / 390 * var(--jb-u)); }
+.jb-countdown .jb-count-label { font-size: calc(10.5 / 390 * var(--jb-u)); }
+.jb-countdown .scratch-rub {
+  inset: 4px;
+  width: calc(100% - 8px);
+  height: calc(100% - 8px);
+  border-radius: 999px 999px 4px 4px;
+  z-index: 2;
+}
+
+/* The light across the leaf, above the canvas and gone with it. */
+.jb-countdown .scratch-tick::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  z-index: 3;
+  border-radius: 999px 999px 4px 4px;
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, .55) 50%, transparent 65%) no-repeat;
+  background-size: 260% 100%;
+  background-position: 130% 0;
+  pointer-events: none;
+  animation: jb-sheen 3.6s ease-in-out infinite;
+  animation-delay: calc(1.2s + var(--i, 0) * .22s);
+  transition: opacity 400ms ease;
+}
+.scratch-clock.is-rubbed .scratch-tick::after,
+.scratch-clock.is-touched .scratch-tick::after { opacity: 0; animation: none; }
+@keyframes jb-sheen {
+  0%, 55% { background-position: 130% 0; }
+  85%, 100% { background-position: -30% 0; }
+}
+
+/* The nudge: each in turn, a little lift and turn, then still again. */
+.jb-countdown .scratch-clock:not(.is-rubbed):not(.is-touched) .jb-count-cell {
+  animation: jb-nudge 3.6s ease-in-out infinite;
+  animation-delay: calc(1.2s + var(--i, 0) * .22s);
+}
+@keyframes jb-nudge {
+  0%, 62%, 100% { transform: none; }
+  68% { transform: translateY(-4px) rotate(-2.2deg); }
+  76% { transform: translateY(-2px) rotate(1.6deg); }
+  84% { transform: none; }
+}
+
+/* Revealed: the figures spring up in turn, the arch lights once. */
+.jb-countdown .scratch-clock.is-rubbed .jb-count-num {
+  animation: jb-spring 760ms cubic-bezier(.2, .9, .3, 1.35) both;
+  animation-delay: calc(120ms + var(--i, 0) * 120ms);
+}
+.jb-countdown .scratch-clock.is-rubbed .jb-count-cell {
+  animation: jb-glow 1.4s ease-out both;
+  animation-delay: calc(var(--i, 0) * 120ms);
+}
+@keyframes jb-spring {
+  from { opacity: 0; transform: translateY(14px) scale(.6); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes jb-glow {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--maroon, #747e4c) 45%, transparent), 0 14px 26px -18px rgba(52, 60, 30, .6); }
+  100% { box-shadow: 0 0 0 14px transparent, 0 14px 26px -18px rgba(52, 60, 30, .6); }
+}
+/* Ticking over after that, as before. */
+.jb-countdown .scratch-clock.is-rubbed .jb-count-num.is-tick { animation: jb-tick 600ms cubic-bezier(.3, .7, .3, 1); }
+
+.jb-count-hint {
+  margin: calc(14 / 390 * var(--jb-u)) 0 0;
+  font-family: var(--jb-serif);
+  font-style: italic;
+  font-size: calc(14 / 390 * var(--jb-u));
+  letter-spacing: .02em;
+  color: var(--maroon, #747e4c);
+  transition: opacity 500ms ease, max-height 500ms ease, margin 500ms ease;
+  max-height: 3em;
+}
+.jb-count-hint::before {
+  content: '\2726';
+  display: inline-block;
+  margin-right: .5em;
+  font-style: normal;
+  animation: jb-twinkle 2.4s ease-in-out infinite;
+}
+@keyframes jb-twinkle {
+  0%, 100% { transform: scale(.8) rotate(0); opacity: .55; }
+  50% { transform: scale(1.15) rotate(45deg); opacity: 1; }
+}
+.scratch-clock.is-rubbed ~ .jb-count-hint { opacity: 0; max-height: 0; margin: 0; overflow: hidden; }
+
+/* The date waits for the leaf -- it would give the answer away. Written
+   strongly enough to hold while the page's own arrival (.jb-rise.is-in) is
+   bringing everything else in, which otherwise showed it for a second. */
+html .jb-countdown .scratch-clock ~ .jb-count-until { transition: opacity 800ms ease 300ms, transform 800ms ease 300ms; }
+html .jb-countdown .scratch-clock:not(.is-rubbed) ~ .jb-count-until { opacity: 0 !important; transform: translateY(8px) !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  .jb-countdown .scratch-tick::after,
+  .jb-countdown .scratch-clock .jb-count-cell,
+  .jb-countdown .scratch-clock .jb-count-num,
+  .jb-count-hint::before { animation: none !important; }
+}
+
+@media (min-width: 900px) {
+  .jb-countdown .jb-count { gap: 16px; }
+  .jb-countdown .jb-count-cell { width: 92px; min-height: 112px; padding: 18px 4px 10px; }
+  .jb-countdown .jb-count-num { font-size: 38px; }
+  .jb-countdown .jb-count-label { font-size: 11px; }
+  .jb-count-hint { font-size: 15px; margin-top: 12px; }
+}
+
+/* ========================================================= the curtains, still
+
+   The editor's own page for the curtains (its "The curtains" tile): the
+   opening's first frame with the names and the button on it, exactly where
+   the real curtains put them, as the card's first page -- so they can be seen
+   and sized before anything plays. Only ever drawn in the editor. */
+.jb-curtain-still {
+  position: relative;
+  min-height: 100svh;
+  overflow: hidden;
+  background: #e9ebe0;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+.jb-curtain-still .jb-gate-box { z-index: 0; }
+.jb-curtain-still .jb-tap { animation: none; opacity: 1; }
+html.jb-on-curtains .jb-scroll { opacity: 0; pointer-events: none; }
+
+/* A function's extra timings (views/partials/_stops.ejs), set in the card's
+   own type and colours: what in the paragraph grey, the time in the couple's
+   green, one under the other where the single time would be. */
+.jb-event-stops { width: 100%; margin-top: calc(10 / 390 * var(--jb-u)); font-family: var(--jb-serif); font-size: calc(17 / 390 * var(--jb-u)); color: #3a3a38; }
+.jb-event-stops .ci-stops { margin: 0 auto; gap: calc(6 / 390 * var(--jb-u)); }
+.jb-event-stops .ci-stops li { padding-top: 0; border-top: 0; }
+.jb-event-stops .ci-stop-what { font-size: 1em; font-weight: 400; }
+.jb-event-stops .ci-stop-time { color: inherit; font-weight: 400; letter-spacing: 0; opacity: 1; }
+.jb-event-stops .ci-stops li.ci-stop-more { margin-top: 0; font-size: 1em; font-style: normal; opacity: 1; }
+/* Every line the same shape -- "Nikkah · 9:00 PM", "Dinner · 10:00 PM" --
+   rather than the first with its time underneath and the rest on one line. */
+.jb-event-stops .ci-stops li { display: block; }
+.jb-event-stops .ci-stop-what + .ci-stop-time::before { content: ' \00b7  '; color: #3a3a38; font-weight: 400; }
+.jb-event-stops .ci-stop-place { display: block; margin-top: 2px; font-size: .86em; }

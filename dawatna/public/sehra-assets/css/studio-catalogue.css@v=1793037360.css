@@ -1,0 +1,28 @@
+/* Orders Studio shares Sehra's catalogue typography and compact mobile filters. */
+.studio-catalogue .rv{opacity:1;transform:none;transition:none}
+.studio-catalogue .themes .wrap{max-width:1160px}
+.studio-catalogue .theme-card h3{margin:16px 0 8px;font-size:1.5rem}
+.studio-catalogue .theme-card p{color:var(--muted);line-height:1.7}
+.studio-catalogue .dark{color:#fffaf1;background:#123d32}
+.studio-catalogue .dark h2,.studio-catalogue .dark h3{color:#fffaf1}
+.studio-catalogue .dark em{color:#d5bd7d}
+.studio-catalogue .dark a{color:#f5e9cd}
+.studio-catalogue .theme-craft{overflow-wrap:anywhere}
+.studio-catalogue .theme-actions{flex-wrap:wrap}
+.studio-catalogue .collection-tools label{font-weight:500}
+.studio-catalogue .collection-tools input[type=checkbox]{width:18px;min-height:18px}
+.studio-catalogue .collection-tools label:first-child{min-width:0;flex-basis:220px}
+.studio-catalogue .s-top .wrap{flex-wrap:wrap;gap:12px}
+.studio-catalogue #studioThemePreview{width:min(430px,calc(100vw - 16px));height:min(940px,calc(100dvh - 16px));max-width:100%;max-height:calc(100dvh - 16px);padding:0;border:1px solid #b7aa91;border-radius:18px;background:#fffaf1;color:#213f34;overflow:hidden}
+#studioThemePreview[open]{display:grid;grid-template-rows:auto minmax(0,1fr) auto}
+#studioThemePreview::backdrop{background:#152d26c9}
+.studio-preview-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;border-bottom:1px solid #ddd3c1}
+.studio-preview-head h2{font:500 16px/1.4 var(--fb);margin:0;overflow-wrap:anywhere}
+#studioPreviewFrame{display:block;width:100%;height:100%;border:0;background:#f8f3e9}
+.studio-preview-foot{display:flex;flex-wrap:wrap;gap:4px 14px;padding:10px 12px;font:12px/1.5 var(--fb);border-top:1px solid #ddd3c1}
+.studio-preview-foot span{color:#5b655e}
+@media(max-width:700px){.studio-catalogue .theme-grid{max-width:380px}.studio-catalogue .s-top .s-nav{gap:12px}.studio-catalogue .theme-actions>*{min-height:44px}.studio-catalogue .demo-choice-bar{min-width:0}.studio-catalogue .demo-choice-bar select{width:100%;min-width:0}}
+
+.studio-preview-viewport{position:relative;overflow:hidden;min-width:0;min-height:0;background:#f8f3e9}
+.studio-preview-viewport>iframe{position:absolute!important;max-width:none!important;max-height:none!important;transform-origin:0 0;border:0}
+html:has(#studioThemePreview[open]),body:has(#studioThemePreview[open]){overflow:hidden;overscroll-behavior:none}

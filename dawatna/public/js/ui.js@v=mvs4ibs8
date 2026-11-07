@@ -1,0 +1,330 @@
+/* Shared interactions: waiting states, and the small responses that make the
+   app feel answered rather than frozen. Loaded on every page.
+
+   Everything here degrades to nothing — a page without it still submits its
+   forms and loads its previews, it just does so silently. */
+(function () {
+  'use strict';
+
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Kept in one place so the overlay and the preview placeholders cannot
+  // drift apart. Mirrors views/partials/ci-mark.ejs.
+  var CI_MARK =
+    '<svg class="ci-svg" viewBox="0 0 120 120" fill="none" aria-hidden="true"><path class="ci-c" d="M 64.5 36.4 A 30 30 0 1 0 64.5 83.6" stroke="currentColor" stroke-width="7" stroke-linecap="round"/><path class="ci-i" d="M90 30 L 90 90" stroke="currentColor" stroke-width="7" stroke-linecap="round"/><path class="ci-s" d="M79 30 L 101 30 M79 90 L 101 90" stroke="currentColor" stroke-width="4.5" stroke-linecap="round"/></svg>';
+
+  /* ------------------------------------------------------------ the wait */
+  /* Anything being saved puts the mark over the whole screen.
+
+     This existed and never appeared: it was wired only to links carrying
+     data-wait, and nothing in the app carries data-wait. Saving a form got a
+     spinner inside its own button, which on a long screen is often nowhere
+     near where you are looking.
+
+     It covers everything on purpose. A half-saved card is what you get when
+     somebody keeps typing into a form that is mid-request, or presses save
+     twice, so while it is up nothing is clickable. */
+  var overlay = null;
+  var waits = 0;
+
+  function showOverlay(message) {
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.className = 'ci-overlay';
+      overlay.innerHTML = '<div class="ci-load is-lg">' + CI_MARK + '</div><p></p>';
+      document.body.appendChild(overlay);
+    }
+    overlay.querySelector('p').textContent = message || 'Saving…';
+    document.documentElement.classList.add('is-waiting');
+    /* Shown in this frame, not the next one.
+
+       This waited for an animation frame so the fade had something to fade
+       from -- and an animation frame is exactly what a browser stops handing
+       out while it is leaving for another page, or while the tab is not the
+       one in front. The curtain never arrived, and because the page underneath
+       had already been made unclickable, what a customer got was a screen that
+       looked normal and answered nothing.
+
+       Reading the layout first is enough to give the transition its starting
+       point; if the browser is too busy to run the transition, the curtain
+       simply appears, which is the right failure. */
+    void overlay.offsetWidth;
+    overlay.classList.add('show');
+  }
+
+  function hideOverlay() {
+    if (overlay) overlay.classList.remove('show');
+    document.documentElement.classList.remove('is-waiting');
+  }
+
+  /* Anything saving by fetch — the card editor, the section switches — says so
+     through here, so there is one waiting state rather than each screen
+     inventing its own. Counted, because two saves can overlap. */
+  window.Ceremonia = window.Ceremonia || {};
+
+  /* The thin bar along the top (2026-10-04, Ahmad: "just add them and have a
+     progress bar at the top").
+
+     It starts the instant something is asked for -- a link pressed, a form
+     sent, a guest added -- and creeps towards the end until the answer
+     arrives, then fills and fades. Nothing is covered and nothing waits for
+     it: it is only the sign that the press was heard. Counted, so two things
+     in flight keep one bar going until both are back. */
+  var bar = null;
+  var barJobs = 0;
+  var barTimer = null;
+  var barAt = 0;
+  function barEl() {
+    if (bar) return bar;
+    var css = document.createElement('style');
+    css.textContent = '.ci-topbar{position:fixed;top:0;left:0;right:0;height:3px;z-index:2147483000;pointer-events:none;opacity:0;transition:opacity .25s ease}'
+      + '.ci-topbar.on{opacity:1}'
+      + '.ci-topbar i{display:block;height:100%;width:100%;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,#6d5119,#cfa954,#5a1621);box-shadow:0 0 8px rgba(109,81,25,.55);transition:transform .3s ease}';
+    document.head.appendChild(css);
+    bar = document.createElement('div');
+    bar.className = 'ci-topbar';
+    bar.setAttribute('aria-hidden', 'true');
+    bar.innerHTML = '<i></i>';
+    document.body.appendChild(bar);
+    return bar;
+  }
+  function barSet(f) { barAt = f; barEl().firstChild.style.transform = 'scaleX(' + f + ')'; }
+  function barStart() {
+    barJobs += 1;
+    if (barJobs > 1) return;
+    window.clearInterval(barTimer);
+    barEl().classList.add('on');
+    barSet(0.08);
+    // Quick at first, then slower and slower, never quite reaching the end.
+    barTimer = window.setInterval(function () { barSet(barAt + (0.92 - barAt) * 0.12); }, 160);
+  }
+  function barDone() {
+    barJobs = Math.max(0, barJobs - 1);
+    if (barJobs) return;
+    window.clearInterval(barTimer);
+    barSet(1);
+    window.setTimeout(function () {
+      if (barJobs) return;
+      bar.classList.remove('on');
+      window.setTimeout(function () { if (!barJobs) barSet(0); }, 260);
+    }, 220);
+  }
+  window.Ceremonia.progress = { start: barStart, done: barDone };
+
+  /* Leaving for another screen: the bar starts on the press, not when the
+     browser finally gets round to showing the next page. */
+  document.addEventListener('click', function (e) {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    var a = e.target.closest && e.target.closest('a[href]');
+    if (!a || a.target === '_blank' || a.hasAttribute('download')) return;
+    var href = a.getAttribute('href') || '';
+    if (!href || href.charAt(0) === '#' || /^(mailto|tel|javascript):/i.test(href)) return;
+    try {
+      var url = new URL(a.href, window.location.href);
+      if (url.origin !== window.location.origin) return;
+      if (url.pathname === window.location.pathname && url.search === window.location.search) return;
+    } catch (err) { return; }
+    barStart();
+  });
+  window.addEventListener('beforeunload', function () { if (!barJobs) barStart(); });
+
+  window.Ceremonia.wait = function (message) {
+    waits += 1;
+    showOverlay(message);
+  };
+  window.Ceremonia.done = function () {
+    waits = Math.max(0, waits - 1);
+    if (!waits) hideOverlay();
+  };
+
+  /* ------------------------------------------------- a button at work */
+  /* Saying so on the button itself.
+
+     A save that answers in forty milliseconds still has to be seen to have
+     happened, or the only evidence anything occurred is that nothing changed.
+     So the working state is held for a beat whether the work takes that long
+     or not -- long enough to read as an answer, short enough that nobody is
+     waiting on us.
+
+     The label goes into a span the first time, because the mark is drawn over
+     the middle of the button and a bare text node cannot be faded out from
+     under it. */
+  var HELD = 420;
+
+  function labelOf(btn) {
+    if (!btn.querySelector('.ci-label')) {
+      var span = document.createElement('span');
+      span.className = 'ci-label';
+      while (btn.firstChild) span.appendChild(btn.firstChild);
+      btn.appendChild(span);
+    }
+    return btn.querySelector('.ci-label');
+  }
+
+  window.Ceremonia.working = function (btn) {
+    if (!btn || btn._ciBusy) return function () {};
+    var label = labelOf(btn);
+    var started = Date.now();
+    btn._ciBusy = true;
+    btn.disabled = true;
+    btn.classList.add('is-working');
+    window.clearTimeout(btn._ciSaid);
+
+    /* Returns the way to stop. `said` is what the button should say once it
+       has, for as long as somebody needs to see it. */
+    return function done(said) {
+      var wait = Math.max(0, HELD - (Date.now() - started));
+      window.setTimeout(function () {
+        btn._ciBusy = false;
+        btn.disabled = false;
+        btn.classList.remove('is-working');
+        if (!said) return;
+        if (!btn._ciWas) btn._ciWas = label.textContent;
+        label.textContent = said;
+        btn.classList.add('is-done');
+        btn._ciSaid = window.setTimeout(function () {
+          label.textContent = btn._ciWas;
+          btn.classList.remove('is-done');
+        }, 1800);
+      }, wait);
+    };
+  };
+
+  // A submit that takes a moment should say so, and must not be submittable
+  // twice. Skipped for anything marked data-no-wait — filters and toggles
+  // answer instantly and a curtain over those is just a flash.
+  document.addEventListener(
+    'submit',
+    function (e) {
+      var form = e.target;
+      if (!form || form.hasAttribute('data-no-wait')) return;
+      if (form.getAttribute('method') && form.getAttribute('method').toLowerCase() === 'get') return;
+      // A form the page is handling itself will call wait() when it is ready.
+      if (form.hasAttribute('data-pop-form')) return;
+
+      var btn = form.querySelector('button[type=submit], button:not([type])');
+      if (btn && btn.classList.contains('is-working')) return;
+
+      barStart();
+      window.setTimeout(function () {
+        /* A script further along took the submit over (it sends it itself and
+           says so its own way) -- nothing of ours belongs on the page then. */
+        if (e.defaultPrevented) { window.clearTimeout(form._ciCurtain); barDone(); return; }
+        if (btn) {
+          btn.classList.add('is-working');
+          btn.disabled = true;
+        }
+      }, 0);
+      /* The full-screen curtain only for a save that is genuinely taking a
+         while. A quick save used to flash our mark over the whole screen for
+         something that took a quarter of a second, which reads as slow. The
+         button is disabled at once, so a second press cannot get through. */
+      window.clearTimeout(form._ciCurtain);
+      form._ciCurtain = window.setTimeout(function () {
+        showOverlay(form.getAttribute('data-wait') || 'Saving…');
+      }, 900);
+    },
+    true
+  );
+
+  /* Moving between screens does not get a curtain.
+
+     It had one, and it was wrong. A curtain says "something is happening that
+     you must wait for and must not touch", which is true of a save and untrue
+     of going to the next screen: there is nothing to protect, nothing can go
+     half-done, and a full-screen mark over a page you asked to leave is a
+     flash of our logo between every two things you do. What that wait needed
+     was to be shorter, and /js/swift.js makes it shorter by fetching the next
+     screen while the pointer is still on its way to it.
+
+     A link may still ask for one by carrying data-wait -- there are a few
+     that genuinely start work rather than open a page. Nothing else does.
+
+     A curtain raised for a page that then never leaves must lift itself:
+     leaving can be called off after the fact -- a beforeunload somebody
+     answers with Stay -- and there is no event that says so. */
+  var leaving = null;
+  function leavingNow(message) {
+    showOverlay(message);
+    window.clearTimeout(leaving);
+    leaving = window.setTimeout(hideOverlay, 12000);
+  }
+
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('a[data-wait]');
+    if (!a || a.target === '_blank' || e.metaKey || e.ctrlKey || e.shiftKey) return;
+    leavingNow(a.getAttribute('data-wait'));
+  });
+
+  /* Anything that is genuinely work rather than a page -- a save the shell
+     performs itself -- says so through here, so there is one waiting state on
+     the page whoever starts it. */
+  window.Ceremonia.going = function (message) {
+    leavingNow(message || 'Working\u2026');
+  };
+
+  window.addEventListener('pageshow', function () {
+    // Coming back through history, the curtain must not still be up.
+    waits = 0;
+    hideOverlay();
+    // Back to a page from the browser's cache: whatever was in flight is over.
+    if (barJobs) { barJobs = 1; barDone(); }
+  });
+
+  /* ------------------------------------------------------ card previews */
+  // Each card preview is a whole page in an iframe and takes a moment. The
+  // placeholder holds the space so the grid never flashes empty.
+  Array.prototype.forEach.call(document.querySelectorAll('[data-preview]'), function (box) {
+    var frame = box.querySelector('iframe');
+    if (!frame) return;
+
+    var ph = document.createElement('div');
+    ph.className = 'ci-ph';
+    ph.innerHTML = '<div class="ci-load is-sm">' + CI_MARK + '</div>';
+    box.appendChild(ph);
+
+    var done = function () { ph.classList.add('gone'); };
+    if (frame.complete) done();
+    frame.addEventListener('load', done);
+    // A frame that never fires load should not leave the mark spinning forever.
+    window.setTimeout(done, 8000);
+  });
+
+  /* --------------------------------------------------------- press feedback */
+  // A small, quick depress on anything clickable, so a tap registers visibly
+  // even before the page responds.
+  if (!reduced) {
+    document.addEventListener('pointerdown', function (e) {
+      var el = e.target.closest('.btn, .sec-switch, .to-top, .tcard, .ci-card, .step');
+      if (!el) return;
+      el.style.transition = 'transform .08s ease';
+      el.style.transform = (el.style.transform || '') + ' scale(.985)';
+      var restore = function () {
+        el.style.transform = el.style.transform.replace(' scale(.985)', '');
+        el.style.transition = '';
+        el.removeEventListener('pointerup', restore);
+        el.removeEventListener('pointerleave', restore);
+      };
+      el.addEventListener('pointerup', restore);
+      el.addEventListener('pointerleave', restore);
+    });
+  }
+})();
+
+/* The phone menu in the account shell. Their design opens a full-screen
+   drawer from the topbar; without it a phone has no way to move between
+   screens, because the sidebar that normally carries them is hidden. */
+(function () {
+  var open = document.getElementById('mobileNavBtn');
+  var shut = document.getElementById('mobileNavClose');
+  var nav = document.getElementById('mobileNav');
+  if (!open || !nav) return;
+  open.addEventListener('click', function () {
+    nav.hidden = false;
+    open.setAttribute('aria-expanded', 'true');
+  });
+  if (shut) shut.addEventListener('click', function () {
+    nav.hidden = true;
+    open.setAttribute('aria-expanded', 'false');
+  });
+}());

@@ -1,0 +1,3820 @@
+/* Lavish Wedding.
+
+   Being built one section at a time. Section 1 is here: a room, an envelope
+   over it, and a wax seal that opens the envelope.
+
+   The card is drawn at a phone's proportions -- 390 by 844 -- and centred on
+   anything wider, so a guest on a laptop sees the same card rather than a
+   different one. Every measurement below is a percentage of that box, so the
+   whole thing scales without a single number changing.
+*/
+
+:root {
+  /* The design's own colours, exactly as lib/color.js computes them from
+     this design's own palette (lib/templates/lavish-wedding.js). A card kept in its
+     own colours is sent no inline style at all -- these are what the page
+     falls back to in that case, and what every var(--primary) etc. below
+     resolves to until a customer chooses something else. Regenerate with
+     paletteToStyle(withArt(key, paletteFrom(definition.palette))) if this
+     design's base palette ever changes. */
+  --maroon:#3b2a24;
+  --primary:#3b2a24;
+  --secondary:#cda45e;
+  --box-bg:color-mix(in srgb, #3b2a24 20%, #ffffff 80%);
+  --box-border:#3b2a24;
+  --on-maroon:#ffffff;
+  --maroon-deep:#261b17;
+  --maroon-light:#5e504b;
+  --maroon-pale:#b1aaa7;
+  --gold:#cda45e;
+  --on-gold:#2d2415;
+  --gold-light:#dfc496;
+  --gold-deep:#9a7b47;
+  --cream:#fcfaf5;
+  --cream-deep:#f8f2e8;
+  --ink:#2c201b;
+  --ink-soft:#544c49;
+  --shadow:0 20px 55px rgba(0, 0, 0, 0.22);
+  --rose-dark:#3b2a24;
+  --rose-mid:#665954;
+  --leaf:#444730;
+  --lehnga:#3b2a24;
+  --lehnga-soft:#7a6e6a;
+  --sherwani:#cda45e;
+  --lw-art-cover:url('../art/lavish-wedding/Hero-backrgound-mob.svg@c=3b2a24&d=cda45e');
+  --lw-art-cover-web:url('../art/lavish-wedding/Hero-backrgound-web.svg@c=3b2a24&d=cda45e');
+  --lw-art-s1:url('../art/lavish-wedding/Section-1-mob.svg@c=3b2a24&d=cda45e');
+  --lw-art-s1-web:url('../art/lavish-wedding/Section-1-web.svg@c=3b2a24&d=cda45e');
+  /* White wax, on purpose and fixed -- see the note beside 'lavish-wedding'
+     in lib/color.js's ART map for why this one is never tinted to the
+     customer's chosen colour. */
+  --lw-art-wax:url('../art/lavish-wedding/Wax.png@c=f4ece0');
+
+  --lw-ground: #1a1512;
+  --lw-paper: #f7f1e8;
+  /* The cream of the wax, which is what the lettering on the envelope is set
+     in so that it belongs to the seal rather than to the paper. */
+  --lw-wax: #f4ece0;
+  /* The brown the artwork's own lettering is drawn in. */
+  --lw-ink: #33211c;
+}
+
+html, body { margin: 0; }
+
+/* The scroll the finished cards use: the page snaps a section at a time and
+   moves smoothly between them. Read off usama-weds-maryam.com, which is the
+   behaviour these are meant to match -- snapping on the root, each section
+   starting a snap position. */
+html {
+  scroll-snap-type: y;
+  scroll-behavior: smooth;
+
+  /* How wide the card is, named here because two things outside it need to
+     measure against it: the scroll cue, which stands at its corner, and the
+     wide screen's room, which is clipped to exactly this until it opens. */
+  --lw-w: min(100vw, calc(100svh * 390 / 844));
+}
+
+.lw-card [data-section] { scroll-snap-align: start; }
+
+body {
+  background: var(--lw-ground);
+  /* The seal is a button and the flaps are pictures; nothing here is text to
+     be selected, and a long press that selects the envelope instead of
+     opening it is the commonest way this kind of gate feels broken. */
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Sealed: the invitation is behind the envelope and must not be scrolled
+   past before it has been opened. */
+html.lw-sealed, html.lw-sealed body { overflow: hidden; height: 100%; }
+
+.lw-card {
+  position: relative;
+  /* Driven by the height there is, not by the width. Sized the other way
+     round the card comes out taller than the window on anything squarer than
+     a phone, and the foot of it is simply cut off. */
+  width: var(--lw-w);
+  margin: 0 auto;
+  overflow: clip;
+}
+
+/* A column, so the pages can be rearranged.
+
+   Every page is written out below in the order this design was drawn in. When
+   somebody moves one in the panel, what has to move is the page -- and a
+   column of flex items lays its children out by their `order` rather than by
+   where they sit in the file. Nothing about any page changes: they are still
+   full-width blocks stacked top to bottom, which is what a column already is.
+
+   Scroll snapping follows the laid-out order, not the source order, so a card
+   whose pages have been moved snaps through them the way it reads. */
+.lw-main {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ------------------------------------------------------------- section 1 */
+
+.lw-hero {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  overflow: hidden;
+  background: var(--lw-paper);
+  /* Type is sized against the card's width rather than the window's, because
+     the card is capped and the window is not. 36px of a 390 card is 9.231cqw
+     wherever the card ends up. */
+  container-type: inline-size;
+}
+
+/* The room, painted behind everything.
+
+   A variable with the file behind it: a card that has chosen no colours is
+   served the artwork exactly as painted, and one that has gets the same
+   drawing from /art -- moved to the customer's *secondary* colour, because
+   this is the room the invitation is set in rather than the ink it is
+   written with. */
+.lw-room {
+  position: absolute;
+  inset: 0;
+  background: var(--lw-paper) center / cover no-repeat;
+
+  /* It arrives as the lid starts to lift. Behind a shut envelope there is
+     nothing to see, so there is no reason to have shown it before then. */
+  opacity: 0;
+  transition: opacity 1050ms ease 180ms;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+/* ---- the painted rooms, asked for once the envelope is on the screen ----
+
+   The room behind the envelope and the arch on the page after it are drawings
+   of nine thousand filled paths each, and neither of them is visible while the
+   envelope is still shut. Named in the stylesheet outright, they are fetched
+   the moment it is read -- on the same connection, at the same moment, as the
+   four pieces of the envelope, which are the only thing anybody is looking at.
+   On a phone on mobile data that is a card that sits there.
+
+   So the stylesheet holds their addresses behind a class the page adds once it
+   has finished loading. Nothing about the card changes: by the time a guest has
+   found the seal and pressed it, both have been in the cache for seconds. A
+   page whose script never runs adds the class at the first tap instead, and one
+   with no script at all is handled where the class is added.
+
+   The class is on the document rather than on the card because the wide
+   screen's room lives outside the card. */
+
+html.lw-painted .lw-room {
+  background-image: var(--lw-art-cover, url('../img-sample/templates/lavish-wedding/Hero/Hero-backrgound-mob.svg.webp'));
+}
+
+/* The drift, as the other card does it.
+
+   Twenty per cent in and twenty per cent back out over eighteen seconds. The
+   length is the whole point: the same travel over four seconds is a zoom, and
+   over eighteen it is something a guest notices only if they look for it.
+
+   It starts when the envelope does, so the room is already moving by the time
+   there is enough of it to see -- and it is the room that moves, never the
+   names over it. */
+.lw-hero.is-opening .lw-room { animation: lw-room-drift 18s ease-in-out infinite; }
+
+.lw-hero:not(.is-live) .lw-room { animation-play-state: paused; }
+
+/* Not `lw-drift`: that name was already taken, by the sparkles. Given to the
+   room as well it was the sparkles' keyframes that won, and the room spent
+   the whole card slowly spinning and shrinking to half size. */
+@keyframes lw-room-drift {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.2); }
+}
+
+/* ---- the envelope, as one object in one space ----
+
+   The four flaps used to carry a `perspective()` of their own inside their
+   transforms. That is four separate spaces: each flap was projected as
+   though the eye were square in front of *it*, so no two of them agreed
+   about where the viewer was standing and the envelope came apart into four
+   independently tilting pictures.
+
+   One perspective on the envelope instead, with its vanishing point at the
+   seal. Now every flap -- and the seal, which turns with the lid -- is
+   projected from the same eye, which is the whole of what makes the four
+   read as one folded sheet.
+
+   This was deliberately avoided once: perspective starts a stacking context,
+   and a stacking context is a wall that multiply cannot see the room
+   through. Nothing in the envelope multiplies any more (cutting the flaps to
+   their triangles replaced it), so the wall costs nothing and the depth is
+   worth having. */
+.lw-envelope {
+  position: absolute;
+  inset: 0;
+  /* A little over twice the card's width: near enough for the foreshortening
+     to be visible, far enough that the corners do not smear. */
+  perspective: 820px;
+  perspective-origin: 50% 50%;
+  transform-style: preserve-3d;
+}
+
+/* Each flap is the whole page, cut to its own triangle.
+
+   The four triangles are defined here rather than taken from the edges of the
+   pictures. Read off the files, those edges were a few pixels short of the
+   corners, and a few pixels short is a white splinter running down the top of
+   the envelope. Cut to a shape of our own they meet exactly, and the picture
+   inside each one only has to be big enough to fill it.
+
+   Cutting also settles what multiply was for. The pieces come on white, and
+   multiplying them dropped it -- but it also darkened each flap against the
+   lit room as it opened. Clipped, the white never arrives, and the paper
+   stays the colour it was painted. */
+.lw-flap {
+  position: absolute;
+  inset: 0;
+  /* Its two faces live in the flap's own space, which is what lets the
+     browser decide for itself which of them is pointing at the eye. */
+  transform-style: preserve-3d;
+  /* Promoted, so the whole flap -- shadows, cut and picture -- is drawn once
+     into a layer of its own and then simply turned. Without this the browser
+     redraws the filter on every frame of the opening, which is what made it
+     stall part way through. */
+  will-change: transform;
+}
+
+/* `backface-visibility: hidden` used to sit here, on the flap itself, and it
+   was quietly eating the second half of the opening: a flap turns 168
+   degrees, so from 90 onwards it is its own back that faces the eye, and
+   hidden means each piece simply stopped existing halfway through its turn.
+   Better than half of the animation was four rectangles vanishing.
+
+   The property is right, the element was wrong. It belongs on the two faces
+   *inside* the flap, where hiding the one pointing away is exactly how the
+   browser knows to show the other. */
+.lw-face,
+.lw-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+}
+
+/* The reverse is turned about the flap's own hinge axis -- sideways for the
+   two that swing out, end over end for the two that fold -- so that when the
+   flap has gone right over, its back comes up the right way up rather than
+   upside down.
+
+   And it is set a shade behind the printed side rather than exactly on it.
+   Two coplanar faces in one 3D space flicker against each other; six tenths
+   of a pixel of separation settles that, and is also, as it happens, about
+   what this paper would measure. */
+.lw-back {
+  background-color: #35221a;
+  background-image:
+    /* the weave, so the unprinted side is paper rather than a brown box */
+    repeating-linear-gradient(96deg, rgba(255, 255, 255, .04) 0 1px, transparent 1px 3px),
+    radial-gradient(140% 120% at 50% 28%, #4c3527 0%, #35221a 56%, #241610 100%);
+}
+
+.lw-flap-left .lw-back,
+.lw-flap-right .lw-back { transform: rotateY(180deg) translateZ(.6px); }
+
+.lw-flap-top .lw-back,
+.lw-flap-down .lw-back { transform: rotateX(180deg) translateZ(.6px); }
+
+/* The reverse has been lying face down against the printed side, so it starts
+   in the dark and only finds the light as the flap brings it round. */
+.lw-back::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #000000;
+  opacity: .62;
+}
+
+/* Shadows on the middle box, the cut on the inner one: a filter is applied
+   to an element before its clip, so a drop shadow sharing a box with the cut
+   is cut away with everything outside the triangle. */
+.lw-shade,
+.lw-cut {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+/* The light coming off the printed side as it turns away from the room.
+
+   Laid over the picture rather than applied to it: a filter on the flap
+   would have to be built again for every frame of the turn, which is the
+   thing the three boxes below exist to avoid. Its gradient runs from the
+   hinge to the free edge on every flap, because the far edge is the part
+   that swings furthest out of the light. */
+.lw-lit {
+  position: absolute;
+  inset: 0;
+  display: block;
+  opacity: 0;
+}
+
+.lw-flap img {
+  position: absolute;
+  display: block;
+}
+
+/* ---- the four triangles ----
+
+   All four meet at the seal's own middle, 195,422. The top and bottom ones
+   reach past it -- to 433 and back to 333 -- which is the overlap a real
+   envelope has, and what the seal is stuck across.
+
+   Inside each, the picture is sized so that its own triangle of ink contains
+   the whole of the cut, with room to spare on every side. Sized to just meet
+   the cut it falls short somewhere, and short by two pixels along a diagonal
+   is a white thread running the height of the envelope.
+
+   The reverse takes the same triangle mirrored, because it is the same piece
+   of paper seen from the other side. */
+
+.lw-flap-left { transform-origin: left center; }
+.lw-flap-left .lw-cut,
+.lw-flap-left .lw-lit { clip-path: polygon(0 0, 0 100%, 50% 50%); }
+.lw-flap-left .lw-back { clip-path: polygon(100% 0, 100% 100%, 50% 50%); }
+.lw-flap-left .lw-lit { background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, .58)); }
+.lw-flap-left img { left: 0; top: -12%; width: 62%; height: 128%; }
+
+.lw-flap-right { transform-origin: right center; }
+.lw-flap-right .lw-cut,
+.lw-flap-right .lw-lit { clip-path: polygon(100% 0, 100% 100%, 50% 50%); }
+.lw-flap-right .lw-back { clip-path: polygon(0 0, 0 100%, 50% 50%); }
+.lw-flap-right .lw-lit { background: linear-gradient(to left, rgba(0, 0, 0, 0), rgba(0, 0, 0, .58)); }
+.lw-flap-right img { left: 38%; top: -12%; width: 62%; height: 128%; }
+
+/* Down to 433 of 844, and carrying the design's own two shadows. */
+.lw-flap-top { transform-origin: center top; }
+.lw-flap-top .lw-shade { filter: url(card-lavish-wedding.css@v=mvs4ibs8.css); }
+.lw-flap-top .lw-cut,
+.lw-flap-top .lw-lit { clip-path: polygon(0 0, 100% 0, 50% 51.30%); }
+.lw-flap-top .lw-back { clip-path: polygon(0 100%, 100% 100%, 50% 48.70%); }
+.lw-flap-top .lw-lit { background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, .58)); }
+.lw-flap-top img { left: -13.8%; top: -2.1%; width: 128.2%; height: auto; }
+
+/* Up to 333 of 844. */
+.lw-flap-down { transform-origin: center bottom; }
+.lw-flap-down .lw-shade { filter: url(card-lavish-wedding.css@v=mvs4ibs8.css); }
+.lw-flap-down .lw-cut,
+.lw-flap-down .lw-lit { clip-path: polygon(0 100%, 100% 100%, 50% 39.45%); }
+.lw-flap-down .lw-back { clip-path: polygon(0 0, 100% 0, 50% 60.55%); }
+.lw-flap-down .lw-lit { background: linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, .58)); }
+.lw-flap-down img { left: -27.5%; top: 33.2%; width: 153.8%; height: auto; }
+
+/* The seal, at 100,327 in the card's own 390 by 844. */
+.lw-seal {
+  position: absolute;
+  left: 25.641%;
+  top: 38.744%;
+  width: 48.718%;
+  height: 22.512%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  /* Hinged where the top flap is hinged -- the top edge of the card -- which
+     from inside this box is 327 above its own top, or 172% of its height. So
+     the two turn together without either being inside the other. */
+  transform-origin: 50% -172.1%;
+  /* Springs back rather than easing back: a seal that returns as slowly as
+     it went down feels like a picture, not a button. */
+  transition: transform 260ms cubic-bezier(.34, 1.56, .64, 1);
+}
+
+/* The seal, exactly as supplied -- and now supplied on transparency, so
+   nothing has to be cut off it or keyed out of it. */
+.lw-seal img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.lw-seal:focus-visible { outline: 2px solid var(--lw-paper); outline-offset: 6px; }
+
+/* ---- what the closed envelope says ----
+
+   Both are placed to the point they were drawn at, and both are set out from
+   the same left edge on either side rather than centred by eye: give a box
+   the same inset left and right and it is centred by construction, and it
+   still begins exactly where the design says.
+
+   "Tap to Open" at 119,538, 36px; the credit at 68,786, 16px. */
+
+.lw-tap,
+.lw-credit {
+  position: absolute;
+  margin: 0;
+  /* The x given is where the line begins, so it is set from the left and
+     left to run to its own width. Inset equally on both sides instead and
+     the box comes out 152 wide, which is narrower than the words. */
+  white-space: nowrap;
+  color: var(--lw-wax, #f4ece0);
+}
+
+.lw-tap {
+  left: 30.513%;
+  top: 63.744%;
+  transform-origin: left center;
+  font-family: 'Arizonia', 'Segoe Script', cursive;
+  /* 36 of 390 across, so it holds its proportion as the card scales. */
+  font-size: 9.231cqw;
+  line-height: 1.1;
+  /* Breathing, so that the one thing to press is the one thing moving. It
+     never stops while the envelope is shut -- an animation that runs once is
+     missed by anybody who was still reading. */
+  animation: lw-breathe 2600ms ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes lw-breathe {
+  0%, 100% { transform: scale(1); opacity: .82; }
+  50%      { transform: scale(1.055); opacity: 1; }
+}
+
+/* Centred rather than set from x68, which is where it was first drawn. On a
+   card whose every other line is centred, one line starting off to the left
+   reads as a line that got left behind. */
+.lw-credit {
+  left: 0;
+  right: 0;
+  top: 93.128%;
+  text-align: center;
+  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+  font-size: 4.103cqw;
+  line-height: 1.2;
+  text-decoration: none;
+  letter-spacing: .01em;
+}
+
+.lw-credit:hover { text-decoration: underline; }
+
+/* Both go with the envelope they belong to. */
+.lw-hero.is-opening .lw-tap,
+.lw-hero.is-opening .lw-credit {
+  opacity: 0;
+  animation: none;
+  transition: opacity 380ms ease;
+}
+
+/* Pressed. The scale is about the seal's own middle, not the far-off hinge,
+   so it sinks where the finger is. */
+.lw-seal.is-pressing {
+  transform-origin: 50% 50%;
+  transform: scale(.93);
+  transition-duration: 90ms;
+  transition-timing-function: ease-out;
+}
+
+/* ---- the opening ----
+
+   The lid goes first, seal and all, hinged on the top edge and turning away
+   from the eye like a page. The other three follow a beat later, each hinged
+   on the edge it is fixed to: the sides open outwards, the bottom drops.
+
+   None of them go the full half turn. Stopping a little short leaves each
+   flap edge-on rather than perfectly flat, which is what keeps the paper
+   looking like paper right up to the moment it goes.
+
+   The perspective is no longer written into these transforms. It is on the
+   envelope, once, so that all four flaps and the seal are seen from one
+   place -- see the note there.
+
+   Three things move together on every flap, all on the same clock: the turn,
+   the light going off the printed side, and the light arriving on the
+   reverse. Sharing a duration, a delay and an easing is what keeps them one
+   event rather than three that happen to overlap. */
+
+/* Paper has weight. The old curve eased out of the turn as though the flap
+   were being lowered by hand; these let each piece run and then settle a
+   fraction past where it lands, which is what a sheet of card actually does
+   when it is let go. The durations are untouched. */
+.lw-hero.is-opening .lw-flap-top,
+.lw-hero.is-opening .lw-seal {
+  /* Forward, not back.
+
+     A negative rotation about the top edge sent the lid's free edge away from
+     the reader, into the screen -- which is how a flap on the *back* of an
+     envelope opens, and reads as the card folding away from you. This is the
+     front: the lid and the wax on it come up toward the reader and off the
+     top of the card, which is what opening an envelope in your hands looks
+     like.
+
+     Eighteen per cent of lift, where going backwards wanted sixty-two.
+     Turning forward about the top edge already carries the lid up and toward
+     the reader on its own, so the old lift on top of it threw the whole piece
+     off the top of the card inside the first third of the beat -- the lid was
+     gone before the sides had properly started. This is enough to read as
+     the lid being drawn away and not so much that it leaves early. */
+  transform: translateY(-18%) rotateX(128deg);
+  transition: transform 1650ms cubic-bezier(.34, .82, .28, 1);
+}
+
+/* The seal goes as the lid passes upright. The wax is a picture with no
+   reverse, so once the lid is edge-on there is nothing left of it to show
+   and every frame after that would be the back of a thing that has no back.
+   It starts going at exactly that point, which the lid reaches around six
+   hundred milliseconds in. */
+.lw-hero.is-opening .lw-seal {
+  opacity: 0;
+  transition: transform 1650ms cubic-bezier(.34, .82, .28, 1), opacity 500ms ease 620ms;
+}
+
+/* The two sides fall outwards under their own weight. Not quite together:
+   eighty milliseconds between them is too little to read as a sequence and
+   just enough that the envelope stops looking machined.
+
+   A hundred and twelve degrees, where it used to be a hundred and sixty-eight.
+
+   A flap hinged on the card's left edge is edge-on at ninety and lies wholly
+   to the LEFT of the card beyond it -- outside the hero, which is the window
+   the whole card is seen through. So every degree past about ninety-five is
+   turned where nobody can see it, and at a hundred and sixty-eight that was
+   nearly half the throw: the paper finished moving in the first half of the
+   time and the rest of the duration was an empty frame waiting for a
+   transition to end.
+
+   Stopping just past the point of disappearance spends the same time on the
+   part that can actually be watched. The flap still leaves completely -- at
+   a hundred and twelve it stands a hundred and forty-six pixels clear of the
+   card -- it simply takes the whole beat to get there. */
+.lw-hero.is-opening .lw-flap-left {
+  transform: rotateY(112deg);
+  transition: transform 1425ms cubic-bezier(.34, .82, .28, 1) 450ms;
+}
+
+.lw-hero.is-opening .lw-flap-right {
+  transform: rotateY(-112deg);
+  transition: transform 1425ms cubic-bezier(.34, .82, .28, 1) 530ms;
+}
+
+.lw-hero.is-opening .lw-flap-down {
+  transform: rotateX(112deg);
+  transition: transform 1425ms cubic-bezier(.34, .82, .28, 1) 660ms;
+}
+
+/* ---- and the light on them ----
+
+   Each face is given the same clock as the flap it belongs to. The printed
+   side dims as it turns out of the room's light; the reverse, which has been
+   lying against it in the dark, comes up to meet it. */
+.lw-lit,
+.lw-back::after { transition: opacity 1425ms cubic-bezier(.34, .82, .28, 1); }
+
+.lw-flap-top .lw-lit,
+.lw-flap-top .lw-back::after {
+  transition-duration: 1650ms;
+  transition-timing-function: cubic-bezier(.34, .82, .28, 1);
+}
+
+.lw-flap-left .lw-lit,  .lw-flap-left .lw-back::after  { transition-delay: 450ms; }
+.lw-flap-right .lw-lit, .lw-flap-right .lw-back::after { transition-delay: 530ms; }
+.lw-flap-down .lw-lit,  .lw-flap-down .lw-back::after  { transition-delay: 660ms; }
+
+.lw-hero.is-opening .lw-lit { opacity: 1; }
+.lw-hero.is-opening .lw-back::after { opacity: .1; }
+
+/* ---- and the room behind ----
+
+   It comes up with the lid, and comes forward very slightly as it does. A
+   room that simply fades in is a picture behind a hole; a room that settles
+   the last few per cent into place is a room the envelope was sitting in. */
+.lw-hero.is-opening .lw-room { opacity: 1; transform: scale(1); }
+
+/* The envelope's own shadow, thrown down into the room and cleared away as
+   the paper opens off it. Light enough to be felt rather than seen: the room
+   is a night scene already and a second darkness over it only makes mud. */
+.lw-cast {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(122% 74% at 50% 50%,
+      rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, .18) 64%, rgba(0, 0, 0, .46) 100%);
+  opacity: 0;
+  transition: opacity 1500ms ease 260ms;
+}
+
+.lw-hero.is-opening .lw-cast { opacity: 0; }
+html.lw-sealed .lw-cast { opacity: 1; transition: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .lw-seal, .lw-room { transition-duration: 1ms; }
+  .lw-hero.is-opening .lw-flap-top,
+  .lw-hero.is-opening .lw-seal,
+  .lw-hero.is-opening .lw-flap-left,
+  .lw-hero.is-opening .lw-flap-right,
+  .lw-hero.is-opening .lw-flap-down { transition-duration: 200ms; transition-delay: 0ms; }
+  .lw-lit, .lw-back::after, .lw-cast { transition-duration: 200ms; transition-delay: 0ms; }
+  .lw-hero.is-opening .lw-room { animation: none; }
+}
+
+/* ==================================================== and on a wide screen
+
+   The card is a phone-shaped column wherever it is read, and on a laptop that
+   column stands in the middle of a great deal of nothing. This is what fills
+   it -- but only the cover, and only once the envelope has been opened.
+
+   Closed, a wide screen shows exactly what a phone shows: the same envelope
+   at the same size, the same wax, the same two lines. Nothing here applies
+   until the card says it has been opened, so there is nothing to see and
+   nothing to load.
+
+   Opened, the room stops being a picture inside a column and becomes the
+   screen. The mechanism is a clip rather than a width: this room is fixed to
+   the window at full size from the start and simply *masked* down to the
+   card's own width, so opening it is one clip-path travelling outward. A
+   width or a margin animating instead would put the browser through a layout
+   on every frame of it, which is the difference between this arriving and
+   this stuttering.
+
+   It is deliberately not the hero widening. The hero is an inline-size
+   container: every measurement inside it -- the names, "Tap to Open", the
+   credit -- is a fraction of the hero's own width, and a hero stretched to
+   1440 would take all of them with it.
+   ========================================================================== */
+
+.lw-room-web { display: none; }
+
+@media (min-width: 900px) {
+  .lw-room-web {
+    display: block;
+    position: fixed;
+    inset: 0;
+    /* Behind the card, which follows it in the markup and so paints over it. */
+    z-index: 0;
+    pointer-events: none;
+
+    /* The room as painted for 1440 by 800, in the customer's second colour,
+       exactly as the phone's own room is. Named behind .lw-painted for the
+       same reason the phone's is: nothing of it shows until the lid lifts. */
+    background: var(--lw-paper) center / cover no-repeat;
+
+    opacity: 0;
+    /* Masked down to the card's own column, so what shows through it before
+       it opens is the width of the card and no more. */
+    clip-path: inset(0 calc((100vw - var(--lw-w)) / 2));
+    transform-origin: center center;
+    will-change: clip-path, opacity;
+  }
+
+  /* It waits for the paper. The flaps have 1650ms of turning to do and the
+     room only starts widening once they are done with it -- the envelope
+     opens, and *then* the room it was sitting in turns out to be the whole
+     screen. */
+  html.lw-open .lw-room-web {
+    opacity: 1;
+    clip-path: inset(0);
+    transition:
+      opacity 1300ms ease 1550ms,
+      clip-path 1800ms cubic-bezier(.34, .82, .28, 1) 1550ms;
+    /* And then it drifts, like the room it replaced -- started after the
+       widening rather than during it, so the two movements never overlap. */
+    animation: lw-room-drift 18s ease-in-out infinite 3450ms;
+  }
+
+  /* The column's own room goes as the wide one arrives, and the paper behind
+     it with it: two rooms of the same place at different crops, seen at once
+     through a seam down each side of the column, is the one thing that would
+     give the trick away. Cross-faded on the same clock, there is no seam --
+     the column simply stops being a column. */
+  .lw-hero { transition: background-color 1300ms ease 1550ms; }
+
+  html.lw-open .lw-hero { background-color: transparent; }
+
+  html.lw-open .lw-hero .lw-room {
+    opacity: 0;
+    transition: opacity 1300ms ease 1550ms;
+  }
+
+  /* Past the cover it is not wanted: the pages after it are paper, and a
+     ballroom standing either side of a sheet of paper is two ideas at once.
+     It goes as the cover stops being the page in view.
+
+     `:has` and not a class of its own, because the room is outside the card
+     and the thing it follows is inside it. Where `:has` is not understood the
+     rule is dropped and the room stays -- which is a worse card, not a
+     broken one. */
+  html.lw-open:has(.lw-hero:not(.is-live)) .lw-room-web {
+    opacity: 0;
+    transition: opacity 800ms ease;
+  }
+}
+
+@media (min-width: 900px) and (prefers-reduced-motion: reduce) {
+  html.lw-open .lw-room-web {
+    transition: opacity 200ms ease;
+    animation: none;
+  }
+  .lw-hero, html.lw-open .lw-hero .lw-room { transition-duration: 200ms; }
+}
+
+/* ============================================================== section 2
+
+   The arch. One painting, and four lines set into the opening it leaves.
+
+   Every position is the point the design gives, as a fraction of 390 by 844:
+   "With Love" at 97,226; the message at 97,274; the names from 82,402; the
+   blessing at 97,626. Each block is inset the same on both sides, so it is
+   centred on the card by construction and still begins where it should.
+   ========================================================================== */
+
+.lw-welcome {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  overflow: hidden;
+  background: var(--lw-paper);
+  container-type: inline-size;
+}
+
+.lw-art {
+  position: absolute;
+  inset: 0;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* Like the room, this follows the customer's *secondary* colour: it is the
+   place the invitation is set, not the ink it is written in. */
+.lw-art-s1 {
+  background-color: var(--lw-paper);
+}
+
+html.lw-painted .lw-art-s1 {
+  background-image: var(--lw-art-s1, url('../img-sample/templates/lavish-wedding/Section%201/Section-1-mob.svg.webp'));
+}
+
+/* ---- the wind ----
+
+   The leaves are painted into the artwork along with everything else, so they
+   cannot be picked up and moved on their own. This is the same painting
+   again, showing only its foot, leaning a fraction of a degree either way
+   about a hinge on its own top edge.
+
+   Hinged there rather than in the middle because nothing moves at a hinge:
+   the copy stays in register with the original along that line, and all of
+   the movement is at the bottom of the page, which is where the leaves are.
+   The mask fades the top of the copy out over the same line, so even the
+   hairline of difference there has nothing to show. */
+.lw-wind {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 74%;
+  bottom: 0;
+  background-repeat: no-repeat;
+  /* Sized and offset to the whole page, so the piece on show sits exactly
+     over the piece it is covering. */
+  background-size: 100% calc(100% / 0.26);
+  background-position: 0 100%;
+  transform-origin: 50% 0;
+  animation: lw-sway 7200ms ease-in-out infinite;
+  will-change: transform;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 14%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 14%);
+}
+
+html.lw-painted .lw-wind {
+  background-image: var(--lw-art-s1, url('../img-sample/templates/lavish-wedding/Section%201/Section-1-mob.svg.webp'));
+}
+
+@keyframes lw-sway {
+  0%, 100% { transform: rotate(-0.35deg); }
+  50%      { transform: rotate(0.35deg); }
+}
+
+/* ---- the sparkles ----
+
+   Four-pointed, drawn in a gradient rather than as an image, so they cost
+   nothing and take the colour of the light around them. Each carries its own
+   size and its own delay from the markup, so they drift and catch out of
+   step with one another -- a dozen sparkles blinking together is a string of
+   fairy lights, not a room full of them. */
+.lw-sparkles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.lw-spark {
+  position: absolute;
+  width: calc(var(--s) * 1cqw);
+  aspect-ratio: 1;
+  /* The star: two crossed slivers, brightest where they meet. */
+  background:
+    radial-gradient(closest-side, rgba(255, 248, 233, .95), rgba(255, 248, 233, 0) 70%),
+    conic-gradient(from 0deg,
+      rgba(255, 248, 233, .9) 0deg 6deg, transparent 6deg 84deg,
+      rgba(255, 248, 233, .9) 84deg 96deg, transparent 96deg 174deg,
+      rgba(255, 248, 233, .9) 174deg 186deg, transparent 186deg 264deg,
+      rgba(255, 248, 233, .9) 264deg 276deg, transparent 276deg 354deg,
+      rgba(255, 248, 233, .9) 354deg 360deg);
+  border-radius: 50%;
+  opacity: 0;
+  animation: lw-drift 9s ease-in-out infinite var(--d, 0s);
+  will-change: transform, opacity;
+}
+
+/* Up and across a little as it brightens and fades, so each one reads as
+   floating rather than switching on. */
+@keyframes lw-drift {
+  0%   { opacity: 0;   transform: translate3d(0, 6px, 0) scale(.5) rotate(0deg); }
+  18%  { opacity: .95; transform: translate3d(2px, 0, 0) scale(1) rotate(25deg); }
+  50%  { opacity: .55; transform: translate3d(-3px, -7px, 0) scale(.85) rotate(70deg); }
+  78%  { opacity: .9;  transform: translate3d(1px, -13px, 0) scale(1.05) rotate(120deg); }
+  100% { opacity: 0;   transform: translate3d(0, -20px, 0) scale(.5) rotate(160deg); }
+}
+
+/* ---- the four lines ---- */
+
+.lw-eyebrow,
+.lw-lede,
+.lw-names,
+.lw-blessing {
+  position: absolute;
+  margin: 0;
+  text-align: center;
+  white-space: pre-line;
+}
+
+/* "With Love", Arizonia 28 at 97,226. */
+.lw-eyebrow {
+  left: 24.872%;
+  right: 24.872%;
+  top: 26.777%;
+  font-family: 'Arizonia', 'Segoe Script', cursive;
+  font-size: 7.179cqw;
+  line-height: 1.1;
+  color: var(--gold-deep, #b08d57);
+}
+
+/* The message, Arial 20 at 97,274. */
+.lw-lede {
+  left: 24.872%;
+  right: 24.872%;
+  top: 32.464%;
+  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+  font-size: 5.128cqw;
+  line-height: 1.5;
+  color: var(--lw-ink, #33211c);
+}
+
+/* The names, from 82,402. Arizonia at 76, with the ampersand at 50. */
+.lw-names {
+  left: 21.026%;
+  right: 21.026%;
+  top: 47.63%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Arizonia', 'Segoe Script', cursive;
+  color: var(--lw-ink, #33211c);
+}
+
+.lw-name {
+  font-size: 19.487cqw;
+  line-height: 1.02;
+}
+
+.lw-amp {
+  font-size: 12.821cqw;
+  line-height: .9;
+}
+
+/* The blessing, Arial 20 at 97,626. */
+.lw-blessing {
+  left: 24.872%;
+  right: 24.872%;
+  top: 74.171%;
+  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+  font-size: 5.128cqw;
+  line-height: 1.5;
+  color: var(--lw-ink, #33211c);
+}
+
+/* ---- arriving ----
+
+   The four lines come up in reading order when the page is reached, each a
+   beat behind the one above it, and stay. In order rather than together
+   because that is the order they are meant to be read in, and a page whose
+   whole contents appear at once gives the eye nowhere to start. */
+.lw-welcome .lw-eyebrow,
+.lw-welcome .lw-lede,
+.lw-welcome .lw-names,
+.lw-welcome .lw-blessing {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 800ms ease, transform 800ms cubic-bezier(.2, .7, .3, 1);
+}
+
+.lw-welcome.is-seen .lw-eyebrow,
+.lw-welcome.is-seen .lw-lede,
+.lw-welcome.is-seen .lw-names,
+.lw-welcome.is-seen .lw-blessing {
+  opacity: 1;
+  transform: none;
+}
+
+.lw-welcome.is-seen .lw-eyebrow  { transition-delay: 120ms; }
+.lw-welcome.is-seen .lw-lede     { transition-delay: 300ms; }
+.lw-welcome.is-seen .lw-names    { transition-delay: 500ms; }
+.lw-welcome.is-seen .lw-blessing { transition-delay: 760ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .lw-wind { animation: none; }
+  .lw-spark { animation: none; opacity: .7; }
+  .lw-welcome .lw-eyebrow,
+  .lw-welcome .lw-lede,
+  .lw-welcome .lw-names,
+  .lw-welcome .lw-blessing { transition-duration: 1ms; transition-delay: 0ms; }
+}
+
+/* ---- the names over the room ----
+
+   The same faces and the same proportions as the arch's, in the cream the
+   lettering on the envelope was set in, over a photograph of a lit garden.
+   The shadow is what keeps them readable there: the room has chandeliers in
+   the top half and white linen in the bottom, so a line of cream type has
+   nowhere it can sit and be safe on its own. */
+.lw-room-names {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 39.45%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Arizonia', 'Segoe Script', cursive;
+  color: var(--lw-wax, #f4ece0);
+  text-shadow:
+    0 1px 2px rgba(26, 17, 12, .45),
+    0 6px 22px rgba(26, 17, 12, .55);
+
+  /* Held back a second after the opening begins, then faded in and left
+     there. The room deserves a moment on its own before anything is written
+     across it. */
+  opacity: 0;
+  transition: opacity 900ms ease 1000ms;
+}
+
+.lw-hero.is-opening .lw-room-names { opacity: 1; }
+
+/* ---- scroll down ----
+
+   An arrow in a circle at the foot of the card, twenty pixels in from the
+   corner. One for the whole card: it knows which page it is on, takes you to
+   the next, and goes when there is no next one.
+
+   Fixed to the card rather than to the window. The card is a narrow column
+   in the middle of a laptop screen, and a button pinned to the window's own
+   corner sits out in the dark beside it. */
+.lw-scroll {
+  position: fixed;
+  right: calc(50vw - min(50vw, 50svh * 390 / 844) + 20px);
+  bottom: 20px;
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--maroon, #3b2a24);
+  color: var(--on-maroon, #ffffff);
+  box-shadow: 0 6px 18px rgba(26, 17, 12, .28);
+  cursor: pointer;
+  transition: opacity 300ms ease, transform 200ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.lw-scroll:hover { transform: translateY(-2px); }
+.lw-scroll:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+
+/* On the pages printed on the card's own colour the circle would disappear
+   into the ground, so it swaps: the paper becomes the button. */
+.lw-scroll.is-dark {
+  background: var(--gold, #f7f1e8);
+  color: var(--on-gold, #33211c);
+}
+
+/* Gone at the foot of the card, and gone while the envelope is still shut. */
+.lw-scroll.is-done,
+html.lw-sealed .lw-scroll {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.lw-scroll-arrow {
+  width: 17px;
+  height: auto;
+  animation: lw-nudge 1900ms ease-in-out infinite;
+}
+
+@keyframes lw-nudge {
+  0%, 100% { transform: translateY(0); opacity: .75; }
+  50%      { transform: translateY(28%); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lw-scroll-arrow { animation: none; }
+  .lw-room-names { transition-delay: 200ms; }
+}
+
+/* ---- the rule every page carries under its heading ----
+
+   This lived with the page that used to stand third and was very nearly taken
+   away with it. Seven pages still draw it. */
+/* The rule at 24,141, 333 by 19. A stencil painted with the card's first
+   colour, rather than a picture of a gold one. */
+.lw-rule {
+  position: absolute;
+  left: 6.154%;
+  top: 16.706%;
+  width: 85.385%;
+  aspect-ratio: 333 / 19;
+  /* The customer's first colour, falling back to the gold it was drawn in --
+     so a card that has chosen nothing is the design exactly as painted. */
+  background-color: var(--maroon, #b08d57);
+  -webkit-mask-image: url('../img/templates/lavish-wedding/Section%202/Break%20line.svg');
+  mask-image: url('../img/templates/lavish-wedding/Section%202/Break%20line.svg');
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+/* ============================================================== section 4
+
+   What the invitation is for, and every event in it.
+
+   One card per event, from the list the customer keeps, so a celebration
+   with three fits and one with seven fits. Nothing here is a picture of a
+   page: each event card is the first colour, and the only photographs are
+   the two leaves laid into the ends of each card.
+
+   The ground itself is the same cream every other page not painted in gold
+   or maroon is drawn on -- Figma has it cream, not gold (2026-09-27: this
+   used to read var(--gold, #f7f1e8), which is never actually the fallback
+   since --gold is always defined -- the "Dear Guests" page came out gold
+   instead of cream on every card, whatever colours were chosen or not). */
+
+.lw-events {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  overflow: hidden;
+  container-type: inline-size;
+  background: #f7f1e8;
+}
+
+/* Everything on the page arrives together when the page is reached. */
+.lw-events-copy {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 850ms ease, transform 850ms cubic-bezier(.2, .7, .3, 1);
+}
+
+.lw-events.is-seen .lw-events-copy {
+  opacity: 1;
+  transform: none;
+}
+
+/* "X weds Y" at 29,82 in Arizonia 28. */
+.lw-weds {
+  position: absolute;
+  left: 7.436%;
+  right: 7.436%;
+  top: 9.716%;
+  margin: 0;
+  font-family: 'Arizonia', 'Segoe Script', cursive;
+  font-size: 7.179cqw;
+  line-height: 1.1;
+  text-align: center;
+  color: var(--gold-deep, #b08d57);
+}
+
+/* The passage, in Arial. Set under the rule and above the first card, at the
+   same 24 either side the rule is drawn to. */
+.lw-passage {
+  position: absolute;
+  left: 6.154%;
+  right: 6.154%;
+  top: 20.853%;
+  margin: 0;
+  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+  font-size: 5.128cqw;
+  line-height: 1.5;
+  text-align: center;
+  white-space: pre-line;
+  /* Worked out from the ground it is printed on, so a card whose second
+     colour is deep gets pale type and one whose second colour is pale gets
+     dark, without anybody choosing. */
+  color: var(--on-gold, #33211c);
+}
+
+/* ---- one card per event ----
+
+   Laid from 347 down, 326 wide at 32 across, 67 tall and 86 apart -- and
+   free to be fewer or more than five. The list is centred on what is left of
+   the page below the passage, so three cards sit where three cards should
+   and seven still fit. */
+.lw-events-list {
+  position: absolute;
+  left: 8.205%;
+  right: 8.205%;
+  top: 41.114%;
+  bottom: 8%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* 19 of the card's 390 across. Against the width, not the height: a
+     percentage inside a column flexbox is a percentage of the column, so a
+     card measured that way shrinks as the list gets longer. */
+  gap: 4.872cqw;
+}
+
+/* Each event, as a card.
+
+   Three things were added to what was a coloured rectangle with a word on it.
+   A gold rule set just inside the edge, which is the same mark the event
+   pages are framed with, so a name here and the page it opens are plainly the
+   same object. A little light down the face of it, because a flat fill at
+   this size reads as a button and the card is not one. And a shadow, so it
+   sits on the paper rather than being printed into it. */
+.lw-event {
+  position: relative;
+  flex: none;
+  /* 67 of 390. */
+  height: 17.179cqw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 2.6cqw;
+  background:
+    linear-gradient(168deg,
+      color-mix(in srgb, #ffffff 9%, var(--maroon, #3b2a24)) 0%,
+      var(--maroon, #3b2a24) 46%,
+      color-mix(in srgb, #000000 12%, var(--maroon, #3b2a24)) 100%);
+  box-shadow: 0 1.5cqw 3.6cqw rgba(26, 17, 12, .2);
+}
+
+.lw-event::after {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border: 1px solid color-mix(in srgb, var(--gold, #cda45e) 44%, transparent);
+  border-radius: 1.6cqw;
+  pointer-events: none;
+}
+
+/* The two leaves, laid into the ends of the card and cropped by it. */
+.lw-event-leaf {
+  position: absolute;
+  top: 50%;
+  height: 105%;
+  /* Set back. At full strength the two of them met in the middle of the card
+     and the name was read through them rather than on them. */
+  opacity: .5;
+  aspect-ratio: 226 / 141;
+  transform: translateY(-50%);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+.lw-event-leaf-left {
+  left: 0;
+  background-image: url('../img/templates/lavish-wedding/Section%203/Left.png');
+}
+
+.lw-event-leaf-right {
+  right: 0;
+  background-image: url('../img/templates/lavish-wedding/Section%203/Right.png');
+}
+
+/* The event's name, in Arizonia at 40. Its colour is worked out from the
+   card it is written on -- light lettering on a deep card, dark on a pale
+   one -- rather than being white whatever happens. */
+.lw-event-name {
+  position: relative;
+  font-family: 'Arizonia', 'Segoe Script', cursive;
+  font-size: 10.256cqw;
+  line-height: 1;
+  color: var(--on-maroon, #ffffff);
+}
+
+/* Each card a beat behind the one above it. */
+.lw-events.is-seen .lw-event {
+  animation: lw-card-in 700ms cubic-bezier(.2, .7, .3, 1) both;
+  animation-delay: calc(360ms + var(--i) * 110ms);
+}
+
+@keyframes lw-card-in {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lw-events-copy { transition-duration: 1ms; }
+  .lw-events.is-seen .lw-event { animation-duration: 1ms; animation-delay: 0ms; }
+}
+
+/* ============================================================== section 4
+
+   How long there is left.
+
+   The ground is the second colour and the box is the first, as the page
+   before it. The building and the flourish are the ones already drawn for
+   the earlier pages -- the building as a stencil so it takes the lettering
+   colour of the box it sits on, the flourish as the photograph it is.
+
+   Heading at 26,84; the rule at 26,141; the box at 26,282.
+   ========================================================================== */
+
+.lw-countdown {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  overflow: hidden;
+  container-type: inline-size;
+  background: var(--gold, #f7f1e8);
+}
+
+.lw-countdown-copy {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 850ms ease, transform 850ms cubic-bezier(.2, .7, .3, 1);
+}
+
+.lw-countdown.is-seen .lw-countdown-copy {
+  opacity: 1;
+  transform: none;
+}
+
+.lw-count-title {
+  position: absolute;
+  left: 6.667%;
+  right: 6.667%;
+  top: 9.953%;
+  margin: 0;
+  font-family: 'Arizonia', 'Segoe Script', cursive;
+  font-size: 7.179cqw;
+  line-height: 1.1;
+  text-align: center;
+  color: var(--gold-deep, #b08d57);
+}
+
+.lw-countdown .lw-rule { left: 6.667%; top: 16.706%; }
+
+/* Set in the serif rather than in Arial, which is what the page it was drawn
+   from shows and what the figures below it are set in. */
+.lw-until {
+  position: absolute;
+  left: 6.667%;
+  right: 6.667%;
+  top: 22.512%;
+  margin: 0;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 5.641cqw;
+  line-height: 1.4;
+  text-align: center;
+  color: var(--on-gold, #33211c);
+}
+
+/* ---- the box ----
+
+   26 across and 282 down, 338 by 372, in the card's first colour. */
+.lw-count-box {
+  position: absolute;
+  left: 6.667%;
+  top: 33.412%;
+  width: 86.667%;
+  height: 44.076%;
+  overflow: hidden;
+  border-radius: 3.077cqw;
+  background: var(--maroon, #3b2a24);
+}
+
+/* The flourish from the page before, laid across the top of the box and left
+   faint -- it is the room the numbers are printed in, not something to read. */
+.lw-count-flourish {
+  position: absolute;
+  right: -12%;
+  top: -6%;
+  width: 92%;
+  aspect-ratio: 516 / 428;
+  background: url('../img-sample/templates/lavish-wedding/Section%202/Right.png.webp') center / 100% 100% no-repeat;
+  opacity: .17;
+  pointer-events: none;
+}
+
+/* The building, as a stencil rather than a picture, so it takes the same
+   colour the numbers are written in. */
+.lw-count-building {
+  position: absolute;
+  left: 50%;
+  top: 7%;
+  width: 34%;
+  aspect-ratio: 194 / 273;
+  transform: translateX(-50%);
+  background-color: var(--on-maroon, #ffffff);
+  -webkit-mask-image: url('../img-sample/templates/lavish-wedding/Section%202/Building.svg.webp');
+  mask-image: url('../img-sample/templates/lavish-wedding/Section%202/Building.svg.webp');
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+/* ---- the timer ----
+
+   Two by two under the building, with a rule between the rows and a short
+   stroke between the columns. The strokes are drawn from the lettering
+   colour at low strength, so they follow the box like everything else on it.
+
+   The figures are lined up on their baselines with the labels beside them
+   rather than under: "177 days" reads as a phrase, where a number stacked
+   over a word reads as a label on a dial. */
+.lw-count-grid {
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  bottom: 5%;
+  height: 42%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.lw-count-cell {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: .42em;
+  color: var(--on-maroon, #ffffff);
+}
+
+/* The rule between the rows, inset from both ends. */
+.lw-count-grid::before {
+  content: '';
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 50%;
+  height: 1px;
+  background: currentColor;
+  color: var(--on-maroon, #ffffff);
+  opacity: .28;
+}
+
+/* A short stroke between the columns, on each row. */
+.lw-count-cell:nth-child(odd)::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 22%;
+  bottom: 22%;
+  width: 1px;
+  background: currentColor;
+  opacity: .28;
+}
+
+.lw-count-num {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 9.487cqw;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .01em;
+}
+
+.lw-count-label {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 4.103cqw;
+  opacity: .72;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lw-countdown-copy { transition-duration: 1ms; }
+}
+
+/* ============================================================== section 5
+
+   The two portraits.
+
+   Heading and rule as the pages before. Two frames of the same size with a
+   name under each and the rings between them; the ground is the second
+   colour and the lettering the first.
+   ========================================================================== */
+
+.lw-portraits {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  overflow: hidden;
+  container-type: inline-size;
+  background: var(--gold, #f7f1e8);
+}
+
+.lw-portraits-copy {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 850ms ease, transform 850ms cubic-bezier(.2, .7, .3, 1);
+}
+
+.lw-portraits.is-seen .lw-portraits-copy {
+  opacity: 1;
+  transform: none;
+}
+
+.lw-portraits-title {
+  position: absolute;
+  left: 6.667%;
+  right: 6.667%;
+  top: 9.953%;
+  margin: 0;
+  font-family: 'Arizonia', 'Segoe Script', cursive;
+  font-size: 7.179cqw;
+  line-height: 1.1;
+  text-align: center;
+  color: var(--gold-deep, #b08d57);
+}
+
+.lw-portraits .lw-rule { left: 6.667%; top: 16.706%; }
+
+/* ---- the frames hold a picture, not a card ----
+
+   None of the three boxes that show artwork paint a ground any more.
+
+   Every ready-made illustration we ship is a PNG on transparency, and the
+   whole point of that is that a customer can put their own in its place and
+   it will sit on the page the same way. A cream box behind it undid exactly
+   that: our drawing arrived on a card of its own, and so did theirs. A
+   photograph covers its frame completely, so the ground was never doing
+   anything for one of those either. */
+
+/* The frames. Square, centred, and the same size as each other whatever is
+   in them: a photograph fills one by covering it, so a portrait and a
+   landscape both sit in the same shape rather than one of them changing the
+   page's rhythm.
+
+   The whole group sits a little higher than the page it was drawn from, to
+   leave the second name clear of the cue at the foot. */
+.lw-portrait {
+  position: absolute;
+  left: 25.897%;
+  width: 48.205%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 3.077cqw;
+}
+
+.lw-portrait-groom { top: 20.379%; }
+.lw-portrait-bride { top: 61.256%; }
+
+/* A photograph covers its frame; a drawing is fitted inside it with room to
+   breathe, since a figure cropped to the edges of a square is a figure with
+   its head cut off. */
+.lw-portrait img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lw-portrait .lw-portrait-art {
+  display: block;
+  width: 76%;
+  height: 84%;
+  margin: 8% auto 0;
+  color: var(--maroon, #60514a);
+}
+
+.lw-portrait .lw-portrait-art.is-painted { object-fit: contain; }
+
+.lw-portrait-name {
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  margin: 0;
+  font-family: 'Arizonia', 'Segoe Script', cursive;
+  font-size: 10.256cqw;
+  line-height: 1.1;
+  text-align: center;
+  color: var(--maroon, #33211c);
+}
+
+.lw-portrait-name-groom { top: 46.09%; }
+.lw-portrait-name-bride { top: 85.664%; }
+
+/* The rings, between the two.
+
+   The file is supplied on cream rather than on transparency, and that cream
+   box was sitting across the first name.
+
+   Multiply alone does not answer it: multiply drops white, and the ground
+   behind the rings is #f6f0e9 rather than white, so multiplying it over the
+   page left a square very slightly darker than the page -- which is exactly
+   what could be seen. Brightness lifts that cream the last four per cent to
+   white first, and then multiply has nothing left to leave behind. The metal
+   brightens with it, which on gold and silver reads as more light rather
+   than as a mistake.
+
+   A ring on transparency would need neither. */
+.lw-rings {
+  position: absolute;
+  left: 50%;
+  top: 49.527%;
+  width: 22.564%;
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+  background: url('../img-sample/templates/lavish-wedding/Section5/rings%201.png.webp') center / contain no-repeat;
+  filter: brightness(1.1);
+  mix-blend-mode: multiply;
+  opacity: 0;
+  transition: opacity 850ms ease;
+}
+
+.lw-portraits.is-seen .lw-rings { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .lw-portraits-copy { transition-duration: 1ms; }
+}
+
+/* ============================================================== section 6
+
+   Both families, and the people a guest can actually ring.
+
+   Two sides on one page, each with a label, a picture, the parents' line and
+   their contacts. Everything is placed to the point rather than stacked, so
+   the second side starts where it should whatever the first one holds.
+
+   Side one: label 165, picture 190, parents 328, rows at 351 and 431.
+   Side two the same, a dozen higher than the page it was drawn from, so a
+   family with two contacts on it still ends above the foot of the card.
+   ========================================================================== */
+
+.lw-families {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  overflow: hidden;
+  container-type: inline-size;
+  background: var(--gold, #f7f1e8);
+}
+
+.lw-families-copy {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 850ms ease, transform 850ms cubic-bezier(.2, .7, .3, 1);
+}
+
+.lw-families.is-seen .lw-families-copy {
+  opacity: 1;
+  transform: none;
+}
+
+.lw-fam-title {
+  position: absolute;
+  left: 6.667%;
+  right: 6.667%;
+  top: 9.597%;
+  margin: 0;
+  font-family: 'Arizonia', 'Segoe Script', cursive;
+  font-size: 7.179cqw;
+  line-height: 1.1;
+  text-align: center;
+  color: var(--gold-deep, #b08d57);
+}
+
+/* This page carries its rule higher than the others do. */
+.lw-families .lw-rule { left: 6.667%; top: 14.929%; }
+
+.lw-side { position: absolute; inset: 0; }
+.lw-side > * { position: absolute; left: 2.564%; right: 2.564%; }
+
+.lw-side-label,
+.lw-side-parents {
+  margin: 0;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 5.128cqw;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.lw-side-label { color: var(--gold-deep, #b08d57); }
+.lw-side-parents { color: var(--on-gold, #33211c); }
+
+/* The picture. Whatever shape it arrives in, it fills the same box -- a
+   landscape covers it rather than setting the page a different rhythm. */
+.lw-side-figure {
+  left: 40%;
+  right: 40%;
+  height: 10.664%;
+  overflow: hidden;
+}
+
+.lw-side-figure img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lw-side-figure .lw-side-art {
+  display: block;
+  width: 84%;
+  height: 88%;
+  margin: 6% auto 0;
+  color: var(--maroon, #60514a);
+}
+
+.lw-side-figure .lw-side-art.is-painted { object-fit: contain; }
+
+/* ---- the rows ----
+
+   A contact marked prominent is printed on a card in the card's own colour
+   with a pale pill for the number. The rest are the other way round: plain,
+   with the number on a coloured pill. Both are the same size, so a side with
+   one prominent contact and one without still reads as a pair. */
+/* The rows share whatever room the side has, however many of them there are.
+
+   Two of them look exactly as they were drawn; four fit by getting shorter
+   and closer rather than by running off the foot of the card. The count comes
+   from the markup, because CSS cannot see how many children a box has. */
+.lw-side-rows {
+  --gap: 4.872cqw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: min(var(--gap), 8%);
+}
+
+.lw-fam-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2.5%;
+  height: min(15.641cqw, calc((100% - (var(--n, 2) - 1) * min(var(--gap), 8%)) / var(--n, 2)));
+  padding: 0 1.4cqw 0 4.6cqw;
+  /* Rounded, but short of a pill: the row is a card with soft corners and
+     the number inside it is the pill. Both fully round and the eye cannot
+     tell which of the two is the object. */
+  border-radius: 6.4cqw;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+.lw-fam-name {
+  font-size: calc(4.872cqw * (1 - (var(--n, 2) - 2) * 0.075));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lw-fam-phone {
+  flex: none;
+  width: 46%;
+  height: 76%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  font-size: calc(4.872cqw * (1 - (var(--n, 2) - 2) * 0.075));
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* Prominent: the card takes the first colour, the pill stays pale. */
+.lw-fam-row.is-prominent {
+  background: var(--maroon, #3b2a24);
+  color: var(--on-maroon, #ffffff);
+}
+
+.lw-fam-row.is-prominent .lw-fam-phone {
+  background: #ffffff;
+  color: #33211c;
+}
+
+/* The rest: the page's own colour behind a hairline, with the number on a
+   pill in the first colour. */
+.lw-fam-row:not(.is-prominent) {
+  border: 1px solid color-mix(in srgb, var(--on-gold, #33211c) 26%, transparent);
+  color: var(--on-gold, #33211c);
+}
+
+.lw-fam-row:not(.is-prominent) .lw-fam-phone {
+  background: var(--maroon, #3b2a24);
+  color: var(--on-maroon, #ffffff);
+}
+
+/* ---- where each side sits ---- */
+/* Both sides packed tighter than the page they were drawn from, for two
+   reasons: the scroll button now stands at the foot of every page and wants
+   about sixty pixels of its own, and a family with four people to ring has to
+   fit here as readily as one with two. */
+.lw-side-0 .lw-side-label   { top: 18.009%; }
+.lw-side-0 .lw-side-figure  { top: 20.379%; }
+.lw-side-0 .lw-side-parents { top: 31.517%; }
+.lw-side-0 .lw-side-rows    { top: 36.493%; height: 16.588%; }
+
+.lw-side-1 .lw-side-label   { top: 54.739%; }
+.lw-side-1 .lw-side-figure  { top: 57.109%; }
+.lw-side-1 .lw-side-parents { top: 68.246%; }
+.lw-side-1 .lw-side-rows    { top: 73.223%; height: 16.588%; }
+
+/* One family only (familyView.side, 2026-10-10): halfway between the two
+   places, so it sits in the middle of the page rather than over an empty
+   lower half. */
+.lw-side-solo .lw-side-label   { top: 36.374%; }
+.lw-side-solo .lw-side-figure  { top: 38.744%; }
+.lw-side-solo .lw-side-parents { top: 49.882%; }
+.lw-side-solo .lw-side-rows    { top: 54.858%; height: 16.588%; }
+
+@media (prefers-reduced-motion: reduce) {
+  .lw-families-copy { transition-duration: 1ms; }
+}
+
+/* ============================================================== section 7
+
+   The programme, and where each event is.
+
+   One box an event, from the same list the event cards are drawn from. The
+   boxes share the room between the rule and the foot, so five fit as drawn
+   and three or seven fit as well.
+   ========================================================================== */
+
+.lw-programme {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  overflow: hidden;
+  container-type: inline-size;
+  background: var(--gold, #f7f1e8);
+}
+
+.lw-programme-copy {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 850ms ease, transform 850ms cubic-bezier(.2, .7, .3, 1);
+}
+
+.lw-programme.is-seen .lw-programme-copy {
+  opacity: 1;
+  transform: none;
+}
+
+.lw-prog-title {
+  position: absolute;
+  left: 6.667%;
+  right: 6.667%;
+  top: 9.597%;
+  margin: 0;
+  font-family: 'Arizonia', 'Segoe Script', cursive;
+  font-size: 7.179cqw;
+  line-height: 1.1;
+  text-align: center;
+  color: var(--gold-deep, #b08d57);
+}
+
+.lw-programme .lw-rule { left: 6.667%; top: 14.929%; }
+
+.lw-prog-list {
+  --gap: 4.359cqw;
+  position: absolute;
+  left: 7.949%;
+  right: 7.949%;
+  top: 20.616%;
+  /* Clear of the scroll button, which stands at the foot of every page. */
+  bottom: 9%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: min(var(--gap), 6%);
+}
+
+/* Each box is 110 tall as drawn, and shorter than that only when there are
+   more events than the page was drawn for. */
+.lw-prog-row {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-content: center;
+  justify-content: center;
+  column-gap: 5.128cqw;
+  row-gap: 1.026cqw;
+  height: min(28.205cqw, calc((100% - (var(--n, 5) - 1) * min(var(--gap), 6%)) / var(--n, 5)));
+  padding: 0 4.1cqw;
+  border-radius: 3.077cqw;
+  border: 1px solid color-mix(in srgb, var(--on-gold, #33211c) 20%, transparent);
+  text-align: center;
+}
+
+.lw-prog-name {
+  font-family: 'Arizonia', 'Segoe Script', cursive;
+  font-size: calc(7.692cqw * (1 - (var(--n, 5) - 5) * 0.05));
+  line-height: 1;
+  color: var(--on-gold, #33211c);
+  justify-self: end;
+}
+
+.lw-prog-date {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: calc(5.641cqw * (1 - (var(--n, 5) - 5) * 0.05));
+  line-height: 1;
+  color: var(--on-gold, #33211c);
+  justify-self: start;
+  align-self: center;
+}
+
+/* The venue runs the width of the box, under both. */
+.lw-prog-where {
+  grid-column: 1 / -1;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: calc(4.359cqw * (1 - (var(--n, 5) - 5) * 0.05));
+  line-height: 1.3;
+  color: color-mix(in srgb, var(--on-gold, #33211c) 82%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lw-programme-copy { transition-duration: 1ms; }
+}
+
+/* =========================================================== the events
+
+   One page an event, and the only pages printed on the card's own colour
+   rather than on the paper. They are what a guest comes back to on the day,
+   so they are the ones that should stand out from everything around them.
+
+   The page is built as a ceremonial frame: two rules round the edge with a
+   mark holding each corner, the event's own drawing in a ring of its own at
+   the head, the name under it, and then the three things anybody came to the
+   page for -- who is asked, when, and where -- each on its own band down the
+   middle, with the two things to do with an address at the foot.
+
+   Everything on it is centred, because the page is a plate rather than a
+   list: there is no second column for the eye to fall back to. And every
+   piece is placed to its own point rather than flowed, so a long venue name
+   pushes nothing else down the page.
+   ========================================================================== */
+
+/* A little light from above, and a little more rising off the foot, so the
+   page is a lit room rather than a flat panel of colour. */
+.lw-event-page {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  overflow: hidden;
+  container-type: inline-size;
+  background:
+    radial-gradient(120% 62% at 50% 0%, rgba(255, 255, 255, .09), rgba(255, 255, 255, 0) 68%),
+    radial-gradient(130% 66% at 50% 100%,
+      color-mix(in srgb, var(--gold, #cda45e) 16%, transparent), transparent 62%),
+    var(--maroon, #3b2a24);
+  color: var(--on-maroon, #ffffff);
+}
+
+/* ---- the frame ----
+
+   Two rules rather than one. The outer is the second colour at a little over
+   half strength; the inner a hairline of the lettering eight pixels inside
+   it. One rule is a box round a page; two is a frame the page is set in. */
+.lw-event-frame,
+.lw-event-frame-in {
+  position: absolute;
+  pointer-events: none;
+}
+
+.lw-event-frame {
+  inset: 3.333cqw;
+  border: 1px solid color-mix(in srgb, var(--gold, #cda45e) 55%, transparent);
+}
+
+.lw-event-frame-in {
+  inset: 5.385cqw;
+  border: 1px solid color-mix(in srgb, var(--on-maroon, #ffffff) 16%, transparent);
+}
+
+/* The four marks, one drawing turned into each corner. */
+.lw-event-mark {
+  position: absolute;
+  width: 7.692cqw;
+  height: 7.692cqw;
+  color: var(--gold, #cda45e);
+  pointer-events: none;
+}
+
+.lw-event-mark-tl { left: 3.333cqw; top: 3.333cqw; }
+.lw-event-mark-tr { right: 3.333cqw; top: 3.333cqw; transform: scaleX(-1); }
+.lw-event-mark-bl { left: 3.333cqw; bottom: 3.333cqw; transform: scaleY(-1); }
+.lw-event-mark-br { right: 3.333cqw; bottom: 3.333cqw; transform: scale(-1); }
+
+/* ---- what the page says ----
+
+   Everything inside the frame, arriving with the page. */
+.lw-event-copy {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 850ms ease, transform 850ms cubic-bezier(.2, .7, .3, 1);
+}
+
+.lw-event-page.is-seen .lw-event-copy {
+  opacity: 1;
+  transform: none;
+}
+
+/* The drawing, in a ring of its own. It is the one image on a page otherwise
+   made of type, and a ring is what tells the eye so. */
+.lw-event-medal {
+  position: absolute;
+  left: 29.487%;
+  top: 8.057%;
+  width: 41.026%;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--gold, #cda45e) 60%, transparent);
+}
+
+.lw-event-drawing {
+  width: 65%;
+  height: 65%;
+  color: var(--gold, #cda45e);
+}
+
+.lw-event-drawing.is-painted { object-fit: contain; }
+
+/* The name, at 58 -- the largest thing on the page by a long way, because it
+   is the only word on it a guest is looking for. */
+.lw-event-title {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 29.621%;
+  margin: 0;
+  font-family: 'Arizonia', 'Segoe Script', cursive;
+  font-size: 14.872cqw;
+  font-weight: 400;
+  line-height: 1;
+  text-align: center;
+}
+
+/* The one line on the page written to this guest and nobody else, so it runs
+   the full width of the frame as a ribbon rather than sitting in a badge:
+   filled with the second colour, and the only band of colour on the page. */
+.lw-event-guests {
+  position: absolute;
+  left: 5.385%;
+  right: 5.385%;
+  top: 39.099%;
+  margin: 0;
+  padding: 2.821cqw 0;
+  background: var(--gold, #cda45e);
+  color: var(--on-gold, #33211c);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 3.846cqw;
+  letter-spacing: .06em;
+  text-align: center;
+}
+
+/* ---- when ---- */
+
+.lw-event-when {
+  position: absolute;
+  left: 11.795%;
+  right: 11.795%;
+  top: 46.919%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3.59cqw;
+  text-align: center;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+/* With no ribbon there is nothing between the name and the date, and the
+   hole left behind is wider than either gap beside it. The page closes up. */
+.lw-event-copy.is-plain .lw-event-when { top: 41.469%; }
+
+.lw-event-date { font-size: 7.179cqw; line-height: 1.12; }
+
+/* The hour in the second colour, so the eye can tell the day from the time
+   of it without reading either. */
+.lw-event-time { font-size: 5.128cqw; color: var(--gold, #cda45e); }
+
+/* The ornament between them: two rules and the same four-pointed star the
+   page's own sparkles are drawn as. */
+.lw-event-orn {
+  display: flex;
+  align-items: center;
+  gap: 3.077cqw;
+  width: 100%;
+  color: var(--gold, #cda45e);
+}
+
+.lw-event-orn i {
+  flex-grow: 1;
+  height: 1px;
+  background: color-mix(in srgb, currentColor 45%, transparent);
+}
+
+.lw-event-orn svg { width: 3.333cqw; height: 3.333cqw; flex: none; }
+
+/* ---- where ---- */
+
+.lw-event-where {
+  position: absolute;
+  left: 10.256%;
+  right: 10.256%;
+  top: 65.403%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.282cqw;
+  text-align: center;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+/* "Venue" is a label rather than a line to read, so it is set the way labels
+   are: small, spaced, and faint. */
+.lw-event-wlabel {
+  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+  font-size: 2.564cqw;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--on-maroon, #ffffff) 58%, transparent);
+}
+
+.lw-event-venue { font-size: 6.41cqw; line-height: 1.15; }
+
+.lw-event-address {
+  font-size: 3.846cqw;
+  line-height: 1.45;
+  color: color-mix(in srgb, var(--on-maroon, #ffffff) 72%, transparent);
+}
+
+/* ---- the two things to do with an address ----
+
+   Stacked and full width rather than side by side. Going to the map is what
+   nearly everybody does with an address and the calendar is what the rest
+   do, so one is filled and one outlined: a pair of equal buttons makes the
+   guest choose where there is an obvious answer.
+
+   They stop 76 short of the foot, which leaves the scroll cue its own corner.
+*/
+.lw-event-actions {
+  position: absolute;
+  left: 10.256%;
+  right: 10.256%;
+  bottom: 9.005%;
+  display: flex;
+  flex-direction: column;
+  gap: 2.308cqw;
+}
+
+.lw-event-btn {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2.051cqw;
+  padding: 3.59cqw;
+  border: 1px solid color-mix(in srgb, var(--gold, #cda45e) 60%, transparent);
+  border-radius: 999px;
+  color: var(--gold, #cda45e);
+  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+  font-size: 2.821cqw;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.lw-event-btn svg { width: 3.59cqw; height: 3.59cqw; flex: none; }
+
+.lw-event-btn.is-filled {
+  background: var(--gold, #cda45e);
+  border-color: var(--gold, #cda45e);
+  color: var(--on-gold, #33211c);
+}
+
+/* The outlined one fills on the way in; the filled one has nowhere left to
+   go, so it lightens instead. */
+.lw-event-btn:hover {
+  background: var(--gold, #cda45e);
+  color: var(--on-gold, #33211c);
+}
+
+.lw-event-btn.is-filled:hover {
+  background: color-mix(in srgb, var(--gold, #cda45e) 82%, #ffffff);
+  border-color: color-mix(in srgb, var(--gold, #cda45e) 82%, #ffffff);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lw-event-copy { transition-duration: 1ms; }
+}
+/* ============================================================== section 8
+
+   The photographs.
+
+   Two columns offset against each other, the way the page was drawn: the
+   left column starts high and the right starts low, so the eye moves down
+   the page in a zigzag rather than reading two straight lists.
+   ========================================================================== */
+
+.lw-gallery {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  overflow: hidden;
+  container-type: inline-size;
+  background: var(--gold, #f7f1e8);
+}
+
+/* The arch's own leaves, standing behind the photographs. */
+/* The two flourishes on the gallery page never stop moving. These keyframes
+   were written for the page that used to stand third and went with it; the
+   gallery is the only thing left that leans on them. */
+@keyframes lw-leaf-left {
+  0%, 100% { transform: rotate(-2.2deg) translate3d(0, 0, 0); }
+  33%      { transform: rotate(1.6deg) translate3d(1.5%, -1.2%, 0); }
+  66%      { transform: rotate(-0.6deg) translate3d(-1%, 1%, 0); }
+}
+
+@keyframes lw-leaf-right {
+  0%, 100% { transform: rotate(2deg) translate3d(0, 0, 0); }
+  30%      { transform: rotate(-1.8deg) translate3d(-1.6%, 1.1%, 0); }
+  70%      { transform: rotate(0.8deg) translate3d(1%, -1.4%, 0); }
+}
+
+.lw-gallery-leaf {
+  position: absolute;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  opacity: .5;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.lw-gallery-leaf-a {
+  right: -16%;
+  top: 13%;
+  width: 74%;
+  aspect-ratio: 516 / 428;
+  background-image: url('../img-sample/templates/lavish-wedding/Section%202/Right.png.webp');
+  transform-origin: 100% 40%;
+  animation: lw-leaf-right 10.5s ease-in-out infinite;
+}
+
+.lw-gallery-leaf-b {
+  left: -18%;
+  bottom: 6%;
+  width: 66%;
+  aspect-ratio: 462 / 428;
+  background-image: url('../img-sample/templates/lavish-wedding/Section%202/Left.png.webp');
+  transform-origin: 0 60%;
+  animation: lw-leaf-left 12.5s ease-in-out infinite;
+}
+
+.lw-gallery-copy {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 850ms ease, transform 850ms cubic-bezier(.2, .7, .3, 1);
+}
+
+.lw-gallery.is-seen .lw-gallery-copy {
+  opacity: 1;
+  transform: none;
+}
+
+.lw-gallery-title {
+  position: absolute;
+  left: 5%;
+  right: 5%;
+  top: 8.294%;
+  margin: 0;
+  font-family: 'Arizonia', 'Segoe Script', cursive;
+  font-size: 7.179cqw;
+  line-height: 1.1;
+  text-align: center;
+  color: var(--gold-deep, #b08d57);
+}
+
+.lw-gallery .lw-rule { left: 6.667%; top: 14.929%; }
+
+.lw-frames {
+  position: absolute;
+  left: 6.667%;
+  right: 6.667%;
+  top: 19.9%;
+  bottom: 9%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3.077cqw;
+  align-content: start;
+}
+
+.lw-frame {
+  margin: 0;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 3.077cqw;
+  box-shadow: 0 1.5cqw 4.1cqw rgba(26, 17, 12, .12);
+}
+
+/* The right column drops half a frame, so the two read as a zigzag rather
+   than as two lists side by side. */
+.lw-frame:nth-child(even) { transform: translateY(26%); }
+
+.lw-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* The rings close the column, as they open the portraits. */
+.lw-gallery-rings {
+  position: absolute;
+  left: 8%;
+  bottom: 2%;
+  width: 30%;
+  aspect-ratio: 1;
+  background: url('../img-sample/templates/lavish-wedding/Section5/rings%201.png.webp') center / contain no-repeat;
+  filter: brightness(1.1);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+/* ============================================================== section 9
+
+   The reply.
+   ========================================================================== */
+
+.lw-rsvp {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  overflow: hidden;
+  container-type: inline-size;
+  background: var(--gold, #f7f1e8);
+}
+
+.lw-rsvp-copy {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 850ms ease, transform 850ms cubic-bezier(.2, .7, .3, 1);
+}
+
+.lw-rsvp.is-seen .lw-rsvp-copy {
+  opacity: 1;
+  transform: none;
+}
+
+.lw-rsvp-title {
+  position: absolute;
+  left: 6.667%;
+  right: 6.667%;
+  top: 9.597%;
+  margin: 0;
+  font-family: 'Arizonia', 'Segoe Script', cursive;
+  font-size: 7.179cqw;
+  line-height: 1.1;
+  text-align: center;
+  color: var(--gold-deep, #b08d57);
+}
+
+.lw-rsvp .lw-rule { left: 6.667%; top: 14.929%; }
+
+.lw-rsvp-prompt,
+.lw-rsvp-by {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  margin: 0;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 5.897cqw;
+  line-height: 1.4;
+  text-align: center;
+  color: var(--on-gold, #33211c);
+}
+
+.lw-rsvp-prompt { top: 21.09%; }
+.lw-rsvp-by { top: 33.412%; }
+
+/* The same building as the countdown, in the page's own lettering colour. */
+.lw-rsvp-building {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  width: 49.231%;
+  aspect-ratio: 194 / 273;
+  transform: translateX(-50%);
+  background-color: var(--on-gold, #60514a);
+  -webkit-mask-image: url('../img-sample/templates/lavish-wedding/Section%202/Building.svg.webp');
+  mask-image: url('../img-sample/templates/lavish-wedding/Section%202/Building.svg.webp');
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+/* =========================================================== the closing
+
+   The arch again, and the same rings, so the card ends where it began.
+   ========================================================================== */
+
+.lw-closing {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  overflow: hidden;
+  container-type: inline-size;
+  background: var(--lw-paper);
+}
+
+.lw-closing-copy {
+  position: absolute;
+  left: 20%;
+  right: 20%;
+  top: 33%;
+  bottom: 14%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 900ms ease;
+}
+
+.lw-closing.is-seen .lw-closing-copy { opacity: 1; }
+
+.lw-closing-when {
+  margin: 0;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 4.615cqw;
+  color: var(--lw-ink, #33211c);
+}
+
+.lw-closing-names {
+  margin: 0;
+  font-family: 'Arizonia', 'Segoe Script', cursive;
+  font-size: 19.487cqw;
+  line-height: 1.02;
+  color: var(--lw-ink, #33211c);
+}
+
+.lw-closing-rings {
+  display: block;
+  width: 26cqw;
+  aspect-ratio: 1;
+  background: url('../img-sample/templates/lavish-wedding/Section5/rings%201.png.webp') center / contain no-repeat;
+  filter: brightness(1.1);
+  mix-blend-mode: multiply;
+}
+
+.lw-closing-credit {
+  font-family: 'Arizonia', 'Segoe Script', cursive;
+  font-size: 5.641cqw;
+  line-height: 1.3;
+  text-decoration: none;
+  color: var(--gold-deep, #b08d57);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lw-gallery-copy, .lw-rsvp-copy, .lw-closing-copy { transition-duration: 1ms; }
+  .lw-gallery-leaf { animation: none; }
+}
+
+/* ========================================================== the sparkles
+
+   Every page carries nine, each with its own size, pace and starting moment.
+   Drawn as a pair of gradients rather than as a picture: they cost nothing,
+   they take the light of whatever page they are on, and there is one set of
+   rules for all of them.
+   ========================================================================== */
+
+.lw-sparks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.lw-spark {
+  position: absolute;
+  width: calc(var(--s) * 1cqw);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  opacity: 0;
+  animation: lw-drift 9s ease-in-out infinite var(--d, 0s);
+  will-change: transform, opacity;
+  background:
+    radial-gradient(closest-side, rgba(255, 248, 233, .95), rgba(255, 248, 233, 0) 70%),
+    conic-gradient(from 0deg,
+      rgba(255, 248, 233, .9) 0deg 6deg, transparent 6deg 84deg,
+      rgba(255, 248, 233, .9) 84deg 96deg, transparent 96deg 174deg,
+      rgba(255, 248, 233, .9) 174deg 186deg, transparent 186deg 264deg,
+      rgba(255, 248, 233, .9) 264deg 276deg, transparent 276deg 354deg,
+      rgba(255, 248, 233, .9) 354deg 360deg);
+}
+
+/* On the paper pages a cream sparkle would be invisible, so there it is the
+   card's own colour catching the light instead. */
+.lw-events .lw-spark,
+.lw-countdown .lw-spark,
+.lw-portraits .lw-spark,
+.lw-families .lw-spark,
+.lw-programme .lw-spark,
+.lw-gallery .lw-spark,
+.lw-rsvp .lw-spark {
+  background:
+    radial-gradient(closest-side, color-mix(in srgb, var(--maroon, #b08d57) 55%, transparent), transparent 70%),
+    conic-gradient(from 0deg,
+      color-mix(in srgb, var(--maroon, #b08d57) 45%, transparent) 0deg 6deg, transparent 6deg 84deg,
+      color-mix(in srgb, var(--maroon, #b08d57) 45%, transparent) 84deg 96deg, transparent 96deg 174deg,
+      color-mix(in srgb, var(--maroon, #b08d57) 45%, transparent) 174deg 186deg, transparent 186deg 264deg,
+      color-mix(in srgb, var(--maroon, #b08d57) 45%, transparent) 264deg 276deg, transparent 276deg 354deg,
+      color-mix(in srgb, var(--maroon, #b08d57) 45%, transparent) 354deg 360deg);
+}
+
+/* Everything a page says sits above its sparkles. */
+.lw-events-copy, .lw-countdown-copy, .lw-portraits-copy,
+.lw-families-copy, .lw-programme-copy, .lw-gallery-copy, .lw-rsvp-copy,
+.lw-event-copy, .lw-rings { z-index: 2; }
+
+/* ====================================================== scratch to reveal
+
+   Every date on the card is behind this. Not only the countdown: the
+   programme rows and each event page carry one too, and one scratch takes
+   them all off at once. A guest who has done it is not asked again.
+   ========================================================================== */
+
+/* Hidden rather than removed, so nothing on the page moves when it is
+   revealed -- a countdown that shifts everything under it as it appears
+   reads as a page still loading. */
+html:not(.lw-revealed) [data-date] {
+  filter: blur(7px);
+  opacity: .5;
+  user-select: none;
+  pointer-events: none;
+}
+
+[data-date] { transition: filter 700ms ease, opacity 700ms ease; }
+
+.lw-scratch {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  width: 100%;
+  height: 100%;
+  border-radius: 3.077cqw;
+  cursor: grab;
+  touch-action: none;
+}
+
+.lw-scratch.is-gone {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 600ms ease;
+}
+
+.lw-scratch-hint {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: 7%;
+  z-index: 5;
+  margin: 0;
+  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+  font-size: 2.821cqw;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--on-maroon, #ffffff);
+  opacity: .8;
+  animation: lw-breathe 2600ms ease-in-out infinite;
+  pointer-events: none;
+}
+
+.lw-scratch-hint.is-gone { opacity: 0; animation: none; transition: opacity 400ms ease; }
+
+/* The confetti, thrown once when the date comes out. */
+.lw-confetti {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+}
+
+.lw-confetti i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 14px;
+  border-radius: 1px;
+  opacity: 0;
+  animation: lw-boom 1500ms cubic-bezier(.15, .6, .3, 1) forwards var(--d, 0s);
+}
+
+@keyframes lw-boom {
+  0%   { opacity: 1; transform: translate3d(0, 0, 0) rotate(0deg) scale(.4); }
+  100% { opacity: 0; transform: translate3d(var(--x), var(--y), 0) rotate(var(--r)) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lw-spark { animation: none; opacity: .55; }
+  .lw-scratch-hint { animation: none; }
+  .lw-confetti { display: none; }
+}
+
+/* ================================================== the motes, and the gate
+
+   The second, quieter layer of air. Where a sparkle catches and goes, a mote
+   rises the whole height of the page over twenty-odd seconds and is never
+   quite the thing you are looking at. It is what keeps a page from being
+   perfectly still in the gaps between sparkles.
+
+   Then the gate. Every page carries eighteen sparkles and eight motes, and
+   the card is fourteen pages: left alone that is over three hundred things
+   animating behind a phone showing one of them. The card marks the page in
+   view and the one either side of it, and everything else is held where it
+   stands -- paused, not stopped, so a page picks up where it left off rather
+   than restarting as it is scrolled to.
+   ========================================================================== */
+
+.lw-mote {
+  position: absolute;
+  bottom: -6%;
+  width: calc(var(--s) * 1cqw);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 248, 233, .8), rgba(255, 248, 233, 0) 72%);
+  opacity: 0;
+  animation: lw-rise var(--t, 22s) linear infinite var(--d, 0s);
+  will-change: transform, opacity;
+}
+
+/* The page is 844 of the card's 390 across, so its height is about 216 of the
+   width -- and the width is the one thing a card measured in cqw can be sure
+   of at any scale. A little over that carries a mote clear off the top. */
+@keyframes lw-rise {
+  0%   { opacity: 0;   transform: translate3d(0, 0, 0) scale(.7); }
+  12%  { opacity: .85; }
+  78%  { opacity: .5; }
+  100% { opacity: 0;   transform: translate3d(var(--x, 0px), var(--lw-rise, -230cqw), 0) scale(1.15); }
+}
+
+/* On the paper pages a cream mote is invisible, so it is the card's own
+   colour catching the light instead -- the same swap the sparkles make. */
+.lw-events .lw-mote,
+.lw-countdown .lw-mote,
+.lw-portraits .lw-mote,
+.lw-families .lw-mote,
+.lw-programme .lw-mote,
+.lw-gallery .lw-mote,
+.lw-rsvp .lw-mote {
+  background: radial-gradient(closest-side,
+    color-mix(in srgb, var(--maroon, #b08d57) 42%, transparent), transparent 72%);
+}
+
+[data-section]:not(.is-live) .lw-spark,
+[data-section]:not(.is-live) .lw-mote { animation-play-state: paused; }
+
+/* Each sparkle keeps its own pace as well as its own moment. */
+.lw-spark { animation-duration: var(--t, 9s); }
+
+/* The cover's air belongs to the room, so it waits for the room: sparkles
+   behind a closed envelope are sparkles nobody can see. Kept at the same
+   level as the room rather than raised above it, or it would come out on top
+   of the envelope it is supposed to be inside. */
+.lw-hero .lw-sparks {
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 1200ms ease 900ms;
+}
+
+.lw-hero.is-opening .lw-sparks { opacity: 1; }
+
+/* ================================================ the touch of a hand
+
+   Four guests in five open this card on a phone, so every interaction here
+   is built for a finger first and a mouse second.
+
+   That is not a matter of taste. On a touch screen there is no hovering: a
+   finger is down on something or it is not, and worse, a browser that has
+   nothing to hover with leaves :hover *stuck* on the last thing tapped until
+   something else is tapped. A card built on hover states comes out both
+   unresponsive and smeared with them.
+
+   So every touchable thing on the card answers `is-pressed`, which the card
+   sets from pointer events the moment a finger lands and lifts again on the
+   release, on a cancel, and on any scroll. Hover is kept as well, for the
+   mice that have one, but only behind `(hover: hover)` -- a query no phone
+   answers, which is exactly the point.
+
+   The rule throughout is that the card moves the way paper and metal move: a
+   press sinks, a release springs, a ring goes out from where the finger was,
+   and nothing moves far. A card is read at arm's length on a phone; three
+   pixels is a gesture there.
+
+   All of it is switched off under prefers-reduced-motion at the foot of the
+   file.
+   ========================================================================== */
+
+.lw-card {
+  --lw-out: cubic-bezier(.2, .7, .3, 1);
+  --lw-spring: cubic-bezier(.34, 1.45, .64, 1);
+}
+
+/* Nothing the card animates should also get the browser's own grey box
+   painted over it. */
+.lw-event, .lw-prog-row, .lw-frame, .lw-portrait, .lw-fam-row, .lw-fam-phone,
+.lw-event-btn, .lw-credit, .lw-closing-credit, .lw-count-box,
+.lw-portrait-name, .lw-names, .lw-closing-names, .lw-event-medal,
+.lw-event-title {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ---- the rule under every heading draws itself ----
+
+   Seven pages open with the same gold rule. Drawn from the left as the page
+   arrives, they read as one gesture repeated rather than seven copies of a
+   picture. */
+.lw-rule {
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform 900ms var(--lw-out, ease) 240ms;
+}
+
+[data-section].is-seen .lw-rule { transform: scaleX(1); }
+
+/* ---- 1 · the cover ---- */
+
+/* A ring of light under the wax, so the one thing to press is lit as well as
+   moving. Behind the seal's own picture, which is drawn after it. */
+.lw-seal::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 66%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 236, 198, .38), rgba(255, 236, 198, 0) 72%);
+  animation: lw-halo 3200ms ease-in-out infinite;
+  pointer-events: none;
+  transition: opacity 400ms ease;
+}
+
+@keyframes lw-halo {
+  0%, 100% { opacity: .45; }
+  50%      { opacity: 1; }
+}
+
+.lw-hero.is-opening .lw-seal::before { opacity: 0; animation: none; }
+
+/* The words answer the press as well as the wax. Brightness rather than
+   scale, because the line is already breathing and a running animation wins
+   over a plain declaration on the same property. */
+.lw-tap { transition: filter 220ms ease; }
+
+.lw-seal.is-pressing ~ .lw-tap {
+  filter: brightness(1.35) drop-shadow(0 0 .6cqw rgba(255, 236, 198, .8));
+}
+
+.lw-credit { transition: transform 220ms var(--lw-spring, ease), opacity 220ms ease; }
+.lw-credit.is-pressed { transform: scale(.96); opacity: .8; }
+
+/* ---- 2 · the welcome, and the closing ---- */
+
+/* The names take a breath of light. Very slow, and only a shadow -- the
+   lettering itself never moves, because a name that pulses reads as a
+   notification. */
+.lw-welcome.is-live .lw-names .lw-name,
+.lw-closing.is-live .lw-closing-names .lw-name {
+  animation: lw-ink 7200ms ease-in-out infinite;
+}
+
+.lw-welcome .lw-names .lw-name:nth-child(3),
+.lw-closing-names + .lw-closing-rings + .lw-closing-names .lw-name { animation-delay: 2400ms; }
+
+@keyframes lw-ink {
+  0%, 100% { text-shadow: 0 0 0 rgba(205, 164, 94, 0); }
+  50%      { text-shadow: 0 0 2.4cqw rgba(205, 164, 94, .45); }
+}
+
+/* Pressed, a name lights properly rather than breathing. This is the one
+   thing on the welcome page a finger will land on, so it answers. */
+.lw-names, .lw-closing-names { transition: filter 260ms ease; }
+
+.lw-names.is-pressed, .lw-closing-names.is-pressed {
+  filter: drop-shadow(0 0 2.6cqw color-mix(in srgb, var(--gold, #cda45e) 70%, transparent));
+}
+
+/* The float the pages below share. */
+@keyframes lw-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-1.1%); }
+}
+
+/* ---- 4 · the events, as a list ----
+
+   The cards are held at their finished state by the arrival animation, which
+   leaves nothing for a press to say. Backwards instead of both: the arrival
+   still holds its opening frame through its delay, and hands the card back
+   to the stylesheet once it has landed. */
+.lw-events.is-seen .lw-event { animation-fill-mode: backwards; }
+
+.lw-event {
+  transition: transform 300ms var(--lw-spring, ease), box-shadow 300ms ease;
+  cursor: default;
+}
+
+/* Held: the card sinks under the finger and its two leaves open outwards, so
+   something happens inside the card as well as to it. */
+.lw-event.is-pressed {
+  transform: scale(.965);
+  box-shadow: 0 .5cqw 1.5cqw rgba(26, 17, 12, .34) inset;
+  transition-duration: 130ms;
+}
+
+.lw-event-leaf { transition: transform 420ms var(--lw-out, ease); }
+.lw-event.is-pressed .lw-event-leaf-left  { transform: translateY(-50%) translateX(-9%); }
+.lw-event.is-pressed .lw-event-leaf-right { transform: translateY(-50%) translateX(9%); }
+
+/* The name inside stays where it is while the card moves under it, which is
+   what makes the card read as a lid rather than a picture. */
+.lw-event-name { transition: transform 300ms var(--lw-spring, ease); }
+.lw-event.is-pressed .lw-event-name { transform: scale(1.036); }
+
+/* ---- 5 · the countdown ---- */
+
+/* A figure that changes turns over. The seconds do it every second, the days
+   once a day, and it is the same movement either way -- which is what makes
+   a card left open on a table look like it is counting rather than sitting. */
+.lw-count-num { display: inline-block; }
+
+.lw-count-num.is-turning { animation: lw-turn 420ms var(--lw-out, ease); }
+
+@keyframes lw-turn {
+  0%   { opacity: 0; transform: translateY(42%) scale(.92); }
+  60%  { opacity: 1; }
+  100% { opacity: 1; transform: none; }
+}
+
+.lw-count-box { transition: transform 300ms var(--lw-spring, ease), box-shadow 300ms ease; }
+.lw-count-box.is-pressed { transform: scale(.985); transition-duration: 130ms; }
+
+.lw-countdown.is-live .lw-count-building {
+  animation: lw-float-x 10400ms ease-in-out infinite;
+}
+
+/* The buildings are centred by a translate of their own, so their float has
+   to carry it rather than replace it. */
+@keyframes lw-float-x {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(-2.5%); }
+}
+
+.lw-scratch { cursor: grab; }
+.lw-scratch:active { cursor: grabbing; }
+
+/* ---- 6 · the portraits ---- */
+
+.lw-portrait {
+  transition: transform 380ms var(--lw-spring, ease), box-shadow 380ms ease;
+}
+
+/* Held, the frame sinks and the photograph inside it comes forward -- the
+   two moving opposite ways is what reads as depth rather than as a wobble. */
+.lw-portrait.is-pressed {
+  transform: scale(.975);
+  box-shadow: 0 1.5cqw 4.1cqw rgba(26, 17, 12, .26);
+  transition-duration: 150ms;
+}
+
+.lw-portrait img { transition: transform 700ms var(--lw-out, ease); }
+.lw-portrait.is-pressed img { transform: scale(1.07); transition-duration: 400ms; }
+
+.lw-portrait-name { transition: letter-spacing 420ms var(--lw-out, ease); }
+.lw-portrait.is-pressed + .lw-portrait-name,
+.lw-portrait-name.is-pressed { letter-spacing: .026em; }
+
+/* The metal catches the light. Brightness only -- the rings are multiplied
+   over the page and any movement would show the box they came in. */
+.lw-portraits.is-seen.is-live .lw-rings,
+.lw-gallery.is-live .lw-gallery-rings,
+.lw-closing.is-live .lw-closing-rings {
+  animation: lw-metal 6400ms ease-in-out infinite;
+}
+
+@keyframes lw-metal {
+  0%, 100% { filter: brightness(1.1); }
+  50%      { filter: brightness(1.26); }
+}
+
+/* ---- 7 · the families ---- */
+
+.lw-fam-row { transition: transform 280ms var(--lw-spring, ease), box-shadow 280ms ease; }
+
+.lw-fam-row.is-pressed { transform: scale(.98); transition-duration: 130ms; }
+
+/* The number is the one thing on the page anybody is going to press -- it is
+   a telephone call. It sinks under the finger and a ring of its own colour
+   goes out from exactly where the finger landed. */
+.lw-fam-phone {
+  position: relative;
+  overflow: hidden;
+  transition: transform 240ms var(--lw-spring, ease), box-shadow 240ms ease;
+}
+
+.lw-fam-phone.is-pressed {
+  transform: scale(.93);
+  box-shadow: 0 .4cqw 1.2cqw rgba(26, 17, 12, .3) inset;
+  transition-duration: 100ms;
+}
+
+.lw-fam-phone:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+
+.lw-families.is-live .lw-side-figure { animation: lw-float 11200ms ease-in-out infinite; }
+.lw-families.is-live .lw-side-1 .lw-side-figure { animation-delay: 3600ms; }
+
+/* ---- 8 · the programme ---- */
+
+/* The rows come in one after another, the way the cards on the events page
+   do, so the two pages drawn from the same list behave the same way. */
+.lw-programme.is-seen .lw-prog-row {
+  animation: lw-card-in 640ms var(--lw-out, ease) backwards;
+  animation-delay: calc(340ms + var(--i) * 90ms);
+}
+
+.lw-prog-row {
+  position: relative;
+  overflow: hidden;
+  transition: transform 280ms var(--lw-spring, ease), border-color 280ms ease,
+              box-shadow 280ms ease;
+}
+
+/* A bar in the card's colour runs down the opening edge as the row is held --
+   the mark a finger would leave running down a programme. */
+.lw-prog-row::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  background: var(--maroon, #3b2a24);
+  transition: width 320ms var(--lw-out, ease);
+}
+
+.lw-prog-row.is-pressed {
+  transform: scale(.985);
+  border-color: color-mix(in srgb, var(--maroon, #33211c) 55%, transparent);
+  transition-duration: 130ms;
+}
+
+.lw-prog-row.is-pressed::before { width: 1.8cqw; transition-duration: 200ms; }
+
+/* ---- 9 · the event pages ---- */
+
+/* The frame draws itself round the page as the page arrives -- the outer
+   rule first and the inner a beat behind it, so it reads as a frame being
+   set rather than a box switching on. */
+.lw-event-frame,
+.lw-event-frame-in {
+  opacity: 0;
+  transform: scale(.985);
+  transition: opacity 900ms ease 200ms, transform 900ms var(--lw-out, ease) 200ms;
+}
+
+.lw-event-frame-in { transition-delay: 400ms; }
+
+.lw-event-page.is-seen .lw-event-frame,
+.lw-event-page.is-seen .lw-event-frame-in { opacity: 1; transform: none; }
+
+/* The corner marks come in last, each from its own corner. */
+.lw-event-mark {
+  opacity: 0;
+  transition: opacity 900ms ease 620ms, transform 900ms var(--lw-out, ease) 620ms;
+}
+
+.lw-event-mark-tl { transform: translate(-30%, -30%); }
+.lw-event-mark-tr { transform: scaleX(-1) translate(-30%, -30%); }
+.lw-event-mark-bl { transform: scaleY(-1) translate(-30%, -30%); }
+.lw-event-mark-br { transform: scale(-1) translate(-30%, -30%); }
+
+.lw-event-page.is-seen .lw-event-mark-tl { opacity: 1; transform: none; }
+.lw-event-page.is-seen .lw-event-mark-tr { opacity: 1; transform: scaleX(-1); }
+.lw-event-page.is-seen .lw-event-mark-bl { opacity: 1; transform: scaleY(-1); }
+.lw-event-page.is-seen .lw-event-mark-br { opacity: 1; transform: scale(-1); }
+
+/* The medallion rides very slightly, and its ring takes the light -- the one
+   picture on a page of type, so it is the one thing given its own movement.
+   Pressed, the ring opens out and the drawing comes up to meet it. */
+.lw-event-page.is-live .lw-event-medal { animation: lw-float 8600ms ease-in-out infinite; }
+
+.lw-event-medal { transition: box-shadow 300ms ease, border-color 300ms ease; }
+
+.lw-event-medal.is-pressed {
+  border-color: var(--gold, #cda45e);
+  box-shadow: 0 0 5.1cqw color-mix(in srgb, var(--gold, #cda45e) 45%, transparent);
+}
+
+.lw-event-drawing { transition: transform 340ms var(--lw-spring, ease); }
+.lw-event-medal.is-pressed .lw-event-drawing { transform: scale(1.08); }
+
+.lw-event-page.is-live .lw-event-drawing { animation: lw-medal 7400ms ease-in-out infinite; }
+
+@keyframes lw-medal {
+  0%, 100% { opacity: .88; }
+  50%      { opacity: 1; }
+}
+
+/* The event's name answers a press too, since on a page of type it is the
+   thing a finger lands on by accident as often as on purpose. */
+.lw-event-title { transition: transform 300ms var(--lw-spring, ease); }
+.lw-event-title.is-pressed { transform: scale(1.03); }
+
+/* The star in the ornament turns, slowly enough that it is never caught at it. */
+.lw-event-page.is-live .lw-event-orn svg { animation: lw-turn-slow 14s linear infinite; }
+
+@keyframes lw-turn-slow {
+  to { transform: rotate(360deg); }
+}
+
+/* The one line on the page written to this guest and nobody else, so it is
+   the one thing on it that keeps catching the light. */
+.lw-event-page.is-live .lw-event-guests { animation: lw-tag 4400ms ease-in-out infinite; }
+
+@keyframes lw-tag {
+  0%, 100% { box-shadow: 0 0 0 rgba(205, 164, 94, 0); }
+  50%      { box-shadow: 0 0 4.1cqw color-mix(in srgb, var(--gold, #cda45e) 55%, transparent); }
+}
+
+/* The two buttons -- the only two things on the whole card that actually do
+   something. They get the fullest answer of anything here: they sink, a
+   sheen runs across them, and a ring goes out from under the finger. */
+.lw-event-btn {
+  transition: background 260ms ease, color 260ms ease, border-color 260ms ease,
+              transform 220ms var(--lw-spring, ease), box-shadow 260ms ease;
+}
+
+.lw-event-btn.is-pressed {
+  transform: scale(.955);
+  box-shadow: 0 .5cqw 1.5cqw rgba(0, 0, 0, .4) inset;
+  transition-duration: 100ms;
+}
+
+/* The sheen. Off the left edge until it is asked for, and clipped by the
+   pill on the way past. */
+.lw-event-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 36%,
+              rgba(255, 255, 255, .55) 50%, transparent 64%);
+  transform: translateX(-120%);
+  pointer-events: none;
+}
+
+.lw-event-btn.is-pressed::after { animation: lw-sheen 760ms ease-out; }
+
+@keyframes lw-sheen {
+  to { transform: translateX(120%); }
+}
+
+.lw-event-btn:focus-visible { outline: 2px solid var(--gold, #cda45e); outline-offset: 3px; }
+
+/* ---- the ring that goes out from under a finger ----
+
+   One drawing shared by the two things on the card that are pressed to make
+   something happen. It starts at the point the finger landed, which the card
+   writes onto the element as it presses -- a ring that always starts in the
+   middle of a wide pill reads as a light coming on, not as a touch. */
+.lw-fam-phone::after,
+.lw-event-btn::before {
+  content: '';
+  position: absolute;
+  left: var(--rx, 50%);
+  top: var(--ry, 50%);
+  width: 52cqw;
+  height: 52cqw;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+}
+
+.lw-fam-phone.is-pressed::after,
+.lw-event-btn.is-pressed::before { animation: lw-ripple 620ms ease-out; }
+
+@keyframes lw-ripple {
+  0%   { opacity: .34; transform: translate(-50%, -50%) scale(0); }
+  100% { opacity: 0;   transform: translate(-50%, -50%) scale(1); }
+}
+
+/* ---- 10 · the photographs ---- */
+
+.lw-gallery.is-seen .lw-frame {
+  animation: lw-card-in 660ms var(--lw-out, ease) backwards;
+  animation-delay: calc(300ms + var(--i) * 90ms);
+}
+
+.lw-frame { transition: transform 340ms var(--lw-spring, ease), box-shadow 340ms ease; }
+
+/* Held, a frame sinks and the photograph in it comes forward. The right
+   column already sits half a frame low, so its press has to carry that drop
+   rather than throw it away. */
+.lw-frame.is-pressed {
+  transform: scale(.955);
+  box-shadow: 0 .8cqw 2.1cqw rgba(26, 17, 12, .3);
+  transition-duration: 140ms;
+}
+
+.lw-frame:nth-child(even).is-pressed { transform: translateY(26%) scale(.955); }
+
+.lw-frame img { transition: transform 700ms var(--lw-out, ease); }
+.lw-frame.is-pressed img { transform: scale(1.08); transition-duration: 400ms; }
+
+/* The arrival and the drop are both transforms on the same box, so the even
+   column has to be told its drop again as it lands. */
+.lw-gallery.is-seen .lw-frame:nth-child(even) { animation-name: lw-card-in-low; }
+
+@keyframes lw-card-in-low {
+  from { opacity: 0; transform: translateY(calc(26% + 16px)); }
+  to   { opacity: 1; transform: translateY(26%); }
+}
+
+/* ---- 11 · the reply ---- */
+
+.lw-rsvp.is-live .lw-rsvp-building { animation: lw-float-x 11800ms ease-in-out infinite; }
+.lw-rsvp.is-live .lw-rsvp-by { animation: lw-breathe 5200ms ease-in-out infinite; }
+
+/* ---- 12 · the closing ---- */
+
+.lw-closing-credit {
+  display: inline-block;
+  transition: transform 260ms var(--lw-spring, ease), opacity 260ms ease;
+}
+
+.lw-closing-credit.is-pressed { transform: scale(.94); opacity: .82; }
+
+/* ---- the cue at the foot ----
+
+   The one control the guest uses on every page, so it is the one that has to
+   feel like a button rather than look like one. */
+.lw-scroll {
+  transition: opacity 300ms ease, transform 220ms var(--lw-spring, ease),
+              box-shadow 260ms ease, background 300ms ease, color 300ms ease;
+}
+
+.lw-scroll.is-pressed,
+.lw-scroll:active {
+  transform: scale(.86);
+  box-shadow: 0 2px 6px rgba(26, 17, 12, .3);
+  transition-duration: 90ms;
+}
+
+/* A ring going out from under it, so the button is found on a page whose
+   colour it happens to share. */
+.lw-scroll::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  opacity: 0;
+  pointer-events: none;
+  animation: lw-pulse 3400ms ease-out infinite;
+}
+
+@keyframes lw-pulse {
+  0%   { opacity: .5; transform: scale(1); }
+  70%  { opacity: 0;  transform: scale(1.45); }
+  100% { opacity: 0;  transform: scale(1.45); }
+}
+
+.lw-scroll.is-done::after, html.lw-sealed .lw-scroll::after { animation: none; }
+
+/* ====================================================== and for a mouse
+
+   Everything above works with a finger. These are the extras for the screens
+   that have a pointer to hover with -- and they are behind `(hover: hover)`
+   for a reason: a phone that answers a hover query at all answers it with
+   `none`, and any hover state it did apply would stick to the last thing
+   tapped until something else was.
+   ========================================================================== */
+
+@media (hover: hover) and (pointer: fine) {
+  .lw-credit:hover { transform: translateY(-1px); }
+
+  .lw-event:hover {
+    transform: translateY(-2px) scale(1.012);
+    box-shadow: 0 2.1cqw 5.1cqw rgba(26, 17, 12, .3);
+  }
+
+  .lw-event:hover .lw-event-leaf-left  { transform: translateY(-50%) translateX(-7%); }
+  .lw-event:hover .lw-event-leaf-right { transform: translateY(-50%) translateX(7%); }
+
+  .lw-count-box:hover { box-shadow: 0 2.6cqw 6.4cqw rgba(26, 17, 12, .26); }
+
+  .lw-portrait:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 2.6cqw 6.4cqw rgba(26, 17, 12, .22);
+  }
+
+  .lw-portrait:hover img { transform: scale(1.045); }
+  .lw-portrait:hover + .lw-portrait-name { letter-spacing: .024em; }
+
+  .lw-fam-row:hover { transform: translateY(-2px); }
+  .lw-fam-row.is-prominent:hover { box-shadow: 0 1.8cqw 4.6cqw rgba(26, 17, 12, .28); }
+
+  .lw-fam-phone:hover {
+    transform: translateY(-1px) scale(1.045);
+    box-shadow: 0 .9cqw 2.6cqw rgba(26, 17, 12, .3);
+  }
+
+  .lw-prog-row:hover {
+    transform: translateX(3px);
+    border-color: color-mix(in srgb, var(--maroon, #33211c) 55%, transparent);
+    box-shadow: 0 1.6cqw 4.1cqw rgba(26, 17, 12, .14);
+  }
+
+  .lw-prog-row:hover::before { width: 1.6cqw; }
+
+  .lw-event-medal:hover {
+    border-color: var(--gold, #cda45e);
+    box-shadow: 0 0 5.1cqw color-mix(in srgb, var(--gold, #cda45e) 45%, transparent);
+  }
+
+  .lw-event-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 1.3cqw 3.4cqw rgba(0, 0, 0, .34);
+  }
+
+  .lw-event-btn:hover::after { animation: lw-sheen 720ms ease-out; }
+
+  .lw-frame:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 2.6cqw 6.2cqw rgba(26, 17, 12, .26);
+  }
+
+  .lw-frame:nth-child(even):hover { transform: translateY(calc(26% - 5px)) scale(1.03); }
+  .lw-frame:hover img { transform: scale(1.06); }
+
+  .lw-closing-credit:hover { transform: translateY(-2px) scale(1.03); text-decoration: underline; }
+
+  .lw-scroll:hover {
+    transform: translateY(-3px) scale(1.07);
+    box-shadow: 0 10px 26px rgba(26, 17, 12, .38);
+  }
+}
+
+/* ========================================================== stillness
+
+   Everything above, off. What is left is a card whose pages still arrive and
+   whose buttons still answer -- colour and shadow rather than movement.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .lw-mote { animation: none; opacity: .4; bottom: auto; top: 40%; }
+  .lw-rule { transition-duration: 1ms; transform: scaleX(1); }
+
+  .lw-seal::before,
+  .lw-count-num.is-turning,
+  .lw-countdown.is-live .lw-count-building,
+  .lw-families.is-live .lw-side-figure,
+  .lw-event-page.is-live .lw-event-medal,
+  .lw-event-page.is-live .lw-event-drawing,
+  .lw-event-page.is-live .lw-event-orn svg,
+  .lw-event-page.is-live .lw-event-guests,
+  .lw-rsvp.is-live .lw-rsvp-building,
+  .lw-rsvp.is-live .lw-rsvp-by,
+  .lw-welcome.is-live .lw-names .lw-name,
+  .lw-closing.is-live .lw-closing-names .lw-name,
+  .lw-portraits.is-seen.is-live .lw-rings,
+  .lw-gallery.is-live .lw-gallery-rings,
+  .lw-closing.is-live .lw-closing-rings,
+  .lw-event-btn.is-pressed::after,
+  .lw-event-btn:hover::after,
+  .lw-fam-phone.is-pressed::after,
+  .lw-event-btn.is-pressed::before,
+  .lw-scroll::after { animation: none; }
+
+  .lw-programme.is-seen .lw-prog-row,
+  .lw-gallery.is-seen .lw-frame { animation-duration: 1ms; animation-delay: 0ms; }
+
+  .lw-event-frame, .lw-event-frame-in, .lw-event-mark { transition-duration: 1ms; }
+
+  .lw-event, .lw-portrait, .lw-portrait img, .lw-fam-row, .lw-fam-phone,
+  .lw-prog-row, .lw-event-btn, .lw-frame, .lw-frame img, .lw-scroll,
+  .lw-closing-credit, .lw-credit, .lw-event-leaf,
+  .lw-event-name, .lw-event-title, .lw-event-drawing, .lw-count-box,
+  .lw-names, .lw-closing-names { transition-duration: 1ms; }
+
+  /* A press still answers under reduced motion -- it just answers in colour
+     and depth rather than by moving. */
+  .lw-event.is-pressed, .lw-portrait.is-pressed, .lw-fam-row.is-pressed,
+  .lw-prog-row.is-pressed, .lw-event-btn.is-pressed, .lw-frame.is-pressed,
+  .lw-scroll.is-pressed, .lw-scroll:active, .lw-closing-credit.is-pressed,
+  .lw-credit.is-pressed, .lw-count-box.is-pressed,
+  .lw-fam-phone.is-pressed, .lw-event-title.is-pressed { transform: none; }
+
+  .lw-frame:nth-child(even).is-pressed { transform: translateY(26%); }
+
+  .lw-portrait.is-pressed img, .lw-frame.is-pressed img,
+  .lw-event-medal.is-pressed .lw-event-drawing { transform: none; }
+}
+
+/* ==================================================== the card on a laptop
+
+   Everything above this point is a card 390 wide. This is the same card laid
+   out again for 1440 by 800 -- and it is a relayout, not a stretch, because
+   the two shapes want opposite things. A phone is tall and narrow, so the
+   card stacks: names over one another, events down a column, families one
+   above the other. A laptop is wide and short, so the same material goes
+   across: names either side of the building, events in a row, families side
+   by side. Widening the phone layout would have given a column of enormous
+   type in the middle of two empty margins.
+
+   Every section carries `container-type: inline-size`, so every size in it is
+   a fraction of that section's own width. That is what makes this a rewrite
+   rather than a media query with two overrides in it: at 390 a heading of
+   9.231cqw is 36px, and the moment the section is 1440 wide the same
+   declaration is 133px. So each measurement is given again here against the
+   wider box, in clamp() so that the range from a small laptop to a large
+   monitor stays sane rather than tracking the width exactly.
+
+   The cover is the exception and stays exactly 390 wide, because the envelope
+   is a photograph of a real one at a real size -- see the wide screen's room
+   above, which is the whole of what changes there.
+   ========================================================================== */
+
+@media (min-width: 900px) {
+
+  /* ---- the frame everything sits in ---- */
+
+  .lw-card { width: 100vw; }
+
+  /* The cover keeps the column. The envelope is a photograph of a piece of
+     paper, and paper does not get bigger because the window did. */
+  .lw-hero { width: var(--lw-w); margin: 0 auto; }
+
+  /* The cue goes to the window's corner now that the pages reach it. */
+  .lw-scroll { right: 20px; }
+
+  /* ---- the two things every page shares ---- */
+
+  /* The rule stops being a line across the page and becomes an ornament under
+     the heading: at 1440 the same 85% of the width is a rule wider than any
+     sentence beneath it, which reads as a divider between two pages rather
+     than as a mark belonging to the words above. Drawn from the middle
+     outwards here, for the same reason. */
+  .lw-events .lw-rule,
+  .lw-countdown .lw-rule,
+  .lw-portraits .lw-rule,
+  .lw-families .lw-rule,
+  .lw-programme .lw-rule,
+  .lw-gallery .lw-rule,
+  .lw-rsvp .lw-rule {
+    left: calc(50% - 9.5%);
+    right: auto;
+    width: 19%;
+    top: 17.5%;
+    transform-origin: center center;
+  }
+
+  /* Every page's own heading, in the script, centred. */
+  .lw-weds, .lw-count-title, .lw-portraits-title,
+  .lw-fam-title, .lw-prog-title, .lw-gallery-title, .lw-rsvp-title {
+    left: 0;
+    right: 0;
+    top: 9.5%;
+    font-size: clamp(20px, 1.72cqw, 32px);
+    text-align: center;
+  }
+
+  /* ---- section 2 · the welcome ---- */
+
+  html.lw-painted .lw-room-web {
+    background-image: var(--lw-art-cover-web,
+      url('../img-sample/templates/lavish-wedding/Web/Hero/Hero-backrgound-web.svg.webp'));
+  }
+
+  html.lw-painted .lw-welcome {
+    background-image: var(--lw-art-s1-web,
+      url('../img-sample/templates/lavish-wedding/Web/Section%201/Section-1-web.svg.webp'));
+  }
+
+  /* The phone's arch has its foliage along the bottom edge, and the sway is a
+     second copy of that strip laid over the first. The wide arch puts its
+     foliage up the sides instead, where a strip taken off the bottom has
+     nothing in it to move. */
+  .lw-welcome .lw-art-s1, .lw-welcome .lw-wind { display: none; }
+
+  .lw-welcome .lw-eyebrow,
+  .lw-welcome .lw-lede,
+  .lw-welcome .lw-names,
+  .lw-welcome .lw-blessing {
+    left: 50%;
+    right: auto;
+    width: 34%;
+    transform: translateX(-50%);
+  }
+
+  .lw-welcome.is-seen .lw-eyebrow,
+  .lw-welcome.is-seen .lw-lede,
+  .lw-welcome.is-seen .lw-names,
+  .lw-welcome.is-seen .lw-blessing { transform: translateX(-50%); }
+
+  .lw-welcome .lw-eyebrow  { top: 25%; font-size: clamp(20px, 1.66cqw, 30px); }
+  .lw-welcome .lw-lede     { top: 31%; font-size: clamp(15px, 1.25cqw, 21px); }
+  .lw-welcome .lw-names    { top: 42%; }
+  .lw-welcome .lw-blessing { top: 74%; font-size: clamp(15px, 1.25cqw, 21px); }
+
+  .lw-welcome .lw-name { font-size: clamp(46px, 4.6cqw, 84px); }
+  .lw-welcome .lw-amp  { font-size: clamp(28px, 2.8cqw, 52px); }
+
+  /* ---- section 4 · the events a guest is asked to ----
+
+     Down a column on a phone, across a row here. They are five names of the
+     same kind of thing, and a row is how five of anything are read at a
+     glance. */
+
+  .lw-passage {
+    left: 19%;
+    right: 19%;
+    top: 25%;
+    font-size: clamp(15px, 1.25cqw, 21px);
+    line-height: 1.6;
+  }
+
+  .lw-events-list {
+    left: 6%;
+    right: 6%;
+    top: 46%;
+    bottom: auto;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.2cqw;
+  }
+
+  .lw-event {
+    flex: 0 1 15%;
+    min-width: 160px;
+    height: 5.4cqw;
+    min-height: 70px;
+    border-radius: 10px;
+    box-shadow: 0 .5cqw 1.4cqw rgba(26, 17, 12, .18);
+  }
+
+  .lw-event::after { inset: 7px; border-radius: 6px; }
+
+  .lw-event-name { font-size: clamp(24px, 2.2cqw, 38px); }
+
+  /* ---- section 5 · the countdown ----
+
+     One wide box instead of a tall one: the building stands at its left and
+     the four figures take the room to the right of it, rather than the
+     building sitting on top of the numbers. */
+
+  .lw-until {
+    left: 0;
+    right: 0;
+    top: 24%;
+    font-size: clamp(16px, 1.4cqw, 24px);
+    text-align: center;
+  }
+
+  .lw-count-box {
+    left: 26%;
+    top: 36%;
+    width: 48%;
+    height: 44%;
+    border-radius: 1.1cqw;
+  }
+
+  .lw-count-flourish { right: -6%; top: -14%; width: 44%; }
+
+  .lw-count-building {
+    left: 17%;
+    top: 12%;
+    width: 17%;
+    transform: none;
+  }
+
+  .lw-countdown.is-live .lw-count-building { animation-name: lw-float; }
+
+  .lw-count-grid {
+    left: 40%;
+    right: 6%;
+    top: 16%;
+    bottom: 14%;
+    height: auto;
+  }
+
+  .lw-count-num   { font-size: clamp(26px, 2.5cqw, 44px); }
+  .lw-count-label { font-size: clamp(12px, 1.1cqw, 19px); }
+
+  .lw-scratch-hint { font-size: clamp(10px, .8cqw, 14px); }
+
+  /* ---- section 6 · the portraits ---- */
+
+  .lw-portrait {
+    top: 30%;
+    width: 15%;
+    left: auto;
+  }
+
+  .lw-portrait-groom { left: 26%; }
+  .lw-portrait-bride { left: 59%; }
+
+  .lw-rings { top: 44%; width: 8%; }
+
+  .lw-portrait-name {
+    top: 65%;
+    width: 26%;
+    font-size: clamp(20px, 2cqw, 34px);
+  }
+
+  .lw-portrait-name-groom { left: 20.5%; right: auto; }
+  .lw-portrait-name-bride { left: 53.5%; right: auto; }
+
+  /* ---- section 7 · the two families ----
+
+     One above the other on a phone, side by side here -- which is what the
+     two sides of a wedding are. */
+
+  .lw-side { inset: 0 auto 0 0; width: 50%; }
+  .lw-side-1 { left: 50%; }
+
+  .lw-side > * { left: 14%; right: 14%; }
+
+  .lw-side-0 .lw-side-label,   .lw-side-1 .lw-side-label   { top: 24%; }
+  .lw-side-0 .lw-side-figure,  .lw-side-1 .lw-side-figure  { top: 31%; left: 38%; right: 38%; height: 22%; }
+  .lw-side-0 .lw-side-parents, .lw-side-1 .lw-side-parents { top: 57%; }
+  .lw-side-0 .lw-side-rows,    .lw-side-1 .lw-side-rows    { top: 64%; height: 24%; }
+
+  .lw-side-label,
+  .lw-side-parents { font-size: clamp(14px, 1.25cqw, 21px); }
+
+  .lw-side-rows { --gap: 1.1cqw; }
+
+  .lw-fam-row {
+    height: min(3.6cqw, calc((100% - (var(--n, 2) - 1) * min(var(--gap), 8%)) / var(--n, 2)));
+    padding: 0 .4cqw 0 1.5cqw;
+    border-radius: 2cqw;
+  }
+
+  .lw-fam-name,
+  .lw-fam-phone { font-size: clamp(13px, 1.15cqw, 19px); }
+
+  .lw-fam-phone { width: 42%; }
+
+  /* ---- section 8 · the programme ----
+
+     Two columns rather than one, because five boxes down a 800-tall page is
+     five boxes squeezed to nothing. */
+
+  .lw-prog-list {
+    left: 26%;
+    right: 26%;
+    top: 25%;
+    bottom: 12%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-content: center;
+    gap: 1.2cqw;
+  }
+
+  /* An odd one out sits under the middle rather than at the end of a row. */
+  .lw-prog-row:nth-child(odd):last-child { grid-column: 1 / -1; justify-self: center; width: calc(50% - .6cqw); }
+
+  .lw-prog-row {
+    height: auto;
+    padding: 1.1cqw 1.6cqw;
+    border-radius: .8cqw;
+    column-gap: 1.4cqw;
+    row-gap: .3cqw;
+  }
+
+  .lw-prog-name  { font-size: clamp(19px, 1.75cqw, 30px); }
+  .lw-prog-date  { font-size: clamp(14px, 1.3cqw, 22px); }
+  .lw-prog-where { font-size: clamp(12px, 1cqw, 17px); }
+
+  /* ---- section 9 · the photographs ----
+
+     Three across and two down, with the rings beside them rather than under
+     them. The zigzag goes: it exists on the phone to stop two long columns
+     reading as two lists, and three across is already not a list. */
+
+  .lw-gallery-leaf-a { right: -8%; top: 16%; width: 30%; }
+  .lw-gallery-leaf-b { left: -10%; bottom: 2%; width: 26%; }
+
+  .lw-gallery-rings { left: 9%; bottom: auto; top: 44%; width: 13%; }
+
+  .lw-frames {
+    left: 30%;
+    right: 22%;
+    top: 26%;
+    bottom: 10%;
+    grid-template-columns: repeat(3, 1fr);
+    align-content: center;
+    gap: 1.1cqw;
+  }
+
+  .lw-frame:nth-child(even) { transform: none; }
+  .lw-frame:nth-child(even).is-pressed { transform: scale(.955); }
+
+  /* ---- section 10 · the reply ---- */
+
+  .lw-rsvp-prompt,
+  .lw-rsvp-by {
+    left: 28%;
+    right: 28%;
+    font-size: clamp(15px, 1.35cqw, 23px);
+  }
+
+  .lw-rsvp-prompt { top: 25%; }
+  .lw-rsvp-by     { top: 33%; }
+
+  .lw-rsvp-building { top: 45%; width: 14%; }
+
+  /* ---- the closing ---- */
+
+  html.lw-painted .lw-closing {
+    background-image: var(--lw-art-s1-web,
+      url('../img-sample/templates/lavish-wedding/Web/Section%201/Section-1-web.svg.webp'));
+  }
+
+  .lw-closing .lw-art-s1 { display: none; }
+
+  .lw-closing-copy {
+    left: 26%;
+    right: 26%;
+    top: 26%;
+    bottom: 8%;
+    justify-content: center;
+    gap: 1.4cqw;
+  }
+
+  .lw-closing-when   { font-size: clamp(15px, 1.3cqw, 22px); }
+
+  /* Both the line and the span in it.
+
+     The paragraph carries 19.487cqw and so does the `.lw-name` inside it, and
+     each was hiding the other's symptom. Setting only the paragraph left the
+     span at 280 pixels, so the name was taller than the arch it stands in.
+     Setting only the span shrank the lettering but left the paragraph's line
+     box 285 pixels tall -- two of those, and the page was 800 pixels of
+     content in a 576-pixel band, which is why the date sat off the top of the
+     screen and the credit off the bottom of it. The welcome page never showed
+     this because its `.lw-names` sets no size of its own. */
+  .lw-closing-names,
+  .lw-closing-names .lw-name { font-size: clamp(46px, 4.4cqw, 84px); }
+  .lw-closing-rings  { width: 7cqw; }
+  .lw-closing-credit { font-size: clamp(20px, 1.8cqw, 32px); }
+
+  /* ---- the event pages ----
+
+     The frame follows the window; what it frames stays a column, because a
+     name, a date and an address set right across 1440 is three things a long
+     way from one another. */
+
+  .lw-event-frame    { inset: 1.1cqw; }
+  .lw-event-frame-in { inset: 1.8cqw; }
+
+  .lw-event-mark { width: 2.6cqw; }
+  .lw-event-mark-tl { left: 1.1cqw; top: 1.1cqw; }
+  .lw-event-mark-tr { right: 1.1cqw; top: 1.1cqw; }
+  .lw-event-mark-bl { left: 1.1cqw; bottom: 1.1cqw; }
+  .lw-event-mark-br { right: 1.1cqw; bottom: 1.1cqw; }
+
+  .lw-event-medal { left: calc(50% - 5.5%); top: 8%; width: 11%; }
+
+  .lw-event-title  { top: 30%; font-size: clamp(44px, 4.2cqw, 76px); }
+
+  .lw-event-guests {
+    left: 38%;
+    right: 38%;
+    top: 44%;
+    padding: .8cqw 0;
+    font-size: clamp(13px, 1.1cqw, 19px);
+  }
+
+  .lw-event-when  { left: 36%; right: 36%; top: 52%; gap: 1cqw; }
+  .lw-event-where { left: 32%; right: 32%; top: 68%; gap: .35cqw; }
+
+  .lw-event-date   { font-size: clamp(22px, 2cqw, 36px); }
+  .lw-event-time   { font-size: clamp(16px, 1.45cqw, 26px); }
+  .lw-event-venue  { font-size: clamp(19px, 1.8cqw, 32px); }
+  .lw-event-address{ font-size: clamp(13px, 1.15cqw, 20px); }
+  .lw-event-wlabel { font-size: clamp(10px, .8cqw, 14px); }
+  .lw-event-orn svg { width: 1cqw; height: 1cqw; }
+
+  .lw-event-actions {
+    left: 36%;
+    right: 36%;
+    bottom: 9%;
+    flex-direction: row;
+    justify-content: center;
+    gap: .9cqw;
+  }
+
+  .lw-event-btn { padding: 1.1cqw 1.8cqw; font-size: clamp(10px, .82cqw, 14px); gap: .6cqw; }
+  .lw-event-btn svg { width: 1.1cqw; height: 1.1cqw; }
+
+  /* ---- and what a pointer can do here ----
+
+     This is the layout that will be read with a mouse, so the pages that had
+     nothing to hover on a phone get something now. All of it is inside
+     (hover: hover) further up as well; these are the pieces that only exist
+     at this width. */
+
+  .lw-portrait, .lw-frame, .lw-event, .lw-prog-row, .lw-fam-row,
+  .lw-count-box, .lw-portrait-name { cursor: default; }
+}
+
+@media (min-width: 900px) and (hover: hover) and (pointer: fine) {
+  /* The rings turn up between the two portraits when either is pointed at. */
+  .lw-portrait:hover ~ .lw-rings { filter: brightness(1.3); }
+
+  /* A photograph comes forward out of the grid rather than only lifting:
+     three across and two down is close packing, and a lift alone is lost in
+     it. */
+  .lw-frame:hover { transform: translateY(-6px) scale(1.06); z-index: 2; }
+
+  .lw-event-guests { transition: transform 300ms var(--lw-spring, ease); }
+  .lw-event-page:hover .lw-event-guests { transform: scale(1.02); }
+}
+
+/* ============================================ the laptop, second pass
+
+   What the first pass got wrong, from looking at it.
+   ========================================================================== */
+
+@media (min-width: 900px) {
+
+  /* ---- the air ----
+
+     Sparkles are sized in cqw, which is the right instrument on a phone and
+     the wrong one here: the same 2.6cqw that draws a ten-pixel star on a 390
+     card draws a thirty-seven-pixel one on a 1440 page, and thirty-seven
+     pixels is not a sparkle, it is a snowflake. Held to roughly the size they
+     are on a phone.
+
+     The motes travel in cqw too, and were being asked to rise three thousand
+     pixels up an eight-hundred-pixel page -- so they spent nearly the whole
+     of every cycle above the top of it. */
+  .lw-spark { width: calc(var(--s) * .3cqw); }
+  .lw-mote  { width: calc(var(--s) * .28cqw); --lw-rise: -62cqw; }
+
+  /* ---- section 2 · the welcome ----
+
+     Everything moves down. The arch's clear opening starts about a third of
+     the way down the page, and the first pass had the first line sitting on
+     the moulding above it. */
+  .lw-welcome .lw-eyebrow  { top: 36%; }
+  .lw-welcome .lw-lede     { top: 41%; }
+  .lw-welcome .lw-names    { top: 54%; }
+  .lw-welcome .lw-blessing { top: 84%; }
+
+  /* ---- section 4 · the events ----
+
+     Given a band to sit in rather than a line to start at, so the row finds
+     the middle of the space under the passage instead of leaving a third of
+     the page empty beneath it. */
+  .lw-events-list { top: 32%; bottom: 14%; }
+
+  /* ---- section 5 · the countdown ----
+
+     The box was tall enough for a phone's stacked timer and far too tall for
+     a row of four; and inside it the figures sat at the top of cells three
+     times their own height, because baseline alignment aligns to the top of
+     the line and there was nothing telling the line where to sit. */
+  .lw-count-box { top: 36%; height: 36%; }
+
+  .lw-count-cell {
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: center;
+    align-content: center;
+    align-items: baseline;
+    column-gap: .42em;
+  }
+
+  /* ---- section 7 · the families ----
+
+     The rows ran nearly the full width of their half, which made a telephone
+     number into a banner. A contact is a name and a number; it wants to be
+     about the width of the picture above it. */
+  .lw-side-0 .lw-side-rows,
+  .lw-side-1 .lw-side-rows { left: 25%; right: 25%; top: 60%; height: 27%; }
+
+  .lw-fam-phone { width: 46%; }
+
+  /* An event with no ribbon closes up here too -- the phone's own version of
+     this rule is more specific than the wide layout's, so without it the
+     page would keep the phone's coordinate. */
+  .lw-event-copy.is-plain .lw-event-when { top: 46%; }
+}
+
+/* A frame with no photograph in it yet, drawn in the editor only.
+
+   A section switched on and nowhere to be seen is a section nobody can
+   believe in, let alone fill. This shows the shape a finished page takes:
+   the same frames, in the same arrangement, waiting. */
+.lw-frame.is-empty {
+  background:
+    repeating-linear-gradient(135deg,
+      color-mix(in srgb, var(--maroon, #3b2a24) 6%, transparent) 0 8px,
+      transparent 8px 16px),
+    color-mix(in srgb, var(--maroon, #3b2a24) 4%, transparent);
+  border: 1px dashed color-mix(in srgb, var(--maroon, #3b2a24) 22%, transparent);
+  box-shadow: none;
+}
+
+/* ---- a Baraat with its Sehra Bandi (views/partials/_sehra.ejs) ----
+
+   The event page is drawn at fixed places, and the sehra's lines go ahead
+   of the hall's in "where" -- so on that one page everything above moves
+   up to make the room: a smaller medallion, the name, the ribbon and the
+   date each a little higher, and the hall's block starting where the date
+   used to end. Its own "Venue" label goes: the sehra says "then the Baraat
+   at the hall" just above it. */
+.lw-event-copy:has(.ci-sehra) .lw-event-medal { left: 36%; top: 5%; width: 28%; }
+.lw-event-copy:has(.ci-sehra) .lw-event-title { top: 18.5%; }
+.lw-event-copy:has(.ci-sehra) .lw-event-guests { top: 27.5%; }
+.lw-event-copy:has(.ci-sehra) .lw-event-when { top: 34.5%; }
+.lw-event-copy.is-plain:has(.ci-sehra) .lw-event-when { top: 29.5%; }
+.lw-event-copy:has(.ci-sehra) .lw-event-where { top: 47%; }
+.lw-event-copy:has(.ci-sehra) .lw-event-wlabel { display: none; }
+.lw-event-where .ci-sehra { margin: 0 0 1.2cqw; font-family: 'Cormorant Garamond', Georgia, serif; font-size: 4.6cqw; line-height: 1.3; }
+.lw-event-where .ci-sehra-label {
+  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+  font-size: 2.564cqw;
+  font-weight: 400;
+  letter-spacing: .2em;
+  color: color-mix(in srgb, var(--on-maroon, #ffffff) 58%, transparent);
+  opacity: 1;
+}
+.lw-event-where .ci-sehra-time { color: var(--gold, #cda45e); }
+.lw-event-where .ci-sehra-where { font-size: 3.846cqw; color: color-mix(in srgb, var(--on-maroon, #ffffff) 72%, transparent); opacity: 1; }
+.lw-event-where .ci-sehra-hall { margin-top: 3cqw !important; }
+
+@media (min-width: 900px) {
+  .lw-event-copy:has(.ci-sehra) .lw-event-medal { left: calc(50% - 4.5%); top: 5%; width: 9%; }
+  .lw-event-copy:has(.ci-sehra) .lw-event-title { top: 23%; }
+  .lw-event-copy:has(.ci-sehra) .lw-event-guests { top: 35%; }
+  .lw-event-copy:has(.ci-sehra) .lw-event-when { top: 42%; }
+  .lw-event-copy.is-plain:has(.ci-sehra) .lw-event-when { top: 38%; }
+  .lw-event-copy:has(.ci-sehra) .lw-event-where { top: 55%; }
+  .lw-event-where .ci-sehra { font-size: clamp(17px, 1.5cqw, 26px); margin-bottom: .6cqw; }
+  .lw-event-where .ci-sehra-label { font-size: clamp(10px, .8cqw, 14px); }
+  .lw-event-where .ci-sehra-where { font-size: clamp(13px, 1.15cqw, 20px); }
+  .lw-event-where .ci-sehra-hall { margin-top: 1cqw !important; }
+}

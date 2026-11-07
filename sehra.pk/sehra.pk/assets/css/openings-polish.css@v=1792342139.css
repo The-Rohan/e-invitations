@@ -1,0 +1,213 @@
+/* Six interactive openings, redrawn: Knock the door · Part the curtain · Break the seal · 3D Origami Flaps · Royal Farmaan · Part the Sehra.
+   Realistic materials (Blender-rendered brass, walnut, wax, pearls, satin) + a soft studio backdrop taken from the card's own theme.
+   Everything is scoped to these six entrances, so no other opening is touched. Same taps, swipes and knocks as before; names stay live text. */
+
+.entrance-door, .entrance-curtain, .entrance-seal, .entrance-origami, .entrance-farmaan, .entrance-sehra {
+  --wall-hi: color-mix(in srgb, var(--card) 92%, #fff);
+  --wall-lo: color-mix(in srgb, var(--card) 78%, var(--accent));
+  --ink-soft: color-mix(in srgb, var(--ink) 70%, var(--card));
+  --plaque: color-mix(in srgb, var(--card) 90%, transparent);
+  --rim: color-mix(in srgb, var(--accent) 70%, #5a3d08);
+  --img: ../img/openings;
+}
+/* soft studio backdrop in place of the old flat colours */
+.entrance.entrance-door .entrance-bg.entrance-bg, .entrance.entrance-seal .entrance-bg.entrance-bg, .entrance.entrance-origami .entrance-bg.entrance-bg, .entrance.entrance-farmaan .entrance-bg.entrance-bg {
+  background: radial-gradient(ellipse 85% 62% at 50% 34%, var(--wall-hi), var(--wall-lo) 100%);
+}
+.entrance.entrance-curtain .entrance-bg.entrance-bg { background: radial-gradient(ellipse 85% 62% at 50% 34%, var(--wall-hi), var(--wall-lo) 100%); }
+.entrance.entrance-sehra .entrance-bg.entrance-bg { background: radial-gradient(ellipse 100% 80% at 50% 18%, color-mix(in srgb, var(--primary) 64%, #1a0a10), color-mix(in srgb, var(--primary) 26%, #0a0306) 100%); }
+.entrance-door::after, .entrance-curtain::after, .entrance-seal::after, .entrance-origami::after, .entrance-farmaan::after, .entrance-sehra::after { display: none; }
+
+/* readable names and hints on every one of them (the old rules painted white or pale ink on whatever was behind) */
+.entrance-door .ent-names, .entrance-curtain .ent-names, .entrance-seal .ent-names, .entrance-origami .ent-names, .entrance-farmaan .ent-names, .entrance-sehra .ent-names {
+  color: var(--ink); text-shadow: 0 1px 0 rgba(255,255,255,.45); }
+.entrance-door .ent-names i, .entrance-curtain .ent-names i, .entrance-seal .ent-names i, .entrance-origami .ent-names i, .entrance-farmaan .ent-names i, .entrance-sehra .ent-names i { color: var(--rim); }
+.entrance-door .ent-hint, .entrance-curtain .ent-hint, .entrance-seal .ent-hint, .entrance-origami .ent-hint, .entrance-farmaan .ent-hint, .entrance-sehra .ent-hint {
+  display: inline-block; margin: 18px auto 0; padding: 9px 20px; border-radius: 999px; animation: none; opacity: 1;
+  font-size: .64rem; line-height: 1.7; letter-spacing: .15em; color: var(--ink); text-shadow: none;
+  background: var(--plaque); border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  box-shadow: 0 6px 18px -8px rgba(40,24,8,.45); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.entrance-door .ent-hint [lang="ur"], .entrance-curtain .ent-hint [lang="ur"], .entrance-seal .ent-hint [lang="ur"], .entrance-origami .ent-hint [lang="ur"], .entrance-farmaan .ent-hint [lang="ur"], .entrance-sehra .ent-hint [lang="ur"] { font-size: .85rem; opacity: .9; margin-top: .1em; }
+
+/* a gentle ring that tells guests where to tap; reused by every button below */
+@keyframes tapRing { 0% { transform: scale(.78); opacity: .75; } 70%, 100% { transform: scale(1.5); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .dr-knocker::after, .seal::after, .origami-seal::after, .farmaan-seal::after, .pull-tassel::after { animation: none !important; opacity: .35; } }
+
+/* =====================  KNOCK THE DOOR  ===================== */
+.doors.dr-scene { position: absolute; inset: 0; display: grid; place-items: center; align-content: center; }
+.dr-scene { --dh: min(56vh, calc(94vw / 1.082)); --dw: calc(var(--dh) * 1.082); }
+.dr-frame { position: relative; width: var(--dw); height: var(--dh); margin-top: 2vh; filter: drop-shadow(0 26px 22px rgba(50,30,10,.34)); }
+.dr-opening { position: absolute; left: 19.7%; top: 9.5%; width: 60.6%; height: 83.6%; perspective: 1100px; -webkit-perspective: 1100px; overflow: hidden;
+  border-radius: 50% 50% 0 0 / 39.2% 39.2% 0 0; background: radial-gradient(ellipse 80% 70% at 50% 62%, #fff3d2, #f1c577 38%, #8d5416 82%, #3a1d07); }
+.dr-leaf { position: absolute; top: 0; bottom: 0; width: 50%; transition: transform 1.05s cubic-bezier(.32,.06,.2,1); will-change: transform; transform-style: preserve-3d; }
+.dr-leaf-l { left: 0; transform-origin: 0 50%; } .dr-leaf-r { right: 0; transform-origin: 100% 50%; }
+.dr-leaf-img { position: absolute; left: -8%; right: -8%; top: -1.2%; bottom: -1.2%; background-size: 100% 100%; background-repeat: no-repeat; }
+.dr-leaf-l .dr-leaf-img { background-image: url(https://sehra.pk/assets/img/openings/door-leaf-l.webp); }
+.dr-leaf-r .dr-leaf-img { background-image: url(https://sehra.pk/assets/img/openings/door-leaf-r.webp); }
+.dr-leaf::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(0,0,0,0), rgba(0,0,0,.0)); transition: background 1.05s; }
+.doors.open .dr-leaf-l { transform: rotateY(104deg); } .doors.open .dr-leaf-r { transform: rotateY(-104deg); }
+.doors.open .dr-leaf::after { background: rgba(20,8,0,.55); }
+/* the knock shudders the boards, not the hinge (an animation on the leaf itself would swallow the swing-open transition) */
+.doors.knock .dr-leaf-img { animation: drKnock .26s ease-out; }
+@keyframes drKnock { 40% { transform: translateX(var(--kx, 0)) scale(1.012); } }
+.dr-leaf-l .dr-leaf-img { --kx: 2px; } .dr-leaf-r .dr-leaf-img { --kx: -2px; }
+.dr-surround { position: absolute; inset: 0; background: url(https://sehra.pk/assets/img/openings/door-frame.webp) center/100% 100% no-repeat; pointer-events: none; }
+.dr-knocker { position: absolute; top: 47%; width: 40%; aspect-ratio: .645; z-index: 3; padding: 0; border: 0; background: url(https://sehra.pk/assets/img/openings/knocker.webp) center/contain no-repeat; cursor: pointer;
+  transform-origin: 50% 12%; animation: knockerSway 3.4s ease-in-out infinite; filter: drop-shadow(0 6px 5px rgba(0,0,0,.45)); -webkit-tap-highlight-color: transparent; }
+.dr-leaf-l .dr-knocker { right: 5%; } .dr-leaf-r .dr-knocker { left: 5%; }
+.dr-knocker::after { content: ''; position: absolute; left: -22%; right: -22%; top: -12%; aspect-ratio: 1; border-radius: 50%; border: 2px solid color-mix(in srgb, #ffd78a 85%, transparent); animation: tapRing 2.2s ease-out infinite; pointer-events: none; }
+@keyframes knockerSway { 0%, 100% { transform: rotate(-2.4deg); } 50% { transform: rotate(2.4deg); } }
+.doors.knock .dr-knocker { animation: knockerHit .3s ease-out; }
+@keyframes knockerHit { 30% { transform: rotate(-16deg); } 60% { transform: rotate(7deg); } }
+.doors.open .dr-knocker::after { display: none; }
+.entrance-door .ent-door-layout { z-index: 4; padding: clamp(24px, 6vh, 46px) 20px clamp(26px, 6vh, 46px); color: var(--ink); }
+.entrance-door .ent-door-top .ent-names { margin: 0; padding: .16em 1.1em .3em; font-size: clamp(1.9rem, 7.4vw, 2.7rem); line-height: 1.5;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--card) 96%, #fff), color-mix(in srgb, var(--card) 84%, var(--accent))); border: 1px solid color-mix(in srgb, var(--accent) 65%, #6b4a0e); border-radius: 14px;
+  box-shadow: 0 10px 24px -12px rgba(40,24,8,.55), inset 0 0 0 4px color-mix(in srgb, var(--card) 70%, transparent), inset 0 0 0 5px color-mix(in srgb, var(--accent) 38%, transparent); }
+.entrance-door .door-knocker-zone { display: none; }
+.entrance-door .ent-door-bottom { padding-bottom: 4px; }
+.entrance-door .knocks { margin-top: 12px; gap: 12px; }
+.entrance-door .knocks i { width: 13px; height: 13px; border: 0; background: radial-gradient(circle at 35% 30%, #fff, #cbbd9f 60%, #8c7b57); box-shadow: inset 0 -2px 3px rgba(0,0,0,.25), 0 2px 3px rgba(0,0,0,.25); }
+.entrance-door .knocks i.on { background: radial-gradient(circle at 35% 30%, #ffe9a8, #d9a93a 55%, #8a5d0d); box-shadow: 0 0 12px rgba(236,180,60,.9), inset 0 -2px 3px rgba(0,0,0,.3); }
+.entrance-door.leave .ent-door-layout { animation: bloom 1s var(--ease) forwards; }
+@media (max-height: 640px) { .dr-scene { --dh: min(50vh, calc(94vw / 1.082)); } }
+@media (prefers-reduced-motion: reduce) { .dr-leaf { transition-duration: .01s; } .dr-knocker { animation: none; } }
+
+/* shared name plaque (curtain, sehra); the door's own plaque is styled above */
+.cu-plaque { display: inline-block; padding: .05em 1.1em .1em; border-radius: 14px; border: 1px solid color-mix(in srgb, var(--accent) 65%, #6b4a0e);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--card) 96%, #fff), color-mix(in srgb, var(--card) 84%, var(--accent)));
+  box-shadow: 0 12px 26px -12px rgba(30,16,4,.7), inset 0 0 0 4px color-mix(in srgb, var(--card) 70%, transparent), inset 0 0 0 5px color-mix(in srgb, var(--accent) 38%, transparent); }
+.cu-plaque .ent-names { margin: 0; font-size: clamp(1.9rem, 7.4vw, 2.7rem); line-height: 1.55; }
+
+/* =====================  PART THE CURTAIN  ===================== */
+.entrance-curtain .curtains { overflow: hidden; }
+.entrance-curtain .curtain { background-color: color-mix(in srgb, var(--curtain) 84%, #fff); background-image: url(https://sehra.pk/assets/img/openings/curtain-fold.webp); background-size: auto 100%; background-repeat: repeat-x; background-blend-mode: multiply;
+  box-shadow: none; transition: transform 1.5s cubic-bezier(.5,.05,.2,1); }
+.entrance-curtain .curtain::before { background: linear-gradient(180deg, rgba(255,255,255,.20), rgba(255,255,255,0) 28%, rgba(0,0,0,.22) 100%); }
+.entrance-curtain .curtain::after { top: auto; bottom: 0; height: 30px; box-shadow: none;
+  background: linear-gradient(180deg, #7a5612 0 3px, #e3c36c 3px 8px, #9d7524 8px 11px, transparent 11px), repeating-linear-gradient(90deg, #e0bd62 0 2px, #8a6420 2px 3px, transparent 3px 6px) bottom / 100% 18px no-repeat; }
+.entrance-curtain .curtain-l { transform-origin: 0 50%; box-shadow: 14px 0 30px -10px rgba(0,0,0,.6); }
+.entrance-curtain .curtain-r { transform-origin: 100% 50%; box-shadow: -14px 0 30px -10px rgba(0,0,0,.6); }
+.entrance-curtain .curtains.open .curtain-l { transform: translateX(-34%) scaleX(.5); }
+.entrance-curtain .curtains.open .curtain-r { transform: translateX(34%) scaleX(.5); }
+.cu-pelmet { position: absolute; left: 0; right: 0; top: 0; height: clamp(54px, 8.4vh, 78px); z-index: 3; pointer-events: none;
+  background: linear-gradient(180deg, #f1dc9a 0 7px, #b88f36 7px 12px, transparent 12px), linear-gradient(180deg, rgba(255,255,255,.22), rgba(0,0,0,.30)), url(https://sehra.pk/assets/img/openings/curtain-fold.webp) 0 0 / auto 260% repeat-x, color-mix(in srgb, var(--curtain) 84%, #fff);
+  background-blend-mode: normal, normal, multiply, normal; box-shadow: 0 14px 22px -8px rgba(0,0,0,.55); }
+.cu-pelmet::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 18px;
+  background: linear-gradient(180deg, #7a5612 0 2px, #e3c36c 2px 6px, #9d7524 6px 8px, transparent 8px), repeating-linear-gradient(90deg, #e0bd62 0 2px, #8a6420 2px 3px, transparent 3px 7px) bottom / 100% 10px no-repeat; }
+.cu-center { padding-top: 6vh; }
+.pull-tassel { position: relative; display: block; width: 64px; height: 118px; margin: 4px auto 0; padding: 0; border: 0; background: none; cursor: pointer; pointer-events: auto; -webkit-tap-highlight-color: transparent; }
+.pull-cord { position: absolute; left: 50%; top: 0; width: 4px; height: 56px; margin-left: -2px; border-radius: 2px; background: repeating-linear-gradient(180deg, #f0d683 0 4px, #a57a22 4px 7px); box-shadow: 1px 0 2px rgba(0,0,0,.3); }
+.pull-drop { position: absolute; left: 50%; top: 50px; width: 34px; height: 66px; margin-left: -17px; background: url(https://sehra.pk/assets/img/openings/drop.webp) center / contain no-repeat; transform-origin: 50% 0; animation: knockerSway 3s ease-in-out infinite; filter: drop-shadow(0 6px 5px rgba(0,0,0,.4)); transition: transform .5s; }
+.pull-tassel::after { content: ''; position: absolute; left: 50%; top: 56px; width: 62px; height: 62px; margin-left: -31px; border-radius: 50%; border: 2px solid color-mix(in srgb, #f0cc70 80%, transparent); animation: tapRing 2.2s ease-out infinite; pointer-events: none; }
+.curtains.open ~ .cu-center .pull-drop { transform: translateY(16px); animation: none; }
+.curtains.open ~ .cu-center .pull-tassel::after { display: none; }
+.entrance-curtain.leave .cu-center { animation: bloom 1s var(--ease) forwards; }
+
+/* =====================  BREAK THE SEAL (envelope)  ===================== */
+.entrance-seal { --paper: color-mix(in srgb, var(--card) 88%, var(--accent)); }
+.entrance-seal .ent-center { padding-left: 16px; padding-right: 16px; }
+.entrance-seal .envelope { width: min(88vw, 400px); aspect-ratio: 1.46; filter: drop-shadow(0 30px 22px rgba(60,38,12,.30)); perspective: 1500px; }
+.entrance-seal .env-back { border-radius: 4px; box-shadow: none; background: url(https://sehra.pk/assets/img/openings/paper-grain.webp) 0 0 / 220px, linear-gradient(180deg, color-mix(in srgb, var(--env) 80%, #000), var(--env)); background-blend-mode: soft-light, normal; }
+.entrance-seal .env-front { border-radius: 4px; box-shadow: none; clip-path: polygon(0 0, 50% 57%, 100% 0, 100% 100%, 0 100%);
+  background: url(https://sehra.pk/assets/img/openings/paper-grain.webp) 0 0 / 220px, linear-gradient(115deg, rgba(255,255,255,.55), rgba(255,255,255,0) 45%, rgba(60,36,10,.12)), radial-gradient(ellipse 60% 40% at 50% 34%, rgba(0,0,0,.10), transparent), var(--paper);
+  background-blend-mode: soft-light, normal, normal, normal; }
+.entrance-seal .env-front::before { content: ''; position: absolute; inset: 0; background: linear-gradient(26deg, transparent 49.6%, rgba(90,60,20,.35) 50%, transparent 50.5%), linear-gradient(-26deg, transparent 49.6%, rgba(90,60,20,.35) 50%, transparent 50.5%); mix-blend-mode: multiply; opacity: .7; }
+.entrance-seal .env-flap { pointer-events: none; background: none; clip-path: none; backface-visibility: visible; -webkit-backface-visibility: visible; transform-style: preserve-3d; border-radius: 0; z-index: 4; }
+.entrance-seal .env-flap::before, .entrance-seal .env-flap::after { content: ''; position: absolute; inset: 0; clip-path: polygon(0 0, 100% 0, 50% 58%); backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.entrance-seal .env-flap::before { background: url(https://sehra.pk/assets/img/openings/paper-grain.webp) 0 0 / 220px, linear-gradient(180deg, rgba(255,255,255,.5), rgba(255,255,255,0) 40%, rgba(70,44,12,.20) 100%), var(--paper); background-blend-mode: soft-light, normal, normal; }
+.entrance-seal .env-flap::after { transform: rotateX(180deg); background: url(https://sehra.pk/assets/img/openings/paper-grain.webp) 0 0 / 220px, radial-gradient(ellipse at 50% 20%, rgba(255,255,255,.18), transparent 70%), linear-gradient(180deg, color-mix(in srgb, var(--env) 78%, #000), var(--env)); background-blend-mode: soft-light, normal, normal; }
+.entrance-seal .env-flap { transition: transform .75s cubic-bezier(.4,.1,.25,1), z-index 0s; }
+.entrance-seal .envelope.open .env-flap { transform: rotateX(180deg); z-index: 1; transition: transform .75s cubic-bezier(.4,.1,.25,1) .3s, z-index 0s linear .62s; }
+.entrance-seal .env-card { border-radius: 2px; left: 5%; right: 5%; top: 6%; bottom: 10%; color: var(--ink); border: 1px solid color-mix(in srgb, var(--accent) 60%, transparent);
+  background: url(https://sehra.pk/assets/img/openings/paper-grain.webp) 0 0 / 220px, linear-gradient(180deg, color-mix(in srgb, var(--card) 96%, #fff), var(--card)); background-blend-mode: soft-light, normal; box-shadow: 0 8px 20px -10px rgba(0,0,0,.45); }
+.entrance-seal .env-card::after { content: ''; position: absolute; inset: 7px; border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent); pointer-events: none; }
+.entrance-seal .env-card .mono { color: var(--primary); }
+.entrance-seal .env-card { transition: transform .85s cubic-bezier(.3,.1,.2,1) .78s; }
+.entrance-seal .envelope.open .env-card { transform: translateY(-62%) scale(1.04); }
+.entrance-seal .seal { width: 82px; height: 82px; margin: -41px 0 0 -41px; top: 55%; padding: 0; border: 0; border-radius: 0; background: url(https://sehra.pk/assets/img/openings/seal-crimson.webp) center / contain no-repeat; box-shadow: none; filter: drop-shadow(0 7px 5px rgba(40,6,10,.5));
+  color: rgba(255,214,214,.92); font-size: 1.2rem; text-shadow: 0 -1px 0 rgba(255,255,255,.28), 0 1px 1px rgba(60,0,0,.7); cursor: pointer; animation: sealbob 2.6s infinite ease-in-out; z-index: 6; }
+.entrance-seal .seal span { display: block; letter-spacing: .02em; }
+.entrance-seal .seal::after { content: ''; position: absolute; inset: -6px; border-radius: 50%; border: 2px solid color-mix(in srgb, var(--rim) 70%, transparent); animation: tapRing 2.2s ease-out infinite; pointer-events: none; }
+.entrance-seal .envelope.open .seal::after { display: none; }
+.env-label { position: absolute; left: 8%; right: 8%; bottom: 9%; z-index: 4; text-align: center; pointer-events: none; }
+.env-label .ent-names { margin: 0; font-size: clamp(1.4rem, 5.4vw, 2rem); line-height: 1.3; color: color-mix(in srgb, var(--ink) 88%, transparent); text-shadow: 0 1px 0 rgba(255,255,255,.55); }
+.entrance-seal .envelope.open .env-label { opacity: 0; transition: opacity .3s; }
+.demo-design .env-label { display: none; }
+.entrance-seal .atelier-mail-to { color: var(--ink-soft); }
+.entrance-seal.leave .ent-center { animation: bloom 1.2s var(--ease) forwards; }
+
+/* =====================  3D ORIGAMI FLAPS  ===================== */
+.entrance-origami { --op: color-mix(in srgb, var(--card) 91%, var(--accent)); --op-hi: color-mix(in srgb, var(--op) 66%, #fff); --op-lo: color-mix(in srgb, var(--op) 86%, #5a3a14); }
+.entrance-origami .origami-stage { width: min(86vw, 350px); }
+.entrance-origami .origami-box { border-radius: 4px; background: var(--card); box-shadow: 0 34px 34px -24px rgba(60,38,12,.55), 0 4px 10px rgba(60,38,12,.18); }
+.entrance-origami .origami-card-under { border-radius: 4px; border: 1px solid color-mix(in srgb, var(--accent) 70%, transparent); background: url(https://sehra.pk/assets/img/openings/paper-grain.webp) 0 0 / 220px, var(--card); background-blend-mode: soft-light, normal; box-shadow: inset 0 0 40px color-mix(in srgb, var(--accent) 16%, transparent); }
+.entrance-origami .origami-flap { background: url(https://sehra.pk/assets/img/openings/paper-grain.webp) 0 0 / 200px, var(--fl, var(--op)); background-blend-mode: soft-light, normal; }
+.entrance-origami .flap-top { --fl: linear-gradient(180deg, var(--op-hi), var(--op)); }
+.entrance-origami .flap-left { --fl: linear-gradient(90deg, color-mix(in srgb, var(--op-hi) 60%, var(--op)), var(--op)); }
+.entrance-origami .flap-right { --fl: linear-gradient(270deg, color-mix(in srgb, var(--op) 70%, var(--op-lo)), var(--op-lo)); }
+.entrance-origami .flap-bottom { --fl: linear-gradient(0deg, color-mix(in srgb, var(--op-lo) 90%, #3a2410), color-mix(in srgb, var(--op) 60%, var(--op-lo))); }
+.entrance-origami .origami-flap .flap-inner { border: 0; }
+.entrance-origami .origami-box::after { content: ''; position: absolute; inset: 0; z-index: 4; pointer-events: none; border-radius: 4px; transition: opacity .5s;
+  background: linear-gradient(to top right, transparent calc(50% - .6px), color-mix(in srgb, var(--accent) 75%, #fff) 50%, transparent calc(50% + .6px)), linear-gradient(to top left, transparent calc(50% - .6px), color-mix(in srgb, var(--accent) 75%, #fff) 50%, transparent calc(50% + .6px)); }
+.entrance-origami .origami-box.unfolded::after { opacity: 0; }
+.of-name { position: absolute; left: 12%; right: 12%; bottom: 10%; margin: 0; text-align: center; pointer-events: none; }
+.of-name .ent-names { margin: 0 !important; font-size: clamp(1.35rem, 5.4vw, 1.9rem) !important; line-height: 1.25; color: var(--ink) !important; text-shadow: 0 1px 0 rgba(255,255,255,.6) !important; }
+.entrance-origami .origami-seal { width: 84px; height: 84px; margin: -42px 0 0 -42px; padding: 0; border-radius: 0; background: url(https://sehra.pk/assets/img/openings/seal-gold.webp) center / contain no-repeat; box-shadow: none; filter: drop-shadow(0 7px 5px rgba(60,38,6,.5)); color: #5b3a08; z-index: 6; }
+.entrance-origami .origami-seal .o-seal-ring { display: none; }
+.entrance-origami .origami-seal .o-seal-emblem { font-size: 1.3rem; text-shadow: 0 1px 0 rgba(255,255,255,.55); }
+.entrance-origami .origami-seal .o-seal-label { font-size: .58rem; color: #5b3a08; text-shadow: 0 1px 0 rgba(255,255,255,.5); }
+.entrance-origami .origami-seal::after { content: ''; position: absolute; inset: -6px; border-radius: 50%; border: 2px solid color-mix(in srgb, #e6bd5a 80%, transparent); animation: tapRing 2.2s ease-out infinite; pointer-events: none; }
+.entrance-origami .origami-box.unfolded .origami-seal::after { display: none; }
+.entrance-origami .origami-bismillah, .entrance-origami .origami-title { color: color-mix(in srgb, var(--ink) 75%, var(--card)); }
+.entrance-origami .origami-mono { color: color-mix(in srgb, var(--accent) 85%, #6b4a0e); }
+
+/* =====================  ROYAL FARMAAN  ===================== */
+.entrance-farmaan .farmaan-box { width: min(88vw, 372px); max-height: none; }
+.entrance-farmaan .farmaan-roller { width: 108%; height: clamp(24px, 4vh, 34px); background: url(https://sehra.pk/assets/img/openings/roller.webp) center / 100% 100% no-repeat; filter: drop-shadow(0 6px 5px rgba(50,30,10,.45)); }
+.entrance-farmaan .farmaan-roller .rod, .entrance-farmaan .farmaan-roller .finial { display: none; }
+.entrance-farmaan .farmaan-scroll { border: 0; border-radius: 0; margin: -2px 0; padding: 34px 28px 34px; color: #34200f;
+  background: url(https://sehra.pk/assets/img/openings/parchment.webp) center / 100% 100% no-repeat; box-shadow: 0 18px 22px -14px rgba(50,30,10,.6); }
+.entrance-farmaan .farmaan-scroll::before, .entrance-farmaan .farmaan-scroll::after { content: ''; position: absolute; left: 0; right: 0; height: 26px; pointer-events: none; }
+.entrance-farmaan .farmaan-scroll::before { top: 0; background: linear-gradient(180deg, rgba(70,40,10,.38), rgba(70,40,10,0)); }
+.entrance-farmaan .farmaan-scroll::after { bottom: 0; background: linear-gradient(0deg, rgba(70,40,10,.38), rgba(70,40,10,0)); }
+.entrance-farmaan .farmaan-bismillah { display: block; font-size: 1.15rem; color: #7a1f2b; margin-bottom: 8px; line-height: 2; }
+.entrance-farmaan .farmaan-title { display: block; border-bottom: 0; padding: 0; margin-bottom: 12px; font-size: .74rem; letter-spacing: .26em; color: #8c6418; }
+.entrance-farmaan .farmaan-title::after { content: ''; display: block; width: 74px; height: 1px; margin: 8px auto 0; background: linear-gradient(90deg, transparent, #b58a2a, transparent); }
+.entrance-farmaan .farmaan-content .ent-names { color: #34200f; text-shadow: 0 1px 0 rgba(255,255,255,.45); margin: 4px 0 6px; }
+.entrance-farmaan .farmaan-ribbon { display: none; }
+.entrance-farmaan .farmaan-seal { width: 90px; height: 90px; margin: 12px 0 22px; border-radius: 0; isolation: isolate; background: url(https://sehra.pk/assets/img/openings/seal-crimson.webp) center / contain no-repeat; box-shadow: none; filter: drop-shadow(0 7px 5px rgba(40,6,10,.5));
+  color: rgba(255,214,214,.94); animation: sealbob 2.6s infinite ease-in-out; }
+.entrance-farmaan .f-seal-ring, .entrance-farmaan .f-seal-icon { display: none; }
+.entrance-farmaan .f-seal-text { font-size: .66rem; letter-spacing: .14em; margin: 0; text-shadow: 0 -1px 0 rgba(255,255,255,.25), 0 1px 1px rgba(60,0,0,.75); }
+.entrance-farmaan .farmaan-content .ent-hint { margin-top: 2px; color: #5a3a14; background: rgba(255,250,235,.55); border-color: rgba(140,100,30,.5); }
+.entrance-farmaan .farmaan-box.unrolled .farmaan-scroll { transform: scaleY(1.04); }
+
+/* =====================  PART THE SEHRA  ===================== */
+.entrance-sehra .sehra-band { height: clamp(40px, 6.4vh, 54px); border-bottom: 0; background: linear-gradient(180deg, #f6e4a6 0%, #d6ac4c 24%, #a57c2a 62%, #5d4012 100%); box-shadow: 0 12px 24px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.75); }
+.entrance-sehra .sehra-filigree { inset: 0; border: 0; border-radius: 0; background: repeating-linear-gradient(90deg, rgba(86,58,12,.42) 0 1px, transparent 1px 18px), linear-gradient(180deg, transparent 62%, rgba(255,255,255,.18) 64%, transparent 68%); }
+.entrance-sehra .sehra-jewel { width: 30px; height: 30px; border-width: 2px; }
+.entrance-sehra .sehra-curtain { top: clamp(40px, 6.4vh, 54px); }
+.entrance-sehra .s-strand { width: clamp(15px, 3.1vw, 30px); background: url(https://sehra.pk/assets/img/openings/strand.webp) top center / 100% auto repeat-y; }
+.entrance-sehra .s-strand > span { display: none; }
+.entrance-sehra .s-strand > .s-drop { display: block; position: absolute; left: 50%; bottom: -30px; width: clamp(15px, 2.2vw, 24px); height: auto; aspect-ratio: .5; margin-left: calc(clamp(15px, 2.2vw, 24px) / -2); border-radius: 0; box-shadow: none; background: url(https://sehra.pk/assets/img/openings/drop.webp) center / contain no-repeat; filter: drop-shadow(0 4px 3px rgba(0,0,0,.4)); }
+.sehra-plaque { max-width: min(88vw, 380px); padding: 22px 24px 20px; border-radius: 22px; background: var(--plaque); border: 1px solid color-mix(in srgb, var(--accent) 70%, #6b4a0e);
+  box-shadow: 0 24px 40px -18px rgba(0,0,0,.7), inset 0 0 0 5px color-mix(in srgb, var(--card) 65%, transparent), inset 0 0 0 6px color-mix(in srgb, var(--accent) 38%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+.sehra-plaque .sehra-badge { background: none; border: 0; backdrop-filter: none; -webkit-backdrop-filter: none; margin-bottom: 4px; padding: 0; }
+.sehra-plaque .sehra-crest { display: none; }
+.sehra-plaque .sehra-tag { color: color-mix(in srgb, var(--accent) 75%, #6b4a0e); font-size: .72rem; letter-spacing: .24em; }
+.sehra-plaque .sehra-tag::before, .sehra-plaque .sehra-tag::after { content: '\2726'; margin: 0 .6em; color: color-mix(in srgb, var(--accent) 80%, #fff); font-size: .8em; }
+.sehra-plaque .ent-names { margin: 0 0 4px; font-size: clamp(2rem, 8vw, 2.9rem); }
+.sehra-plaque .swipe-hint { display: none; }
+.sehra-cta { pointer-events: auto; display: inline-block; margin: 14px auto 0; padding: 11px 24px; border: 0; border-radius: 999px; cursor: pointer; font: 600 .66rem/1.7 var(--font-body, system-ui); letter-spacing: .16em; text-transform: uppercase; color: #3b2503;
+  background: linear-gradient(180deg, #f7e6ab, #d9ae4d 55%, #a77a22); box-shadow: 0 10px 20px -8px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.8), inset 0 -2px 0 rgba(90,58,8,.35); position: relative; -webkit-tap-highlight-color: transparent; }
+.sehra-cta::after { content: ''; position: absolute; inset: -5px; border-radius: 999px; border: 2px solid color-mix(in srgb, #f0cc70 75%, transparent); animation: tapRing 2.2s ease-out infinite; pointer-events: none; }
+.sehra-cta [lang="ur"] { display: block; text-transform: none; letter-spacing: 0; font-size: .9rem; margin: 0; opacity: .95; }
+.entrance-sehra.leave .ent-center { animation: bloom 1.2s var(--ease) forwards; }
+
+/* very old browsers without colour-mix(): plain colours so the six openings still read well */
+@supports not (color: color-mix(in srgb, red 50%, blue)) {
+  .entrance-door, .entrance-curtain, .entrance-seal, .entrance-origami, .entrance-farmaan, .entrance-sehra {
+    --wall-hi: #fffaf0; --wall-lo: #ecdcb8; --ink-soft: #5b5148; --plaque: rgba(255,251,240,.92); --rim: #a07a22; --paper: #f3ead8; }
+  .entrance-origami { --op: #f1e8d6; --op-hi: #faf4e6; --op-lo: #d9cdb4; }
+}

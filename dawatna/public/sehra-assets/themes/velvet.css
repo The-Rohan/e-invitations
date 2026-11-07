@@ -1,0 +1,50 @@
+/* Theme: Royal Velvet – deep maroon, gold foil, candle-lit */
+:root {
+  --primary: #f0d58c; --accent: #d4af37; --bg: #3a0d14; --card: #4a1019; --ink: #f6e9d6; --muted: #cdb392; --line: rgba(240,213,140,.18);
+  --backdrop: radial-gradient(circle at 50% 0%, #6b1a26, #1a0508 70%);
+  --env: #6b1a26; --env-dark: #4a1019; --door: #3a0d14; --curtain: #6b1a26;
+  --ornament: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 34' fill='none' stroke='%23d4af37' stroke-width='1.2'%3E%3Cpath d='M2 17c20 0 30-10 50 0M158 17c-20 0-30-10-50 0'/%3E%3Cpath d='M80 3l4 10 10 4-10 4-4 10-4-10-10-4 10-4z' fill='%23d4af37'/%3E%3Ccircle cx='58' cy='17' r='2' fill='%23d4af37'/%3E%3Ccircle cx='102' cy='17' r='2' fill='%23d4af37'/%3E%3C/svg%3E");
+}
+body { color: var(--ink); }
+.card { box-shadow: 0 40px 80px -30px #000, inset 0 0 0 1px rgba(212,175,55,.35); }
+.hero {
+  background: radial-gradient(ellipse at 50% 30%, #6b1a26, #4a1019 65%);
+  background-image: radial-gradient(ellipse at 50% 30%, rgba(212,175,55,.18), transparent 55%), radial-gradient(ellipse at 50% 30%, #6b1a26, #4a1019 65%);
+}
+.hero::before, .hero::after {
+  content: ''; position: absolute; top: 60px; width: 80px; height: 80px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80' fill='none' stroke='%23d4af37' stroke-width='1.4'%3E%3Cpath d='M4 4h40M4 4v40'/%3E%3Cpath d='M10 10q30 0 30 30M10 10q0 30 30 30'/%3E%3Cpath d='M16 16q18 0 18 18M16 16q0 18 18 18'/%3E%3Cpath d='M36 4l4 6 4-6M4 36l6 4-6 4'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+.hero::before { left: 20px; } .hero::after { right: 20px; transform: scaleX(-1); }
+.name { color: var(--primary); text-shadow: 0 0 30px rgba(212,175,55,.35); }
+.eyebrow, .date { color: var(--ink); }
+.countdown > div { background: rgba(0,0,0,.25); border-color: var(--line); }
+.countdown small { color: var(--muted); }
+.invite-text { background: var(--bg); }
+.frame { border-color: var(--accent); box-shadow: 0 0 40px -10px rgba(212,175,55,.35) inset; }
+.frame::before { border-color: rgba(212,175,55,.35); }
+.bismillah { color: var(--accent); }
+.events { background: #3a0d14; }
+.event { background: rgba(0,0,0,.22); border-color: var(--line); box-shadow: none; }
+.ev-icon { background-color: #7a2030; box-shadow: 0 0 0 4px var(--card), 0 0 0 5px var(--accent); }
+.ev-date { color: var(--ink); } .ev-dress .bi { color: var(--primary); }
+.btn { border-color: var(--accent); color: var(--primary); }
+.btn.primary { background: var(--accent); color: #2a0a0e; border-color: var(--accent); }
+.btn:hover { box-shadow: 0 8px 22px -10px var(--accent); }
+.form input:not([type=radio]):not([type=checkbox]), .form select, .form textarea { background: rgba(0,0,0,.25); color: var(--ink); border-color: var(--line); }
+.seg span > span, .seg label > span { border-color: var(--line); }
+.seg input:checked + span { background: var(--accent); color: #2a0a0e; }
+.chk { border-color: var(--line); }
+.chk label { color: var(--ink); }
+.timeline p { color: var(--muted); }
+.gallery { background: #3a0d14; }
+.wish { background: rgba(0,0,0,.25); }
+.wish b { color: var(--primary); }
+.closing { background: radial-gradient(ellipse at 50% 100%, #6b1a26, #4a1019 65%); }
+.made-by a { color: var(--accent); }
+.ctl { border-color: rgba(212,175,55,.5); }
+.ent-names { color: var(--primary); }
+.seal { background: radial-gradient(circle at 35% 30%, #e8c15a, #8a6412 70%); color: #3a2a00; }
+.env-card { color: #4a1019; }
+.diya-bowl { background: linear-gradient(#d4af37, #6d5210); }
+.door .panel { border-color: var(--accent); }

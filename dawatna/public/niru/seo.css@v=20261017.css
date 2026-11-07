@@ -1,0 +1,99 @@
+/* Shared styles for the long-form pages made by generate-seo-pages.cjs (guides and landing
+   pages). Same tokens as the design pages so the whole site reads as one house. */
+@font-face{font-family:'Niru Nastaliq';src:url(fonts/nastaliq-urdu.woff2) format('woff2');font-display:swap}
+:root{--ground:#F6F0E9;--raised:#FBF7F1;--sunken:#EFE6DA;--line:#E7DBCB;--ink:#2A1618;--soft:#6E5A54;--brand:#59272E;--maroon:#682732;--gold:#93702F;--cream:#F6ECDE;--display:'Fraunces','Cormorant Garamond',Georgia,serif;--body:'Manrope',system-ui,sans-serif;--urdu:'Niru Nastaliq','Noto Nastaliq Urdu','Jameel Noori Nastaleeq',serif;--arabic:'Amiri','Scheherazade New','Geeza Pro','Traditional Arabic',serif}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);line-height:1.7;font-size:1rem}
+a{color:var(--maroon);text-underline-offset:.18em}
+img{max-width:100%;height:auto}
+.skip{position:absolute;left:-999px}.skip:focus{left:1rem;top:1rem;background:#fff;padding:.5rem 1rem;z-index:20}
+.head{border-bottom:1px solid var(--line);background:rgba(251,247,241,.94);position:sticky;top:0;z-index:5;backdrop-filter:blur(12px)}
+.nav{max-width:1160px;margin:auto;padding:.8rem clamp(1rem,4vw,2rem);display:flex;align-items:center;gap:1rem}
+.logo{display:inline-flex;align-items:center;gap:.35rem;color:var(--brand);text-decoration:none}
+.logo img{width:32px;height:32px;object-fit:contain}
+.logo .name{font:italic 1.65rem var(--display)}
+.navlinks{margin-left:auto;display:flex;gap:1.1rem;align-items:center}
+.navlinks a{font-size:.8rem;text-decoration:none;color:var(--ink)}
+.btn{display:inline-flex;justify-content:center;align-items:center;padding:.8rem 1.35rem;border-radius:99px;text-decoration:none;font-size:.74rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--maroon)}
+.btn.primary{background:var(--maroon);color:var(--cream)!important}
+.btn.ghost{color:var(--maroon)}
+.crumb{max-width:760px;margin:1.3rem auto 0;padding:0 clamp(1rem,4vw,2rem);font-size:.78rem;color:var(--soft)}
+.crumb a{color:var(--gold)}
+article{max-width:760px;margin:auto;padding:clamp(1.4rem,4vw,2.6rem) clamp(1rem,4vw,2rem) 0}
+.ey{font-size:.72rem;text-transform:uppercase;letter-spacing:.2em;color:var(--gold);font-weight:700}
+h1{font:500 clamp(2.2rem,6vw,3.6rem)/1.05 var(--display);color:var(--brand);margin:.5rem 0 1rem}
+h2{font:500 clamp(1.55rem,4vw,2.1rem)/1.2 var(--display);color:var(--brand);margin:2.6rem 0 .8rem}
+h3{font:600 1.15rem/1.35 var(--display);color:var(--brand);margin:1.8rem 0 .5rem}
+.meta{font-size:.8rem;color:var(--soft);margin-bottom:1.2rem}
+article p,article li{color:#3d2a2b}
+article ul,article ol{padding-left:1.25rem}
+article li{margin:.35rem 0}
+blockquote{margin:1.2rem 0;padding:1rem 1.2rem;background:var(--raised);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:12px;font-size:.96rem}
+blockquote .ln{display:block}
+[lang=ur]{font-family:var(--urdu);line-height:2.2;font-size:1.08em}
+[lang=ar]{font-family:var(--arabic);line-height:2;font-size:1.2em}
+blockquote .ln[dir=rtl]{text-align:right}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--line);border-radius:12px;background:var(--raised)}
+table{border-collapse:collapse;width:100%;font-size:.86rem;min-width:560px}
+th,td{padding:.7rem .8rem;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--sunken);color:var(--brand)}
+.designs{max-width:1060px;margin:3rem auto 0;padding:0 clamp(1rem,4vw,2rem)}
+.dgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1rem}
+.dcard{background:var(--raised);border:1px solid var(--line);border-radius:18px;overflow:hidden;text-decoration:none;color:var(--ink);display:flex;flex-direction:column}
+.dcard img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover}
+.dcard span{padding:.8rem 1rem 1rem;font-size:.82rem;color:var(--soft)}
+.dcard b{display:block;font:500 1.2rem var(--display);color:var(--brand)}
+.faq{max-width:760px;margin:3rem auto 0;padding:0 clamp(1rem,4vw,2rem)}
+.faq details{border-bottom:1px solid var(--line);padding:.2rem 0}
+.faq summary{cursor:pointer;list-style:none;padding:1rem 2rem 1rem 0;position:relative;font:500 1.08rem/1.4 var(--display);color:var(--brand)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:'+';position:absolute;right:.2rem;top:.9rem;color:var(--gold);font-size:1.3rem}
+.faq details[open] summary::after{content:'–'}
+.faq details p{margin:0 0 1.1rem;color:#3d2a2b}
+.cta{max-width:760px;margin:3rem auto 0;padding:clamp(1.6rem,5vw,2.6rem);background:var(--maroon);color:var(--cream);border-radius:24px;text-align:center}
+.cta p{margin:0 0 1.2rem;font:500 clamp(1.3rem,3.5vw,1.7rem)/1.3 var(--display)}
+.cta .btn{background:var(--cream);color:var(--maroon)!important;border-color:var(--cream)}
+.cta .btn.ghost{background:transparent;color:var(--cream)!important}
+.cta .row{display:flex;gap:.7rem;justify-content:center;flex-wrap:wrap}
+.more{max-width:1060px;margin:3.5rem auto 0;padding:2rem clamp(1rem,4vw,2rem);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem}
+.more h4{margin:0 0 .6rem;font-size:.72rem;text-transform:uppercase;letter-spacing:.18em;color:var(--gold)}
+.more ul{list-style:none;padding:0;margin:0}
+.more li{margin:.3rem 0;font-size:.88rem}
+.more a{color:var(--ink);text-decoration:none}.more a:hover{color:var(--maroon);text-decoration:underline}
+.foot{text-align:center;padding:2rem 1rem 2.6rem;color:var(--soft);font-size:.8rem}
+.foot a{color:var(--gold)}
+@media(max-width:640px){.navlinks a:not(.btn){display:none}}
+/* The language twin link in the breadcrumb row */
+.crumb .twin{display:block;margin-top:.4rem;color:var(--maroon);font-weight:600}
+[lang=ur].twin{font-family:var(--urdu);font-size:1rem;line-height:2}
+/* Urdu pages (html[dir=rtl]). Nastaliq carries no Latin, so English words and digits fall through to
+   Manrope. The script's tall cascading lines need far more leading than Latin, and the uppercase,
+   letter-spaced small caps must not touch it (see the Urdu type rules). */
+html[dir=rtl] body{font-family:'Niru Nastaliq','Noto Nastaliq Urdu',var(--body);line-height:2.15}
+html[dir=rtl] [lang=ur]{font-size:inherit;line-height:inherit}
+html[dir=rtl] [lang=en]{font-family:var(--body);line-height:1.6}
+html[dir=rtl] h1,html[dir=rtl] h2,html[dir=rtl] h3,html[dir=rtl] .faq summary,html[dir=rtl] .cta p,html[dir=rtl] .more h4{font-family:'Niru Nastaliq','Noto Nastaliq Urdu',var(--display);font-weight:400}
+html[dir=rtl] h1{font-size:clamp(1.9rem,5.4vw,2.9rem);line-height:1.9}
+html[dir=rtl] h2{font-size:clamp(1.35rem,3.6vw,1.75rem);line-height:1.9}
+html[dir=rtl] h3{line-height:1.9}
+html[dir=rtl] .ey,html[dir=rtl] .btn,html[dir=rtl] .more h4{letter-spacing:0;text-transform:none}
+html[dir=rtl] .ey{font-size:1rem;font-weight:400}
+html[dir=rtl] .btn{font-size:.95rem;font-weight:400;padding:.55rem 1.35rem .75rem}
+html[dir=rtl] .more h4{font-size:1rem}
+html[dir=rtl] .navlinks{margin-left:0;margin-right:auto}
+html[dir=rtl] .navlinks a{font-size:.95rem}
+html[dir=rtl] .logo{direction:ltr}
+html[dir=rtl] article ul,html[dir=rtl] article ol{padding-left:0;padding-right:1.25rem}
+html[dir=rtl] blockquote{border-left:1px solid var(--line);border-right:3px solid var(--gold)}
+html[dir=rtl] blockquote .ln[dir=rtl]{text-align:right}
+html[dir=rtl] th,html[dir=rtl] td{text-align:right}
+html[dir=rtl] .faq summary{padding:1rem 0 1rem 2rem;line-height:1.9}
+html[dir=rtl] .faq summary::after{right:auto;left:.2rem}
+html[dir=rtl] .cta p{line-height:1.9}
+html[dir=rtl] .dcard b{font-family:var(--display)}
+html[dir=rtl] .more li{font-size:.95rem}
+html[dir=rtl] .foot{font-size:.9rem}
+/* In a right-to-left page the left edge is the scrollable side: the skip link parked at left:-999px
+   made every Urdu page 999px wider than the phone. Park it off the right edge instead. */
+html[dir=rtl] .skip{left:auto;right:-999px}html[dir=rtl] .skip:focus{left:auto;right:1rem}

@@ -1,0 +1,1675 @@
+/* ==========================================================================
+   A ROYAL BEGINNING — sections one, two and three
+
+   The invitation arrives shut: four panels of the couple's colour folded over
+   one another with a floral wallpaper printed faintly into each, and a wax
+   seal pressed across the point where all four meet. The seal gives under a
+   finger and the panels open outwards like a book over three unhurried
+   seconds onto the house the wedding is held at.
+
+   WHAT RECOLOURS, AND FROM WHAT
+
+   Everything the customer can change comes from the palette the card was
+   bought in. `--maroon` is their first colour whatever it is named and
+   `--gold` their second -- see paletteFrom in lib/color.js, which every
+   design in the catalogue reads from.
+
+     the four panels      the first colour, exactly
+     every heading        the first colour
+     both names           the first colour
+     the paper            the second colour, exactly
+     the chip box         the second colour, five per cent down
+     the hairlines        the second colour, eleven per cent down
+     the two icons        the first colour, on the second
+     the scroll cue       the first colour, on the second
+
+   Three things do not, on purpose. The wax is painted ivory with its own
+   bevel and gloss and stays the colour it was drawn. The house and the floral
+   letter are watercolours of a hundred and seventy hues apiece -- paintings,
+   not fields of a colour somebody picked. And the paragraph ink and the small
+   gold of the ampersands are the two fixed colours the design was drawn with.
+
+   HOW EVERY SIZE IS GIVEN
+
+   The design is drawn at 390 across, and the sizes it specifies -- a 29px
+   heading, a 67px name, an 18px paragraph -- are that design's sizes at that
+   width. Written as plain pixels they would be right on one phone and wrong
+   on the next. So they are given as a fraction of `--rb-u`:
+   `calc(29 / 390 * var(--rb-u))` is exactly 29px on the card the design was
+   drawn for, and the same share of a narrower or wider one.
+   ========================================================================== */
+
+:root {
+  /* The design's own colours, exactly as lib/color.js computes them from
+     this design's own palette (lib/templates/royal-beginning.js). A card kept in its
+     own colours is sent no inline style at all -- these are what the page
+     falls back to in that case, and what every var(--primary) etc. below
+     resolves to until a customer chooses something else. Regenerate with
+     paletteToStyle(withArt(key, paletteFrom(definition.palette))) if this
+     design's base palette ever changes. */
+  --maroon:#5a677b;
+  --primary:#5a677b;
+  --secondary:#f7ede2;
+  --box-bg:color-mix(in srgb, #5a677b 20%, #ffffff 80%);
+  --box-border:#5a677b;
+  --on-maroon:#ffffff;
+  --maroon-deep:#3b4350;
+  --maroon-light:#788293;
+  --maroon-pale:#bdc2ca;
+  --gold:#f7ede2;
+  --on-gold:#363432;
+  --gold-light:#faf3ec;
+  --gold-deep:#b9b2aa;
+  --cream:#fffefd;
+  --cream-deep:#fefcfb;
+  --ink:#444d5c;
+  --ink-soft:#636a74;
+  --shadow:0 20px 55px rgba(0, 0, 0, 0.22);
+  --rose-dark:#5a677b;
+  --rose-mid:#7e8898;
+  --leaf:#526257;
+  --lehnga:#5a677b;
+  --lehnga-soft:#8f98a5;
+  --sherwani:#f7ede2;
+
+  /* The one face the whole design is set in. Playfair Display carries no
+     weight below 500 in the cut this product hosts, so 500 is the "non bold"
+     the design asks for. */
+  --rb-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+
+  /* The card's own measure, and the unit every size on it is given in.
+
+     Never wider than the screen, and never wider than the height can carry:
+     the design is drawn at 390 by 844, so a window shorter than that gets a
+     proportionally narrower card rather than the same composition squeezed
+     into less room. The smaller of the two wins, which is how every painted
+     design in the catalogue is measured -- see --jb-u in Jashan-e-Bahara.
+
+     Without it the foot of a page came up to meet the scroll cue on any phone
+     shorter than the drawing, and the pill sat across the bride's name. */
+  --rb-u: min(100vw, calc(100svh * 390 / 844));
+
+  /* The two colours the design was drawn with that are not the customer's to
+     change: the ink every paragraph is set in, and the small gold of the
+     ampersands. */
+  --rb-body: #7b7673;
+  --rb-gilt: #c29e50;
+
+  /* Three seconds of paper, and the easing that reads as weight rather than
+     as a transition: slow to leave, slow to arrive, almost no hurry in the
+     middle. */
+  --rb-swing: 2700ms;
+  --rb-swing-ease: cubic-bezier(.42, .02, .18, 1);
+}
+
+/* Sealed: the invitation is behind the cover and must not be scrolled past
+   before it has been opened. */
+html.rb-sealed, html.rb-sealed body { overflow: hidden; height: 100%; }
+
+/* Each page is one screenful, so the card settles on a page rather than
+   leaving a reader between two. `proximity` rather than `mandatory`: a reader
+   who wants to stop halfway down a page may. */
+html { scroll-snap-type: y proximity; }
+
+/* The card's own two colours, aliased where the palette actually lands.
+
+   `--maroon` and `--gold` are written onto the body as an inline style -- see
+   paletteStyleFor in lib/color.js -- so an alias declared on `:root` resolves
+   them at the root, where neither exists, and every card in the catalogue
+   would render in the fallbacks whatever colours were bought. Declared here
+   they are read on the element that carries them and inherit down the page. */
+body.rb-body {
+  /* The card's own colours, for a card that has not picked any.
+
+     `paletteStyleFor` writes nothing at all when the colours asked for are the
+     design's own -- which is every card until somebody changes them -- so
+     `--maroon` and `--gold` are simply absent on the common case. The figures
+     that stand in for a photograph nobody has uploaded read those directly and
+     came out in the house maroon and gold: a red lehnga in a grey card.
+
+     Declared here they apply exactly when nothing else has, because the
+     palette arrives as an inline style on this same element and an inline
+     style beats a stylesheet. */
+  --maroon: #5a677b;
+  --on-maroon: #ffffff;
+  --gold: #f7ede2;
+  --sherwani: #efe3d4;
+  --lehnga: #5a677b;
+  --lehnga-soft: #8794a6;
+  --rose-dark: #5a677b;
+  --rose-mid: #8794a6;
+  --leaf: #6f7a63;
+
+  --rb-ink: var(--maroon, #5a677b);
+  --rb-paper: var(--gold, #f7ede2);
+  --rb-on-ink: var(--on-maroon, #ffffff);
+
+  /* Both of these are the paper, taken down. Measured off the design: the
+     chip box is the paper at ninety-five per cent and the hairlines at
+     eighty-nine, which is why they follow whatever the second colour is
+     rather than being written down as two more greys. */
+  --rb-chip-bg: color-mix(in srgb, var(--rb-paper) 95%, #000);
+  --rb-rule: color-mix(in srgb, var(--rb-paper) 89%, #000);
+
+  margin: 0;
+  background: var(--rb-paper);
+  font-family: var(--rb-serif);
+  /* Nothing on the cover is text to be selected, and a long press that
+     selects the wallpaper instead of opening the card is the commonest way
+     this kind of gate feels broken. */
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.rb-card { position: relative; width: 100%; }
+
+/* A column, so the pages can be rearranged. Every page is written out in the
+   order this design was drawn in; when somebody moves one in either editor,
+   `order` is what moves it. */
+.rb-main {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.rb-sec {
+  position: relative;
+  width: 100%;
+  min-height: 100svh;
+  /* The page holds a little padding back for the scroll cue, and a section
+     measured content-box would be that much taller than the window it is
+     meant to fill -- which puts every per-cent on the closed cover, and every
+     snap point, out by the padding. */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  scroll-snap-align: start;
+  overflow: hidden;
+}
+
+/* The measure everything on a page is set in. */
+.rb-col {
+  width: min(100% - 22px, calc(390 / 390 * var(--rb-u)));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* ---------------------------------------------------------------- the type */
+
+.rb-heading {
+  margin: 0;
+  font-weight: 500;
+  font-style: italic;
+  font-size: calc(29 / 390 * var(--rb-u));
+  line-height: 1.18;
+  color: var(--rb-ink);
+  text-wrap: balance;
+}
+
+.rb-para {
+  margin: 0;
+  font-weight: 500;
+  font-style: italic;
+  font-size: calc(18 / 390 * var(--rb-u));
+  /* Twenty over eighteen, measured off the design. Tight for a serif, and
+     deliberately so: every stacked block on this card is set this close. */
+  line-height: calc(20 / 18);
+  color: var(--rb-body);
+  white-space: pre-line;
+}
+
+.rb-name {
+  font-weight: 500;
+  font-style: italic;
+  font-size: calc(67 / 390 * var(--rb-u));
+  line-height: 1.02;
+  color: var(--rb-ink);
+}
+
+/* The same name, at the size the pages after the cover set it. */
+.rb-name-sm { font-size: calc(35 / 390 * var(--rb-u)); line-height: 1.1; }
+
+/* The one word between two names, at the size it is drawn on the cover and
+   on every page after it. */
+.rb-amp {
+  font-weight: 500;
+  font-style: italic;
+  font-size: calc(30 / 390 * var(--rb-u));
+  line-height: 1;
+  color: var(--rb-gilt);
+}
+
+.rb-rule {
+  display: block;
+  width: calc(318 / 390 * var(--rb-u));
+  height: 1px;
+  background: var(--rb-rule);
+}
+
+/* ==========================================================================
+   SECTION 1 — the seal, and the house behind it
+   ========================================================================== */
+
+.rb-hero {
+  background: var(--rb-paper);
+  /* A little of the page held back at the foot, so the scroll cue has
+     somewhere to sit on a window shorter than the 844 this was drawn at. */
+  padding-bottom: calc(26 / 390 * var(--rb-u));
+  /* Type on this page is sized against the page's own width rather than the
+     window's, the way the Lavish hero is. */
+  container-type: inline-size;
+}
+
+.rb-hero-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* The house, painted underneath everything.
+
+   It arrives as the panels start to part. Behind a shut cover there is
+   nothing to see, so there is no reason to have shown it before then. */
+.rb-house {
+  /* The drawing is 584 square and is laid at exactly that size, so on a phone
+     it runs off both edges of the page -- which is how it is drawn.
+
+     The house itself sits inside that square with 58.7 of empty above it and
+     56.7 below. Those two are taken back off the box, so what the page lays
+     out and centres is the house rather than the square it was exported in;
+     otherwise every gap measured to it is a hundred and fifteen pixels wrong. */
+  width: calc(584 / 390 * var(--rb-u));
+  aspect-ratio: 1;
+  margin: calc(-58.7 / 390 * var(--rb-u)) 0 calc(-56.7 / 390 * var(--rb-u));
+  background: center / contain no-repeat;
+  flex: none;
+  opacity: 0;
+  transition: opacity 1100ms ease 200ms;
+}
+
+html.rb-painted .rb-house {
+  background-image: url('../img-sample/templates/royal-beginning/hero/house.svg.webp');
+}
+
+.rb-hero-names {
+  margin: calc(60.5 / 390 * var(--rb-u)) 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(10 / 390 * var(--rb-u));
+  text-align: center;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 900ms ease 900ms, transform 900ms ease 900ms;
+}
+
+.rb-hero.is-opening .rb-house { opacity: 1; }
+.rb-hero.is-opening .rb-hero-names { opacity: 1; transform: none; }
+
+/* ---- the cover, as one object in one space ----
+
+   One perspective on the cover rather than one per panel, with its vanishing
+   point at the seal, so that every panel is projected from the same eye --
+   which is the whole of what makes four pieces read as one folded sheet. */
+.rb-cover {
+  position: absolute;
+  inset: 0;
+  perspective: 900px;
+  perspective-origin: 50% 50%;
+  transform-style: preserve-3d;
+  z-index: 5;
+}
+
+/* Each panel is the whole page, cut to its own shape. The shapes are taken
+   from the four drawings as exported, so the four tile the page exactly and
+   no corner of the paper underneath can show through between them. */
+.rb-flap {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  /* Promoted, so the whole panel -- shadows, cut and wallpaper -- is drawn
+     once into a layer of its own and then simply turned. */
+  will-change: transform;
+}
+
+/* `backface-visibility` belongs on the two faces inside the panel, never on
+   the panel itself: a panel turns well past ninety degrees, and hiding its
+   own back means the piece stops existing halfway through its turn. */
+.rb-face,
+.rb-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+}
+
+/* The reverse: paper of the same stock with nothing printed on it, turned
+   about the panel's own hinge axis so it comes up the right way round, and
+   set six tenths of a pixel behind the printed side -- two coplanar faces in
+   one 3D space flicker against each other. */
+.rb-back { background: color-mix(in srgb, var(--rb-ink) 74%, #000); }
+
+.rb-flap-left .rb-back,
+.rb-flap-right .rb-back { transform: rotateY(180deg) translateZ(.6px); }
+
+.rb-flap-top .rb-back,
+.rb-flap-bottom .rb-back { transform: rotateX(180deg) translateZ(.6px); }
+
+/* It has been lying face down against the printed side, so it starts in the
+   dark and only finds the light as the panel brings it round. */
+.rb-back::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #000000;
+  opacity: .6;
+}
+
+/* Shadows on the middle box, the cut on the inner one: a filter is applied to
+   an element before its clip, so a drop shadow sharing a box with the cut is
+   cut away with everything outside the shape. */
+.rb-shade,
+.rb-cut {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.rb-cut { background: var(--rb-ink); }
+
+/* The wallpaper, printed into the panel. One file, laid into each of the four
+   at the size and offset it was drawn at. */
+.rb-floral {
+  position: absolute;
+  display: block;
+  pointer-events: none;
+}
+
+/* The light coming off the printed side as it turns away. Laid over the panel
+   rather than applied to it: a filter on the panel would have to be rebuilt
+   for every frame of the turn. */
+.rb-lit {
+  position: absolute;
+  inset: 0;
+  display: block;
+  opacity: 0;
+}
+
+/* ---- the four shapes ----
+
+   Read off the four exported drawings and normalised to the page: the two
+   sides are triangles from the corners to the middle, and the top and bottom
+   are wedges that taper to the flat the seal is stuck across. The top and
+   bottom reach past the middle -- to 54.5 per cent and back to 50.2 -- which
+   is the overlap a real envelope has.
+
+   The sides are laid over the top and bottom, which is what gives the closed
+   cover its single clean X from corner to corner. */
+
+.rb-flap-top { transform-origin: center top; }
+.rb-flap-top .rb-shade { filter: url(card-royal-beginning.css@v=mvs4ibs8.css); }
+.rb-flap-top .rb-cut,
+.rb-flap-top .rb-lit {
+  clip-path: polygon(0 0, 100% 0, 63.31% 52.13%, 56.28% 54.5%, 43.2% 54.5%, 36.15% 52.12%);
+}
+.rb-flap-top .rb-back {
+  clip-path: polygon(0 100%, 100% 100%, 63.31% 47.87%, 56.28% 45.5%, 43.2% 45.5%, 36.15% 47.88%);
+}
+.rb-flap-top .rb-lit { background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, .5)); }
+.rb-flap-top .rb-floral { left: 0; top: .05%; width: 100%; height: auto; opacity: .51; }
+
+/* Above the two sides, not under them.
+
+   The design gives the bottom flap the strong shadow -- black at 27 per cent
+   against the top's 7 -- and it is the flap the seal is stuck across, so it
+   is the one lying on top of the others. Underneath them, the whole of that
+   shadow fell where the sides were already painted and none of it could be
+   seen: the numbers were right and there was nothing to look at. */
+.rb-flap-bottom { transform-origin: center bottom; z-index: 3; }
+.rb-flap-bottom .rb-shade { filter: url(card-royal-beginning.css@v=mvs4ibs8.css); }
+.rb-flap-bottom .rb-cut,
+.rb-flap-bottom .rb-lit {
+  clip-path: polygon(43.05% 50.18%, 56.44% 50.18%, 63.41% 52.46%, 100% 100%, 0 100%, 36.07% 52.47%);
+}
+.rb-flap-bottom .rb-back {
+  clip-path: polygon(43.05% 49.82%, 56.44% 49.82%, 63.41% 47.54%, 100% 0, 0 0, 36.07% 47.53%);
+}
+.rb-flap-bottom .rb-lit { background: linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, .5)); }
+.rb-flap-bottom .rb-floral { left: 0; top: 50.14%; width: 100%; height: auto; opacity: .51; }
+
+/* The two sides carry a tenth of black over the wallpaper, exactly as they
+   were drawn: it is what sets them a shade below the top and bottom and makes
+   the closed cover read as folded paper rather than one flat field. */
+.rb-flap-left { transform-origin: left center; z-index: 2; }
+.rb-flap-left .rb-cut,
+.rb-flap-left .rb-lit { clip-path: polygon(0 0, 0 100%, 50% 50%); }
+.rb-flap-left .rb-back { clip-path: polygon(100% 0, 100% 100%, 50% 50%); }
+.rb-flap-left .rb-lit { background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, .5)); }
+.rb-flap-left .rb-floral { left: -35.38%; top: 0; width: 120.77%; height: auto; opacity: .24; }
+
+.rb-flap-right { transform-origin: right center; z-index: 2; }
+.rb-flap-right .rb-cut,
+.rb-flap-right .rb-lit { clip-path: polygon(100% 0, 100% 100%, 50% 50%); }
+.rb-flap-right .rb-back { clip-path: polygon(0 0, 0 100%, 50% 50%); }
+.rb-flap-right .rb-lit { background: linear-gradient(to left, rgba(0, 0, 0, 0), rgba(0, 0, 0, .5)); }
+.rb-flap-right .rb-floral { left: 14.62%; top: 0; width: 120.77%; height: auto; opacity: .24; }
+
+.rb-flap-left .rb-cut::after,
+.rb-flap-right .rb-cut::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #000000;
+  opacity: .1;
+}
+
+/* ---- the seal ----
+
+   Dead centre, where all four panels meet. The picture is 390 square with the
+   wax itself 336 of it, so the box is drawn a little larger than the wax to
+   put the wax at the size the design has it. */
+.rb-seal {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 6;
+  width: calc(194.4 / 390 * var(--rb-u));
+  aspect-ratio: 1;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transform: translate(-50%, -50%);
+  /* Springs back rather than easing back: a seal that returns as slowly as it
+     went down feels like a picture, not a button. */
+  transition: transform 260ms cubic-bezier(.34, 1.56, .64, 1), opacity 500ms ease;
+}
+
+.rb-seal img { display: block; width: 100%; height: 100%; }
+
+.rb-seal:focus-visible { outline: 2px solid var(--rb-paper); outline-offset: 6px; }
+
+/* Pressed. The scale is about the seal's own middle, so it sinks where the
+   finger is. */
+.rb-seal.is-pressing {
+  transform: translate(-50%, -50%) scale(.93);
+  transition-duration: 90ms;
+  transition-timing-function: ease-out;
+}
+
+/* ---- what the closed cover says ---- */
+
+.rb-tap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 93.8%;
+  z-index: 6;
+  margin: 0;
+  text-align: center;
+  font-weight: 500;
+  font-size: calc(29 / 390 * var(--rb-u));
+  line-height: 1.1;
+  /* White, let down onto whatever colour the panels are, which is how it was
+     drawn: #D9DCE1 is exactly white at seventy-seven per cent over #5A677B. */
+  color: rgba(255, 255, 255, .77);
+  transform-origin: center;
+  /* Breathing, so the one thing to press is the one thing moving. It never
+     stops while the cover is shut -- an animation that runs once is missed by
+     anybody who was still reading. */
+  animation: rb-breathe 2600ms ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes rb-breathe {
+  0%, 100% { transform: scale(1); opacity: .88; }
+  50%      { transform: scale(1.04); opacity: 1; }
+}
+
+/* ---- the opening ----
+
+   The two sides swing out first, like the covers of a book, and the top and
+   bottom follow a beat later. None of them go the full half turn: stopping a
+   little short leaves each panel edge-on rather than perfectly flat, which is
+   what keeps the paper looking like paper right up to the moment it goes.
+
+   Three things move together on every panel, all on the same clock: the turn,
+   the light going off the printed side, and the light arriving on the
+   reverse. Sharing a duration, a delay and an easing is what keeps them one
+   event rather than three that happen to overlap. */
+
+.rb-hero.is-opening .rb-flap-left {
+  transform: rotateY(112deg);
+  transition: transform var(--rb-swing) var(--rb-swing-ease);
+}
+
+.rb-hero.is-opening .rb-flap-right {
+  transform: rotateY(-112deg);
+  transition: transform var(--rb-swing) var(--rb-swing-ease) 80ms;
+}
+
+.rb-hero.is-opening .rb-flap-top {
+  transform: translateY(-14%) rotateX(122deg);
+  transition: transform var(--rb-swing) var(--rb-swing-ease) 200ms;
+}
+
+.rb-hero.is-opening .rb-flap-bottom {
+  transform: translateY(12%) rotateX(122deg);
+  transition: transform var(--rb-swing) var(--rb-swing-ease) 280ms;
+}
+
+/* The wax goes as the panels part. It is a picture with no reverse, so once
+   the paper under it is edge-on there is nothing left of it to sit on. */
+.rb-hero.is-opening .rb-seal {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(.82);
+  transition: transform 900ms var(--rb-swing-ease), opacity 700ms ease 120ms;
+}
+
+.rb-hero.is-opening .rb-tap {
+  opacity: 0;
+  animation: none;
+  transition: opacity 380ms ease;
+}
+
+/* ---- and the light on them ---- */
+
+.rb-lit,
+.rb-back::after { transition: opacity var(--rb-swing) var(--rb-swing-ease); }
+
+.rb-flap-right .rb-lit,  .rb-flap-right .rb-back::after  { transition-delay: 80ms; }
+.rb-flap-top .rb-lit,    .rb-flap-top .rb-back::after    { transition-delay: 200ms; }
+.rb-flap-bottom .rb-lit, .rb-flap-bottom .rb-back::after { transition-delay: 280ms; }
+
+.rb-hero.is-opening .rb-lit { opacity: 1; }
+.rb-hero.is-opening .rb-back::after { opacity: .12; }
+
+/* The cover's own shadow, thrown down onto the page and cleared away as the
+   paper opens off it. */
+.rb-cast {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  background:
+    radial-gradient(122% 74% at 50% 50%,
+      rgba(0, 0, 0, 0) 34%, rgba(0, 0, 0, .12) 66%, rgba(0, 0, 0, .3) 100%);
+  opacity: 0;
+  transition: opacity 1500ms ease 260ms;
+}
+
+html.rb-sealed .rb-cast { opacity: 1; transition: none; }
+.rb-hero.is-opening .rb-cast { opacity: 0; }
+
+/* ==========================================================================
+   SECTION 2 — Dear Guest, and the letter
+   ========================================================================== */
+
+/* Measured off the design rather than shared out evenly: twenty-three
+   between the salutation and the frame, seventeen and a half between the
+   frame and the chips. */
+.rb-guest .rb-col { gap: 0; }
+.rb-guest .rb-letter { margin-top: calc(23 / 390 * var(--rb-u)); }
+
+/* The frame and the words inside it. The drawing is 376 by 522 and is laid at
+   the size it was drawn; the words are set into the opening in the middle of
+   it. */
+.rb-letter {
+  position: relative;
+  width: calc(376 / 390 * var(--rb-u));
+  aspect-ratio: 376 / 522;
+  display: grid;
+  place-items: center;
+}
+
+.rb-letter-art {
+  position: absolute;
+  inset: 0;
+  background: center / contain no-repeat;
+}
+
+html.rb-painted .rb-letter-art {
+  background-image: url('../img-sample/templates/royal-beginning/letter/letter.svg.webp');
+}
+
+.rb-letter-text {
+  position: relative;
+  margin: 0;
+  width: calc(175 / 390 * var(--rb-u));
+  font-weight: 500;
+  font-style: italic;
+  font-size: calc(18 / 390 * var(--rb-u));
+  line-height: calc(20 / 18);
+  color: var(--rb-body);
+  text-align: center;
+}
+
+/* The functions this guest is asked to, in a box the width of the page. */
+.rb-chips {
+  margin: calc(17.5 / 390 * var(--rb-u)) 0 0;
+  width: calc(366 / 390 * var(--rb-u));
+  min-height: calc(54 / 390 * var(--rb-u));
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: calc(26 / 390 * var(--rb-u));
+  padding: calc(10 / 390 * var(--rb-u)) calc(14 / 390 * var(--rb-u));
+  border: 1px solid var(--rb-gilt);
+  background: var(--rb-chip-bg);
+}
+
+.rb-chip {
+  font-weight: 500;
+  font-size: calc(14 / 390 * var(--rb-u));
+  line-height: 1.2;
+  color: var(--rb-body);
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   SECTION 3 — you are joyfully invited
+   ========================================================================== */
+
+.rb-welcome .rb-col { gap: 0; }
+
+.rb-welcome .rb-blessing { margin-bottom: calc(24 / 390 * var(--rb-u)); }
+.rb-welcome .rb-heading + .rb-rule { margin-top: calc(39.5 / 390 * var(--rb-u)); }
+
+.rb-pair {
+  margin: calc(38 / 390 * var(--rb-u)) 0 calc(33 / 390 * var(--rb-u));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(8 / 390 * var(--rb-u));
+}
+
+.rb-pair + .rb-rule + .rb-para { margin-top: calc(37 / 390 * var(--rb-u)); }
+
+
+/* ==========================================================================
+   THE PIECES THE PAGES AFTER THE LETTER ARE BUILT FROM
+
+   Four of them, and every page below is made of these rather than of its own
+   one-off boxes: the gold frame, the filled badge, the small roman note and
+   the mounted picture. They are what makes twelve screens read as one card.
+   ========================================================================== */
+
+/* A gold hairline around a pale mount, with a second hairline set in from it.
+   The portraits, the family blocks, the function cards, the questions and the
+   four countdown windows are all this box -- the double frame is the thing
+   that ties the twelve screens together. */
+.rb-frame,
+.rb-fam,
+.rb-ev,
+.rb-q,
+.rb-tick {
+  position: relative;
+  box-sizing: border-box;
+  border: 1px solid var(--rb-gilt);
+  background: var(--rb-chip-bg);
+  padding: calc(6 / 390 * var(--rb-u));
+}
+
+/* The inner line. A pseudo-element rather than a second border, because the
+   box already has one and the mount between the two is part of the frame
+   rather than padding on the thing inside it. */
+.rb-frame::before,
+.rb-fam::before,
+.rb-ev::before,
+.rb-q::before,
+.rb-tick::before {
+  content: '';
+  position: absolute;
+  inset: calc(4 / 390 * var(--rb-u));
+  border: 1px solid color-mix(in srgb, var(--rb-ink) 15%, transparent);
+  pointer-events: none;
+}
+
+/* A filled bar in the card's own colour with the card's own paper written on
+   it: the dress code, the reply, and the way to a venue. */
+.rb-badge,
+.rb-btn {
+  /* Worn by a <button> now too (Add to Calendar). A <button> takes none of
+     this from the page the way an <a> does -- font, cursor, appearance are
+     the browser's own until something here says otherwise. */
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  font-family: var(--rb-serif);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  margin: 0;
+  padding: calc(9 / 390 * var(--rb-u)) calc(20 / 390 * var(--rb-u));
+  border: 0;
+  background: var(--rb-ink);
+  font-weight: 500;
+  font-style: italic;
+  font-size: calc(26 / 390 * var(--rb-u));
+  line-height: 1.24;
+  text-align: center;
+  text-decoration: none;
+  color: var(--rb-on-ink);
+}
+
+/* The small roman the card uses for anything that is neither a heading nor a
+   paragraph of the couple's own words -- a question's answer, the line above
+   a reply date, the name of a function's venue. */
+.rb-note {
+  margin: 0;
+  font-weight: 500;
+  font-size: calc(16 / 390 * var(--rb-u));
+  line-height: calc(20 / 16);
+  color: var(--rb-body);
+  text-align: center;
+}
+
+/* ==========================================================================
+   SECTION 4 — the two of them
+   ========================================================================== */
+
+.rb-portraits .rb-col { gap: calc(68 / 390 * var(--rb-u)); }
+
+.rb-portrait-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(17 / 390 * var(--rb-u));
+  width: 100%;
+}
+
+.rb-portrait {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(21 / 390 * var(--rb-u));
+}
+
+.rb-frame {
+  display: grid;
+  place-items: center;
+  width: calc(254 / 390 * var(--rb-u));
+  height: calc(236 / 390 * var(--rb-u));
+  overflow: hidden;
+}
+
+/* A photograph fills the mount; a drawing stands in the middle of it, at the
+   height a figure is drawn to rather than stretched to the box. */
+.rb-portrait-art {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.rb-portrait-art:not(.is-photo):not(.is-painted) {
+  width: auto;
+  height: 82%;
+  object-fit: contain;
+}
+
+.rb-portrait-art.is-painted { object-fit: contain; }
+
+.rb-portrait-name {
+  font-weight: 500;
+  font-style: italic;
+  font-size: calc(20 / 390 * var(--rb-u));
+  line-height: 1.1;
+  color: var(--rb-ink);
+}
+
+/* ==========================================================================
+   SECTION 5 — both sides
+   ========================================================================== */
+
+.rb-family .rb-col { gap: calc(73 / 390 * var(--rb-u)); }
+
+.rb-fams {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(17 / 390 * var(--rb-u));
+  width: 100%;
+}
+
+.rb-fam-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(17 / 390 * var(--rb-u));
+}
+
+/* The tab with the side's name on it. Its own box rather than the shared
+   badge: this one is small, tight and sits above the card it labels. */
+.rb-tab {
+  margin: 0;
+  padding: calc(6 / 390 * var(--rb-u)) calc(20 / 390 * var(--rb-u));
+  background: var(--rb-ink);
+  font-weight: 500;
+  font-style: italic;
+  font-size: calc(28 / 390 * var(--rb-u));
+  line-height: 1.16;
+  color: var(--rb-on-ink);
+}
+
+.rb-fam {
+  width: calc(254 / 390 * var(--rb-u));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(14 / 390 * var(--rb-u));
+  padding: calc(14 / 390 * var(--rb-u)) calc(12 / 390 * var(--rb-u));
+}
+
+.rb-fam-head {
+  display: flex;
+  align-items: center;
+  gap: calc(12 / 390 * var(--rb-u));
+  width: 100%;
+}
+
+.rb-fam-pic {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: calc(58 / 390 * var(--rb-u));
+  height: calc(76 / 390 * var(--rb-u));
+  border-radius: calc(10 / 390 * var(--rb-u));
+  overflow: hidden;
+  /* A picture nobody has chosen yet is a shape rather than an empty hole --
+     which is what the design draws, and what the editor needs somewhere to
+     put a photograph into. */
+  background: color-mix(in srgb, var(--rb-ink) 42%, var(--rb-paper));
+}
+
+.rb-fam-art { display: block; width: 100%; height: 100%; object-fit: cover; }
+.rb-fam-art:not(.is-photo) { width: auto; height: 86%; object-fit: contain; }
+
+.rb-fam-parents {
+  flex: 1 1 auto;
+  margin: 0;
+  /* The rule under the parents' names, which runs only as far as they do. */
+  padding-bottom: calc(10 / 390 * var(--rb-u));
+  border-bottom: 1px solid var(--rb-rule);
+  font-weight: 500;
+  font-style: italic;
+  font-size: calc(22 / 390 * var(--rb-u));
+  line-height: 1.22;
+  text-align: center;
+  color: var(--rb-ink);
+}
+
+.rb-fam-people {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(9 / 390 * var(--rb-u));
+  width: 100%;
+}
+
+.rb-fam-people li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(3 / 390 * var(--rb-u));
+}
+
+.rb-fam-name {
+  font-weight: 500;
+  font-size: calc(19 / 390 * var(--rb-u));
+  line-height: 1.24;
+  color: var(--rb-body);
+}
+
+/* Every number is a link. A guest reading this on a phone should be one tap
+   from calling, not one copy and one paste. */
+.rb-fam-call {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(8 / 390 * var(--rb-u));
+  font-weight: 500;
+  font-size: calc(19 / 390 * var(--rb-u));
+  line-height: 1.24;
+  text-decoration: none;
+  color: var(--rb-body);
+}
+
+.rb-fam-call svg { flex: none; color: var(--rb-ink); }
+.rb-fam-call:hover span { text-decoration: underline; }
+
+/* ==========================================================================
+   SECTION 6 — the countdown, under a panel to be rubbed away
+   ========================================================================== */
+
+.rb-count .rb-col { gap: 0; }
+
+/* The flower frame at the size it was painted, so on a phone it runs off both
+   edges of the page -- which is how it is drawn. The clock sits in the middle
+   of the opening in it. */
+.rb-count-frame {
+  position: relative;
+  width: min(calc(432 / 390 * var(--rb-u)), calc((100svh - 150px) * 432 / 605));
+  aspect-ratio: 432 / 605;
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+
+.rb-flowers {
+  position: absolute;
+  inset: 0;
+  background: center / contain no-repeat;
+}
+
+.rb-count.is-near .rb-flowers {
+  background-image: url('../img-sample/templates/royal-beginning/countdown/flowers.svg.webp');
+}
+
+.rb-count-in {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(28 / 390 * var(--rb-u));
+}
+
+.rb-dove {
+  width: calc(96 / 390 * var(--rb-u));
+  aspect-ratio: 93 / 124;
+  background: center / contain no-repeat;
+}
+
+.rb-count.is-near .rb-dove,
+.rb-rsvp.is-near .rb-dove {
+  background-image: url('../img-sample/templates/royal-beginning/countdown/pigeon.svg.webp');
+}
+
+.rb-clock {
+  display: grid;
+  grid-template-columns: repeat(2, calc(105 / 390 * var(--rb-u)));
+  gap: calc(11 / 390 * var(--rb-u));
+}
+
+.rb-tick {
+  position: relative;
+  box-sizing: border-box;
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: calc(2 / 390 * var(--rb-u));
+}
+
+.rb-tick-n {
+  font-weight: 500;
+  font-size: calc(32 / 390 * var(--rb-u));
+  line-height: 1;
+  color: var(--rb-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.rb-tick-w {
+  font-weight: 500;
+  font-size: calc(16 / 390 * var(--rb-u));
+  line-height: 1.2;
+  color: var(--rb-body);
+  /* The design sets these lower case. Done here rather than in the words
+     themselves, because the words are shared with every other design -- and
+     a language with no case is unaffected by it. */
+  text-transform: lowercase;
+}
+
+/* The paper and the sparks, over the whole frame and under nothing. It has no
+   size until the burst asks for one, so it costs nothing on a card nobody has
+   scratched. */
+.rb-burst {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* The panel over each box. Painted by script, so a browser with none shows
+   the clock rather than four blank squares. */
+.rb-rub {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  touch-action: none;
+  transition: opacity 500ms ease;
+}
+
+.rb-clock.is-rubbed .rb-rub { opacity: 0; pointer-events: none; }
+
+.rb-count-note { text-decoration: underline; text-underline-offset: 4px; }
+
+/* ==========================================================================
+   SECTION 7 — the functions
+
+   The one page drawn on the card's own colour. Taller than a screen once
+   there are three functions on it, so it opts out of the snapping: a page
+   that cannot be seen at once must not be snapped past.
+   ========================================================================== */
+
+.rb-events {
+  background: var(--rb-ink);
+  scroll-snap-align: none;
+  justify-content: flex-start;
+  padding: calc(34 / 390 * var(--rb-u)) calc(12 / 390 * var(--rb-u)) calc(34 / 390 * var(--rb-u));
+  gap: calc(28 / 390 * var(--rb-u));
+}
+
+/* The hairline inset from the edge of the page, which is what turns a block
+   of colour into a printed panel. */
+.rb-events-rule {
+  position: absolute;
+  inset: calc(7 / 390 * var(--rb-u));
+  border: 1px solid color-mix(in srgb, var(--rb-on-ink) 34%, transparent);
+  pointer-events: none;
+}
+
+.rb-events-head { color: var(--rb-on-ink); }
+
+.rb-ev-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(20 / 390 * var(--rb-u));
+  width: 100%;
+}
+
+.rb-ev {
+  width: calc(348 / 390 * var(--rb-u));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(4 / 390 * var(--rb-u));
+  padding: calc(14 / 390 * var(--rb-u)) calc(16 / 390 * var(--rb-u)) calc(16 / 390 * var(--rb-u));
+  background: var(--rb-paper);
+}
+
+.rb-ev-art {
+  display: grid;
+  place-items: center;
+  height: calc(64 / 390 * var(--rb-u));
+  margin-bottom: calc(6 / 390 * var(--rb-u));
+}
+
+/* Whatever is in the frame -- a photograph, a painting or a drawn symbol --
+   is held to the same box. A symbol is drawn in the shared -60..60 by
+   -118..96 space every drawing uses, so it is given a height and left to find
+   its own width. */
+.rb-ev-img {
+  display: block;
+  max-width: calc(96 / 390 * var(--rb-u));
+  max-height: 100%;
+}
+
+svg.rb-ev-img {
+  width: auto;
+  height: 100%;
+  max-width: calc(110 / 390 * var(--rb-u));
+}
+
+.rb-ev-img.is-photo {
+  width: calc(96 / 390 * var(--rb-u));
+  height: 100%;
+  object-fit: cover;
+}
+
+.rb-ev-name {
+  margin: 0;
+  font-weight: 500;
+  font-style: italic;
+  font-size: calc(38 / 390 * var(--rb-u));
+  line-height: 1.12;
+  color: var(--rb-ink);
+}
+
+.rb-ev-date {
+  margin: 0 0 calc(4 / 390 * var(--rb-u));
+  font-weight: 500;
+  font-size: calc(22 / 390 * var(--rb-u));
+  line-height: 1.24;
+  color: var(--rb-gilt);
+}
+
+.rb-ev-line {
+  margin: 0;
+  font-weight: 500;
+  font-size: calc(18 / 390 * var(--rb-u));
+  line-height: calc(24 / 18);
+  color: var(--rb-body);
+}
+
+.rb-ev-btns {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: calc(8 / 390 * var(--rb-u));
+  margin-top: calc(12 / 390 * var(--rb-u));
+}
+
+.rb-ev-map {
+  width: auto;
+  margin-top: 0;
+}
+
+/* ==========================================================================
+   SECTION 8 — what to wear
+   ========================================================================== */
+
+.rb-dress .rb-col { gap: 0; }
+
+.rb-dress-art {
+  width: calc(284 / 390 * var(--rb-u));
+  aspect-ratio: 702 / 360;
+  margin-top: calc(66 / 390 * var(--rb-u));
+  background: center / contain no-repeat;
+}
+
+.rb-dress.is-near .rb-dress-art {
+  background-image: url('../img-sample/templates/royal-beginning/dress/guests.png.webp');
+}
+
+.rb-dress-intro { margin-top: calc(61 / 390 * var(--rb-u)); }
+.rb-dress .rb-badge { margin-top: calc(43 / 390 * var(--rb-u)); width: calc(245 / 390 * var(--rb-u)); }
+.rb-dress-aside { margin-top: calc(46 / 390 * var(--rb-u)); }
+
+/* ==========================================================================
+   SECTION 9 — the photographs
+   ========================================================================== */
+
+.rb-gallery .rb-col { gap: calc(45 / 390 * var(--rb-u)); }
+
+.rb-shots {
+  display: flex;
+  flex-direction: column;
+  gap: calc(14 / 390 * var(--rb-u));
+  width: 100%;
+}
+
+/* A pair: one photograph tilted one way with a second laid over its corner
+   tilted the other. The overlap is what makes it a handful of prints on a
+   table rather than a grid. */
+.rb-shot-pair {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.rb-shot {
+  display: block;
+  box-sizing: border-box;
+  width: calc(163 / 390 * var(--rb-u));
+  aspect-ratio: 1;
+  padding: calc(4 / 390 * var(--rb-u));
+  border: 1px solid var(--rb-gilt);
+  background: var(--rb-paper);
+  box-shadow: 0 10px 24px -18px rgba(0, 0, 0, .5);
+}
+
+.rb-shot img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+.rb-shot-a { transform: rotate(-2.4deg); }
+.rb-shot-b { margin: calc(46 / 390 * var(--rb-u)) 0 0 calc(-16 / 390 * var(--rb-u)); transform: rotate(2.2deg); z-index: 1; }
+
+/* ==========================================================================
+   SECTION 10 — the reply
+   ========================================================================== */
+
+.rb-rsvp .rb-col { gap: 0; }
+
+.rb-dove-big {
+  width: calc(155 / 390 * var(--rb-u));
+  margin-top: calc(52 / 390 * var(--rb-u));
+}
+
+.rb-rsvp .rb-note { margin-top: calc(40 / 390 * var(--rb-u)); width: calc(250 / 390 * var(--rb-u)); }
+
+.rb-rsvp .rb-badge {
+  margin-top: calc(23 / 390 * var(--rb-u));
+  width: calc(244 / 390 * var(--rb-u));
+}
+
+/* Two lines, because "Kindly Reply by" and the date are two thoughts and the
+   design sets them one above the other. */
+.rb-badge-two {
+  flex-direction: column;
+  gap: calc(2 / 390 * var(--rb-u));
+  padding-left: calc(8 / 390 * var(--rb-u));
+  padding-right: calc(8 / 390 * var(--rb-u));
+}
+
+/* ==========================================================================
+   SECTION 11 — the questions
+   ========================================================================== */
+
+.rb-faqs .rb-col { gap: calc(34 / 390 * var(--rb-u)); }
+
+.rb-qs {
+  display: flex;
+  flex-direction: column;
+  gap: calc(22 / 390 * var(--rb-u));
+  width: 100%;
+}
+
+.rb-q {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(12 / 390 * var(--rb-u));
+  padding: calc(22 / 390 * var(--rb-u)) calc(18 / 390 * var(--rb-u));
+}
+
+.rb-q-head {
+  margin: 0;
+  font-weight: 700;
+  font-size: calc(22 / 390 * var(--rb-u));
+  line-height: 1.2;
+  color: var(--rb-body);
+}
+
+/* ==========================================================================
+   SECTION 12 — the farewell
+   ========================================================================== */
+
+.rb-closing { padding-bottom: calc(34 / 390 * var(--rb-u)); }
+.rb-closing .rb-col { gap: 0; }
+
+/* The same drawing as the cover, a third of the size. */
+.rb-house-sm {
+  width: calc(222 / 390 * var(--rb-u));
+  margin: calc(-22.3 / 390 * var(--rb-u)) 0 calc(-21.6 / 390 * var(--rb-u));
+  opacity: 1;
+  transition: none;
+}
+
+.rb-close-date { margin-top: calc(68 / 390 * var(--rb-u)); }
+
+.rb-close-names {
+  margin: calc(41 / 390 * var(--rb-u)) 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.rb-name-md { font-size: calc(48 / 390 * var(--rb-u)); line-height: .98; }
+
+/* Ours, in a band of its own across the foot of the page. */
+.rb-credit {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(10 / 390 * var(--rb-u));
+  padding: calc(9 / 390 * var(--rb-u)) calc(16 / 390 * var(--rb-u));
+  background: color-mix(in srgb, var(--rb-paper) 96%, #000);
+  font-weight: 500;
+  font-size: calc(21 / 390 * var(--rb-u));
+  line-height: 1.2;
+  text-decoration: none;
+  color: #7a1425;
+}
+
+.rb-credit .credit-mark { width: calc(28 / 390 * var(--rb-u)); height: auto; }
+.rb-credit:hover span { text-decoration: underline; }
+
+/* ==========================================================================
+   THE THINGS THAT FLOAT
+
+   The song, the language and the other-layout button are drawn by shared
+   partials and styled by card-sections.css, which is loaded after this file
+   so its rules win by default. This design draws them as cream pills outlined
+   in the card's own colour, so its rules are scoped to `body.rb-body` to
+   outweigh the shared ones on this page and nowhere else.
+
+   They are there from the first moment, shut cover and all: a guest who reads
+   Urdu wants the card in Urdu before they open it, not after, and somebody
+   who does not want sound in the room wants the mute button before the music
+   starts rather than three seconds into it.
+   ========================================================================== */
+
+body.rb-body .ci-lang,
+body.rb-body .ci-song,
+body.rb-body .ci-view {
+  position: fixed;
+  top: calc(env(safe-area-inset-top, 0px) + 20px);
+  left: auto;
+  bottom: auto;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  height: 40px;
+  width: 40px;
+  padding: 0;
+  border: 1px solid var(--rb-ink);
+  border-radius: 999px;
+  background: var(--rb-paper);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  color: var(--rb-ink);
+  cursor: pointer;
+  opacity: 1;
+  pointer-events: auto;
+  transition: transform 200ms ease;
+}
+
+body.rb-body .ci-lang { right: 16px; }
+body.rb-body .ci-song { right: 64px; }
+body.rb-body .ci-view { right: 112px; }
+
+body.rb-body .ci-lang svg,
+body.rb-body .ci-song svg,
+body.rb-body .ci-view svg { width: 19px; height: 19px; }
+
+body.rb-body .ci-lang:active,
+body.rb-body .ci-song:active,
+body.rb-body .ci-view:active { transform: scale(.95); }
+
+body.rb-body .ci-lang-menu {
+  position: fixed;
+  top: calc(env(safe-area-inset-top, 0px) + 68px);
+  left: auto;
+  bottom: auto;
+  right: 16px;
+  z-index: 41;
+  min-width: 148px;
+  padding: 6px;
+  border: 1px solid color-mix(in srgb, var(--rb-ink) 35%, transparent);
+  border-radius: 14px;
+  background: var(--rb-paper);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: 0 18px 40px -22px rgba(20, 22, 30, .5);
+}
+
+body.rb-body .ci-lang-menu button {
+  display: block;
+  width: 100%;
+  padding: 9px 12px;
+  border: 0;
+  border-radius: 9px;
+  background: none;
+  font-family: var(--rb-serif);
+  font-size: 17px;
+  text-align: start;
+  color: var(--rb-ink);
+  cursor: pointer;
+}
+
+body.rb-body .ci-lang-menu button:hover {
+  background: color-mix(in srgb, var(--rb-ink) 10%, transparent);
+}
+
+/* ------------------------------------------------------------- the cue */
+
+.rb-scroll {
+  position: fixed;
+  left: 50%;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 22px);
+  z-index: 30;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 20px;
+  border: 1px solid var(--rb-ink);
+  border-radius: 999px;
+  background: var(--rb-paper);
+  font-family: var(--rb-serif);
+  font-size: calc(16 / 390 * var(--rb-u));
+  letter-spacing: .02em;
+  color: var(--rb-ink);
+  transform: translateX(-50%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 700ms ease 900ms;
+}
+
+html.rb-open .rb-scroll { opacity: 1; pointer-events: auto; }
+
+/* It is a button now -- see /js/scroll-cue.js. */
+.rb-scroll { -webkit-appearance: none; appearance: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.rb-scroll:active { transform: translateX(-50%) scale(.96); }
+.rb-scroll:focus-visible { outline: 2px solid var(--rb-ink); outline-offset: 3px; }
+
+/* On a phone the cue sits lower and lighter.
+
+   It is furniture over somebody's invitation, and on the pages where a page
+   ends near the foot -- the two names on the cover, the second portrait, the
+   second family -- it was reading as a pill laid across the bride's name.
+   Twenty pixels further down and at six tenths it is a hint rather than a
+   label, and there is room above it for the card. A wide screen has the
+   height to spare and keeps it as it was. */
+@media (max-width: 899px) {
+  .rb-scroll { bottom: calc(env(safe-area-inset-bottom, 0px) + 2px); }
+  html.rb-open .rb-scroll { opacity: .6; pointer-events: auto; }
+}
+
+/* Not on the last page: there is nothing below it. */
+html.rb-end .rb-scroll {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 400ms ease;
+}
+
+/* Room for the cue, on a screen shorter than the one this was drawn for.
+
+   The drawings are 844 tall and have no scroll cue in them: every page ends
+   seventy or eighty pixels clear of the foot, which is exactly the room the
+   cue needs and no more. On a shorter phone the same composition is centred
+   in less height, the foot of it comes up to meet the cue, and the pill sits
+   across the bride's name.
+
+   So the room is taken from the page rather than from the design: at 844 and
+   above nothing moves and the card is as drawn, and below it every page gives
+   up the cue's own height and re-centres in what is left. */
+@media (max-width: 899px) {
+  .rb-sec { padding-bottom: calc(56 / 390 * var(--rb-u)); }
+  .rb-hero { padding-bottom: calc(56 / 390 * var(--rb-u)); }
+  .rb-closing { padding-bottom: calc(56 / 390 * var(--rb-u)); }
+}
+
+.rb-scroll svg { animation: rb-nudge 2200ms ease-in-out infinite; }
+
+@keyframes rb-nudge {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(3px); }
+}
+
+/* ======================================================= held back, at first
+
+   Neither painting shows while the cover is shut, and named in the stylesheet
+   outright they would be fetched the moment it is read -- on the same
+   connection, at the same moment, as the wallpaper and the wax, which are the
+   only thing anybody is looking at. A browser with no script is given both
+   outright instead; see the noscript block in the card's head.
+   ========================================================================= */
+html:not(.rb-painted) .rb-house,
+html:not(.rb-painted) .rb-letter-art { background-image: none; }
+
+/* ==================================================== and on a wide screen
+
+   The cover is the one page that is genuinely full-bleed: the four panels run
+   corner to corner of the window, and the shapes they are cut to are the ones
+   the wide drawing was exported at rather than the phone's stretched. Every
+   page after it is the same column in the middle of the paper, at the same
+   sizes -- which is how the design was drawn.
+   ========================================================================= */
+@media (min-width: 900px) {
+  :root { --rb-u: 390px; }
+
+  /* Read off the four wide drawings: 1440 by 800, with the point all four
+     meet at a little below the middle, at 52.75 per cent. */
+  .rb-flap-left .rb-cut,
+  .rb-flap-left .rb-lit { clip-path: polygon(0 0, 0 100%, 50.03% 52.75%); }
+  .rb-flap-left .rb-back { clip-path: polygon(100% 0, 100% 100%, 49.97% 52.75%); }
+  .rb-flap-left .rb-floral { left: 0; top: -30.65%; width: 50.03%; }
+
+  .rb-flap-right .rb-cut,
+  .rb-flap-right .rb-lit { clip-path: polygon(100% 0, 100% 100%, 49.97% 52.75%); }
+  .rb-flap-right .rb-back { clip-path: polygon(0 0, 0 100%, 50.03% 52.75%); }
+  .rb-flap-right .rb-floral { left: 49.97%; top: -30.65%; width: 50.03%; }
+
+  .rb-flap-top .rb-cut,
+  .rb-flap-top .rb-lit {
+    clip-path: polygon(0 0, 100% 0, 53.64% 56.87%, 52.51% 57.5%, 47.27% 57.5%, 46.13% 56.87%);
+  }
+  .rb-flap-top .rb-back {
+    clip-path: polygon(0 100%, 100% 100%, 53.64% 43.13%, 52.51% 42.5%, 47.27% 42.5%, 46.13% 43.13%);
+  }
+  .rb-flap-top .rb-floral { left: 17.44%; top: -72.14%; width: 65.31%; }
+
+  .rb-flap-bottom .rb-cut,
+  .rb-flap-bottom .rb-lit {
+    clip-path: polygon(48.17% 50.47%, 52.17% 49.95%, 53.33% 50.44%, 100% 100%, 0 100%, 47.31% 50.94%);
+  }
+  .rb-flap-bottom .rb-back {
+    clip-path: polygon(48.17% 49.53%, 52.17% 50.05%, 53.33% 49.56%, 100% 0, 0 0, 47.31% 49.06%);
+  }
+  .rb-flap-bottom .rb-floral { left: 17.49%; top: -13%; width: 65.44%; }
+
+  /* The seal sits where the four meet, which on the wide drawing is a little
+     below the middle of the window. */
+  .rb-seal { top: 52.6%; width: 264px; }
+  .rb-tap { top: 89%; font-size: 39px; }
+
+  /* The house at the size the wide drawing has it, and the names beside each
+     other on one line rather than stacked. */
+  /* The wide drawing sits the house and the names below the middle of the
+     window rather than on it: 144 of paper above the roof and 78 below the
+     names. Sixty-five and a half at the top is what puts it there. */
+  .rb-hero { padding-top: 65.5px; padding-bottom: 0; }
+
+  /* 530 square on the wide drawing, where the phone has it at 584 -- and
+     smaller than that on a window shorter than the 800 it was drawn for, so
+     the names below it are not pushed off the bottom of a laptop. */
+  .rb-house {
+    width: min(530px, calc(100svh * 530 / 800));
+    aspect-ratio: 1;
+    margin: calc(-58.7 / 584 * min(530px, calc(100svh * 530 / 800))) 0
+            calc(-56.7 / 584 * min(530px, calc(100svh * 530 / 800)));
+  }
+
+  .rb-hero-names {
+    margin-top: 72px;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 16px;
+  }
+
+  .rb-guest .rb-col { width: 408px; }
+  .rb-guest .rb-letter { margin-top: 50px; }
+  .rb-chips { width: 408px; min-height: 56px; margin-top: 19.5px; }
+
+  /* ---- and the pages after it ----
+
+     The phone stacks; the wide drawing lays each pair or trio out in a row and
+     leaves the column alone everywhere the design does. Sizes here are plain
+     pixels because `--rb-u` is pinned to 390 above, so every `calc` on this
+     page already resolves to the number the design was drawn with. */
+
+  .rb-closing { padding-bottom: 150px; }
+
+  /* Section 4 — the two of them, side by side. The column is let out to hold
+     them: left at the phone's 390 the pair overflows it, which works by
+     accident and stops working the moment anything is added beside them. */
+  .rb-portraits .rb-col { width: min(700px, calc(100% - 48px)); gap: 40px; }
+  .rb-portrait-row { flex-direction: row; justify-content: center; gap: 61px; }
+  .rb-frame { width: 256px; height: 242px; }
+
+  /* Section 5 — a tab over each block, and the two blocks beside each other. */
+  .rb-family .rb-col { width: min(700px, calc(100% - 48px)); }
+  .rb-fams { flex-direction: row; align-items: flex-start; justify-content: center; gap: 24px; }
+  .rb-fam { width: 253px; }
+
+  /* Section 7 — a card per function, across. The page is one screenful again
+     once they are in a row, so it snaps like the rest of the card. */
+  .rb-events { justify-content: flex-start; padding: 34px 24px; }
+
+  .rb-ev-grid {
+    flex: 1 1 auto;
+    flex-direction: row;
+    align-items: stretch;
+    align-content: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 28px;
+  }
+
+  .rb-ev { width: 345px; }
+
+  /* Section 8 — the same page, with the drawing at the size the wide one has
+     it and the line under it on one line rather than two. */
+  .rb-dress-art { width: 403px; margin-top: 56px; }
+  .rb-dress-intro { width: 650px; margin-top: 52px; }
+  .rb-dress .rb-badge { width: 337px; margin-top: 46px; }
+  .rb-dress-aside { margin-top: 48px; }
+
+  /* Section 9 — three pairs across instead of three down. */
+  .rb-gallery .rb-col { width: min(1100px, calc(100% - 48px)); }
+  .rb-shots { flex-direction: row; justify-content: center; gap: 70px; }
+
+  /* Section 11 — three questions across. */
+  .rb-faqs .rb-col { width: min(1100px, calc(100% - 48px)); }
+  .rb-qs { flex-direction: row; align-items: stretch; justify-content: center; gap: 36px; }
+  .rb-q { flex: 1 1 0; max-width: 322px; }
+
+  /* Section 12 — the house at the size the wide drawing has it, and the two
+     names beside each other on one line. */
+  .rb-house-sm {
+    width: 333px;
+    margin: calc(-58.7 / 584 * 333px) 0 calc(-56.7 / 584 * 333px);
+  }
+
+  .rb-close-date { margin-top: 62px; }
+
+  .rb-close-names {
+    margin-top: 44px;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 22px;
+  }
+
+  .rb-credit { font-size: 23px; padding: 11px 16px; }
+}
+
+/* =================================================== less movement, asked for
+
+   The panels still open and the house still arrives -- the card cannot be
+   read otherwise. What goes is the travel and the breathing.
+   ========================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-snap-type: none; }
+  .rb-tap { animation: none; opacity: .9; }
+  .rb-scroll svg { animation: none; }
+  .rb-seal { transition-duration: 1ms; }
+  .rb-hero.is-opening .rb-flap-left,
+  .rb-hero.is-opening .rb-flap-right,
+  .rb-hero.is-opening .rb-flap-top,
+  .rb-hero.is-opening .rb-flap-bottom { transition-duration: 300ms; transition-delay: 0ms; }
+  .rb-lit, .rb-back::after, .rb-cast { transition-duration: 300ms; transition-delay: 0ms; }
+  .rb-house, .rb-hero-names { transition-duration: 300ms; transition-delay: 0ms; }
+}

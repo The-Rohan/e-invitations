@@ -1,0 +1,38 @@
+/* Theme: Phulkari – golden silk floss on rust khaddar; full-screen artwork hero (assets/img/hero/phulkari.jpg) */
+:root {
+  --primary: #8e2f1c; --accent: #e3a92f; --bg: #f7eddc; --card: #fffaf1; --ink: #2b1a12; --muted: #7a5e4b; --line: rgba(142,47,28,.15);
+  --backdrop: radial-gradient(circle at 50% 30%, #a83b22, #3d120a 72%);
+  --env: #9a3520; --env-dark: #6e2414; --door: #6e2414; --curtain: #9a3520;
+  --font-display: 'Cormorant Garamond', Georgia, serif; --font-script: 'Great Vibes', cursive;
+  --hero-scrim: #5a1a0c;
+  --ornament: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 34'%3E%3Cg fill='%23e3a92f'%3E%3Cpath d='M20 17l8-8 8 8-8 8zM52 17l8-8 8 8-8 8zM92 17l8-8 8 8-8 8zM124 17l8-8 8 8-8 8z'/%3E%3Cpath d='M80 3l14 14-14 14-14-14z'/%3E%3C/g%3E%3Cpath d='M80 10l7 7-7 7-7-7z' fill='%238e2f1c'/%3E%3C/svg%3E");
+  --radius: 14px;
+}
+/* hero sits on the embroidered cloth: warm cream-gold type */
+.hero.hero-art .eyebrow { color: #ffe8b8; font-style: italic; text-shadow: 0 1px 8px rgba(40,10,4,.7); }
+.hero.hero-art .name { color: #fff3d6; text-shadow: 0 2px 14px rgba(40,10,4,.75); }
+.hero.hero-art .name.shimmer [lang="en"] { background-image: linear-gradient(110deg, #fff3d6 40%, #f2c25a 50%, #fff3d6 60%); }
+.hero.hero-art .amp { color: #f2c25a; }
+.hero.hero-art .monogram { border-color: #f2c25a; color: #fff3d6; background: rgba(60,15,6,.35); }
+.hero.hero-art .date { color: #fff3d6; text-shadow: 0 1px 8px rgba(40,10,4,.7); }
+.hero.hero-art .countdown b { color: #fff3d6; }
+.hero.hero-art .countdown small { color: #f2d49a; }
+.hero.hero-art .countdown > div { border-color: rgba(242,194,90,.45); }
+.hero.hero-art .series .chip { background: rgba(60,15,6,.45); color: #fff3d6; border-color: rgba(242,194,90,.4); }
+.hero.hero-art .series .chip.on { background: #e3a92f; color: #3a1208; }
+.hero.hero-art .series-label, .hero.hero-art .greeting { color: #f2d49a; }
+/* the rest of the card: khaddar cream with phulkari diamonds */
+.sec-title { color: var(--primary); }
+.frame { border: 2px solid var(--accent); background: #fff; }
+.frame::before { border-color: var(--line); }
+.events, .gallery, .travel { background: #f3e3c8; }
+.event { border-color: rgba(227,169,47,.5); }
+.ev-icon { background-color: var(--primary); box-shadow: 0 0 0 4px var(--card), 0 0 0 5px var(--accent); }
+.btn.primary { background: var(--primary); border-color: var(--primary); }
+.timeline { border-color: var(--accent); } .timeline li::before { background: var(--primary); }
+.hashtag { color: var(--primary); }
+.wish { border-left-color: var(--accent); background: #f7eddc; }
+.closing { background: linear-gradient(180deg, var(--card), #f3e3c8); }
+.seal { background: radial-gradient(circle at 35% 30%, #f2c25a, #8a5a12 70%); color: #3a1208; }
+.diya-bowl { background: linear-gradient(#e3a92f, #8a5a12); }
+.actionbar a.ab-main { background: var(--accent); color: #3a1208; }

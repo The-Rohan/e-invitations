@@ -1,0 +1,446 @@
+/* The homepage (2026-10-21): what moves on views/storefront/home-2026.ejs.
+   Try buttons are handled by /js/try-flow.js, which reports the try and the
+   Lead; the scroll button's press by /js/scroll-cue.js. What this reports is
+   under "measuring", at the end. Everything that moves by itself stops for a
+   reader who has asked their device for less movement. */
+(function () {
+  'use strict';
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var wide = window.matchMedia('(min-width: 861px)');
+  var two = function (n) { return (n < 10 ? '0' : '') + n; };
+  var seen = function (el, fn, opts) {
+    if (!el) return;
+    if (!('IntersectionObserver' in window)) { fn(true); return; }
+    new IntersectionObserver(function (es) { es.forEach(function (e) { fn(e.isIntersecting, e); }); }, opts || { threshold: 0.25 }).observe(el);
+  };
+
+  /* ------------------------------------------------------------ entrances */
+  var reveals = $$('[data-reveal]');
+  if ('IntersectionObserver' in window && !still) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } });
+    }, { rootMargin: '0px 0px -6% 0px', threshold: 0.08 });
+    reveals.forEach(function (el) { io.observe(el); });
+  } else reveals.forEach(function (el) { el.classList.add('is-in'); });
+
+  /* ------------------------------------------------------------ the menu */
+  var head = $('[data-head]');
+  var burger = $('[data-menu]');
+  var panel = $('[data-menu-panel]');
+  function menu(open) {
+    if (!panel) return;
+    if (open) {
+      var deal = $('.hm-deal');
+      panel.style.top = (deal ? Math.max(0, deal.getBoundingClientRect().bottom) : 0) + 'px';
+    }
+    panel.hidden = !open;
+    head.classList.toggle('is-open', open);
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+  if (burger) burger.addEventListener('click', function () { menu(panel.hidden); });
+  if (panel) panel.addEventListener('click', function (e) { if (e.target.closest('a')) menu(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && panel && !panel.hidden) menu(false); });
+
+  /* -------------------------------- the header that follows, past the first screen */
+  var first = $('.hm-first');
+  if (head && first) {
+    var follow = document.createElement('div');
+    follow.className = 'hm-follow';
+    follow.setAttribute('aria-hidden', 'true');
+    follow.innerHTML = $('.hm-head-in', head).outerHTML;
+    $$('a, button', follow).forEach(function (a) { a.setAttribute('tabindex', '-1'); });
+    document.body.appendChild(follow);
+    var lastY = window.scrollY;
+    var onHead = function () {
+      var y = window.scrollY;
+      var past = y > first.offsetHeight - 40;
+      // Shown past the first screen, tucked away while reading down fast, back on the way up.
+      follow.classList.toggle('is-on', past && (y < lastY || y - lastY < 24));
+      lastY = y;
+    };
+    window.addEventListener('scroll', function () { requestAnimationFrame(onHead); }, { passive: true });
+  }
+
+  /* ---------------------------------------------------- the offer's clock */
+  var clock = $('[data-ends]');
+  if (clock) {
+    var ends = Date.parse(clock.getAttribute('data-ends'));
+    var cells = { h: $('[data-unit=h]', clock), m: $('[data-unit=m]', clock), s: $('[data-unit=s]', clock) };
+    var tick = function () {
+      var left = Math.max(0, Math.floor((ends - Date.now()) / 1000));
+      if (!left) { clock.hidden = true; return; }
+      cells.h.textContent = two(Math.floor(left / 3600));
+      cells.m.textContent = two(Math.floor(left / 60) % 60);
+      cells.s.textContent = two(left % 60);
+      setTimeout(tick, 1000 - (Date.now() % 1000));
+    };
+    tick();
+  }
+
+  /* ------------------------------------------- the three phones, turning */
+  var phonesBox = $('[data-phones]');
+  var phones = $$('.hm-phone', phonesBox);
+  var make = $('[data-make]');
+  var makeName = $('[data-make-name]');
+  if (phones.length === 3) {
+    var order = ['c', 'l', 'r'];
+    var shown = true;
+    var place = function () {
+      phones.forEach(function (p, i) {
+        p.classList.remove('hm-at-c', 'hm-at-l', 'hm-at-r');
+        p.classList.add('hm-at-' + order[i]);
+        var v = $('video', p);
+        if (v) { if (order[i] === 'c' && shown) { v.preload = 'auto'; var go = v.play(); if (go && go.catch) go.catch(function () {}); } else v.pause(); }
+        if (order[i] === 'c') {
+          if (make) { make.href = '/try/' + p.getAttribute('data-design'); make.setAttribute('data-try', p.getAttribute('data-design')); }
+          if (makeName && makeName.textContent !== p.getAttribute('data-name')) {
+            makeName.classList.add('is-swap');
+            setTimeout(function () { makeName.textContent = p.getAttribute('data-name'); makeName.classList.remove('is-swap'); }, 380);
+          }
+        }
+      });
+    };
+    var turn = function () { order = [order[2], order[0], order[1]]; place(); };
+    var timer = null;
+    var run = function () { if (!timer && !still) timer = setInterval(turn, 5000); };
+    var stop = function () { clearInterval(timer); timer = null; };
+    seen(phonesBox, function (on) { shown = on; if (on) run(); else stop(); }, { threshold: 0.2 });
+    document.addEventListener('visibilitychange', function () { if (document.hidden) stop(); else if (shown) run(); });
+    phones.forEach(function (p, i) {
+      p.addEventListener('click', function () {
+        if (order[i] === 'c') return;
+        while (order[i] !== 'c') order = [order[2], order[0], order[1]];
+        place(); stop(); run();
+      });
+    });
+    // A slight lean toward the pointer, on a screen with one.
+    if (!still && window.matchMedia('(hover: hover)').matches) {
+      var hero = $('.hm-hero');
+      hero.addEventListener('pointermove', function (e) {
+        var r = hero.getBoundingClientRect();
+        var x = (e.clientX - r.left) / r.width - 0.5;
+        var y = (e.clientY - r.top) / r.height - 0.5;
+        phonesBox.style.transform = 'rotateY(' + (x * 6).toFixed(2) + 'deg) rotateX(' + (-y * 5).toFixed(2) + 'deg)';
+      });
+      hero.addEventListener('pointerleave', function () { phonesBox.style.transform = ''; });
+      phonesBox.style.transition = 'transform .9s cubic-bezier(.22,.8,.24,1)';
+      phonesBox.style.transformStyle = 'preserve-3d';
+    }
+  }
+
+  /* ------------------------- the strip: running by on a phone, never wrapping */
+  $$('.hm-strip').forEach(function (strip) {
+    var track = document.createElement('span');
+    track.className = 'hm-strip-track';
+    $$('li', strip).forEach(function (li) { track.appendChild(li); });
+    strip.appendChild(track);
+    var doubled = false;
+    var fit = function () {
+      if (doubled || wide.matches || still) return;
+      // The same items again behind themselves, so the loop has no seam.
+      $$('li', track).forEach(function (li) { var c = li.cloneNode(true); c.setAttribute('aria-hidden', 'true'); track.appendChild(c); });
+      strip.classList.add('is-running');
+      doubled = true;
+    };
+    fit();
+    if (wide.addEventListener) wide.addEventListener('change', fit);
+  });
+
+  /* ------------------------------------------------- a sliding row + pager */
+  function slider(row, pager, unit, autoMs) {
+    if (!row) return function () {};
+    var prev = pager && $('[data-prev]', pager);
+    var next = pager && $('[data-next]', pager);
+    var bar = pager && $('[data-progress]', pager);
+    var count = pager && $('[data-count]', pager);
+    var items = function () { return $$(unit, row).filter(function (el) { return !el.hidden; }); };
+    var step = function () { var it = items()[0]; return it ? it.getBoundingClientRect().width + parseFloat(getComputedStyle(row).columnGap || 0) : row.clientWidth; };
+    var update = function () {
+      var list = items();
+      var total = list.length;
+      var w = step() || 1;
+      var firstShown = Math.round(row.scrollLeft / w);
+      var perView = Math.max(1, Math.round(row.clientWidth / w));
+      var last = Math.min(total, firstShown + perView);
+      if (count) count.innerHTML = !total ? '' : (last > firstShown + 1 ? two(Math.min(firstShown + 1, total)) + '…' + two(last) : two(Math.min(firstShown + 1, total))) + '<span>/' + two(total) + '</span>';
+      if (bar) {
+        var span = Math.max(1, row.scrollWidth - row.clientWidth);
+        var size = Math.min(100, (row.clientWidth / Math.max(row.scrollWidth, 1)) * 100);
+        bar.style.width = size + '%';
+        bar.style.left = ((row.scrollLeft / span) * (100 - size)) + '%';
+      }
+      if (prev) prev.disabled = row.scrollLeft <= 2;
+      if (next) next.disabled = row.scrollLeft >= row.scrollWidth - row.clientWidth - 2;
+    };
+    var go = function (dir) {
+      var perView = Math.max(1, Math.round(row.clientWidth / (step() || 1)));
+      var end = row.scrollLeft >= row.scrollWidth - row.clientWidth - 2;
+      if (dir > 0 && end) row.scrollTo({ left: 0, behavior: still ? 'auto' : 'smooth' });
+      else row.scrollBy({ left: dir * perView * step(), behavior: still ? 'auto' : 'smooth' });
+    };
+    if (prev) prev.addEventListener('click', function () { go(-1); });
+    if (next) next.addEventListener('click', function () { go(1); });
+    var raf = 0;
+    row.addEventListener('scroll', function () { cancelAnimationFrame(raf); raf = requestAnimationFrame(update); }, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+    // Turning by itself while it is on screen and nobody is touching it.
+    if (autoMs && !still) {
+      var held = false;
+      var on = false;
+      row.addEventListener('pointerenter', function () { held = true; });
+      row.addEventListener('pointerleave', function () { held = false; });
+      row.addEventListener('touchstart', function () { held = true; }, { passive: true });
+      seen(row, function (v) { on = v; }, { threshold: 0.4 });
+      setInterval(function () { if (on && !held && !document.hidden) go(1); }, autoMs);
+    }
+    return update;
+  }
+
+  /* ------------------------------------------------------------ the shop */
+  var track = $('[data-track]');
+  var refresh = slider(track, $('[data-pager]'), '.hm-card');
+  var ink = $('[data-pill-ink]');
+  var pills = $$('[data-pills] button');
+  var moveInk = function () {
+    var on = pills.filter(function (b) { return b.classList.contains('is-on'); })[0];
+    if (!ink || !on) return;
+    ink.style.left = on.offsetLeft + 'px';
+    ink.style.top = on.offsetTop + 'px';
+    ink.style.width = on.offsetWidth + 'px';
+    ink.style.height = on.offsetHeight + 'px';
+    ink.style.bottom = 'auto';
+  };
+  moveInk();
+  window.addEventListener('resize', moveInk);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(moveInk);
+  if (track) {
+    var cards = $$('.hm-card', track);
+    var none = $('[data-none]');
+    var state = { filter: 'all', q: '', sort: 'featured' };
+    var apply = function () {
+      var q = state.q.trim().toLowerCase();
+      cards.forEach(function (c) {
+        var tags = ' ' + c.getAttribute('data-tags') + ' ';
+        c.hidden = !((state.filter === 'all' || tags.indexOf(' ' + state.filter + ' ') !== -1) && (!q || c.getAttribute('data-name').indexOf(q) !== -1));
+      });
+      var sorted = cards.slice().sort(function (a, b) {
+        if (state.sort === 'low') return a.getAttribute('data-price') - b.getAttribute('data-price');
+        if (state.sort === 'high') return b.getAttribute('data-price') - a.getAttribute('data-price');
+        if (state.sort === 'name') return $('h3', a).textContent.localeCompare($('h3', b).textContent);
+        return a.getAttribute('data-order') - b.getAttribute('data-order');
+      });
+      sorted.forEach(function (c) { track.insertBefore(c, none); });
+      if (none) none.hidden = cards.some(function (c) { return !c.hidden; });
+      // The cards that are left come in one after another.
+      if (!still) cards.filter(function (c) { return !c.hidden; }).slice(0, 5).forEach(function (c, i) {
+        if (c.animate) c.animate([{ opacity: 0, transform: 'translateY(14px)' }, { opacity: 1, transform: 'none' }], { duration: 500, delay: i * 60, easing: 'cubic-bezier(.22,.8,.24,1)', fill: 'backwards' });
+      });
+      track.scrollLeft = 0;
+      refresh();
+    };
+    pills.forEach(function (b) {
+      b.addEventListener('click', function () {
+        pills.forEach(function (x) { x.classList.toggle('is-on', x === b); });
+        moveInk();
+        state.filter = b.getAttribute('data-filter');
+        apply();
+      });
+    });
+    var search = $('[data-search]');
+    var wait = 0;
+    if (search) search.addEventListener('input', function () { clearTimeout(wait); wait = setTimeout(function () { state.q = search.value; apply(); }, 160); });
+    var sort = $('[data-sort]');
+    if (sort) sort.addEventListener('change', function () { state.sort = sort.value; apply(); });
+  }
+
+  /* --------------------------------------------------------- the reviews */
+  slider($('[data-reviews]'), $('[data-review-pager]'), '.hm-review', 6500);
+
+  /* ------------------------------------------ what you get: the pieces at work */
+  var get = $('[data-get]');
+  if (get) {
+    // Words typed, held, and taken back, one after another, while it is on screen.
+    var typers = $$('[data-type]', get).map(function (el) {
+      return { el: el, words: el.getAttribute('data-type').split('|'), w: 0, n: el.textContent.length, back: false, hold: 26 };
+    });
+    var typing = null;
+    var tick = function () {
+      typers.forEach(function (t) {
+        var word = t.words[t.w];
+        if (t.hold > 0) { t.hold--; return; }
+        if (!t.back) {
+          if (t.n < word.length) t.n++;
+          else { t.back = true; t.hold = 22; return; }
+        } else if (t.n > 0) t.n--;
+        else { t.back = false; t.w = (t.w + 1) % t.words.length; word = t.words[t.w]; t.hold = 3; }
+        t.el.textContent = t.words[t.w].slice(0, t.n);
+      });
+    };
+    var film = $('[data-get-film]', get);
+    seen(get, function (v) {
+      clearInterval(typing); typing = null;
+      if (v && !still) typing = setInterval(tick, 90);
+      if (film) {
+        if (v) { film.preload = 'auto'; var pl = film.play(); if (pl && pl.catch) pl.catch(function () {}); } else film.pause();
+      }
+    }, { threshold: 0.2 });
+    // A soft light that follows the pointer across each tile.
+    $$('.hm-bt', get).forEach(function (tile) {
+      tile.addEventListener('pointermove', function (e) {
+        var r = tile.getBoundingClientRect();
+        tile.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+        tile.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      });
+    });
+  }
+
+  /* ----------------------------------------- the comparison: the score counts up */
+  var score = $('[data-score]');
+  if (score) seen(score, function (v) {
+    if (!v || score.getAttribute('data-counted')) return;
+    score.setAttribute('data-counted', '1');
+    $$('[data-count]', score).forEach(function (el) {
+      var to = Number(el.getAttribute('data-count'));
+      if (still) { el.textContent = to; return; }
+      var t0 = null;
+      var step = function (t) {
+        if (!t0) t0 = t;
+        var k = Math.min(1, (t - t0) / 1500);
+        el.textContent = Math.round(to * (1 - Math.pow(1 - k, 3)));
+        if (k < 1) requestAnimationFrame(step);
+      };
+      setTimeout(function () { requestAnimationFrame(step); }, 300);
+    });
+  }, { threshold: 0.4 });
+
+  /* ------------------------------ everything built in: one phone, six screens */
+  var steps = $$('[data-step]');
+  var shots = $$('[data-shot]');
+  var grid = $('[data-steps]');
+  var fill = $('[data-steps-fill]');
+  var section = $('.hm-all');
+  if (steps.length && grid && section) {
+    var on = 0;
+    var show = function (i) {
+      on = i;
+      steps.forEach(function (s, n) { s.classList.toggle('is-on', n === i); });
+      shots.forEach(function (s, n) { s.classList.toggle('is-on', n === i); });
+      if (fill) fill.style.height = (((i + 1) / steps.length) * 100) + '%';
+    };
+    show(0);
+    /* On a wide screen the section is tall and its middle stays put while the
+       page scrolls through it: how far through it is says which screen. */
+    var depth = function () {
+      var r = section.getBoundingClientRect();
+      var span = r.height - window.innerHeight;
+      return Math.min(0.999, Math.max(0, -r.top / Math.max(span, 1)));
+    };
+    var onScroll = function () {
+      if (!wide.matches) return;
+      var i = Math.floor(depth() * steps.length);
+      if (i !== on) show(i);
+    };
+    window.addEventListener('scroll', function () { requestAnimationFrame(onScroll); }, { passive: true });
+    /* On a phone it turns by itself while it is on screen, and a tap picks one. */
+    var auto = null;
+    var visible = false;
+    var spinSteps = function () { clearInterval(auto); auto = null; if (!wide.matches && visible && !still) auto = setInterval(function () { show((on + 1) % steps.length); }, 4500); };
+    seen(grid, function (v) { visible = v; spinSteps(); }, { threshold: 0.35 });
+    steps.forEach(function (s, i) {
+      $('button', s).addEventListener('click', function () {
+        if (wide.matches) {
+          var r = section.getBoundingClientRect();
+          var span = r.height - window.innerHeight;
+          window.scrollTo({ top: window.scrollY + r.top + span * ((i + 0.5) / steps.length), behavior: still ? 'auto' : 'smooth' });
+        } else { show(i); spinSteps(); }
+      });
+    });
+  }
+
+  /* ------------------------------------------------- FAQs that open smoothly */
+  $$('.hm-q').forEach(function (q) {
+    var sum = $('summary', q);
+    var body = $('.hm-q-body', q);
+    if (!sum || !body || still || !body.animate) return;
+    sum.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (q.open) {
+        var h = body.offsetHeight;
+        var a = body.animate([{ height: h + 'px', opacity: 1 }, { height: '0px', opacity: 0 }], { duration: 320, easing: 'cubic-bezier(.22,.8,.24,1)' });
+        a.onfinish = function () { q.open = false; };
+      } else {
+        q.open = true;
+        var end = body.offsetHeight;
+        body.animate([{ height: '0px', opacity: 0 }, { height: end + 'px', opacity: 1 }], { duration: 420, easing: 'cubic-bezier(.22,.8,.24,1)' });
+      }
+    });
+  });
+
+  /* ------------------------------------------------------------ measuring
+     What the previous homepage reported, said the same way (2026-10-22): the
+     designs seen, a filter chosen, a design opened, Buy now, Live demo, the
+     bundle, and a WhatsApp message begun. The design's own page reports its
+     ViewContent; Live demo opens the full view, which has none of its own, so
+     it is reported here, as Quick Look's opening was. Never in the way. */
+  // Which page this is: the homepage, or a design's own page (data-page on <body>).
+  var PAGE = document.body.getAttribute('data-page') || 'home';
+  var say = function (name, data, meta) {
+    try {
+      if (window.gtag) window.gtag('event', name, data || {});
+      if (meta && window.fbq) window.fbq('track', meta[0], meta[1] || {});
+    } catch (e) { /* measuring must never get in the way */ }
+  };
+  var itemOf = function (card, i) {
+    var h = $('h3', card);
+    return { item_id: card.getAttribute('data-key'), item_name: h ? h.textContent.trim() : '', price: Number(card.getAttribute('data-price')) || 0, index: i };
+  };
+  var shelf = $('[data-track]');
+  if (shelf) seen(shelf, function (v) {
+    if (!v || shelf.getAttribute('data-listed')) return;
+    shelf.setAttribute('data-listed', '1');
+    var cardsNow = $$('.hm-card', shelf).filter(function (c) { return !c.hidden; });
+    say('view_item_list', { item_list_id: PAGE, item_list_name: PAGE === 'home' ? 'Homepage designs' : 'Designs like this', items: cardsNow.map(itemOf) });
+  }, { threshold: 0.3 });
+  $$('[data-filter]').forEach(function (b) {
+    b.addEventListener('click', function () { say('select_collection', { collection: b.getAttribute('data-filter'), where: PAGE }); });
+  });
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a');
+    if (!a) return;
+    var card = a.closest('.hm-card');
+    if (card) {
+      var item = itemOf(card, Number(card.getAttribute('data-order')) || 0);
+      var currency = card.getAttribute('data-currency') || 'PKR';
+      if (a.classList.contains('hm-buy')) say('buy_now', { item_id: item.item_id, item_name: item.item_name, value: item.price, currency: currency, where: PAGE });
+      else if (a.classList.contains('hm-demo')) say('open_full_view', { item_id: item.item_id, item_name: item.item_name, where: PAGE },
+        ['ViewContent', { content_ids: [item.item_id], content_name: item.item_name, content_type: 'product', value: item.price, currency: currency }]);
+      else if (!a.hasAttribute('data-try')) say('select_item', { item_list_id: PAGE, items: [item] });
+      return;
+    }
+    if (a.hasAttribute('data-promo')) say('select_promotion', { promotion_name: a.getAttribute('data-promo'), where: PAGE });
+    // The corner "Ask us" button reports its own (views/partials/_wa-float.ejs).
+    if (/wa\.me|whatsapp\.com/i.test(a.href) && !a.hasAttribute('data-wa-float')) {
+      var sec = a.closest('[data-section]');
+      say('contact', { method: 'whatsapp', where: PAGE + ':' + (sec ? sec.getAttribute('data-section') : 'page') }, ['Contact']);
+    }
+  }, true);
+
+  /* ------------------------------ the scroll button: its ring fills, and it leaves at the foot */
+  var cue = $('.hm-cue');
+  var foot = $('.hm-foot');
+  if (cue) {
+    var onCue = function () {
+      var max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      cue.style.setProperty('--hm-progress', Math.min(1, window.scrollY / max).toFixed(3));
+      var footTop = foot ? foot.getBoundingClientRect().top : Infinity;
+      cue.classList.toggle('is-done', footTop < window.innerHeight * 0.92 || (panel && !panel.hidden));
+      cue.classList.toggle('is-small', window.scrollY > window.innerHeight * 0.6);
+    };
+    window.addEventListener('scroll', function () { requestAnimationFrame(onCue); }, { passive: true });
+    onCue();
+  }
+}());

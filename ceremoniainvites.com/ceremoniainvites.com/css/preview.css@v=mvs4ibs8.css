@@ -1,0 +1,356 @@
+/* ==========================================================================
+   The preview mockup, and the colours you can put in it.
+
+   Shared, verbatim, by the compiled homepage and by every page rendered from
+   EJS. The Quick Look dialog on the homepage and a design's own detail page
+   show the same phone and offer the same six colours, and they are the same
+   markup and the same rules -- not a copy that starts identical and drifts a
+   fortnight later.
+
+   Changing anything here changes both. That is the point.
+   ========================================================================== */
+
+/* ---------------------------------------------- the phone inside Quick Look
+
+   A mockup showing the design's cover, and nothing more, until somebody taps
+   it. Then one iframe loads the real invitation and it runs for real inside
+   the frame.
+
+   The point is that it costs nothing to open the dialog: a preview is a whole
+   second document with its own stylesheets, fonts and artwork, and loading
+   one per card is what made the old catalogue slow. Here it is loaded on
+   purpose by somebody who has decided to wait for it. */
+/* The bezel takes its height from the screen inside it rather than carrying
+   the card's shape itself. It used to hold `aspect-ratio: 390 / 844`, but with
+   9px of bezel on every side and border-box sizing that made the *screen*
+   250 by 562 -- which is not the card's shape, so every preview on the site
+   was letterboxed inside its own phone. The ratio belongs to the glass. */
+.ci-phone {
+  width: min(268px, 78%);
+  margin: 0 auto;
+  padding: 9px;
+  border-radius: 34px;
+  background: #241016;
+  box-shadow: 0 20px 46px rgba(20, 8, 12, .4), inset 0 0 0 1px rgba(247, 210, 125, .18);
+}
+
+/* The screen is the slot the card is fitted into: `.ci-fit` on it gives the
+   card its own 390 by 844, scaled down whole. See preview-fit.css. */
+.ci-phone-screen {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 390 / 844;
+  height: auto;
+  overflow: hidden;
+  border-radius: 26px;
+  background: #f7eddd;
+}
+
+.ci-phone-frame { transition: opacity .5s ease; }
+
+/* The cover, and the invitation to tap it. */
+.ci-phone-cover {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  padding: 0; border: 0; cursor: pointer;
+  background: transparent;
+  display: block;
+}
+.ci-phone-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ci-phone-cover .invite-art { width: 100%; height: 100%; }
+
+.ci-phone-play {
+  position: absolute; left: 50%; bottom: 18px;
+  transform: translateX(-50%);
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 9px 15px; border-radius: 999px;
+  background: rgba(36, 16, 22, .82);
+  backdrop-filter: blur(6px);
+  color: #f8ecd9;
+  font-family: var(--app-font-mono);
+  font-size: 10.5px; font-weight: 700;
+  letter-spacing: .13em; text-transform: uppercase;
+  white-space: nowrap;
+  transition: background .3s ease, transform .3s cubic-bezier(.2,.8,.2,1);
+}
+.ci-phone-cover:hover .ci-phone-play { background: #762337; transform: translateX(-50%) translateY(-2px); }
+
+/* A dot that keeps beating, so the mockup reads as something to press rather
+   than a picture that happens to be phone-shaped. */
+.ci-phone-play-dot {
+  width: 7px; height: 7px; border-radius: 999px;
+  background: #e1a84d;
+  animation: ci-beat 1.8s ease-in-out infinite;
+}
+@keyframes ci-beat {
+  0%, 100% { opacity: .45; transform: scale(.85); }
+  50%      { opacity: 1;   transform: scale(1.15); }
+}
+
+/* What fills the wait. */
+.ci-phone-load {
+  position: absolute; inset: 0; z-index: 2;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
+  background: #f7eddd;
+}
+.ci-spin {
+  width: 26px; height: 26px; border-radius: 999px;
+  border: 2px solid rgba(118, 35, 55, .18);
+  border-top-color: #762337;
+  animation: ci-spin 800ms linear infinite;
+}
+@keyframes ci-spin { to { transform: rotate(360deg); } }
+.ci-phone-load-t {
+  font-family: var(--app-font-mono);
+  font-size: 10.5px; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: rgba(61, 20, 30, .5);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ci-phone-play-dot, .ci-spin { animation: none; }
+}
+
+/* ---------------------------------------------------------------------------
+   Choosing a colour, in the Quick Look
+
+   Six of these: five pairs somebody drew on purpose, and the visitor's own as
+   the sixth. Each swatch shows both halves of its pair -- the deep tone the
+   card is built from and the accent it is trimmed with -- because the second
+   colour is what separates two greens, and a single dot would hide it.
+--------------------------------------------------------------------------- */
+.ci-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.ci-swatch {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  overflow: hidden;
+  cursor: pointer;
+  /* The ring is drawn outside the circle so turning it on cannot move
+     anything: six swatches in a row would otherwise nudge sideways as the
+     selection travels along them. */
+  outline: 1px solid rgba(118, 35, 55, .18);
+  outline-offset: 0;
+  transition: transform .25s cubic-bezier(.2, .8, .2, 1), outline-color .25s, outline-width .25s;
+}
+.ci-swatch:hover { transform: translateY(-2px); }
+.ci-swatch.is-on {
+  outline: 2px solid #762337;
+  outline-offset: 3px;
+}
+.ci-swatch:focus-visible {
+  outline: 2px solid #c65d55;
+  outline-offset: 3px;
+}
+/* The pair, split on the diagonal. */
+.ci-swatch-a,
+.ci-swatch-b {
+  position: absolute;
+  inset: 0;
+}
+.ci-swatch-b { clip-path: polygon(100% 0, 100% 100%, 0 100%); }
+
+/* The sixth. The wheel says "anything you like" without needing a word for
+   it, and the native picker sits invisibly over the whole swatch so the
+   thing you press is the thing that changes. */
+.ci-swatch-wheel {
+  background: conic-gradient(#c65d55, #e1a84d, #7ea36b, #4f7ec7, #8a5ea8, #c65d55);
+}
+.ci-swatch-custom input[type='color'] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.ci-swatch-reset {
+  border: 0;
+  background: none;
+  padding: 0;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(118, 35, 55, .7);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.ci-swatch-reset:hover { color: #c65d55; }
+
+.ci-swatch-note {
+  margin: 12px 0 0;
+  font-size: 10.5px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(76, 32, 41, .45);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ci-swatch { transition: none; }
+  .ci-swatch:hover { transform: none; }
+}
+
+/* ---------------------------------------------- how many guests, and how many sold
+
+   The second question Quick Look asks, under the colours. Four chips in a
+   row: what you get, and what it adds. They are chips rather than a select
+   because all four prices should be readable at once — the choice is a
+   comparison, and a dropdown hides three quarters of it.
+*/
+.ci-packs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+}
+@media (min-width: 520px) {
+  .ci-packs { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+/* The two plans: always two across, each with a line on what it is. */
+.ci-packs.ci-plans { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+.ci-plans .ci-pack { padding: 11px 12px 12px; gap: 4px; }
+.ci-plans .ci-pack-n { font-size: 14px; font-weight: 600; }
+.ci-plans .ci-pack-p { font-size: 11px; color: #762337; }
+.ci-plans .ci-pack-p s { color: rgba(76, 32, 41, .5); }
+.ci-pack-b { font-size: 11.5px; line-height: 1.4; color: rgba(76, 32, 41, .72); }
+.ci-pack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  padding: 9px 11px;
+  border: 1px solid rgba(118, 35, 55, .18);
+  border-radius: 11px;
+  background: #fdf6ea;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color .25s ease, background .25s ease, transform .25s cubic-bezier(.2, .8, .2, 1);
+}
+.ci-pack:hover { transform: translateY(-1px); border-color: rgba(198, 93, 85, .55); }
+.ci-pack.is-on {
+  border-color: #762337;
+  background: #f3e3d5;
+}
+.ci-pack:focus-visible { outline: 2px solid #c65d55; outline-offset: 2px; }
+.ci-pack-n {
+  font-size: 12.5px;
+  line-height: 1.25;
+  color: #4c2029;
+}
+.ci-pack-p {
+  font-family: var(--app-font-mono, 'Space Mono', monospace);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: rgba(76, 32, 41, .5);
+}
+.ci-pack.is-on .ci-pack-p { color: #762337; }
+
+/* What actually sold, in the last month.
+
+   Counted from paid orders on the server, and rendered only when there is a
+   real figure to render — the page has no way to invent one, which is the
+   point. */
+.ci-sold {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: rgba(45, 101, 77, .12);
+  color: #2d654d;
+  letter-spacing: .1em;
+}
+.ci-sold-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: #2d654d;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ci-pack { transition: none; }
+  .ci-pack:hover { transform: none; }
+}
+
+/* ------------------------------------------------------- open full view
+
+   The card in a tab of its own, exactly as a guest gets it -- closed, with
+   its opening, its music and every section -- in Quick Look on the homepage
+   and under the phone on a design's own page. Animated gently so it is
+   seen -- a light that travels across it every few seconds rather than
+   anything that bounces -- because it is the thing most worth pressing on
+   this half of the dialog and it sits on a dark ground beside a picture. */
+.ci-full-view {
+  position: relative;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 20px;
+  overflow: hidden;
+  border: 1px solid rgba(247, 210, 125, .55);
+  border-radius: 999px;
+  background: rgba(247, 210, 125, .12);
+  color: #f7d27d;
+  font-family: var(--app-font-mono, 'Space Mono', monospace);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background .25s ease, border-color .25s ease, transform .25s ease;
+  animation: ci-full-view-breathe 2.8s ease-in-out infinite;
+}
+
+.ci-full-view:hover {
+  background: rgba(247, 210, 125, .22);
+  border-color: #f7d27d;
+  transform: translateY(-1px);
+}
+
+.ci-full-view:focus-visible { outline: 2px solid #f7d27d; outline-offset: 3px; }
+
+.ci-full-view-label,
+.ci-full-view-arrow { position: relative; z-index: 1; }
+
+.ci-full-view-arrow { transition: transform .25s ease; }
+.ci-full-view:hover .ci-full-view-arrow { transform: translate(2px, -2px); }
+
+.ci-full-view-glow {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 20%, rgba(255, 244, 214, .45) 50%, transparent 80%);
+  transform: translateX(-120%);
+  animation: ci-full-view-sweep 3.4s ease-in-out infinite;
+}
+
+@keyframes ci-full-view-sweep {
+  0%, 55% { transform: translateX(-120%); }
+  85%, 100% { transform: translateX(120%); }
+}
+
+@keyframes ci-full-view-breathe {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(247, 210, 125, 0); }
+  50% { box-shadow: 0 0 0 6px rgba(247, 210, 125, .1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ci-full-view, .ci-full-view-glow { animation: none; }
+}
+
+/* On a design's own page the button sits under the phone, in the same green
+   panel, centred. */
+.ci-preview .ci-full-view { display: flex; width: max-content; margin: 16px auto 2px; }

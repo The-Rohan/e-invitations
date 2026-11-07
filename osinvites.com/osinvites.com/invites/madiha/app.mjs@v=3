@@ -1,0 +1,132 @@
+import { initInvitationReveal, countdownParts } from './assets/reveal.mjs';
+import { initScratchReveal } from './assets/scratch-reveal.mjs?v=3';
+
+const documentRoot = document;
+const disposers = [];
+
+disposers.push(initInvitationReveal(documentRoot));
+disposers.push(initScratchReveal(documentRoot, {
+  overlayColor: '#b99950',
+  labelColor: '#fffaf0',
+  label: 'Scratch to reveal',
+  particleCount: 28,
+  threshold: 0.38
+}));
+
+const music = document.querySelector('#invite-music');
+const musicToggle = document.querySelector('[data-music-toggle]');
+const musicLabel = document.querySelector('[data-music-label]');
+
+function setMusicState(isPlaying) {
+  if (!musicToggle || !musicLabel) return;
+  musicToggle.setAttribute('aria-pressed', String(isPlaying));
+  musicToggle.setAttribute('aria-label', isPlaying ? 'Turn music off' : 'Turn music on');
+  musicLabel.textContent = isPlaying ? 'Music On' : 'Music Off';
+}
+
+async function toggleMusic() {
+  if (!music || !musicToggle) return;
+  if (!music.paused) {
+    music.pause();
+    setMusicState(false);
+    return;
+  }
+  try {
+    await music.play();
+    setMusicState(true);
+  } catch {
+    setMusicState(false);
+  }
+}
+
+musicToggle?.addEventListener('click', toggleMusic);
+music?.addEventListener('pause', () => setMusicState(false));
+music?.addEventListener('play', () => setMusicState(true));
+
+const openInvitationButton = document.querySelector('[data-open-invite]');
+openInvitationButton?.addEventListener('click', () => {
+  window.setTimeout(() => window.dispatchEvent(new Event('resize')), 1400);
+}, { once: true });
+window.addEventListener('load', () => window.dispatchEvent(new Event('resize')), { once: true });
+
+const countdownTarget = '2026-12-05T21:30:00+05:00';
+const countdown = document.querySelector('[data-countdown]');
+const message = document.querySelector('[data-countdown-message]');
+
+function renderCountdown() {
+  const parts = countdownParts(countdownTarget);
+  if (!parts || !countdown) {
+    if (message) message.textContent = 'Wedding date: 5 December 2026 at 9:30 PM.';
+    return false;
+  }
+  const fields = [
+    ['[data-days]', parts.days],
+    ['[data-hours]', parts.hours],
+    ['[data-minutes]', parts.minutes],
+    ['[data-seconds]', parts.seconds]
+  ];
+  fields.forEach(([selector, value]) => {
+    const node = countdown.querySelector(selector);
+    if (node) node.textContent = String(value).padStart(2, '0');
+  });
+  if (message) message.textContent = parts.expired ? 'The celebration day has arrived.' : '';
+  return !parts.expired;
+}
+
+let countdownTimer;
+if (renderCountdown()) countdownTimer = window.setInterval(() => {
+  if (!renderCountdown()) window.clearInterval(countdownTimer);
+}, 1000);
+
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+const leavesLayer = document.querySelector('.floating-leaves');
+
+function createLeaves() {
+  if (!leavesLayer || reducedMotion.matches || leavesLayer.children.length) return;
+  const count = window.innerWidth < 700 ? 7 : 10;
+  for (let index = 0; index < count; index += 1) {
+    const leaf = document.createElement('img');
+    leaf.className = 'falling-leaf';
+    leaf.src = 'assets/leaf.png';
+    leaf.alt = '';
+    leaf.style.left = `${4 + (index * 89 / count)}%`;
+    leaf.style.setProperty('--duration', `${19 + (index % 5) * 2.6}s`);
+    leaf.style.setProperty('--delay', `${-1 * (index * 3.35)}s`);
+    leaf.style.setProperty('--drift', `${index % 2 ? 58 : -54}px`);
+    leaf.style.setProperty('--start-rotate', `${(index * 41) % 180}deg`);
+    leavesLayer.append(leaf);
+  }
+}
+
+function clearLeaves() { if (leavesLayer) leavesLayer.replaceChildren(); }
+createLeaves();
+reducedMotion.addEventListener?.('change', () => reducedMotion.matches ? clearLeaves() : createLeaves());
+
+const revealTargets = document.querySelectorAll('[data-scroll-reveal]');
+if ('IntersectionObserver' in window && !reducedMotion.matches) {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('is-visible');
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: 0.14, rootMargin: '0px 0px -5% 0px' });
+  revealTargets.forEach((target) => observer.observe(target));
+  disposers.push(() => observer.disconnect());
+} else {
+  revealTargets.forEach((target) => target.classList.add('is-visible'));
+}
+
+document.addEventListener('visibilitychange', () => {
+  if (!leavesLayer) return;
+  leavesLayer.style.animationPlayState = document.hidden ? 'paused' : 'running';
+  leavesLayer.querySelectorAll('.falling-leaf').forEach((leaf) => {
+    leaf.style.animationPlayState = document.hidden ? 'paused' : 'running';
+  });
+});
+
+window.addEventListener('pagehide', () => {
+  window.clearInterval(countdownTimer);
+  music?.pause();
+  disposers.splice(0).forEach((dispose) => dispose());
+}, { once: true });

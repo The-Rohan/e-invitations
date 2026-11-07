@@ -1,0 +1,19 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//DawatLink//Invitation//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:mehndi-demo-3@dawatlink.com
+DTSTAMP:20261028T130445Z
+DTSTART:20261129T080000Z
+DTEND:20261129T110000Z
+SUMMARY:Walima — Usman & Mahnoor
+LOCATION:Gulberg Grand Hall\, Main Boulevard\, Gulberg III\, Lahore
+DESCRIPTION:Dress code: yellow & green\n\nhttps://dawatlink.com/dawat/mehn
+ di-demo/
+URL:https://dawatlink.com/dawat/mehndi-demo/
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,47 @@
+/* Theme: Noir – black, gold foil, cinematic */
+:root {
+  --primary: #e9c874; --accent: #c9a227; --bg: #111111; --card: #171717; --ink: #f2ecdf; --muted: #a39b8b; --line: rgba(233,200,116,.18);
+  --backdrop: radial-gradient(ellipse at 50% 0%, #2a2410, #050505 70%);
+  --env: #1c1c1c; --env-dark: #0d0d0d; --door: #151515; --curtain: #1a1a1a;
+  --font-display: 'Cormorant Garamond', Georgia, serif; --font-script: 'Great Vibes', cursive;
+  --ornament: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 34' fill='none' stroke='%23c9a227' stroke-width='1'%3E%3Cpath d='M0 17h60M100 17h60'/%3E%3Cpath d='M80 5l3 9 9 3-9 3-3 9-3-9-9-3 9-3z' fill='%23c9a227'/%3E%3Ccircle cx='66' cy='17' r='1.5' fill='%23c9a227'/%3E%3Ccircle cx='94' cy='17' r='1.5' fill='%23c9a227'/%3E%3C/svg%3E");
+}
+body { color: var(--ink); }
+.card { box-shadow: 0 40px 90px -30px #000, inset 0 0 0 1px rgba(233,200,116,.25); }
+.hero { background: radial-gradient(ellipse at 50% 20%, #2a2410, #171717 60%); }
+.hero::before, .hero::after { content: ''; position: absolute; top: 60px; width: 90px; height: 90px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 90 90' fill='none' stroke='%23c9a227' stroke-width='1'%3E%3Cpath d='M4 4h44M4 4v44'/%3E%3Cpath d='M12 12h28M12 12v28M20 20h12M20 20v12'/%3E%3Ccircle cx='4' cy='4' r='2.5' fill='%23c9a227'/%3E%3C/svg%3E") center/contain no-repeat; }
+.hero::before { left: 22px; } .hero::after { right: 22px; }
+.eyebrow { color: var(--muted); letter-spacing: .3em; text-transform: uppercase; font-style: normal; font-size: .7rem; font-family: var(--font-body); }
+.name { color: var(--primary); text-shadow: 0 0 40px rgba(201,162,39,.35); font-family: var(--font-display); font-weight: 400; font-size: clamp(2.8rem, 11vw, 4.4rem); letter-spacing: .04em; text-transform: uppercase; }
+.name [lang="ur"] { text-transform: none; }
+.amp { color: var(--accent); }
+.date { color: var(--ink); letter-spacing: .25em; text-transform: uppercase; font-size: .95rem; }
+.monogram { border-color: var(--accent); color: var(--primary); }
+.countdown > div { background: rgba(255,255,255,.04); border-color: var(--line); }
+.countdown small { color: var(--muted); }
+.invite-text { background: var(--bg); }
+.frame { border-color: var(--accent); background: linear-gradient(180deg, rgba(233,200,116,.06), transparent); }
+.frame::before { border-color: rgba(233,200,116,.25); }
+.bismillah, .fam-amp { color: var(--accent); }
+.events, .gallery, .travel { background: #121212; }
+.event, .info-card, .shagun-item, .gfaq-list details, .voice-card { background: #1c1c1c; border-color: var(--line); box-shadow: none; }
+.ev-icon { background-color: #2a2410; box-shadow: 0 0 0 4px var(--card), 0 0 0 5px var(--accent); }
+.ev-date { color: var(--ink); } .ev-dress .bi { color: var(--primary); }
+.btn { border-color: var(--accent); color: var(--primary); }
+.btn.primary { background: linear-gradient(135deg, #e9c874, #b8902a); color: #111; border-color: transparent; }
+.form input:not([type=radio]):not([type=checkbox]), .form select, .form textarea { background: #101010; color: var(--ink); border-color: var(--line); }
+.seg label > span { border-color: var(--line); }
+.seg input:checked + span { background: var(--accent); color: #111; }
+.chk { border-color: var(--line); } .chk label { color: var(--ink); }
+.timeline p, .info-card p, .gfaq-list details p { color: var(--muted); }
+.wish { background: #1c1c1c; } .wish b { color: var(--primary); }
+.closing { background: radial-gradient(ellipse at 50% 100%, #2a2410, #171717 60%); }
+.made-by a { color: var(--accent); }
+.ent-names { color: var(--primary); text-transform: uppercase; font-family: var(--font-display); letter-spacing: .08em; }
+.seal { background: radial-gradient(circle at 35% 30%, #e9c874, #8a6412 70%); color: #2a2410; }
+.env-card { color: #111; background: #f2ecdf; }
+.diya-bowl { background: linear-gradient(#e9c874, #6d5210); }
+.door .panel { border-color: var(--accent); }
+.scratch-under { background: #f2ecdf; color: #111; }
+.actionbar { background: rgba(0,0,0,.92); box-shadow: 0 0 0 1px var(--line), 0 16px 40px -14px #000; }

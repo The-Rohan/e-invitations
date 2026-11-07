@@ -1,0 +1,103 @@
+﻿/* Theme: Madina Journey – Spiritual Nikah serenity: pearl white, celestial gold arches & emerald glow */
+:root {
+  --primary: #0f4c3a;
+  --accent: #c5a059;
+  --bg: #091a14;
+  --card: #ffffff;
+  --ink: #16261f;
+  --muted: #5e796e;
+  --line: rgba(197,160,89,.26);
+  --backdrop: radial-gradient(circle at 50% 20%, #134233, #05150f 85%);
+  --env: #0f4c3a;
+  --env-dark: #082b20;
+  --door: #07221a;
+  --curtain: #0f4c3a;
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-script: 'Great Vibes', cursive;
+  --ornament: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 38' fill='none' stroke='%23c5a059' stroke-width='1.2' stroke-linecap='round'%3E%3Cpath d='M2 19h45M113 19h45'/%3E%3Cpath d='M80 6c-8 0-14 6-14 13 0 7 6 13 14 13 4 0 7-1 10-4-3 1-7 0-9-3-3-3-3-7 0-10 2-2 5-3 9-3-3-4-6-6-10-6z' fill='%23c5a059' fill-opacity='.2' stroke='%23c5a059'/%3E%3Cpath d='M88 12l1 2 2 1-2 1-1 2-1-2-2-1 2-1z' fill='%23c5a059' stroke='none'/%3E%3Ccircle cx='54' cy='19' r='2' fill='%230f4c3a'/%3E%3Ccircle cx='106' cy='19' r='2' fill='%230f4c3a'/%3E%3C/svg%3E");
+}
+
+body { color: var(--ink); }
+.card {
+  box-shadow: 0 40px 90px -30px rgba(0,0,0,.65), 0 0 0 1px rgba(197,160,89,.3);
+}
+
+.hero {
+  background-color: var(--card);
+  background-image:
+    radial-gradient(circle at 50% 0%, rgba(197,160,89,.15) 0%, transparent 68%),
+    radial-gradient(circle at 50% 100%, rgba(15,76,58,.05) 0%, transparent 60%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48' fill='none' stroke='%23c5a059' stroke-opacity='.12' stroke-width='1'%3E%3Cpath d='M24 4l5 15 15 5-15 5-5 15-5-15-15-5 15-5z'/%3E%3Ccircle cx='24' cy='24' r='2' fill='%230f4c3a' fill-opacity='.15'/%3E%3C/svg%3E");
+}
+
+.hero::before, .hero::after {
+  content: ''; position: absolute; top: 48px; width: 92px; height: 92px; opacity: .88;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 92 92' fill='none' stroke='%23c5a059' stroke-width='1.3' stroke-linecap='round'%3E%3Cpath d='M4 4h42M4 4v42'/%3E%3Cpath d='M10 10q32 0 32 32M10 10q0 32 32 32' stroke='%230f4c3a' stroke-opacity='.45'/%3E%3Ccircle cx='12' cy='12' r='3.5' fill='%23c5a059'/%3E%3Ccircle cx='26' cy='26' r='2.5' fill='%230f4c3a'/%3E%3Cpath d='M18 6l2 5 5 2-5 2-2 5-2-5-5-2 5-2z' fill='%23c5a059' stroke='none'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+.hero::before { left: 15px; }
+.hero::after { right: 15px; transform: scaleX(-1); }
+
+.name {
+  color: var(--primary);
+  text-shadow: 0 2px 4px rgba(15,76,58,.15);
+}
+.amp { color: var(--accent); }
+
+.monogram {
+  border-color: #c5a059;
+  color: var(--primary);
+  background: linear-gradient(135deg, #ffffff, #f7f3e8);
+  box-shadow: 0 5px 16px rgba(197,160,89,.22);
+}
+
+.frame {
+  border: 2px solid #c5a059;
+  background: #ffffff;
+  border-radius: 28px 8px 28px 8px;
+  box-shadow: 0 12px 32px -10px rgba(15,76,58,.1);
+}
+.frame::before {
+  inset: 6px;
+  border: 1px solid var(--line);
+  border-radius: 22px 4px 22px 4px;
+}
+
+.bismillah { color: var(--primary); font-size: 1.35rem; }
+
+.event {
+  border-radius: 20px 6px 20px 6px;
+  border-color: rgba(197,160,89,.28);
+  background: #ffffff;
+  box-shadow: 0 5px 18px -6px rgba(15,76,58,.08);
+}
+.ev-icon {
+  background: linear-gradient(135deg, #0f4c3a, #082b20);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(15,76,58,.3), 0 0 0 2px var(--card), 0 0 0 4px #c5a059;
+}
+
+.countdown > div {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  box-shadow: 0 5px 14px -3px rgba(197,160,89,.18);
+}
+.countdown b { color: var(--primary); }
+
+.btn { border-color: #c5a059; color: var(--primary); }
+.btn.primary {
+  background: linear-gradient(135deg, #0f4c3a, #082b20);
+  color: #ffffff;
+  border-color: #c5a059;
+  box-shadow: 0 6px 20px -6px rgba(15,76,58,.4);
+}
+.btn.primary:hover {
+  box-shadow: 0 8px 24px -6px rgba(15,76,58,.55);
+}
+
+.seal {
+  background: radial-gradient(circle at 35% 30%, #e0c27b, #94742e 75%);
+  color: #fffef5;
+  box-shadow: 0 10px 22px -5px rgba(148,116,46,.6);
+}
+
+.ent-names { color: #f2ede1; text-shadow: 0 4px 20px rgba(0,0,0,.6); }

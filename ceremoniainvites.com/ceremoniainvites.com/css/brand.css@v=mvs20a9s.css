@@ -1,0 +1,141 @@
+/* ==========================================================================
+   Ceremonia Invites — the loading mark, and the small interactions that go
+   with it. Loaded on every page, storefront and panel alike, so a wait looks
+   the same wherever it happens.
+   ========================================================================== */
+
+/* --------------------------------------------------------------- the mark */
+/*
+  The CI monogram drawing itself on, in the manner of the Threads mark: each
+  stroke runs on, the pair holds a beat, then they fade and it repeats.
+
+  Drawn as vector rather than animating the logo file. The artwork is a raster
+  with a cream ground, which is invisible against a cream page and cannot be
+  stroke-animated at all. The letterforms here are a close high-contrast serif,
+  not the logo's own face — see views/partials/ci-mark.ejs.
+*/
+.ci-load {
+  --ci-size: 76px;
+  --ci-speed: 2s;
+  position: relative;
+  width: var(--ci-size);
+  height: var(--ci-size);
+  flex: none;
+  display: grid;
+  place-items: center;
+  color: var(--ci-ring, var(--maroon));
+}
+
+.ci-svg { width: 100%; height: 100%; display: block; overflow: visible; }
+
+/* Each path is dashed to its own length, so the offset animates from "nothing
+   drawn" to "fully drawn" regardless of how long the path actually is. */
+.ci-c { stroke-dasharray: 134; stroke-dashoffset: 134; animation: ci-draw var(--ci-speed) ease-in-out infinite; }
+.ci-i { stroke-dasharray: 60;  stroke-dashoffset: 60;  animation: ci-draw var(--ci-speed) ease-in-out infinite .18s; }
+.ci-s { stroke-dasharray: 44;  stroke-dashoffset: 44;  animation: ci-draw var(--ci-speed) ease-in-out infinite .3s; }
+
+@keyframes ci-draw {
+  0%   { stroke-dashoffset: var(--len, 210); opacity: 0; }
+  12%  { opacity: 1; }
+  45%  { stroke-dashoffset: 0; opacity: 1; }
+  72%  { stroke-dashoffset: 0; opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: 0; }
+}
+.ci-c { --len: 134; }
+.ci-i { --len: 60; }
+.ci-s { --len: 44; }
+
+/* Sizes. */
+.ci-load.is-sm { --ci-size: 38px; }
+.ci-load.is-lg { --ci-size: 104px; }
+
+/* -------------------------------------------------------- page overlay */
+/* Covers the page while something is genuinely in flight. Not shown on first
+   paint — a loader that appears before anything is waiting only makes the page
+   feel slower. */
+.ci-overlay {
+  position: fixed;
+  inset: 0;
+  /* Enough blur that the screen is plainly out of action, not so much that it
+     stops looking like the page you were on. */
+  background: color-mix(in srgb, var(--ci-bg, var(--cream)) 72%, transparent);
+  -webkit-backdrop-filter: blur(7px) saturate(120%);
+  backdrop-filter: blur(7px) saturate(120%);
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 18px;
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .22s ease;
+}
+.ci-overlay.show { opacity: 1; pointer-events: auto; }
+/* The mark is the thing on screen while a save is in flight, so it is drawn
+   at the size that says so. */
+.ci-overlay .ci-load { --ci-size: 132px; color: var(--maroon); }
+/* Nothing behind the curtain is reachable — a save half-applied because
+   somebody kept typing is worse than a moment of waiting. */
+html.is-waiting, html.is-waiting body { overflow: hidden; }
+html.is-waiting body > *:not(.ci-overlay) { pointer-events: none; }
+
+@media (max-width: 620px) {
+  .ci-overlay .ci-load { --ci-size: 96px; }
+}
+.ci-overlay p {
+  font-size: 14px;
+  letter-spacing: .04em;
+  color: var(--ci-ink, var(--ink-soft));
+  margin: 0;
+}
+
+/* ---------------------------------------------------- button in progress */
+/* The label stays put and the mark turns beside it, so the button does not
+   change width and shift everything around it. */
+.is-working { position: relative; pointer-events: none; }
+/* The label, whatever it is wrapped in. ui.js puts a bare text label into a
+   .ci-label so there is always something to fade: a button whose text is a
+   loose text node left the mark turning on top of full-strength type, which
+   read as a glitch rather than as work. */
+.is-working > *,
+.is-working > .ci-label { opacity: .35; }
+.is-working::after {
+  content: "";
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 18px; height: 18px;
+  margin: -9px 0 0 -9px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  opacity: .9;
+  animation: ci-turn .7s linear infinite;
+}
+
+/* --------------------------------------------------------- placeholders */
+/* Sits behind a card preview until its frame has loaded, so the grid does not
+   flash empty boxes. */
+.ci-ph {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: var(--ci-ph-bg, var(--maroon-wash));
+  transition: opacity .4s ease;
+}
+.ci-ph.gone { opacity: 0; pointer-events: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ci-load .ci-mark,
+  .ci-load::before,
+  .is-working::after {
+    animation-duration: 0s;
+    animation-iteration-count: 1;
+  }
+  .ci-load .ci-mark {
+    -webkit-mask-image: none;
+    mask-image: none;
+    opacity: 1;
+  }
+  .ci-overlay, .ci-ph { transition: none; }
+}

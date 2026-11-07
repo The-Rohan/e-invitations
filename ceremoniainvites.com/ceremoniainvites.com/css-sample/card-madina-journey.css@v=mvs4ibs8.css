@@ -1,0 +1,1412 @@
+/* ==========================================================================
+   Madina Journey
+
+   The canopies of the Prophet's Mosque, and Madina behind them.
+
+   Four panels of the courtyard's great parasols, met in the middle of the
+   screen. Touched once, a cross of light appears where they meet; a beat
+   later all four draw back at once -- left and right like shutters, top and
+   bottom like the covers of a book opened flat -- over three unhurried
+   seconds onto the mosque at sunset.
+
+   Everything is measured against --md-u, which is the width of a 390 by 844
+   phone or, on anything wider, the width that height would give: the design
+   was drawn at that size and every number here is read off the drawing in
+   those units. A figure written `calc(113 / 390 * var(--md-u))` is 113 on the
+   drawing, and stays 113 relative to everything else at any size.
+
+   THREE KINDS OF TEXT, AND ONLY THREE
+
+     .md-heading  Tangerine, 700, 40px -- every heading on the card
+     .md-name     Tangerine, 400, 64px in the hero and smaller after it
+     .md-para     Montserrat, 500, 18px -- everything that is read rather
+                  than announced
+
+   A fourth would be a fourth thing to keep in step, so where the drawing
+   wants something else it is one of these three at another size.
+   ========================================================================== */
+
+body.md-body {
+  --md-script: 'Tangerine', 'Snell Roundhand', cursive;
+  --md-body: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+
+  /* The green of the dome, and the cream the pages are printed on. Read off
+     the drawings rather than chosen. */
+  --md-green: #44765c;
+  --md-paper: #fdf9f2;
+  --md-ink: #2c2a27;
+  --md-grey: #8f8d88;
+  --md-white: #ffffff;
+
+  /* The card's own unit -- see the note at the top. */
+  --md-u: min(100vw, calc(100svh * 390 / 844));
+
+  /* Three seconds, slowly, as the design asks. */
+  --md-swing: 3000ms;
+  --md-swing-ease: cubic-bezier(.22, .61, .28, 1);
+
+  /* The four panels, as shares of the card, found by matching each exported
+     picture against the drawing of the closed cover rather than guessed: the
+     top sits at 0,0 and is 780 by 710 of a 780 by 1688 card, the bottom at
+     0,979, the left at 0,374 and the right at 414,374. They overlap at the
+     corners and leave a slot down the middle and across it -- which is the
+     gap the light comes through. */
+  --md-side-w: 47.18%;   /* 368 of 780 */
+  --md-side-t: 22.16%;   /* 374 of 1688 */
+  --md-side-h: 55.81%;   /* 942 of 1688 */
+  --md-right-x: 53.08%;  /* 414 of 780 */
+  --md-cap-h: 42.06%;    /* 710 of 1688 */
+  --md-cap-t: 58%;       /* 979 of 1688 */
+  --md-cap-x: 0%;
+  --md-cap-w: 100%;
+
+  --md-join-x: 50.13%;
+  --md-join-y: 50.03%;
+
+  margin: 0;
+  background: var(--md-paper);
+  color: var(--md-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+html { scroll-snap-type: y proximity; }
+
+/* Nothing scrolls until the canopies are open. */
+/* Nothing scrolls until the canopies are open.
+
+   `overflow: hidden` alone is not enough on a phone, where a touch drag on
+   the document still moves it in some browsers -- so the body is pinned as
+   well, and the card is told not to hand a scroll on to the page behind it. */
+html.md-sealed, html.md-sealed body {
+  overflow: hidden;
+  height: 100%;
+  overscroll-behavior: none;
+}
+
+html.md-sealed body {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  touch-action: none;
+}
+
+.md-card { position: relative; width: 100%; }
+
+/* A column, so the pages can be rearranged: `order` is what moves a page when
+   somebody drags its tile in either editor, and it does nothing at all unless
+   the thing holding the pages is a flex container. This card had the rule on
+   the wrapper and not on the element the pages are actually children of, so
+   every page carried an order nobody was reading and dragging a tile changed
+   nothing on the card. */
+.md-main {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------------------------------------------------------------- a page */
+
+.md-sec {
+  position: relative;
+  width: 100%;
+  min-height: 100svh;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  scroll-snap-align: start;
+  overflow: hidden;
+  background: var(--md-paper);
+}
+
+.md-col {
+  position: relative;
+  z-index: 2;
+  width: min(100% - 24px, calc(342 / 390 * var(--md-u)));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* ------------------------------------------------------------ the three */
+
+.md-heading {
+  margin: 0;
+  font-family: var(--md-script);
+  font-weight: 700;
+  font-size: calc(40 / 390 * var(--md-u));
+  line-height: 1.16;
+  color: var(--md-ink);
+}
+
+.md-name {
+  font-family: var(--md-script);
+  font-weight: 400;
+  font-size: calc(64 / 390 * var(--md-u));
+  line-height: 1;
+  color: var(--md-ink);
+}
+
+/* The word between two names -- "&", "weds" -- at the size the design gives
+   it in the hero, and smaller wherever the names themselves are smaller. */
+.md-amp {
+  font-family: var(--md-script);
+  font-weight: 400;
+  font-size: calc(30 / 390 * var(--md-u));
+  line-height: 1;
+  color: var(--md-grey);
+}
+
+.md-para {
+  margin: 0;
+  font-family: var(--md-body);
+  font-weight: 500;
+  font-size: calc(18 / 390 * var(--md-u));
+  line-height: 1.5;
+  color: var(--md-grey);
+  white-space: pre-line;
+}
+
+/* Said out loud and not drawn: the countdown's discs carry no word in the
+   drawing, and four bare numbers are not a countdown to a screen reader. */
+.md-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* The green lozenge this design uses wherever something is announced: the
+   names, the dress code, the reply date, the way to a venue. */
+.md-pill {
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  border: none;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(10 / 390 * var(--md-u));
+  padding: calc(12 / 390 * var(--md-u)) calc(26 / 390 * var(--md-u));
+  border-radius: 999px;
+  background: var(--md-green);
+  font-family: var(--md-script);
+  font-weight: 400;
+  font-size: calc(40 / 390 * var(--md-u));
+  line-height: 1.12;
+  color: var(--md-paper);
+  text-decoration: none;
+}
+
+/* ==========================================================================
+   SECTION 1 — the canopies, and what is behind them
+   ========================================================================== */
+
+/* The sky the canopies are cut against, read off the closed drawing: it is
+   what shows through the slot down the middle before anything is opened. */
+.md-hero { background: #66b5e3; }
+
+/* The mosque at sunset, behind the canopies the whole time. Held back until
+   the page has loaded -- the stylesheet names it behind a class the script
+   adds, so megabytes nobody can see are not fetched alongside the four
+   panels, which are the only thing anybody is looking at. */
+.md-haram {
+  position: absolute;
+  inset: 0;
+  background: #66b5e3 center / cover no-repeat;
+  opacity: 0;
+  transition: opacity 1200ms ease 220ms;
+}
+
+html.md-painted .md-haram {
+  background-image: url('../img-sample/templates/madina-journey/cover/open.png.webp');
+}
+
+.md-hero.is-opening .md-haram { opacity: 1; }
+
+/* The Bismillah written in light across the sky: the drawing has it as a
+   watermark the sunset shows through rather than ink laid on top. */
+.md-hero-mark {
+  position: absolute;
+  left: 50%;
+  top: calc(30 / 844 * 100%);
+  z-index: 1;
+  width: calc(305 / 390 * var(--md-u));
+  height: auto;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 1100ms ease 700ms;
+  pointer-events: none;
+}
+
+.md-hero.is-opening .md-hero-mark { opacity: 1; }
+
+.md-hero-names {
+  position: absolute;
+  left: 0;
+  right: 0;
+  /* Low on the marble, where the drawing has them -- and clear of the cue,
+     which the drawing does not have. */
+  bottom: calc(96 / 844 * 100%);
+  z-index: 2;
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: calc(12 / 390 * var(--md-u));
+  color: var(--md-white);
+  text-shadow: 0 2px 20px rgba(0, 0, 0, .35);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 900ms ease 1200ms, transform 900ms ease 1200ms;
+}
+
+.md-hero-names .md-name,
+.md-hero-names .md-amp { color: var(--md-white); }
+
+.md-hero.is-opening .md-hero-names { opacity: 1; transform: none; }
+
+/* ---- the four canopies ----
+
+   Four photographs of the same courtyard ceiling, each hinged on its own
+   outer edge. The sides swing out like shutters; the top and bottom fall
+   away like the covers of a book opened flat. */
+.md-doors {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  perspective: calc(1400 / 390 * var(--md-u));
+  perspective-origin: 50% 50%;
+}
+
+/* Each panel is placed and sized where the drawing has it, and its picture
+   fills exactly that box -- the pieces are not quadrants of a grid, they are
+   four overlapping cuts out of one photograph. */
+.md-door {
+  position: absolute;
+  background: center / 100% 100% no-repeat;
+  will-change: transform;
+  /* The design asks for no shadow on the closed cover, and there is none:
+     what separates the four is the light between them. */
+}
+
+.md-door-left {
+  left: 0;
+  top: var(--md-side-t);
+  width: var(--md-side-w);
+  height: var(--md-side-h);
+  z-index: 2;
+  transform-origin: left center;
+  background-image: url('../img-sample/templates/madina-journey/cover/left.png.webp');
+}
+
+.md-door-right {
+  left: var(--md-right-x);
+  top: var(--md-side-t);
+  width: calc(100% - var(--md-right-x));
+  height: var(--md-side-h);
+  z-index: 2;
+  transform-origin: right center;
+  background-image: url('../img-sample/templates/madina-journey/cover/right.png.webp');
+}
+
+.md-door-top {
+  left: var(--md-cap-x);
+  top: 0;
+  width: var(--md-cap-w);
+  height: var(--md-cap-h);
+  z-index: 1;
+  transform-origin: center top;
+  background-image: url('../img-sample/templates/madina-journey/cover/top.png.webp');
+}
+
+.md-door-bottom {
+  left: var(--md-cap-x);
+  top: var(--md-cap-t);
+  width: var(--md-cap-w);
+  height: calc(100% - var(--md-cap-t));
+  z-index: 1;
+  transform-origin: center bottom;
+  background-image: url('../img-sample/templates/madina-journey/cover/bottom.png.webp');
+}
+
+/* ---- the light where the four meet ----
+
+   A cross of it, under all four panels and over the courtyard, so what
+   widens is a thread of the evening's own light rather than a white bar
+   drawn on top. */
+.md-seam {
+  position: absolute;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 680ms ease, box-shadow 680ms ease;
+  pointer-events: none;
+}
+
+.md-seam-y {
+  top: 0;
+  bottom: 0;
+  left: var(--md-join-x);
+  width: calc(2px + var(--md-gap, 0) * 7px);
+  transform: translateX(-50%);
+  background:
+    linear-gradient(to right,
+      rgba(255, 252, 240, 0) 0%,
+      rgba(255, 252, 240, .92) 38%,
+      #fffdf6 50%,
+      rgba(255, 252, 240, .92) 62%,
+      rgba(255, 252, 240, 0) 100%);
+  box-shadow: 0 0 calc(14px + var(--md-gap, 0) * 40px) calc(2px + var(--md-gap, 0) * 8px) rgba(255, 248, 226, .6);
+}
+
+.md-seam-x {
+  left: 0;
+  right: 0;
+  top: var(--md-join-y);
+  height: calc(2px + var(--md-gap, 0) * 7px);
+  transform: translateY(-50%);
+  background:
+    linear-gradient(to bottom,
+      rgba(255, 252, 240, 0) 0%,
+      rgba(255, 252, 240, .92) 38%,
+      #fffdf6 50%,
+      rgba(255, 252, 240, .92) 62%,
+      rgba(255, 252, 240, 0) 100%);
+  box-shadow: 0 0 calc(14px + var(--md-gap, 0) * 40px) calc(2px + var(--md-gap, 0) * 8px) rgba(255, 248, 226, .6);
+}
+
+.md-doors.is-ajar .md-seam { opacity: 1; }
+
+/* Each panel draws a hair off the join as the light comes up, so the light
+   has somewhere to come from. Barely anything -- the movement is the point,
+   not the distance. */
+.md-doors.is-ajar .md-door-left { transform: translateX(calc(var(--md-gap, 0) * -4px)); }
+.md-doors.is-ajar .md-door-right { transform: translateX(calc(var(--md-gap, 0) * 4px)); }
+.md-doors.is-ajar .md-door-top { transform: translateY(calc(var(--md-gap, 0) * -4px)); }
+.md-doors.is-ajar .md-door-bottom { transform: translateY(calc(var(--md-gap, 0) * 4px)); }
+
+.md-door { transition: transform 620ms ease; }
+
+/* ---- and then all four together ----
+
+   Not the full quarter turn: a panel hinged on the card's left edge is
+   edge-on at ninety and lies wholly outside the page beyond it, so every
+   degree past about that is turned where nobody can see it. Ninety-six
+   leaves each one clear of the card and spends the whole three seconds on
+   the part that can actually be watched. */
+.md-hero.is-opening .md-door-left {
+  transform: rotateY(96deg);
+  transition: transform var(--md-swing) var(--md-swing-ease);
+}
+
+.md-hero.is-opening .md-door-right {
+  transform: rotateY(-96deg);
+  transition: transform var(--md-swing) var(--md-swing-ease);
+}
+
+.md-hero.is-opening .md-door-top {
+  transform: rotateX(-96deg);
+  transition: transform var(--md-swing) var(--md-swing-ease);
+}
+
+.md-hero.is-opening .md-door-bottom {
+  transform: rotateX(96deg);
+  transition: transform var(--md-swing) var(--md-swing-ease);
+}
+
+.md-hero.is-opening .md-seam {
+  opacity: 0;
+  transition: opacity 700ms ease;
+}
+
+/* What the closed card says. */
+.md-press {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 6;
+  transform: translate(-50%, -50%);
+  padding: calc(11 / 390 * var(--md-u)) calc(34 / 390 * var(--md-u));
+  border: 0;
+  border-radius: 999px;
+  background: rgba(253, 249, 242, .82);
+  -webkit-backdrop-filter: blur(7px);
+  backdrop-filter: blur(7px);
+  font-family: var(--md-body);
+  font-weight: 500;
+  font-size: calc(19 / 390 * var(--md-u));
+  color: #3c3a36;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  animation: md-breathe 2600ms ease-in-out infinite;
+}
+
+.md-press:active { transform: translate(-50%, -50%) scale(.97); }
+.md-press:focus-visible { outline: 2px solid #ffffff; outline-offset: 3px; }
+
+.md-hero.is-opening .md-press {
+  opacity: 0;
+  animation: none;
+  transition: opacity 320ms ease;
+}
+
+@keyframes md-breathe {
+  0%, 100% { opacity: .92; }
+  50%      { opacity: 1; }
+}
+
+/* ==========================================================================
+   SECTION 2 — the letter
+   ========================================================================== */
+
+.md-invite { justify-content: flex-start; }
+
+.md-invite-art {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: #1f4a5c center / cover no-repeat;
+}
+
+html.md-painted .md-invite-art {
+  background-image: url('../img-sample/templates/madina-journey/invite/background.png.webp');
+}
+
+.md-invite .md-col { padding-top: calc(36 / 390 * var(--md-u)); }
+
+.md-bismillah {
+  display: block;
+  width: calc(280 / 390 * var(--md-u));
+  height: auto;
+}
+
+.md-dear {
+  margin-top: calc(36 / 390 * var(--md-u));
+  color: var(--md-white);
+}
+
+.md-invite .md-para {
+  margin-top: calc(20 / 390 * var(--md-u));
+  width: calc(330 / 390 * var(--md-u));
+  color: var(--md-white);
+}
+
+/* The functions this guest is asked to, each in a white lozenge. They wrap,
+   so three read as one line and five as two -- which is what the drawing
+   shows. */
+.md-chips {
+  margin: calc(26 / 390 * var(--md-u)) 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: calc(14 / 390 * var(--md-u)) calc(12 / 390 * var(--md-u));
+}
+
+.md-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: calc(10 / 390 * var(--md-u)) calc(24 / 390 * var(--md-u));
+  border-radius: 999px;
+  background: var(--md-white);
+  font-family: var(--md-body);
+  font-weight: 500;
+  font-size: calc(20 / 390 * var(--md-u));
+  line-height: 1.1;
+  color: var(--md-green);
+}
+
+/* ==========================================================================
+   SECTION 3 — you are joyfully invited
+   ========================================================================== */
+
+.md-welcome-body { gap: 0; }
+
+.md-blessing { width: calc(300 / 390 * var(--md-u)); }
+
+.md-welcome .md-heading { margin-top: calc(24 / 390 * var(--md-u)); }
+
+/* The dome and its minaret, in a white disc. */
+.md-disc {
+  margin-top: calc(34 / 390 * var(--md-u));
+  display: grid;
+  place-items: center;
+  width: calc(108 / 390 * var(--md-u));
+  height: calc(108 / 390 * var(--md-u));
+  border-radius: 50%;
+  background: var(--md-white);
+  overflow: hidden;
+}
+
+.md-disc img { display: block; width: 78%; height: auto; }
+
+/* The two names in the green, on one line with the ampersand between. */
+.md-pair {
+  margin: calc(32 / 390 * var(--md-u)) 0 0;
+  width: 100%;
+  box-sizing: border-box;
+  padding: calc(10 / 390 * var(--md-u)) calc(22 / 390 * var(--md-u));
+  border-radius: 999px;
+  background: var(--md-green);
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: calc(14 / 390 * var(--md-u));
+}
+
+/* A name never breaks in half. Two full names go on one line where they fit
+   and on two where they do not -- what the drawing must not show is "Hafiz /
+   Ahmad", a person's name split down the middle of a lozenge. */
+.md-pair { flex-wrap: wrap; }
+.md-pair .md-name { white-space: nowrap; }
+.md-name-sm { font-size: calc(42 / 390 * var(--md-u)); }
+.md-pair .md-name { color: var(--md-paper); }
+.md-pair .md-amp { color: rgba(253, 249, 242, .62); font-size: calc(24 / 390 * var(--md-u)); }
+
+.md-under { margin-top: calc(30 / 390 * var(--md-u)); }
+
+/* ==========================================================================
+   SECTION 4 — the two of them, and both families
+   ========================================================================== */
+
+.md-people { justify-content: flex-start; background: var(--md-white); }
+.md-people .md-col { padding-top: calc(34 / 390 * var(--md-u)); }
+
+.md-faces {
+  margin-top: calc(26 / 390 * var(--md-u));
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: calc(20 / 390 * var(--md-u));
+  width: 100%;
+}
+
+.md-faces-amp { display: none; }
+
+.md-face {
+  margin: 0;
+  flex: 0 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(14 / 390 * var(--md-u));
+}
+
+/* The portrait sits on a green square set back and down from it, which is
+   the whole of the frame in this design. */
+.md-face-frame {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: calc(152 / 390 * var(--md-u));
+  height: calc(152 / 390 * var(--md-u));
+  border-radius: calc(18 / 390 * var(--md-u));
+  background: var(--md-white);
+  overflow: hidden;
+  box-shadow: calc(-9 / 390 * var(--md-u)) calc(9 / 390 * var(--md-u)) 0 0 var(--md-green);
+}
+
+.md-face-art { display: block; width: 100%; height: 100%; object-fit: cover; }
+.md-face-art:not(.is-photo) {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+  max-width: 84%;
+  max-height: 84%;
+  margin: auto;
+  object-fit: contain;
+}
+
+.md-face-name {
+  font-family: var(--md-script);
+  font-weight: 400;
+  font-size: calc(34 / 390 * var(--md-u));
+  line-height: 1.1;
+  color: var(--md-green);
+}
+
+.md-fam-head { margin-top: calc(38 / 390 * var(--md-u)); }
+
+.md-fams {
+  margin-top: calc(20 / 390 * var(--md-u));
+  display: flex;
+  flex-direction: column;
+  gap: calc(16 / 390 * var(--md-u));
+  width: 100%;
+}
+
+/* A family is one cream card: the picture, the parents beside it, the tab in
+   the corner, and the people to ring across the foot. */
+.md-fam {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: calc(16 / 390 * var(--md-u));
+  padding: calc(16 / 390 * var(--md-u));
+  border-radius: calc(16 / 390 * var(--md-u));
+  background: var(--md-paper);
+  text-align: start;
+  overflow: hidden;
+}
+
+.md-tab {
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin: 0;
+  padding: calc(5 / 390 * var(--md-u)) calc(16 / 390 * var(--md-u));
+  border-bottom-left-radius: calc(16 / 390 * var(--md-u));
+  background: var(--md-green);
+  font-family: var(--md-body);
+  font-weight: 500;
+  font-size: calc(17 / 390 * var(--md-u));
+  color: var(--md-paper);
+}
+
+.md-fam-pic {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: calc(58 / 390 * var(--md-u));
+  height: calc(76 / 390 * var(--md-u));
+  border-radius: calc(6 / 390 * var(--md-u));
+  overflow: hidden;
+  background: #d9d9d9;
+}
+
+.md-fam-art { display: block; width: 100%; height: 100%; object-fit: cover; }
+.md-fam-art:not(.is-photo) {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+  max-width: 86%;
+  max-height: 86%;
+  margin: auto;
+  object-fit: contain;
+}
+
+.md-fam-parents {
+  margin: calc(6 / 390 * var(--md-u)) calc(60 / 390 * var(--md-u)) 0 0;
+  font-family: var(--md-script);
+  font-weight: 400;
+  font-size: calc(34 / 390 * var(--md-u));
+  line-height: 1.1;
+  color: var(--md-green);
+}
+
+/* The people to ring, in a white strip across the whole card. */
+.md-fam-people {
+  grid-column: 1 / -1;
+  margin: calc(4 / 390 * var(--md-u)) 0 0;
+  padding: calc(12 / 390 * var(--md-u)) calc(14 / 390 * var(--md-u));
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: calc(10 / 390 * var(--md-u)) calc(12 / 390 * var(--md-u));
+  border: 1px solid rgba(20, 23, 26, .07);
+  border-radius: calc(12 / 390 * var(--md-u));
+  background: rgba(255, 255, 255, .76);
+}
+
+.md-fam-name,
+.md-fam-call {
+  display: block;
+  font-family: var(--md-body);
+  font-weight: 500;
+  font-size: calc(16 / 390 * var(--md-u));
+  line-height: 1.5;
+  text-decoration: none;
+  color: var(--md-grey);
+}
+
+.md-fam-call { color: #4a4844; }
+.md-fam-call:hover { text-decoration: underline; }
+
+/* ==========================================================================
+   SECTION 5 — the countdown, under four discs to be rubbed away
+   ========================================================================== */
+
+.md-count { justify-content: flex-start; }
+.md-count .md-col { padding-top: calc(228 / 390 * var(--md-u)); }
+
+/* Two lines, as the drawing sets it: the column is wide enough for one, and
+   one line of this runs the whole width of the page. */
+.md-count .md-heading { width: calc(240 / 390 * var(--md-u)); line-height: 1.5; }
+
+/* The two minarets stand at the edges of the page and the birds cross the
+   top of it. Three pictures on the cream rather than one photograph, which
+   is how the drawing is built. */
+.md-minaret {
+  position: absolute;
+  top: calc(160 / 844 * 100%);
+  z-index: 0;
+  width: calc(166 / 390 * var(--md-u));
+  height: auto;
+  opacity: .9;
+  pointer-events: none;
+}
+
+.md-minaret-left { left: calc(-6 / 390 * var(--md-u)); }
+.md-minaret-right { right: calc(-6 / 390 * var(--md-u)); }
+
+.md-birds {
+  position: absolute;
+  left: 50%;
+  top: calc(10 / 844 * 100%);
+  z-index: 0;
+  width: calc(340 / 390 * var(--md-u));
+  height: auto;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.md-clock {
+  margin-top: calc(44 / 390 * var(--md-u));
+  display: grid;
+  grid-template-columns: repeat(2, calc(100 / 390 * var(--md-u)));
+  justify-content: center;
+  gap: calc(22 / 390 * var(--md-u)) calc(32 / 390 * var(--md-u));
+}
+
+.md-tick { display: flex; flex-direction: column; align-items: center; }
+
+/* A disc, in the green, with the number inside it. */
+.md-tick-card {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: calc(100 / 390 * var(--md-u));
+  height: calc(100 / 390 * var(--md-u));
+  border-radius: 50%;
+  background: var(--md-green);
+  overflow: hidden;
+}
+
+.md-tick-n {
+  font-family: var(--md-script);
+  font-weight: 400;
+  font-size: calc(46 / 390 * var(--md-u));
+  line-height: 1;
+  color: var(--md-paper);
+  font-variant-numeric: tabular-nums;
+}
+
+/* The covering, painted by script so a browser with none shows the clock
+   rather than four blank discs. Cut to the disc. */
+.md-rub {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  cursor: pointer;
+  touch-action: none;
+  transition: opacity 500ms ease;
+}
+
+.md-clock.is-rubbed .md-rub { opacity: 0; pointer-events: none; }
+
+/* What a scratched disc looks like. The folder has the covered state only,
+   so this is the pair to it: the same green with a thin cream ring round the
+   edge and the number brought up, which is how this design marks a thing
+   that has been opened. */
+.md-tick-card {
+  box-shadow: inset 0 0 0 0 rgba(253, 249, 242, 0);
+  transition: box-shadow 620ms ease 260ms;
+}
+
+.md-clock.is-rubbed .md-tick-card {
+  box-shadow: inset 0 0 0 calc(3 / 390 * var(--md-u)) rgba(253, 249, 242, .55);
+}
+
+.md-tick-n { opacity: .001; transition: opacity 520ms ease 300ms; }
+.md-clock.is-rubbed .md-tick-n { opacity: 1; }
+
+.md-count-note {
+  margin-top: calc(40 / 390 * var(--md-u));
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  font-style: italic;
+  color: #6f6d68;
+}
+
+/* ==========================================================================
+   SECTION 6 — the walk to Quba
+   ========================================================================== */
+
+.md-peace-art {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--md-paper) center / cover no-repeat;
+}
+
+.md-peace.is-near .md-peace-art {
+  background-image: url('../img-sample/templates/madina-journey/passage/background.png.webp');
+}
+
+/* ==========================================================================
+   SECTION 7 — the functions
+   ========================================================================== */
+
+.md-events {
+  background: var(--md-green);
+  justify-content: flex-start;
+  scroll-snap-align: none;
+  padding: calc(26 / 390 * var(--md-u)) calc(16 / 390 * var(--md-u)) calc(30 / 390 * var(--md-u));
+}
+
+.md-events-head { color: var(--md-paper); }
+
+.md-ev-grid {
+  margin-top: calc(22 / 390 * var(--md-u));
+  display: flex;
+  flex-direction: column;
+  gap: calc(22 / 390 * var(--md-u));
+  width: 100%;
+  max-width: calc(358 / 390 * var(--md-u));
+}
+
+/* A card: the drawing on white at the top, the details on cream underneath,
+   and the way there across the foot in the green again. */
+.md-ev {
+  display: flex;
+  flex-direction: column;
+  border-radius: calc(20 / 390 * var(--md-u));
+  background: var(--md-paper);
+  overflow: hidden;
+}
+
+/* The drawing sits in a white band at the top of the card, and is placed
+   inside it rather than sized in percentages of it: a percentage height on a
+   grid item whose row is sized by its own content has nothing to resolve
+   against, so the browser falls back to the picture's natural size -- which
+   is how a henna hand came to stand three hundred pixels tall across the
+   date and the venue underneath it. */
+.md-ev-art {
+  position: relative;
+  display: block;
+  height: calc(126 / 390 * var(--md-u));
+  background: var(--md-white);
+  overflow: hidden;
+}
+
+.md-ev-img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 74%;
+  max-height: 84%;
+  margin: auto;
+  object-fit: contain;
+}
+
+.md-ev-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(3 / 390 * var(--md-u));
+  padding: calc(12 / 390 * var(--md-u)) calc(14 / 390 * var(--md-u)) calc(14 / 390 * var(--md-u));
+  text-align: center;
+}
+
+.md-ev-name { font-size: calc(34 / 390 * var(--md-u)); color: var(--md-green); }
+.md-ev-line { font-size: calc(15 / 390 * var(--md-u)); line-height: 1.5; font-style: italic; }
+
+.md-ev-btns {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: calc(8 / 390 * var(--md-u));
+  margin-top: calc(10 / 390 * var(--md-u));
+}
+
+.md-ev-map {
+  margin: 0;
+  padding: calc(11 / 390 * var(--md-u)) calc(18 / 390 * var(--md-u));
+  border-radius: calc(14 / 390 * var(--md-u));
+  font-family: var(--md-body);
+  font-weight: 700;
+  font-size: calc(16 / 390 * var(--md-u));
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   SECTION 8 — what to wear
+   ========================================================================== */
+
+.md-dress-art {
+  display: block;
+  width: calc(310 / 390 * var(--md-u));
+  height: auto;
+  margin-top: calc(40 / 390 * var(--md-u));
+}
+
+.md-dress-intro { margin-top: calc(34 / 390 * var(--md-u)); width: calc(320 / 390 * var(--md-u)); }
+
+.md-dress-code {
+  margin-top: calc(26 / 390 * var(--md-u));
+  width: calc(336 / 390 * var(--md-u));
+  padding-top: calc(14 / 390 * var(--md-u));
+  padding-bottom: calc(14 / 390 * var(--md-u));
+}
+
+.md-dress-aside { margin-top: calc(24 / 390 * var(--md-u)); }
+
+/* ==========================================================================
+   SECTION 9 — the photographs
+   ========================================================================== */
+
+.md-gallery { justify-content: flex-start; }
+.md-gallery .md-col { padding-top: calc(36 / 390 * var(--md-u)); }
+
+/* The vine the drawing climbs up the middle of the page, behind the
+   photographs. */
+.md-vine {
+  position: absolute;
+  left: 50%;
+  top: calc(120 / 844 * 100%);
+  z-index: 0;
+  width: calc(182 / 390 * var(--md-u));
+  height: auto;
+  transform: translateX(-42%);
+  pointer-events: none;
+}
+
+/* Two columns that step past each other, which is what the drawing does:
+   the left column sits high and the right one drops half a picture. */
+.md-shots {
+  margin-top: calc(30 / 390 * var(--md-u));
+  display: grid;
+  grid-template-columns: repeat(2, calc(150 / 390 * var(--md-u)));
+  justify-content: center;
+  gap: calc(16 / 390 * var(--md-u));
+}
+
+.md-shots .md-shot:nth-child(even) { margin-top: calc(56 / 390 * var(--md-u)); }
+.md-shots .md-shot:nth-child(even) ~ .md-shot:nth-child(odd) { margin-top: calc(-56 / 390 * var(--md-u)); }
+
+.md-shot {
+  position: relative;
+  z-index: 1;
+  display: block;
+  aspect-ratio: 1;
+  border-radius: calc(16 / 390 * var(--md-u));
+  overflow: hidden;
+  background: #d9dcdf;
+  box-shadow: 0 6px 18px rgba(40, 44, 40, .12);
+}
+
+.md-shot img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* ==========================================================================
+   SECTION 10 — the reply
+   ========================================================================== */
+
+.md-rsvp { justify-content: flex-start; background: var(--md-white); }
+.md-rsvp .md-col { padding-top: calc(56 / 390 * var(--md-u)); }
+
+.md-rsvp-prompt { margin-top: calc(22 / 390 * var(--md-u)); width: calc(300 / 390 * var(--md-u)); }
+
+/* The minaret, standing in the middle of the page under the words.
+
+   Sized by its height rather than its width, because the height is what the
+   drawing actually fixes: the whole minaret from 282 down to 645 of an 844
+   page. The picture's own proportions then decide how wide it is, so it
+   cannot be squeezed or cut by a width guessed off the shaft. */
+.md-tower {
+  position: absolute;
+  left: 50%;
+  top: calc(282 / 844 * 100%);
+  z-index: 0;
+  width: auto;
+  height: calc(363 / 844 * 100%);
+  /* Its own proportions, said out loud, so the page does not reflow the
+     moment the picture arrives. */
+  aspect-ratio: 636 / 1140;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+/* And the lozenge laid across the foot of it, where the drawing has it. */
+.md-rsvp-by {
+  position: absolute;
+  left: 50%;
+  top: calc(627 / 844 * 100%);
+  bottom: auto;
+  z-index: 2;
+  margin: 0;
+  width: calc(247 / 390 * var(--md-u));
+  box-sizing: border-box;
+  flex-direction: column;
+  gap: 0;
+  padding-top: calc(10 / 390 * var(--md-u));
+  padding-bottom: calc(12 / 390 * var(--md-u));
+  /* Two lines in a lozenge 247 wide, as the drawing has it: the dash stays
+     with "Kindly Reply by" and the date has the second line to itself. */
+  font-size: calc(28 / 390 * var(--md-u));
+  line-height: 1.2;
+  transform: translateX(-50%);
+}
+
+/* ==========================================================================
+   SECTION 11 — the questions
+   ========================================================================== */
+
+.md-faqs { justify-content: center; }
+
+.md-qs {
+  margin-top: calc(30 / 390 * var(--md-u));
+  display: flex;
+  flex-direction: column;
+  gap: calc(16 / 390 * var(--md-u));
+  width: 100%;
+}
+
+.md-q {
+  padding: calc(18 / 390 * var(--md-u)) calc(16 / 390 * var(--md-u));
+  border: 1px solid rgba(20, 23, 26, .08);
+  border-radius: calc(16 / 390 * var(--md-u));
+  background: var(--md-white);
+}
+
+.md-q-head {
+  margin: 0;
+  font-family: var(--md-body);
+  font-weight: 700;
+  font-size: calc(22 / 390 * var(--md-u));
+  line-height: 1.2;
+  color: #101010;
+}
+
+.md-q .md-para { margin-top: calc(10 / 390 * var(--md-u)); font-style: italic; }
+
+/* ==========================================================================
+   SECTION 12 — the farewell
+   ========================================================================== */
+
+.md-closing { justify-content: flex-start; }
+.md-closing .md-col { padding-top: calc(30 / 390 * var(--md-u)); }
+
+.md-closing-art {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: #3f6f8e center / cover no-repeat;
+}
+
+.md-closing.is-near .md-closing-art {
+  background-image: url('../img-sample/templates/madina-journey/closing/background.png.webp');
+}
+
+.md-closing .md-bismillah { width: calc(230 / 390 * var(--md-u)); }
+
+.md-close-date {
+  margin-top: calc(34 / 390 * var(--md-u));
+  font-style: italic;
+  color: var(--md-white);
+}
+
+.md-close-names {
+  margin: calc(14 / 390 * var(--md-u)) 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(2 / 390 * var(--md-u));
+}
+
+.md-name-md { font-size: calc(56 / 390 * var(--md-u)); color: var(--md-white); }
+.md-close-amp { color: rgba(255, 255, 255, .8); font-size: calc(26 / 390 * var(--md-u)); }
+
+/* Ours, in a band of its own across the foot of the page. */
+.md-credit {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(10 / 390 * var(--md-u));
+  padding: calc(9 / 390 * var(--md-u)) calc(16 / 390 * var(--md-u));
+  background: var(--md-paper);
+  font-family: var(--md-body);
+  font-weight: 700;
+  font-size: calc(19 / 390 * var(--md-u));
+  color: #7b2338;
+  text-decoration: none;
+}
+
+/* ==========================================================================
+   The floating buttons, and the cue
+   ========================================================================== */
+
+body.md-body .ci-song,
+body.md-body .ci-lang {
+  border: 1px solid rgba(255, 255, 255, .55);
+  background: rgba(46, 60, 52, .38);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: #ffffff;
+}
+
+body.md-body .ci-lang-menu {
+  border: 1px solid rgba(255, 255, 255, .3);
+  background: rgba(34, 46, 39, .92);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  color: #ffffff;
+}
+
+body.md-body .ci-lang-menu button { color: #ffffff; text-align: start; }
+body.md-body .ci-lang-menu button:hover { background: rgba(255, 255, 255, .14); }
+
+.md-scroll {
+  position: fixed;
+  left: 50%;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 18px);
+  z-index: 30;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 18px;
+  border: 1px solid rgba(255, 255, 255, .5);
+  border-radius: 999px;
+  background: rgba(46, 60, 52, .42);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  font-family: var(--md-body);
+  font-weight: 500;
+  font-size: calc(15 / 390 * var(--md-u));
+  color: #ffffff;
+  transform: translateX(-50%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 700ms ease 900ms;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html.md-open .md-scroll { opacity: .82; pointer-events: auto; }
+.md-scroll:active { transform: translateX(-50%) scale(.96); }
+.md-scroll:focus-visible { outline: 2px solid #ffffff; outline-offset: 3px; }
+
+html.md-end .md-scroll { opacity: 0; pointer-events: none; transition: opacity 400ms ease; }
+
+.md-scroll svg { animation: md-nudge 2200ms ease-in-out infinite; }
+
+@keyframes md-nudge {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(3px); }
+}
+
+/* The cue is fixed, so it sits over the foot of whichever page is being
+   read. Nothing should have to be read out from under it. */
+.md-sec { padding-bottom: calc(76 / 390 * var(--md-u)); }
+
+/* =========================================================== held back
+
+   None of the photographs shows before it is needed, and named in the
+   stylesheet outright they are fetched the moment it is read.
+   ========================================================================= */
+html:not(.md-painted) .md-haram,
+html:not(.md-painted) .md-invite-art { background-image: none; }
+
+/* ==================================================== and on a wide screen
+
+   The canopies are the four wide photographs, the mosque is the one the
+   phone's was cut from, and the column stays the column.
+   ========================================================================= */
+@media (min-width: 900px) {
+  :root { --md-u: 390px; }
+
+  /* The wide four, matched the same way against the wide drawing: the sides
+     are 697 of 1440 and run the full height, and the caps are 925 wide by 268
+     and sit centred. Both joins land on the middle here. */
+  body.md-body {
+    --md-side-w: 48.403%;
+    --md-side-t: 0%;
+    --md-side-h: 100%;
+    --md-right-x: 51.597%;
+    --md-cap-h: 33.5%;
+    --md-cap-t: 66.5%;
+    --md-cap-x: 17.917%;
+    --md-cap-w: 64.236%;
+    --md-join-x: 50%;
+    --md-join-y: 50%;
+  }
+
+  .md-door-left { background-image: url('../img-sample/templates/madina-journey/cover/left-web.png.webp'); }
+  .md-door-right { background-image: url('../img-sample/templates/madina-journey/cover/right-web.png.webp'); }
+  .md-door-top { background-image: url('../img-sample/templates/madina-journey/cover/top-web.png.webp'); }
+  .md-door-bottom { background-image: url('../img-sample/templates/madina-journey/cover/bottom-web.png.webp'); }
+
+  html.md-painted .md-haram {
+    background-image: url('../img-sample/templates/madina-journey/cover/open-web.png.webp');
+  }
+
+  html.md-painted .md-invite-art {
+    background-image: url('../img-sample/templates/madina-journey/invite/background-web.png.webp');
+  }
+
+  .md-peace.is-near .md-peace-art {
+    background-image: url('../img-sample/templates/madina-journey/passage/background-web.png.webp');
+  }
+
+  .md-closing.is-near .md-closing-art {
+    background-image: url('../img-sample/templates/madina-journey/closing/background-web.png.webp');
+  }
+
+  .md-col { width: 560px; }
+  .md-hero-mark { width: 560px; }
+  .md-hero-names { bottom: 84px; }
+
+  /* ---- the letter ---- */
+  .md-invite .md-col { width: 700px; }
+  .md-invite .md-para { width: 640px; }
+
+  /* ---- the two of them ---- */
+  .md-people .md-col { width: 720px; }
+  .md-face-frame { width: 176px; height: 176px; }
+  .md-faces { gap: 40px; }
+
+  .md-fams { flex-direction: row; gap: 22px; }
+  .md-fam { flex: 1 1 0; }
+
+  /* ---- the countdown ---- */
+  .md-count .md-col { padding-top: 180px; }
+  .md-clock { grid-template-columns: repeat(4, 100px); gap: 26px; }
+  .md-minaret { width: 210px; }
+
+  /* ---- the functions ----
+
+     Three across and then the rest centred under them, which is what the
+     wide drawing does. */
+  .md-events { padding: 46px 60px 70px; }
+
+  .md-ev-grid {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    max-width: 1146px;
+  }
+
+  .md-ev { width: 362px; box-sizing: border-box; }
+  .md-ev-art { height: 144px; }
+
+  /* ---- what to wear ---- */
+  .md-dress-art { width: 412px; }
+  .md-dress-intro { width: 470px; }
+
+  /* ---- the photographs ---- */
+  .md-gallery .md-col { width: 680px; }
+  .md-shots { grid-template-columns: repeat(3, 200px); gap: 26px 30px; }
+  .md-shots .md-shot:nth-child(even) { margin-top: 0; }
+  .md-shots .md-shot:nth-child(even) ~ .md-shot:nth-child(odd) { margin-top: 0; }
+  .md-vine { display: none; }
+
+  /* ---- the reply ----
+
+     Measured off the wide drawing: the heading at 132, the prompt on one
+     line under it, the minaret 100 wide standing from 32 per cent of the
+     page down to 76, and the lozenge 268 wide laid across its foot. */
+  .md-rsvp .md-col { width: 700px; padding-top: 132px; }
+  .md-rsvp-prompt { width: 700px; }
+
+  /* 354 of 800 on the wide drawing, from 258 down to 612. */
+  .md-tower {
+    width: auto;
+    height: 44.25%;
+    top: 32.25%;
+    bottom: auto;
+  }
+
+  .md-rsvp-by {
+    width: 268px;
+    top: 76%;
+    bottom: auto;
+    padding-top: 10px;
+    padding-bottom: 12px;
+    font-size: 30px;
+  }
+
+  /* ---- the farewell ---- */
+  .md-closing .md-col { width: 700px; }
+}
+
+/* =================================================== less movement, asked for
+
+   The canopies still open and the courtyard still arrives -- the card cannot
+   be read otherwise. What goes is the travel and the breathing.
+   ========================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-snap-type: none; }
+  .md-press { animation: none; opacity: .95; }
+  .md-scroll svg { animation: none; }
+  .md-hero.is-opening .md-door-left,
+  .md-hero.is-opening .md-door-right,
+  .md-hero.is-opening .md-door-top,
+  .md-hero.is-opening .md-door-bottom { transition-duration: 320ms; transition-delay: 0ms; }
+  .md-haram, .md-hero-names, .md-hero-mark { transition-duration: 320ms; transition-delay: 0ms; }
+}
+
+/* ------------------------------------------------ the paper on the countdown
+
+   Thrown across the whole page when the four discs give up their numbers.
+   Fixed and over everything, and gone the moment it has fallen. */
+.md-confetti {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  pointer-events: none;
+}
+
+/* ------------------------------------------------- the sparks on a touch
+
+   Thrown out from where the finger landed when the canopies are opened.
+   Fixed, because they belong to the touch rather than to anything on the
+   page, and ignoring pointers so a spark can never eat the next one. */
+.md-sparks {
+  position: fixed;
+  z-index: 60;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.md-sparks i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 5px;
+  height: 5px;
+  margin: -2.5px 0 0 -2.5px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fffef8 0%, #e7ddc9 46%, rgba(203, 178, 122, 0) 72%);
+  animation: md-spark 620ms cubic-bezier(.2, .7, .3, 1) forwards;
+}
+
+@keyframes md-spark {
+  0%   { transform: translate(0, 0) scale(1); opacity: 1; }
+  70%  { opacity: .85; }
+  100% { transform: translate(var(--dx), calc(var(--dy) + 14px)) scale(.3); opacity: 0; }
+}

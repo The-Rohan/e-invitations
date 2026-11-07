@@ -1,0 +1,78 @@
+/* Theme: Motia – night-blooming white jasmine, deep twilight green & pearl garlands */
+:root {
+  --primary: #15422d; --accent: #c9af75; --bg: #f4f7f4; --card: #fffefa; --ink: #122018; --muted: #5e7065; --line: rgba(21,66,45,.16);
+  --backdrop: radial-gradient(circle at 50% 25%, #184731, #061810 85%);
+  --env: #15422d; --env-dark: #0e2d1f; --door: #0d2116; --curtain: #15422d;
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-script: 'Great Vibes', cursive;
+  --ornament: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 38' fill='none' stroke='%23c9af75' stroke-width='1.2' stroke-linecap='round'%3E%3Cpath d='M2 19h45M113 19h45'/%3E%3Ccircle cx='80' cy='19' r='8' fill='%23ffffff' stroke='%23c9af75' stroke-width='1.2'/%3E%3Ccircle cx='80' cy='19' r='3' fill='%23c9af75' stroke='none'/%3E%3Cpath d='M80 7c2 3 2 9 0 12M80 19c2 3 2 9 0 12M68 19c3-2 9-2 12 0M80 19c3-2 9-2 12 0' stroke='%23c9af75'/%3E%3Ccircle cx='60' cy='19' r='2' fill='%2315422d'/%3E%3Ccircle cx='100' cy='19' r='2' fill='%2315422d'/%3E%3C/svg%3E");
+}
+
+.hero {
+  background-color: var(--card);
+  background-image:
+    radial-gradient(circle at 50% 0%, rgba(201,175,117,.14) 0, transparent 65%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 44 44' fill='none' stroke='%2315422d' stroke-opacity='.08' stroke-width='1'%3E%3Ccircle cx='22' cy='22' r='8' fill='%23ffffff' stroke='%23c9af75' stroke-opacity='.2'/%3E%3Ccircle cx='22' cy='22' r='2' fill='%23c9af75' fill-opacity='.3'/%3E%3C/svg%3E");
+}
+
+.hero::before, .hero::after {
+  content: ''; position: absolute; top: 52px; width: 84px; height: 84px; opacity: .85;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 84 84' fill='none' stroke='%23c9af75' stroke-width='1.2'%3E%3Cpath d='M4 4h36M4 4v36'/%3E%3Cpath d='M10 10q26 0 26 26M10 10q0 26 26 26' stroke='%2315422d' stroke-opacity='.3'/%3E%3Ccircle cx='10' cy='10' r='3' fill='%23c9af75'/%3E%3Ccircle cx='24' cy='24' r='4' fill='%23ffffff' stroke='%23c9af75'/%3E%3Ccircle cx='24' cy='24' r='1.5' fill='%23c9af75'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+.hero::before { left: 14px; }
+.hero::after { right: 14px; transform: scaleX(-1); }
+
+.name {
+  color: var(--primary);
+  text-shadow: 0 2px 3px rgba(21,66,45,.14);
+}
+.amp { color: var(--accent); }
+.monogram {
+  border: 1px solid var(--accent);
+  color: var(--primary);
+  background: #ffffff;
+  box-shadow: 0 4px 14px rgba(21,66,45,.12);
+}
+
+.frame {
+  border-width: 2px;
+  border-color: var(--accent);
+  background: #ffffff;
+  border-radius: 20px 4px 20px 4px;
+  box-shadow: 0 10px 30px -10px rgba(21,66,45,.08);
+}
+.frame::before {
+  inset: 6px;
+  border-color: var(--line);
+  border-radius: 16px 2px 16px 2px;
+}
+
+.event {
+  border-radius: 16px 4px 16px 4px;
+  border-color: rgba(201,175,117,.25);
+  background: #ffffff;
+  box-shadow: 0 4px 14px -4px rgba(18,32,24,.05);
+}
+.ev-icon {
+  background-color: var(--primary);
+  color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(21,66,45,.2);
+}
+
+.countdown > div {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  box-shadow: 0 4px 10px -2px rgba(21,66,45,.1);
+}
+.countdown b { color: var(--primary); }
+
+.seal {
+  background: radial-gradient(circle at 35% 30%, #1e5a3e, #0c2619 75%);
+  color: #fffefa;
+  box-shadow: 0 12px 28px -6px rgba(12,38,25,.6);
+}
+.diya-bowl { background: linear-gradient(#c9af75, #15422d); }
+.actionbar { background: rgba(18,32,24,.95); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.btn.primary { background: linear-gradient(135deg, #15422d, #0d2c1e); box-shadow: 0 6px 18px -4px rgba(21,66,45,.35); }

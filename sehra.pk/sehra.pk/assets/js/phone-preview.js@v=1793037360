@@ -1,0 +1,11 @@
+/* Render a real phone viewport, then scale the whole canvas with a single factor. */
+(() => {
+  const WIDTH=390, HEIGHT=844;
+  function measure(width,height){const scale=Math.max(0,Math.min(1,width/WIDTH,height/HEIGHT));return {width:WIDTH,height:HEIGHT,scale,renderWidth:WIDTH*scale,renderHeight:HEIGHT*scale};}
+  function mount(host,frame){
+    host.classList.add('sehra-phone-viewport');
+    const fit=()=>{if(!host.clientWidth||!host.clientHeight)return;const m=measure(host.clientWidth,host.clientHeight);frame.style.width=m.width+'px';frame.style.height=m.height+'px';frame.style.transform='scale('+m.scale+')';frame.style.left=(host.clientWidth-m.renderWidth)/2+'px';frame.style.top=(host.clientHeight-m.renderHeight)/2+'px';host.dataset.phoneScale=String(m.scale);};
+    const resize=new ResizeObserver(fit);resize.observe(host);addEventListener('resize',fit,{passive:true});fit();return {fit};
+  }
+  window.SehraPhonePreview={measure,mount};
+})();

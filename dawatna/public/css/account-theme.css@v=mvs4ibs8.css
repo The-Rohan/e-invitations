@@ -1,0 +1,311 @@
+/* ==========================================================================
+   Our panel's own components, wearing the account design.
+
+   The screens the design does not ship markup for -- Edit Card, Sections,
+   Guests, Card Design, Music, Settings, the event picker, the drawers -- keep
+   every bit of their behaviour and every bit of their HTML. This file only
+   restyles the components they are built from, using the account design's own
+   values, so moving between a screen the design drew and a screen it did not
+   does not feel like leaving the product.
+
+   Scoped to .account-app-shell, which is this version's root class. An
+   earlier draft scoped everything to .ceremonia-account, which the zip-4
+   design does not use at all -- so none of it applied, Tailwind's reset in
+   the compiled bundle went unopposed, and every button and input on these
+   screens rendered flat.
+
+   Values are lifted from the design's own stylesheet rather than invented: the
+   same #fffdfa card, the same #e6dccf hairline, the same 16px radius, the
+   same Cormorant headings and Space Mono labels.
+   ========================================================================== */
+
+.account-app-shell {
+  --acc-card:   #fffdfa;
+  --acc-line:   #e6dccf;
+  --acc-ink:    #2b211d;
+  --acc-maroon: #5a1621;
+  --acc-rose:   #6d5119;
+  --acc-gold:   #cfa954;
+  --acc-paper:  #f9f4ee;
+}
+
+/* ---- panels ---- */
+.panel-screen .panel,
+.panel-screen .card,
+.panel-screen .drawer,
+.panel-screen .modal {
+  border: 1px solid var(--acc-line);
+  border-radius: 16px;
+  background: var(--acc-card);
+}
+.panel-screen .panel { padding: 19px; }
+
+.panel-screen .panel h2,
+.panel-screen .sec-head h2,
+.panel-screen .drawer-head h3 {
+  font-family: var(--app-font-serif);
+  font-size: 26px;
+  font-weight: 600;
+  line-height: .9;
+  letter-spacing: -.02em;
+  color: var(--acc-ink);
+}
+.panel-screen .panel h3 {
+  font-family: var(--app-font-serif);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--acc-ink);
+}
+.panel-screen .hint,
+.panel-screen .panel > p {
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: rgba(43, 33, 29, .55);
+}
+
+/* ---- buttons ---- */
+.panel-screen .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 18px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: var(--acc-maroon);
+  color: #f3ece4;
+  font-family: var(--app-font-sans);
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  transition: background .25s ease, transform .25s ease;
+}
+.panel-screen .btn:hover { background: var(--acc-rose); transform: translateY(-2px); }
+.panel-screen .btn-ghost,
+.panel-screen .btn-secondary {
+  border-color: rgba(90, 22, 33, .25);
+  background: transparent;
+  color: var(--acc-maroon);
+}
+.panel-screen .btn-ghost:hover { background: var(--acc-maroon); color: #f3ece4; }
+.panel-screen .btn-sm { min-height: 36px; padding: 0 14px; font-size: 10px; }
+.panel-screen .btn-xs { min-height: 30px; padding: 0 11px; font-size: 9.5px; }
+.panel-screen .btn-lg { min-height: 48px; }
+
+/* ---- forms ---- */
+.panel-screen input[type="text"],
+.panel-screen input[type="email"],
+.panel-screen input[type="tel"],
+.panel-screen input[type="url"],
+.panel-screen input[type="number"],
+.panel-screen input[type="password"],
+.panel-screen input[type="date"],
+.panel-screen input[type="time"],
+.panel-screen select,
+.panel-screen textarea {
+  border: 1px solid rgba(90, 22, 33, .2);
+  border-radius: 12px;
+  background: rgba(255, 253, 250, .7);
+  color: var(--acc-ink);
+  font-family: var(--app-font-sans);
+  font-size: 14px;
+  transition: border-color .25s ease, box-shadow .25s ease;
+}
+/* Sixteen pixels on a phone, or iOS zooms the page.
+
+   Safari on iPhone zooms the whole document whenever a field smaller than
+   16px is focused, and will not zoom back out on its own -- so every tap on
+   every box in the editor threw the screen out of position and left the
+   customer pinching to read what they had just typed. Four fifths of the
+   people editing these cards are on a phone.
+
+   panel.css already sets 16px on a narrow screen. This file arrived later,
+   carrying the design's 14px at a specificity that beat it, and quietly undid
+   the fix everywhere. Same specificity, same breakpoint, so it holds. */
+@media (max-width: 860px) {
+  .panel-screen input[type="text"],
+  .panel-screen input[type="email"],
+  .panel-screen input[type="tel"],
+  .panel-screen input[type="url"],
+  .panel-screen input[type="number"],
+  .panel-screen input[type="password"],
+  .panel-screen input[type="date"],
+  .panel-screen input[type="time"],
+  .panel-screen select,
+  .panel-screen textarea {
+    font-size: 16px;
+  }
+}
+
+.panel-screen input:focus,
+.panel-screen select:focus,
+.panel-screen textarea:focus {
+  border-color: var(--acc-rose);
+  box-shadow: 0 0 0 4px rgba(109, 81, 25, .1);
+  outline: none;
+}
+.panel-screen label { color: rgba(43, 33, 29, .72); }
+.panel-screen .settings-form label > span:first-child,
+.panel-screen .field-label {
+  font-family: var(--app-font-sans);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: rgba(43, 33, 29, .67);
+}
+
+/* ---- tables ---- */
+.panel-screen table {
+  border: 1px solid var(--acc-line);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--acc-card);
+}
+.panel-screen table th {
+  background: #f7f1e7;
+  font-family: var(--app-font-mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(43, 33, 29, .55);
+}
+.panel-screen table td { font-size: 13.5px; border-color: var(--acc-line); }
+.panel-screen tbody tr:hover { background: #fdf7ee; }
+
+/* ---- the pill rows this panel uses in several places ---- */
+.panel-screen .side-tabs a,
+.panel-screen .detail-tab,
+.panel-screen .chip {
+  border: 1px solid rgba(90, 22, 33, .18);
+  border-radius: 999px;
+  background: var(--acc-card);
+  font-size: 12.5px;
+  color: rgba(43, 33, 29, .7);
+}
+.panel-screen .side-tabs a.active,
+.panel-screen .detail-tab.active,
+.panel-screen .chip.is-on {
+  border-color: var(--acc-maroon);
+  background: var(--acc-maroon);
+  color: #f3ece4;
+}
+
+/* ---- notices and offers ---- */
+.panel-screen .flash,
+.panel-screen .alert,
+.panel-screen .offer,
+.panel-screen .pending-transfer {
+  border: 1px solid var(--acc-line);
+  border-radius: 14px;
+  background: var(--acc-card);
+  font-size: 13px;
+}
+.panel-screen .flash-error,
+.panel-screen .alert-error { border-color: var(--acc-rose); background: rgba(109, 81, 25, .1); }
+.panel-screen .flash-warn { border-color: var(--acc-gold); background: rgba(207, 169, 84, .13); }
+.panel-screen .offer.is-pressing { border-color: var(--acc-gold); background: rgba(207, 169, 84, .1); }
+.panel-screen .offer-title {
+  font-family: var(--app-font-serif);
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--acc-ink);
+}
+
+/* ---- the stat tiles our other screens reuse ---- */
+.panel-screen .stat-card {
+  border: 1px solid var(--acc-line);
+  border-radius: 14px;
+  background: var(--acc-card);
+}
+.panel-screen .stat-num { font-family: var(--app-font-serif); color: var(--acc-ink); }
+.panel-screen .stat-label {
+  font-family: var(--app-font-mono);
+  font-size: 9px;
+  letter-spacing: .13em;
+  color: rgba(43, 33, 29, .42);
+}
+/* ==========================================================================
+   The two offers on the Guests screen, in the landing page's own colours.
+
+   The guest-limit one takes the gold of "Change any detail"; the setup one
+   takes the green of the guest-list section. Both were the same cream card as
+   everything around them, which is a poor way to carry an offer: it reads as
+   another panel of settings.
+   ========================================================================== */
+.panel-screen .offer {
+  border: 0;
+  border-radius: 18px;
+  background: #cfa954;
+  color: #2b211d;
+  padding: 20px 22px;
+}
+.panel-screen .offer .offer-title { color: #2b211d; }
+.panel-screen .offer .offer-text { color: rgba(43, 33, 29, .78); }
+.panel-screen .offer .btn {
+  background: #5a1621;
+  color: #f3ece4;
+  border-color: transparent;
+}
+.panel-screen .offer .btn:hover { background: #4b1520; }
+
+/* Pressing: the list is nearly full, so it warms towards the accent rather
+   than shouting in a different colour. */
+.panel-screen .offer.is-pressing { background: #cfa954; }
+
+.panel-screen .offer-setup {
+  background: #43362f;
+  color: #f3ece4;
+}
+.panel-screen .offer-setup .offer-title { color: #f3ece4; }
+.panel-screen .offer-setup .offer-text { color: rgba(243, 236, 228, .75); }
+.panel-screen .offer-setup .btn { background: #cfa954; color: #2b211d; }
+.panel-screen .offer-setup .btn:hover { background: #ecd29a; }
+/* On the gold the default faint grey all but disappears; on the green it has
+   to go the other way (the site's dark brown since 2026-10-22). The setup rules come second on purpose -- .offer-setup
+   is also an .offer, and the two selectors weigh the same, so order is the
+   only thing deciding which colour a green card's cross takes. */
+.panel-screen .offer .offer-x { color: rgba(43, 33, 29, .6); }
+.panel-screen .offer .offer-x:hover { background: rgba(43, 33, 29, .12); color: #2b211d; }
+.panel-screen .offer-setup .offer-x { color: rgba(243, 236, 228, .65); }
+.panel-screen .offer-setup .offer-x:hover { background: rgba(243, 236, 228, .16); color: #f3ece4; }
+
+/* The cost calculator, which had gone the colour of the page it floats over.
+   It floats above the page but below every popup and its backdrop -- a popup
+   is the only thing on the screen when it is open, this included. */
+.panel-screen .fab,
+.account-app-shell .fab {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 25;
+  border: 0;
+  border-radius: 999px;
+  padding: 13px 22px;
+  background: #5a1621;
+  color: #f3ece4;
+  font-family: var(--app-font-sans);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 10px 26px rgba(43, 33, 29, .3);
+}
+.panel-screen .fab:hover,
+.account-app-shell .fab:hover { background: #6d5119; }
+
+/* ---- popups above the shell ----
+   The design fades every screen in with `animation: ... both`. `both` keeps
+   the animation's last frame applied for as long as the page is open, and an
+   element with an opacity animation applied is its own stacking context. So
+   every popup, drawer and dialog on every screen was trapped inside the page
+   area: its z-index competed only with its neighbours, and the sidebar (20)
+   and the top bar (15) -- which sit outside that box -- painted over the
+   popup's edges and the dimmed backdrop stopped short of them. `backwards`
+   plays the same fade-in and then lets go, so nothing changes to look at,
+   and popups can finally sit above the whole app. */
+.account-app-shell .account-page-content {
+  animation-fill-mode: backwards;
+}

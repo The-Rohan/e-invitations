@@ -1,0 +1,874 @@
+/* Storefront leftovers: checkout, template detail, forms, panels,
+   tables and legal pages. The landing page, its type scale and its
+   palette live in site.css. */
+/* The panel's palette. site.css carries the storefront's own tokens; these are
+   the ones panel.css and the shared components read, retuned from green to the
+   brand maroon. Kept here rather than merged so a change to the marketing site
+   cannot restyle the app someone is working in. */
+/* Tokens live in tokens.css — one definition for the whole site. */
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 { font-family: 'Instrument Serif', Georgia, serif; font-weight: 600; line-height: 1.2; text-wrap: balance; margin: 0 0 12px; }
+h1 { font-size: 30px; }
+h2 { font-size: 22px; }
+h3 { font-size: 18px; }
+p { margin: 0 0 12px; }
+
+a { color: var(--accent); }
+a:hover { color: var(--accent-dark); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+
+code { background: var(--accent-wash); padding: 1px 5px; border-radius: 4px; font-size: 0.9em; }
+
+/* ---------------- chrome ---------------- */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 24px; background: var(--surface); border-bottom: 1px solid var(--border);
+}
+.topnav { display: flex; align-items: center; gap: 18px; font-size: 14.5px; }
+.topnav a { text-decoration: none; color: var(--ink-soft); }
+.topnav a:hover { color: var(--ink); }
+.inline-form { display: inline; }
+.linkish { background: none; border: none; padding: 0; font: inherit; color: var(--ink-soft); cursor: pointer; }
+.linkish:hover { color: var(--ink); }
+
+.sitefoot { padding: 40px 24px; text-align: center; color: var(--ink-faint); font-size: 13px; }
+
+.page { max-width: 1080px; margin: 0 auto; padding: 32px 24px 80px; }
+.page.narrow { max-width: 680px; }
+.page.centered { text-align: center; }
+.backlink { font-size: 14px; text-decoration: none; display: inline-block; margin-bottom: 14px; }
+
+/* ================= storefront ================= */
+/* Legal and category pages still use the narrow variant. */
+.wrap.narrow-wrap { max-width: 720px; }
+.centered { text-align: center; }
+
+/* ---- phone frames (live template previews) ---- */
+.phone {
+  border: 9px solid var(--ink); border-radius: 34px; background: var(--surface); overflow: hidden;
+  box-shadow: 0 20px 50px rgba(46, 35, 31, .22); flex-shrink: 0;
+}
+.phone iframe { display: block; width: 100%; height: 100%; border: none; }
+.phone-lg { width: 330px; height: 660px; }
+.phone-sm { width: 190px; height: 380px; border-width: 7px; border-radius: 26px; box-shadow: 0 12px 30px rgba(46,35,31,.16); }
+.phone-xs { width: 74px; height: 148px; border-width: 4px; border-radius: 14px; box-shadow: none; }
+.hero-phone .phone { width: 300px; height: 520px; border-bottom: none; border-radius: 34px 34px 0 0; }
+
+/* ---- template detail ----
+
+   The header is position:fixed and floats over the page, so a page has to
+   leave room for it. This one left 26px against a header whose bottom edge is
+   at 78px, which put the category line and the top of the preview behind it.
+
+   The preview is sized from the viewport rather than fixed at 660px tall: on
+   any laptop shorter than about 900px the old frame ran off the bottom of the
+   screen, and the one thing a shopper wants to look at was the thing they had
+   to scroll to see. */
+.detail { padding-top: clamp(96px, 11vh, 118px); }
+.detail-grid {
+  display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr);
+  gap: clamp(28px, 4vw, 56px); align-items: start; padding: 4px 0 56px;
+}
+.detail-demo { position: sticky; top: var(--head-clear); text-align: center; }
+.demo-note { font-size: 12.5px; color: var(--ink-faint); margin: 12px 0 8px; }
+
+/* Always fits, and keeps a handset's proportions while it does. */
+.detail-demo .phone-lg {
+  width: auto;
+  height: min(620px, calc(100vh - 250px));
+  aspect-ratio: 330 / 660;
+  margin-inline: auto;
+}
+.detail-cat {
+  font-size: 12px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--accent); margin: 0 0 8px;
+}
+.detail-copy h1 { font-size: clamp(28px, 4vw, 40px); margin: 0 0 10px; }
+.detail-tagline { font-family: 'Instrument Serif', Georgia, serif; font-size: 20px; color: var(--ink); margin-bottom: 10px; }
+.detail-desc { color: var(--ink-soft); font-size: 16.5px; }
+.price-block {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 20px 22px; margin: 26px 0 16px;
+}
+.price-label { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-faint); }
+.price-big { display: block; font-family: 'Instrument Serif', Georgia, serif; font-size: 38px; color: var(--accent-dark); line-height: 1.1; }
+.price-sub { font-size: 13.5px; color: var(--ink-soft); }
+.alt-currency { font-size: 13.5px; color: var(--ink-soft); margin-top: 10px; }
+.check-list { list-style: none; padding: 0; margin: 26px 0 0; }
+.check-list li { padding-left: 26px; position: relative; margin-bottom: 11px; color: var(--ink-soft); }
+.check-list li::before {
+  content: '\2713'; position: absolute; left: 0; top: 0;
+  color: var(--accent); font-weight: 600;
+}
+.check-list.tight li { font-size: 14px; margin-bottom: 8px; }
+
+/* sticky buy bar on the detail page */
+.buybar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+  background: rgba(255,255,255,.96); border-top: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+}
+.buybar-inner {
+  max-width: 1120px; margin: 0 auto; padding: 11px 24px;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+}
+.buybar-inner strong { display: block; font-size: 15px; }
+
+/* ---- checkout ---- */
+.checkout { padding: 26px 24px 90px; }
+.checkout-grid {
+  display: grid; grid-template-columns: minmax(0, 1fr) 330px; gap: 34px; align-items: start;
+}
+.checkout h1 { margin-bottom: 20px; }
+.co-step { margin-bottom: 26px; }
+.co-step h2 { font-size: 19px; display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.co-n {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--accent-wash); color: var(--accent-dark); font-size: 14px;
+}
+.co-signed {
+  background: var(--accent-wash); color: var(--accent-dark);
+  padding: 12px 16px; border-radius: 8px; font-size: 14.5px; margin: 0;
+}
+.pay-panel {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 18px 20px;
+}
+.pay-panel p { font-size: 14.5px; }
+.pay-panel p:last-child { margin-bottom: 0; }
+.pay-methods { color: var(--ink-soft); font-size: 13.5px !important; }
+.btn.full { width: 100%; }
+.checkout-side { position: sticky; top: var(--head-clear); }
+.summary {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 22px;
+}
+.summary h2 { font-size: 17px; margin-bottom: 16px; }
+.summary-item { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 18px; }
+.summary-item p { margin: 2px 0 0; }
+.summary-lines { margin: 0 0 6px; padding: 16px 0 0; border-top: 1px solid var(--border); }
+.summary-lines div { display: flex; justify-content: space-between; padding: 5px 0; font-size: 14.5px; }
+.summary-lines dt { color: var(--ink-soft); margin: 0; }
+.summary-lines dd { margin: 0; }
+.summary-lines .total {
+  border-top: 1px solid var(--border); margin-top: 8px; padding-top: 12px;
+  font-family: 'Instrument Serif', Georgia, serif; font-size: 19px; color: var(--accent-dark);
+}
+.btn-lg { padding: 14px 30px; font-size: 16px; }
+.btn-price { opacity: .78; font-size: 13.5px; margin-left: 8px; }
+
+@media (max-width: 900px) {
+  .detail-grid { grid-template-columns: 1fr; gap: 30px; }
+  .detail-demo { position: static; }
+  .checkout-grid { grid-template-columns: 1fr; }
+  .checkout-side { position: static; order: -1; }
+}
+
+
+/* ---------------- buttons ---------------- */
+/* The panel's buttons. The storefront has its own, larger set in site.css;
+   these stay separate so the marketing site's styling cannot bleed into the
+   app someone is working in. */
+.btn {
+  display: inline-block; background: var(--accent); color: var(--surface); border: 1px solid var(--accent);
+  padding: 10px 20px; border-radius: 24px; font: inherit; font-size: 15px;
+  text-decoration: none; cursor: pointer; text-align: center;
+  transition: background .15s, border-color .15s, transform .15s;
+}
+.btn:hover { background: var(--accent-dark); border-color: var(--accent-dark); color: var(--surface); transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+.btn-sm { padding: 6px 14px; font-size: 13.5px; }
+.btn-xs { padding: 4px 11px; font-size: 12.5px; }
+.btn-ghost { background: transparent; color: var(--accent); }
+.btn-ghost:hover { background: var(--accent); color: var(--surface); }
+.btn-quiet { background: var(--surface); color: var(--accent); border-color: var(--border); }
+.btn-quiet:hover { background: var(--accent-wash); color: var(--accent-dark); border-color: var(--accent-wash); }
+.btn-danger { background: var(--danger); border-color: var(--danger); }
+.btn-danger:hover { background: var(--danger-deep); border-color: var(--danger-deep); }
+.btn:disabled, .btn[disabled] { opacity: .55; cursor: not-allowed; transform: none; }
+
+/* ---------------- forms ---------------- */
+.stack { display: flex; flex-direction: column; gap: 14px; align-items: stretch; }
+.stack .btn { align-self: flex-start; }
+label { display: block; font-size: 13px; color: var(--ink-soft); font-weight: 500; }
+/* `tel` and `search` were missing from this list, which is why a phone field
+   came out as a raw browser input sitting beside properly drawn ones -- most
+   visibly on the bank transfer page, where the only number we ever ask a
+   customer for is the one we would ring if their receipt did not match. */
+input[type=text], input[type=email], input[type=password], input[type=url],
+input[type=number], input[type=tel], input[type=search], select, textarea {
+  display: block; width: 100%; margin-top: 5px; padding: 9px 12px;
+  border: 1px solid var(--border); border-radius: 8px; font: inherit; font-size: 15px;
+  background: var(--surface); color: var(--ink);
+}
+textarea { resize: vertical; }
+.hint { display: block; font-weight: 400; color: var(--ink-faint); font-size: 12.5px; margin-top: 4px; }
+.checkline { display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--ink); }
+.checkline input { width: auto; margin: 0; }
+.checkline.small { font-size: 13px; color: var(--ink-soft); }
+.field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.field-grid > label:not(.half) { grid-column: 1 / -1; }
+/* A line of explanation between fields, across the whole grid. */
+.field-grid > .hint { grid-column: 1 / -1; margin: 4px 0 -6px; }
+/* The label sits above its field, not beside it. A date input is the only one
+   narrow enough to leave room on the line, which is why Date read as an
+   inline pair while every other field on the row read as a stack. */
+.field-grid > label { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.field-grid > label > input,
+.field-grid > label > select,
+.field-grid > label > textarea { width: 100%; }
+
+/* A line's text size, over its box (views/panel/_fields.ejs, /js/text-size.js):
+   the name of the field on the left, − size + on the right. */
+.field-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-width: 0; }
+.field-head .field-name { min-width: 0; }
+.rep-size { margin: 4px 0 8px; font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft, #555); }
+.ts {
+  text-transform: none; letter-spacing: 0;
+  display: inline-flex; align-items: center; flex: none;
+  border: 1px solid var(--line, #e2ded6); border-radius: 999px; background: #fff;
+  font-weight: 500; line-height: 1; user-select: none; -webkit-user-select: none;
+}
+.ts[hidden] { display: none; }
+.ts-btn {
+  display: inline-grid; place-items: center; width: 26px; height: 24px;
+  font-size: 15px; color: var(--ink-soft, #555); cursor: pointer; border-radius: 999px;
+  -webkit-tap-highlight-color: transparent; transition: background-color .15s ease, transform .12s ease;
+}
+.ts-btn:hover { background: var(--accent-wash, rgba(0, 0, 0, .05)); color: var(--ink, #222); }
+.ts-btn:active { transform: scale(.9); }
+.ts-btn:focus-visible { outline: 2px solid var(--accent, #5a1621); outline-offset: 1px; }
+.ts-val { min-width: 42px; text-align: center; font-size: 11.5px; text-transform: none; letter-spacing: 0; color: var(--ink-soft, #555); font-variant-numeric: tabular-nums; }
+.ts.is-changed { border-color: var(--accent, #5a1621); }
+.ts.is-changed .ts-val { color: var(--accent, #5a1621); font-weight: 600; }
+/* The lines with no box of their own, listed with a size each
+   (views/panel/_sizes.ejs). */
+.ts-list { display: grid; gap: 2px; margin: 10px 0 12px; padding: 10px 12px; border: 1px dashed var(--line, #e2ded6); border-radius: 10px; background: rgba(0, 0, 0, .015); }
+.ts-list-head { margin: 0 0 4px; font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft, #555); }
+.ts-row { min-height: 34px; font-size: 14px; color: var(--ink, #222); }
+.ts-row[hidden] { display: none; }
+/* A finger, not a pointer: buttons big enough to press without zooming. */
+@media (pointer: coarse) {
+  .ts-btn { width: 38px; height: 34px; font-size: 18px; }
+  .ts-val { min-width: 46px; font-size: 12.5px; }
+}
+.auth-page { max-width: 380px; }
+
+/* ==========================================================================
+   Log in, sign up, password reset.
+
+   A split screen: the brand holds one side, the form the other. These are the
+   only screens someone sees while still deciding whether to trust us with a
+   wedding, so they carry no marketing chrome — no nav, no six-column footer,
+   no currency switch. Brand, form, and the one link out.
+
+   Everything below is drawn from tokens.css. No raw hex.
+   ========================================================================== */
+
+.auth-split {
+  display: grid;
+  grid-template-columns: 1fr;
+  min-height: 100vh;
+  min-height: 100dvh;   /* mobile browser chrome shrinks the viewport */
+  background: var(--cream);
+}
+
+@media (min-width: 880px) {
+  /* The form side is given the larger share: the brand panel is atmosphere,
+     the form is the job. An even split makes a four-field form look stranded
+     in the middle of a very wide column. */
+  .auth-split { grid-template-columns: 5fr 7fr; }
+}
+
+/* ------------------------------------------------------------ brand side */
+
+.auth-brand {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 28px 28px 24px;
+  background: var(--maroon-deep);
+  color: var(--on-brand);
+  overflow: hidden;
+}
+
+/* A slow wash of gold off the top corner, so the panel is not a flat block of
+   maroon. Sits under the content and never interferes with it. */
+.auth-brand::before {
+  content: "";
+  position: absolute;
+  top: -30%;
+  right: -25%;
+  width: 80%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--gold) 34%, transparent) 0%, transparent 68%);
+  pointer-events: none;
+}
+
+.auth-brand > * { position: relative; }
+
+.auth-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--display);
+  font-size: 1.32rem;
+  letter-spacing: .01em;
+  color: var(--on-brand);
+  text-decoration: none;
+  width: fit-content;
+}
+.auth-mark img { border-radius: 6px; }
+.auth-mark:hover { opacity: .86; }
+
+.auth-eyebrow {
+  margin: 0 0 12px;
+  font-size: .74rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.auth-display {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(2rem, 4.4vw, 3.1rem);
+  line-height: 1.08;
+  text-wrap: balance;
+  color: var(--on-brand);
+}
+
+.auth-brand-note {
+  margin: 18px 0 0;
+  max-width: 34ch;
+  font-size: .96rem;
+  line-height: 1.6;
+  color: color-mix(in srgb, var(--on-brand) 76%, transparent);
+}
+
+.auth-brand-foot {
+  margin: 0;
+  font-size: .78rem;
+  letter-spacing: .05em;
+  color: color-mix(in srgb, var(--on-brand) 52%, transparent);
+}
+
+@media (max-width: 879px) {
+  /* Stacked, the brand panel becomes a header rather than a full screen the
+     visitor has to scroll past to reach the field they came for. */
+  .auth-split { min-height: 0; }
+  .auth-brand { gap: 20px; padding: 22px 22px 26px; }
+  .auth-brand-body { max-width: 30ch; }
+  .auth-display { font-size: clamp(1.7rem, 7.4vw, 2.3rem); }
+  .auth-brand-note { display: none; }
+  .auth-brand-foot { display: none; }
+}
+
+/* ------------------------------------------------------------- form side */
+
+.auth-form-side {
+  display: grid;
+  place-items: center;
+  padding: 44px 24px 56px;
+}
+
+.auth-form-inner {
+  width: 100%;
+  max-width: 384px;
+}
+
+.auth-form-inner h1 {
+  margin: 0 0 6px;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(1.75rem, 3.4vw, 2.15rem);
+  line-height: 1.15;
+  color: var(--ink);
+}
+
+.auth-sub {
+  margin: 0 0 26px;
+  font-size: .94rem;
+  color: var(--ink-soft);
+}
+
+.auth-stack { display: grid; gap: 16px; }
+.auth-stack label { display: grid; gap: 6px; font-size: .88rem; font-weight: 500; color: var(--ink); }
+
+/* "Password" and "Forgot it?" share a line, so the recovery route is where a
+   person looks when the password is the thing going wrong. */
+.label-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.label-aside { font-weight: 400; font-size: .82rem; color: var(--ink-soft); }
+.label-aside:hover { color: var(--maroon); }
+
+.btn-block { width: 100%; justify-content: center; margin-top: 4px; }
+
+.auth-alt {
+  margin: 22px 0 0;
+  font-size: .9rem;
+  color: var(--ink-soft);
+  text-align: center;
+}
+.auth-alt a { color: var(--maroon); font-weight: 500; }
+
+.auth-legal {
+  margin: 16px 0 0;
+  font-size: .78rem;
+  line-height: 1.55;
+  color: var(--ink-faint);
+  text-align: center;
+}
+.auth-legal a { color: var(--ink-soft); text-decoration: underline; }
+
+.auth-note {
+  margin: 14px 0 0;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: var(--surface-sunk);
+  font-size: .85rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+/* The notice screen stacks its sentences as paragraphs, so they need the gap
+   the form's single sub-line does not. */
+.auth-form-inner .auth-sub + .auth-sub { margin-top: -14px; }
+.auth-form-inner a.btn-block { margin-top: 22px; text-decoration: none; }
+
+/* ---------------- panels & misc ---------------- */
+.panel {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 20px 22px; margin-bottom: 18px;
+}
+.panel-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+.panel-head h3 { margin: 0; }
+.muted { color: var(--ink-soft); }
+.empty { text-align: center; padding: 50px 20px; color: var(--ink-soft); }
+.card-list { display: flex; flex-direction: column; gap: 14px; }
+
+.alert { padding: 11px 16px; border-radius: 8px; font-size: 14.5px; }
+.alert-ok { background: var(--accent-wash); color: var(--accent-dark); }
+.alert-warn { background: var(--warn-wash); color: var(--warn); }
+.alert-error { background: var(--danger-wash); color: var(--danger); }
+
+.pill { display: inline-block; padding: 3px 11px; border-radius: 20px; font-size: 12.5px; background: var(--cream-deep); color: var(--ink-soft); white-space: nowrap; }
+/* The semantic tokens, not the brand wash. A state pill in the brand colour
+   reads as chrome rather than as a state, and sits indistinguishably beside
+   every other maroon-tinted thing on the screen. */
+.pill-ok { background: var(--ok-wash); color: var(--ok); }
+.pill-warn { background: var(--warn-wash); color: var(--warn); }
+.pill-danger { background: var(--danger-wash); color: var(--danger); }
+
+.tabs { display: flex; flex-wrap: wrap; gap: 4px; border-bottom: 1px solid var(--border); margin: 18px 0 22px; }
+.tabs a {
+  padding: 9px 15px; font-size: 14.5px; color: var(--ink-soft); text-decoration: none;
+  border-bottom: 2px solid transparent; margin-bottom: -1px;
+}
+.tabs a:hover { color: var(--ink); }
+.tabs a.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 500; }
+
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin-bottom: 20px; }
+.stat { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; text-align: center; }
+.stat-num { display: block; font-family: 'Instrument Serif', Georgia, serif; font-size: 26px; color: var(--accent-dark); }
+.stat-label { display: block; font-size: 12.5px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: .06em; margin-top: 3px; }
+
+.site-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 14px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 16px 20px; text-decoration: none; color: inherit;
+}
+.site-row:hover { border-color: var(--accent); }
+.site-row h3 { margin: 0; }
+
+/* ---------------- tables ---------------- */
+.table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+.data-table { width: 100%; border-collapse: collapse; font-size: 14.5px; min-width: 520px; }
+.data-table th {
+  text-align: left; padding: 10px 14px; font-size: 12px; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--ink-faint); background: var(--cream-deep); border-bottom: 1px solid var(--border);
+  font-weight: 500;
+}
+.data-table td { padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+.data-table tr:last-child td { border-bottom: none; }
+.data-table .tight { width: 24px; }
+.guest-row { cursor: pointer; }
+.guest-row:hover { background: var(--cream); }
+.empty-cell { text-align: center; color: var(--ink-faint); padding: 30px; }
+.row-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+
+.bulkbar {
+  display: none; align-items: center; gap: 14px; padding: 10px 16px; margin-bottom: 12px;
+  background: var(--accent-wash); border-radius: 8px; font-size: 14px;
+}
+.bulkbar.visible { display: flex; }
+
+/* ---------------- dashboard split + preview ---------------- */
+.admin-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.admin-split { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 22px; align-items: start; }
+.admin-main { min-width: 0; }
+.preview-col { position: sticky; top: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
+.preview-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.preview-head h3 { margin: 0; font-size: 16px; }
+.preview-phone { display: flex; justify-content: center; }
+
+/* The phone's own chrome lives in /css/panel.css, which is loaded after this
+   file on every screen that has a preview on it.
+
+   It used to be here as well, and the copy here carried `max-width: 306px`.
+   panel.css overrode the width -- it sizes the frame from --phone-w, measured
+   against the column -- but it never set a max-width, so nothing overrode
+   that: whatever the measurement said, the frame was capped at 306 pixels.
+   Nobody noticed while the only thing in it was a phone, because a phone is
+   held to 282. Then the desktop preview arrived, asked for 568, and was drawn
+   at 306: a 1440-wide page at a fifth of its size, which is what "the desktop
+   preview is very small" was. */
+
+.repeater { display: flex; flex-direction: column; gap: 10px; }
+.repeater-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.repeater-row input[type=text] { flex: 1; min-width: 130px; margin-top: 0; }
+/* A list that grows a few rows at a time (views/panel/_fields.ejs): rows
+   not yet in use are hidden, each row has a cross, and a + adds more. */
+.repeater-row[hidden], .repeater-add[hidden] { display: none !important; }
+.repeater-remove {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, .14);
+  background: #fff;
+  color: #5a1621;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+.repeater-remove:hover { background: #fbeef0; border-color: #5a1621; }
+.repeater-add {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px dashed #5a1621;
+  background: transparent;
+  color: #5a1621;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.repeater-add span { font-size: 17px; line-height: 1; }
+.repeater-add:hover { background: #fbeef0; }
+
+
+.invite-groups { display: flex; flex-direction: column; gap: 10px; }
+.invite-group { display: flex; align-items: center; gap: 10px; background: var(--cream-deep); padding: 9px 12px; border-radius: 8px; flex-wrap: wrap; }
+.invite-group .count { width: 78px; margin-top: 0; }
+
+/* ---------------- drawer ---------------- */
+.drawer-backdrop {
+  position: fixed; inset: 0; background: rgba(46, 35, 31, .42);
+  opacity: 0; pointer-events: none; transition: opacity .2s; z-index: 40;
+}
+.drawer-backdrop.open { opacity: 1; pointer-events: auto; }
+.drawer {
+  position: fixed; top: 0; right: 0; height: 100vh; width: 380px; max-width: 92vw;
+  background: var(--surface); box-shadow: -10px 0 34px rgba(46, 35, 31, .16);
+  transform: translateX(100%); transition: transform .24s ease; z-index: 41;
+  display: flex; flex-direction: column;
+}
+.drawer.open { transform: translateX(0); }
+.drawer-head { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; border-bottom: 1px solid var(--border); }
+.drawer-head h3 { margin: 0; }
+.drawer-close { border: none; background: none; font-size: 25px; line-height: 1; color: var(--ink-soft); cursor: pointer; }
+.drawer-body { padding: 18px 20px; overflow-y: auto; flex: 1; }
+.drawer-body .btn { width: 100%; }
+
+@media (max-width: 900px) {
+  .admin-split { grid-template-columns: 1fr; }
+  .preview-col { position: static; }
+  .field-grid { grid-template-columns: 1fr; }
+}
+
+/* ---- breadcrumbs + category hero ---- */
+.crumbs { padding-top: 20px; font-size: 13.5px; color: var(--ink-faint); }
+.crumbs a { text-decoration: none; }
+.crumbs span[aria-hidden] { margin: 0 6px; }
+
+.cat-hero { padding: 40px 0 52px; text-align: center; background: linear-gradient(180deg, var(--maroon-wash), var(--bg)); }
+.cat-hero h1 { font-size: clamp(30px, 5.2vw, 46px); margin: 0 auto 14px; max-width: 20ch; }
+.cat-hero .lede { margin: 0 auto 26px; max-width: 56ch; }
+.cat-hero-actions { display: flex; justify-content: center; }
+
+/* ---- legal pages ---- */
+.legal { max-width: 760px; margin: 0 auto; padding: 34px 24px 90px; }
+.legal h1 { font-size: clamp(28px, 4vw, 38px); margin-bottom: 6px; }
+.legal .updated { color: var(--ink-faint); font-size: 13.5px; margin-bottom: 30px; }
+.legal h2 { font-size: 20px; margin: 32px 0 10px; }
+.legal p, .legal li { color: var(--ink-soft); }
+.legal ul { padding-left: 22px; }
+.legal li { margin-bottom: 7px; }
+.legal .note {
+  background: var(--accent-wash); color: var(--accent-dark);
+  padding: 14px 18px; border-radius: var(--radius); font-size: 14.5px;
+}
+
+/* ---------------- app footer ---------------- */
+.app-foot {
+  max-width: 1180px; margin: 48px auto 0; padding: 20px 24px 28px;
+  border-top: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+  font-size: 13px; color: var(--ink-faint);
+}
+.app-foot nav { display: flex; gap: 18px; flex-wrap: wrap; }
+.app-foot a { color: var(--ink-faint); text-decoration: none; }
+.app-foot a:hover { color: var(--accent); }
+
+/* Dialogs, shared by the panel and the platform admin ----------------------
+   Here rather than in superadmin.css because both load app.css. Styled in
+   the admin sheet alone, the same markup opened in the panel was an
+   unpositioned block a thousand pixels down the page. */
+/* Dialogs ------------------------------------------------------------------ */
+.sa-dlg-back { position: fixed; inset: 0; z-index: 80; background: rgba(43,33,29,.5); overflow-y: auto; }
+.sa-dlg-back[hidden] { display: none; }
+
+.sa-dlg {
+  position: fixed; z-index: 81;
+  left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: min(560px, calc(100vw - 28px));
+  max-height: min(88vh, 88svh);
+  display: flex; flex-direction: column;
+  background: var(--surface, #fff);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 40px 90px -40px rgba(43,33,29,.6);
+}
+.sa-dlg[hidden] { display: none; }
+
+.sa-dlg-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 16px 20px; border-bottom: 1px solid var(--border);
+}
+.sa-dlg-head h2 { margin: 0; font-size: 18px; }
+
+/* The box inside the dialog that holds the form.
+
+   `min-height: 0` is not decoration. This is a flex column with a max-height
+   on it, and a flex item will not shrink below its content unless it is told
+   it may -- so `overflow-y: auto` had nothing to scroll: the body grew to its
+   full height and the bottom of a long form went past the foot of the dialog,
+   Save button and all, with no scrollbar anywhere. */
+.sa-dlg-body { padding: 18px 20px; overflow-y: auto; flex: 1 1 auto; min-height: 0; }
+
+/* A dialog that sits inside its own backdrop does not scroll a box within
+   itself at all: it is as tall as its form and the backdrop scrolls the whole
+   thing, which is what somebody filling in a long form expects. The two
+   dialogs that are a sibling of their backdrop rather than a child of it keep
+   the inner scroll above -- there is nothing scrollable around them. */
+.sa-dlg-back > .sa-dlg {
+  position: relative;
+  left: auto; top: auto;
+  transform: none;
+  margin: clamp(14px, 5vh, 56px) auto;
+  max-height: none;
+}
+
+.sa-dlg-back > .sa-dlg > .sa-dlg-body { overflow: visible; }
+.sa-dlg-foot { display: flex; gap: 10px; justify-content: flex-end; margin-top: 4px; }
+
+body.sa-dlg-open { overflow: hidden; }
+
+
+/* ---- /pay ----
+   The page Paddle's overlay opens over. Almost nothing on it by design: what
+   it holds is the state where the overlay did *not* open, which is the only
+   time anybody reads it. */
+.pay-page {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 32px 20px;
+  background: var(--cream);
+}
+.pay-card {
+  width: 100%;
+  max-width: 430px;
+  text-align: center;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 34px 28px 28px;
+  box-shadow: var(--lift-1);
+}
+.pay-card img { border-radius: 8px; margin-bottom: 14px; }
+.pay-card h1 {
+  margin: 0 0 10px;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 1.2;
+  color: var(--ink);
+}
+.pay-card p { margin: 0 0 8px; font-size: .93rem; line-height: 1.6; color: var(--ink-soft); }
+.pay-warn { color: var(--danger); font-weight: 500; }
+.pay-actions { display: flex; gap: 10px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
+
+/* A figure in the price table that is shown rather than typed: the card's own
+   price, which is asked for once at the top of the same form. Set to look like
+   what it is -- a value, not an empty box somebody should fill in. */
+.sa-price-fixed {
+  font-variant-numeric: tabular-nums;
+  color: var(--ink, #1c1c1c);
+  opacity: .72;
+}
+
+/* ------------------------------------------------- tabs over a studio list
+
+   Two views of one table -- what is on sale and what has been disabled --
+   rather than one table with the retired rows scattered through it. */
+.sa-tabs {
+  display: flex;
+  gap: 4px;
+  margin: -4px 0 16px;
+  border-bottom: 1px solid rgba(20, 20, 20, .1);
+}
+
+.sa-tabs a {
+  padding: 9px 14px;
+  border-bottom: 2px solid transparent;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  color: rgba(20, 20, 20, .55);
+  transition: color 140ms ease, border-color 140ms ease;
+}
+
+.sa-tabs a:hover { color: rgba(20, 20, 20, .85); }
+
+.sa-tabs a.is-on {
+  border-bottom-color: currentColor;
+  color: var(--ink, #1c1c1c);
+}
+
+.sa-tab-count {
+  margin-left: 6px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: rgba(20, 20, 20, .08);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------------------------- finding a drawing in the set
+
+   A tab per group and a box to type into, over the row of swatches. Quiet:
+   the swatches are the thing being looked at. */
+.art-find {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 2px 0 12px;
+}
+
+.art-tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.art-tab {
+  padding: 5px 11px;
+  border: 1px solid rgba(20, 20, 20, .14);
+  border-radius: 999px;
+  background: transparent;
+  font: inherit;
+  font-size: 12px;
+  color: rgba(20, 20, 20, .6);
+  cursor: pointer;
+  transition: background 140ms ease, border-color 140ms ease, color 140ms ease;
+}
+
+.art-tab:hover { border-color: rgba(20, 20, 20, .32); color: rgba(20, 20, 20, .9); }
+
+.art-tab.is-on {
+  border-color: rgba(20, 20, 20, .8);
+  background: rgba(20, 20, 20, .86);
+  color: #fff;
+}
+
+.art-search input {
+  width: 190px;
+  max-width: 100%;
+  padding: 6px 11px;
+  border: 1px solid rgba(20, 20, 20, .16);
+  border-radius: 999px;
+  font: inherit;
+  font-size: 12px;
+  background: transparent;
+}
+
+.art-search input:focus { outline: 2px solid rgba(20, 20, 20, .25); outline-offset: 1px; }
+
+.art-none { margin: 0 0 10px; }
+
+/* ------------------------------------------------ the dollar account's routes
+
+   One section per way of sending dollars -- ACH from the United States, SWIFT
+   from everywhere else -- each with a badge saying whether buyers can see it
+   and, if not, exactly what it is missing. */
+.bank-routes {
+  display: grid;
+  gap: 14px;
+  margin: 14px 0;
+}
+
+.bank-route {
+  padding: 16px 18px;
+  border: 1px solid rgba(20, 20, 20, .1);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .6);
+}
+
+.bank-route-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.bank-route-head h3 { margin: 0; font-size: 15px; }
+.bank-route-head .hint { margin: 2px 0 0; }
+
+.bank-req { color: #b3261e; }
+
+.pill-warn {
+  background: rgba(214, 138, 0, .14);
+  color: #8a5a00;
+}
+
+/* The refund policy's two reasons, set apart so they cannot be missed. */
+.legal .refund-only {
+  border: 2px solid var(--accent); border-radius: var(--radius);
+  background: var(--accent-wash); padding: 14px 18px 8px;
+}
+.legal .refund-only ol { margin: 0; padding-left: 22px; }
+.legal .refund-only li { color: var(--ink); margin-bottom: 10px; }

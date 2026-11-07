@@ -1,0 +1,8 @@
+/* Catalogue actions share a baseline and stay readable on small cards. */
+.tpl .tpl-actions{align-items:stretch;gap:.65rem;padding-top:1rem}
+.tpl .tpl-actions .tpl-act{box-sizing:border-box;min-width:0;min-height:48px;margin:0;display:inline-flex;align-items:center;justify-content:center;text-align:center;padding:.8rem 1rem;font-size:.85rem;line-height:1.25;font-weight:600;white-space:normal;transition:background .18s,box-shadow .18s}
+.tpl .tpl-actions .select{flex:1.5}
+.tpl .tpl-actions .demo{flex:1;background:rgba(255,255,255,.28)}
+.tpl .tpl-actions .tpl-act:focus-visible{outline:2px solid var(--maroon);outline-offset:4px}
+.tpl .tpl-actions .select:hover{box-shadow:0 4px 12px rgba(92,34,46,.14)}
+@media(max-width:390px){.tpl .tpl-actions{gap:.45rem}.tpl .tpl-actions .tpl-act{font-size:.78rem;padding:.7rem .6rem}}

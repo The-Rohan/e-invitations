@@ -1,0 +1,81 @@
+/* Theme: Sheesh Mahal – glistening mirror-work, starlight silver & champagne gold */
+:root {
+  --primary: #1e293b; --accent: #c5a059; --bg: #f1f5f9; --card: #ffffff; --ink: #0f172a; --muted: #64748b; --line: rgba(197,160,89,.22);
+  --backdrop: radial-gradient(circle at 50% 25%, #1e293b, #090d16 85%);
+  --env: #1e293b; --env-dark: #0f172a; --door: #111827; --curtain: #1e293b;
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-script: 'Great Vibes', cursive;
+  --ornament: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 38' fill='none' stroke='%23c5a059' stroke-width='1.2'%3E%3Cpath d='M2 19h44M114 19h44'/%3E%3Cpath d='M80 6l10 13-10 13-10-13z' fill='%23f1f5f9' stroke='%23c5a059'/%3E%3Cpath d='M80 11l6 8-6 8-6-8z' fill='%23c5a059' fill-opacity='.35'/%3E%3Cpath d='M65 19l6 7-6 7-6-7zM95 19l6 7-6 7-6-7z' fill='%23ffffff' stroke='%23c5a059'/%3E%3Ccircle cx='50' cy='19' r='2' fill='%23c5a059'/%3E%3Ccircle cx='110' cy='19' r='2' fill='%23c5a059'/%3E%3C/svg%3E");
+}
+
+.hero {
+  background-color: var(--card);
+  background-image:
+    radial-gradient(circle at 50% 0%, rgba(197,160,89,.15) 0, transparent 70%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 44 44' fill='none' stroke='%23c5a059' stroke-opacity='.12'%3E%3Cpath d='M22 0l7 15 15 7-15 7-7 15-7-15-15-7 15-7z'/%3E%3Ccircle cx='22' cy='22' r='2' fill='%23c5a059' fill-opacity='.2'/%3E%3C/svg%3E");
+}
+
+.hero::before, .hero::after {
+  content: ''; position: absolute; top: 50px; width: 84px; height: 84px; opacity: .85;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 84 84' fill='none' stroke='%23c5a059' stroke-width='1.2'%3E%3Cpath d='M4 4h36M4 4v36'/%3E%3Cpath d='M10 10l20 20M10 30l20-20' stroke-opacity='.4'/%3E%3Crect x='16' y='16' width='16' height='16' transform='rotate(45 24 24)' fill='%23f8fafc' stroke='%23c5a059'/%3E%3Ccircle cx='24' cy='24' r='2.5' fill='%23c5a059'/%3E%3Ccircle cx='4' cy='4' r='3' fill='%23c5a059'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+.hero::before { left: 14px; }
+.hero::after { right: 14px; transform: scaleX(-1); }
+
+.name {
+  color: var(--primary);
+  text-shadow: 0 2px 4px rgba(30,41,59,.12);
+}
+.amp { color: var(--accent); }
+.monogram {
+  border-radius: 4px;
+  transform: rotate(45deg);
+  border-color: var(--accent);
+  color: var(--primary);
+  background: #ffffff;
+  box-shadow: 0 4px 16px rgba(197,160,89,.25);
+}
+.monogram span, .monogram { display: grid; place-items: center; }
+
+.frame {
+  border-width: 2px;
+  border-color: var(--accent);
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 12px 36px -10px rgba(15,23,42,.08);
+}
+.frame::before {
+  inset: 6px;
+  border-color: var(--line);
+  border-radius: 4px;
+}
+
+.event {
+  border-radius: 8px;
+  border-color: rgba(197,160,89,.25);
+  background: #ffffff;
+  box-shadow: 0 4px 16px -4px rgba(15,23,42,.05);
+}
+.ev-icon {
+  background-color: var(--primary);
+  color: #c5a059;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(15,23,42,.2);
+}
+
+.countdown > div {
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  box-shadow: 0 4px 14px -2px rgba(197,160,89,.18);
+}
+.countdown b { color: var(--primary); }
+
+.seal {
+  background: radial-gradient(circle at 35% 30%, #e2c98a, #8e6c27 75%);
+  color: #0f172a;
+  box-shadow: 0 12px 28px -6px rgba(142,108,39,.5);
+}
+.diya-bowl { background: linear-gradient(#c5a059, #6e5219); }
+.actionbar { background: rgba(15,23,42,.94); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.btn.primary { background: linear-gradient(135deg, #1e293b, #0f172a); color: #c5a059; border: 1px solid var(--accent); }

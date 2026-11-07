@@ -1,0 +1,53 @@
+/* Blender film opening. The poster shows at once; the film itself is fetched quietly as soon as the page is idle (not on the tap), so the tap
+   starts it immediately. Nothing is downloaded on Save-Data / very slow connections / reduced motion, and the invitation stays reachable
+   if playback fails. */
+window.SehraBlenderOpening = {
+  mount(stage, complete, unlock = () => {}) {
+    if (!stage) return;
+    const video = stage.querySelector('video'), play = stage.querySelector('.blender-play');
+    const skip = stage.querySelector('.blender-skip'), status = stage.querySelector('.blender-status');
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const conn = navigator.connection || {};
+    const light = !!conn.saveData;                                   // data saver: no film at all
+    const slow = /(^|-)2g$/.test(conn.effectiveType || '');         // 2G: no background download; the tap still plays it
+    const ur = () => document.documentElement.lang === 'ur';
+    let started = false, done = false, fetched = false, ready = false, timer;
+    const finish = () => { if (done) return; done = true; clearTimeout(timer); observer?.disconnect(); video.pause(); unlock(); complete(); };
+    const fallback = () => { if (done) return; clearTimeout(timer); video.pause(); status.textContent = ur() ? 'دعوت نامہ دیکھنے کے لیے نیچے ٹیپ کریں۔' : 'Tap below to view your invitation.'; play.hidden = false; play.disabled = false; started = true; };
+    /* Start fetching the film (once). */
+    const warm = () => {
+      if (fetched || done || reduced || light) return;
+      fetched = true; video.muted = true; video.preload = 'auto'; video.src = video.dataset.src; video.load();
+    };
+    video.addEventListener('canplay', () => { ready = true; });
+    const idle = cb => ('requestIdleCallback' in window) ? requestIdleCallback(cb, { timeout: 2000 }) : setTimeout(cb, 700);
+    if (!slow) { if (document.readyState === 'complete') idle(warm); else addEventListener('load', () => idle(warm), { once: true }); }
+
+    const fitNames = () => {
+      const names = stage.querySelector('.blender-names'); if (!names) return;
+      names.style.fontSize = '';
+      const shown = [...names.children].find(el => getComputedStyle(el).display !== 'none');
+      if (shown && shown.scrollWidth > names.clientWidth && names.clientWidth) names.style.fontSize = (parseFloat(getComputedStyle(names).fontSize) * names.clientWidth / shown.scrollWidth * .97) + 'px';
+    };
+    const observer = typeof ResizeObserver === 'function' ? new ResizeObserver(fitNames) : null;
+    observer?.observe(stage);
+    document.fonts?.ready.then(fitNames); fitNames();
+
+    play.addEventListener('click', () => {
+      if (done) return;
+      if (started || reduced || light) { finish(); return; }
+      started = true; unlock(); play.disabled = true;
+      warm();                                                        // normally already fetched
+      status.textContent = ready ? '' : (ur() ? 'کھل رہا ہے…' : 'Opening…');
+      timer = setTimeout(fallback, ready ? 12000 : 20000);          // longer allowance while the film is still arriving
+      try { const p = video.play(); p?.catch(fallback); } catch (_) { fallback(); }
+      skip.focus({ preventScroll: true });
+    });
+    skip.addEventListener('click', finish);
+    video.addEventListener('playing', () => { status.textContent = ''; play.hidden = true; clearTimeout(timer); timer = setTimeout(fallback, 15000); });
+    video.addEventListener('ended', finish);
+    video.addEventListener('error', fallback);
+    window.addEventListener('pagehide', () => { clearTimeout(timer); video.pause(); observer?.disconnect(); }, { once: true });
+    video.addEventListener('pause', () => { if (started && !done && !video.ended) { play.hidden = false; play.disabled = false; } });
+  }
+};

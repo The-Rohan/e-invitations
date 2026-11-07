@@ -1,0 +1,130 @@
+
+/* ==========================================================================
+   The same rules, addressed to links.
+
+   Their sidebar, menu and lists drive client-side routing from <button>s.
+   Ours are <a>s, because our screens are real pages: bookmarkable, openable
+   in a new tab, reachable with the back button. That is the one deliberate
+   difference between their markup and ours, and this is its whole cost.
+
+   Every block below is their declaration block with `button` swapped for `a`
+   in the selector -- generated from account.css, not written by hand, so it
+   cannot drift into being a redesign. Regenerate it if their file changes.
+   ========================================================================== */
+
+.account-password-label a {
+  position: absolute;
+  top: -2px;
+  right: 0;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font-family: var(--app-font-sans);
+  font-size: 10px;
+  color: #6d5119;
+  cursor: pointer;
+}
+
+.account-sidebar-nav a, .account-sidebar-bottom a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 42px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  padding: 0 13px;
+  font-family: var(--app-font-sans);
+  font-size: 12px;
+  text-align: left;
+  color: rgba(43, 33, 29, .6);
+  cursor: pointer;
+  transition: background .25s ease, color .25s ease, transform .25s ease;
+}
+
+.account-sidebar-nav a:hover, .account-sidebar-bottom a:hover { background: #f9f4ee; color: #5a1621; transform: translateX(2px);
+}
+
+.account-sidebar-nav a.is-active {
+  background: #5a1621;
+  color: #f3ece4;
+  box-shadow: 0 7px 16px rgba(90, 22, 33, .12);
+}
+
+.account-menu-actions a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 39px;
+  border: 1px solid #5a1621;
+  border-radius: 999px;
+  background: #5a1621;
+  font-family: var(--app-font-sans);
+  font-size: 11px;
+  text-decoration: none;
+  color: #f3ece4;
+  cursor: pointer;
+}
+
+.account-menu-group > a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: 8px 0 2px;
+  font-family: var(--app-font-sans);
+  font-size: 13px;
+  text-align: left;
+  color: #2b211d;
+  cursor: pointer;
+}
+
+.account-menu-group > a.is-selected { font-weight: 800; color: #6d5119;
+}
+
+.account-menu-person > a { justify-content: flex-start; padding-top: 7px;
+}
+
+.account-confirmation-notice a {
+  flex: 0 0 auto;
+  border: 1px solid #5a1621;
+  border-radius: 999px;
+  background: transparent;
+  padding: 7px 11px;
+  font-family: var(--app-font-sans);
+  font-size: 10px;
+  color: #5a1621;
+  cursor: pointer;
+}
+
+.account-quick-link-list a { display: flex; align-items: center; justify-content: space-between; min-height: 35px; border: 1px solid #e6dccf; border-radius: 9px; background: #fffdfa; padding: 0 10px; font-family: var(--app-font-sans); font-size: 10px; text-align: left; text-decoration: none; color: #2b211d; cursor: pointer; transition: border-color .25s ease, background .25s ease;
+}
+
+.account-quick-link-list a:hover { border-color: #6d5119; background: #f9f1e8;
+}
+
+.account-live-update-note a { display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; margin-left: auto; border: 1px solid #5a1621; border-radius: 50%; background: transparent; color: #5a1621; cursor: pointer;
+}
+
+.account-section-list a { display: grid; grid-template-columns: 23px 1fr auto 16px; align-items: center; gap: 9px; min-height: 43px; border: 1px solid #e6dccf; border-radius: 9px; background: #fffdfa; padding: 0 10px; font-size: 11px; text-align: left; color: #2b211d; cursor: pointer;
+}
+
+.account-guest-row a { display: inline-flex; align-items: center; justify-content: center; gap: 5px; border: 1px solid #5a1621; border-radius: 999px; background: transparent; padding: 7px 8px; font-family: var(--app-font-sans); font-size: 9px; color: #5a1621; cursor: pointer;
+}
+
+.account-mobile-drawer-head a { border: 0; background: transparent; color: #5a1621; cursor: pointer;
+}
+
+.account-mobile-drawer nav a, .account-mobile-drawer > a { display: flex; align-items: center; gap: 12px; min-height: 44px; border: 0; border-radius: 10px; background: transparent; padding: 0 12px; font-size: 14px; text-align: left; color: #2b211d; cursor: pointer;
+}
+
+.account-mobile-drawer nav a.is-active { background: #5a1621; color: #f3ece4;
+}
+
+.account-mobile-drawer > a { margin-top: 26px; border-top: 1px solid #ebe2d5; border-radius: 0; padding-top: 20px;
+}

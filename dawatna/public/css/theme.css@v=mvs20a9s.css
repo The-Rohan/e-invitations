@@ -1,0 +1,203 @@
+/* ==========================================================================
+   The landing theme, applied to every storefront page.
+
+   The homepage is a compiled bundle with its own palette and type. Every
+   other page -- about, questions, blog, a design's detail page, checkout --
+   was still on the old maroon-on-ivory scheme, so following a link off the
+   homepage felt like leaving the site.
+
+   Rather than rewrite those pages, this redefines the tokens they are already
+   built on. tokens.css is the one place any colour is declared and every
+   storefront stylesheet reads from it, so replacing the values re-themes all
+   of them at once and nothing has to be touched twice.
+
+   Loaded last, and only on storefront pages: the panel and the admin keep the
+   scheme they have.
+   ========================================================================== */
+
+/* The faces are linked from views/partials/head.ejs. They were @imported
+   here, which cost a round trip: the browser cannot ask for a font until the
+   stylesheet naming it has downloaded. */
+
+body.is-storefront {
+  /* ---- the landing palette, named the way tokens.css names things ---- */
+  --maroon:        #762337;
+  --maroon-deep:   #5f1b2c;
+  --maroon-lift:   #8d2b42;
+  --maroon-wash:   #f3e3d5;
+  --maroon-line:   rgba(118, 35, 55, .18);
+  --maroon-faint:  rgba(118, 35, 55, .07);
+
+  --gold:          #c08a2e;
+  --gold-wash:     #f7efdd;
+
+  --cream:         #f7eddd;
+  --cream-2:       #fdf6ea;
+  --cream-deep:    #f0e3d2;
+  --surface:       #fdf6ea;
+  --surface-sunk:  #f3e8d6;
+  --on-brand:      #f8ecd9;
+
+  --ink:           #3d141e;
+  --ink-soft:      rgba(61, 20, 30, .70);
+  --ink-faint:     rgba(61, 20, 30, .45);
+  --ink-ghost:     rgba(61, 20, 30, .12);
+
+  --line:          #d7c3a9;
+  --line-soft:     rgba(215, 195, 169, .55);
+
+  /* The two colours the old scheme had no name for, because it had no green
+     and only one red. */
+  --accent-soft:   #c65d55;
+  --maroon-soft:   #c65d55;
+  --forest:        #2d654d;
+
+  /* ---- the three faces the landing design uses ---- */
+  --font-display:  'Cormorant Garamond', Georgia, serif;
+  --font-body:     'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono-ui:  'Space Mono', ui-monospace, SFMono-Regular, monospace;
+  --serif:         'Cormorant Garamond', Georgia, serif;
+  --sans:          'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --mono:          'Space Mono', ui-monospace, SFMono-Regular, monospace;
+
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-body);
+}
+
+/* Headings carry the display face and its tight, low-contrast setting -- the
+   single biggest thing that makes a page read as part of this design. */
+body.is-storefront h1,
+body.is-storefront h2,
+body.is-storefront h3,
+body.is-storefront .display,
+body.is-storefront .site-h1,
+body.is-storefront .section-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -.035em;
+  line-height: .98;
+  color: var(--maroon);
+  text-wrap: balance;
+}
+
+body.is-storefront h1, body.is-storefront .display { font-size: clamp(38px, 5.4vw, 76px); }
+body.is-storefront h2 { font-size: clamp(28px, 3.6vw, 50px); }
+body.is-storefront h3 { font-size: clamp(19px, 1.6vw, 26px); letter-spacing: -.02em; }
+
+/* The leaning half of a heading. The landing design builds every one of them
+   this way: an upright clause and an italic one in the softer red. */
+body.is-storefront h1 em, body.is-storefront h2 em, body.is-storefront h3 em,
+body.is-storefront .display em {
+  font-style: italic;
+  color: var(--accent-soft);
+}
+
+/* Small tracked capitals, everywhere the old design used a plain label. */
+body.is-storefront .eyebrow,
+body.is-storefront .kicker,
+body.is-storefront .sa-mono,
+body.is-storefront .mono {
+  font-family: var(--font-mono-ui);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .17em;
+  text-transform: uppercase;
+  color: var(--accent-soft);
+}
+
+/* Buttons become pills, which is the shape the landing uses throughout. */
+body.is-storefront .btn,
+body.is-storefront .nav-cta,
+body.is-storefront button.btn {
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: 11.5px;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  transition: transform .3s cubic-bezier(.2,.8,.2,1), background .3s ease, color .3s ease, box-shadow .3s ease;
+}
+body.is-storefront .btn:hover { transform: translateY(-2px); }
+body.is-storefront .btn-primary:hover,
+body.is-storefront .nav-cta:hover { box-shadow: 0 12px 24px rgba(118, 35, 55, .24); }
+
+/* Cards and panels: the same soft lift the landing gives everything. */
+body.is-storefront .card,
+body.is-storefront .panel,
+body.is-storefront .tcard,
+body.is-storefront .post-card {
+  border-radius: 16px;
+  border-color: var(--line);
+  background: var(--surface);
+  transition: transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s ease, border-color .4s ease;
+}
+body.is-storefront .tcard:hover,
+body.is-storefront .post-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px rgba(20, 12, 12, .12);
+  border-color: rgba(118, 35, 55, .28);
+}
+
+/* The header capsule and the footer, so the chrome matches the homepage on
+   every page that is not the homepage. */
+body.is-storefront .nav-bar {
+  background: rgba(247, 237, 221, .92);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+body.is-storefront .brand span { font-family: var(--font-display); font-size: 25px; font-weight: 600; letter-spacing: -.045em; }
+body.is-storefront .nav-links a {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .17em;
+  text-transform: uppercase;
+  color: rgba(118, 35, 55, .7);
+}
+body.is-storefront .nav-links a:hover,
+body.is-storefront .nav-links a.is-here { color: var(--accent-soft); }
+
+body.is-storefront .site-foot {
+  background: var(--maroon);
+  color: var(--on-brand);
+  border-top: 0;
+}
+body.is-storefront .site-foot a { color: rgba(248, 236, 217, .7); }
+body.is-storefront .site-foot a:hover { color: var(--gold); }
+
+@media (prefers-reduced-motion: reduce) {
+  body.is-storefront * { transition-duration: .001ms !important; }
+}
+
+/* ==========================================================================
+   Vertical rhythm, for a laptop.
+
+   These sections were measured against a full-height display and a header
+   that used to float over the page instead of sitting above it. On a 13"
+   laptop the result was a screen and a half of cream before the first word,
+   and sections that could not be seen whole without scrolling twice.
+
+   The clamps below are the same shape as the ones they replace — a floor for
+   phones, a ceiling for large displays — pulled in at both ends.
+   ========================================================================== */
+
+/* The header is solid and 100px tall including its notice bar. The hero used
+   to reserve room for a floating capsule that no longer exists. */
+body.is-storefront .hero {
+  min-height: min(78svh, 660px);
+  padding-top: clamp(38px, 5vh, 64px);
+}
+body.is-storefront .hero-short {
+  min-height: 0;
+  padding-bottom: clamp(24px, 3.5vh, 40px);
+}
+
+/* 128px above the first line of a page, directly under the header, is a gap
+   nobody asked for. Interior sections keep their air; the one that opens a
+   page does not need to announce itself twice. */
+body.is-storefront .section { padding: clamp(52px, 6vw, 84px) 0; }
+body.is-storefront main > .section:first-child,
+body.is-storefront main > .cat-hero:first-child { padding-top: clamp(30px, 3.4vw, 48px); }
+body.is-storefront .section-head { margin-bottom: clamp(28px, 3.4vw, 44px); }

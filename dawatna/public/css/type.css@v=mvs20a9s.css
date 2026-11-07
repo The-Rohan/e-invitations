@@ -1,0 +1,94 @@
+/* ==========================================================================
+   A floor for small text, and a higher one on a phone.
+
+   Most of the type on this site sits in small tracked capitals -- eyebrows,
+   chips, table labels, the notice bar. Uppercase mono reads about a size
+   smaller than it measures, which is how a lot of it drifted down to 9px in
+   the first place: it looks right in a mockup at 100% on a large display and
+   is genuinely hard to read on a phone held at arm's length.
+
+   The base sizes have already been raised across the component sheets. This
+   file adds the second half: on a narrow screen everything small goes up
+   again. It is a separate file rather than a media query in each sheet
+   because the rule is one decision -- "nothing on this site is smaller than
+   this" -- and it should be legible in one place, and tunable in one place.
+
+   Loaded last on storefront pages. The compiled homepage carries the same
+   floor in landing/src/index.css, applied to its own utility classes.
+
+   Excluded on purpose: the little drawings inside the bento tiles. A 6px
+   label inside a mock browser window is a picture of small print seen at a
+   distance, not text anybody is meant to read, and enlarging it only makes
+   the drawing look wrong.
+   ========================================================================== */
+
+@media (max-width: 700px) {
+  /* ---- shared chrome ---- */
+  .ci-top { font-size: 11.5px; }
+  .ci-nav a,
+  .ci-signin,
+  .ci-cta { font-size: 12px; }
+  .ci-foot-note,
+  .ci-foot-col a,
+  .ci-foot-col p,
+  .ci-foot-base { font-size: 13.5px; }
+
+  /* ---- the preview dialog and its controls ---- */
+  .ci-swatch-note,
+  .ci-swatch-reset { font-size: 11.5px; }
+  .ci-pack-n { font-size: 13.5px; }
+  .ci-pack-p { font-size: 11.5px; }
+  .ci-sold { font-size: 11.5px; }
+  .ci-phone-play,
+  .ci-phone-load-t { font-size: 11px; }
+
+  /* ---- the guest panel ----
+     The densest thing on the site: a table of five rows, each with a name, a
+     date and a headcount, inside a card that is already narrow. */
+  .gp-kicker { font-size: 11.5px; }
+  .gp-no { font-size: 12px; }
+  .gp-tab-name { font-size: 14px; }
+  .gp-tab-sub { font-size: 11px; }
+  .gp-style { font-size: 11px; }
+  .gp-style-note { font-size: 11.5px; }
+  .gp-link-url { font-size: 12px; }
+  .gp-link-tag { font-size: 11px; }
+  .gp-table-head { font-size: 11.5px; }
+  .gp-date { font-size: 11px; }
+  .gp-seats { font-size: 12px; }
+  .gp-foot,
+  .gp-reset { font-size: 11.5px; }
+
+  /* ---- a design's own page ---- */
+  .tpl-back { font-size: 11.5px; }
+  .tpl-eyebrow { font-size: 11.5px; }
+  .tpl-tagline { font-size: 15px; }
+  .tpl-highlights li { font-size: 14.5px; }
+  .tpl-stage-note { font-size: 14px; }
+  .tpl-guests-copy p { font-size: 15px; }
+  .tpl-guests-points li { font-size: 14.5px; }
+  .tpl-guests .tpl-guests-note { font-size: 11.5px; }
+  .bt-tag { font-size: 11px; }
+  .bt-no { font-size: 11.5px; }
+  .bt p { font-size: 14.5px; }
+
+  /* ---- the marketing pages ---- */
+  body.is-storefront .eyebrow,
+  body.is-storefront .kicker,
+  body.is-storefront .mono { font-size: 11.5px; }
+  .tcard-desc,
+  .inc p,
+  .lede,
+  .hero-note { font-size: 14.5px; }
+  .badge { font-size: 12px; }
+}
+
+
+/* Something big enough to press.
+
+   The testimonial dots are 8px, and a thumb is not. The dot stays the size it
+   was drawn at; what grows is the area that answers a press, out to 24px with a
+   gap between neighbours (Lighthouse's touch-target floor). Drawn as a
+   transparent pseudo-element over the button, so nothing about the look changes. */
+.ci-dot { position: relative; }
+.ci-dot::after { content: ''; position: absolute; inset: -9px -8px; }

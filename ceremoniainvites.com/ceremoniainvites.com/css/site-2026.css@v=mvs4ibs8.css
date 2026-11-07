@@ -1,0 +1,156 @@
+/* Every other page of the shop in the homepage's theme (2026-10-22, Ahmad:
+   "revamp the whole website to match the new theme ... so everything is
+   consistent").
+
+   Loaded last on storefront pages (views/partials/head.ejs), after the older
+   site.css / theme.css / chrome.css stack, and only re-dresses it: the same
+   pages, the same markup, in the homepage's colours (public/css/home-2026.css),
+   its one typeface, its pill buttons and its quiet cards. The header and the
+   footer are the homepage's own (views/partials/nav.ejs, foot.ejs). */
+
+body.is-storefront {
+  /* The older stylesheets read these; pointed at the new palette. */
+  --maroon: #5a1621; --maroon-deep: #4b1520; --maroon-lift: #6a1f2c;
+  --maroon-wash: #f1e9de; --maroon-line: rgba(90, 22, 33, .16); --maroon-faint: rgba(90, 22, 33, .06);
+  --gold: #a8842f; --gold-wash: #f6efe0;
+  --cream: #f9f4ee; --cream-deep: #f1e9de; --surface: #fffdfa; --surface-sunk: #f4ede4; --on-brand: #fff;
+  --ink: #2b211d; --ink-soft: rgba(43, 33, 29, .72); --ink-faint: rgba(43, 33, 29, .5); --ink-ghost: rgba(43, 33, 29, .12);
+  --line: #e6dccf; --line-soft: rgba(230, 220, 207, .6);
+  --accent: #5a1621; --accent-dark: #4b1520; --accent-wash: #f1e9de; --accent-soft: #6d5119; --maroon-soft: #6d5119;
+  --bg: #f9f4ee; --border: #e6dccf;
+  --font-display: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono-ui: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --serif: var(--font-display); --sans: var(--font-body); --mono: var(--font-mono-ui);
+  --display: var(--font-display); --body: var(--font-body);
+  background: var(--hm-cream);
+  color: var(--hm-ink);
+  font: 400 15px/1.55 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* The header and footer sit in a .hm box of their own, so the homepage's
+   resets reach them and nothing else on the page. */
+.hm-chrome { font: 400 15px/1.55 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; color: var(--hm-ink); }
+
+/* The sale's countdown, above the header, while there is one. */
+.hm-sale-bar { display: flex; justify-content: center; align-items: center; gap: 8px; padding: 8px var(--hm-side); background: var(--hm-maroon); color: #f6ead6; font-size: 12.5px; letter-spacing: .02em; text-align: center; }
+.hm-sale-bar b { font-weight: 600; color: var(--hm-gold-soft); font-variant-numeric: tabular-nums; }
+
+/* ------------------------------------------------------------ type */
+body.is-storefront :is(h1, h2, h3, .display, .site-h1, .section-title) {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 500;
+  letter-spacing: -.035em;
+  line-height: 1.12;
+  color: var(--hm-maroon);
+  text-wrap: balance;
+}
+body.is-storefront :is(h1, .display, .site-h1) { font-size: clamp(30px, min(4vw, 6vh), 48px); }
+body.is-storefront h2, body.is-storefront .section-title { font-size: clamp(24px, min(2.7vw, 4.4vh), 36px); }
+body.is-storefront h3 { font-size: clamp(17px, 1.4vw, 20px); letter-spacing: -.02em; line-height: 1.25; }
+body.is-storefront :is(h1, h2, h3, .display) em { font-style: normal; color: var(--hm-ink); opacity: .72; }
+body.is-storefront :is(.lede, .step-lead, .transfer-sub) { color: var(--hm-muted); font-size: 16px; line-height: 1.6; }
+body.is-storefront :is(.hint, .hero-note, .updated, .post-card-meta) { color: var(--hm-muted); }
+
+body.is-storefront :is(.eyebrow, .kicker, .sa-mono, .mono) {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: #4b3f39;
+}
+
+body.is-storefront a:not([class]):not(.hm-chrome a) { color: var(--hm-maroon); text-decoration: underline; text-decoration-color: rgba(90, 22, 33, .3); text-underline-offset: 3px; }
+body.is-storefront a:not([class]):not(.hm-chrome a):hover { text-decoration-color: currentColor; }
+
+/* ------------------------------------------------------------ buttons
+   The homepage's pills: dark ink, white words, a soft ring. */
+body.is-storefront :is(.btn, button.btn, .nav-cta) {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: -.01em;
+  text-transform: none;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: var(--hm-ink);
+  color: #fff;
+  box-shadow: 0 0 0 4px rgba(43, 33, 29, .07), 0 12px 22px -12px rgba(43, 33, 29, .45);
+  transition: transform .35s var(--hm-ease), box-shadow .35s var(--hm-ease), background .3s ease, color .3s ease;
+}
+body.is-storefront :is(.btn, .nav-cta):hover { background: #3a2d27; transform: translateY(-2px); box-shadow: 0 0 0 4px rgba(43, 33, 29, .09), 0 16px 26px -12px rgba(43, 33, 29, .5); }
+body.is-storefront .btn:active { transform: scale(.97); transition-duration: .1s; }
+body.is-storefront .btn-ghost { background: transparent; color: var(--hm-ink); border-color: var(--hm-line); box-shadow: none; }
+body.is-storefront .btn-ghost:hover { background: var(--hm-paper); color: var(--hm-ink); border-color: #d6c9b8; box-shadow: none; }
+body.is-storefront .btn-sm { font-size: 13.5px; }
+body.is-storefront .btn-wa { background: #2f7a4b; color: #fff; }
+body.is-storefront .btn-wa:hover { background: #276841; }
+body.is-storefront .btn:disabled { opacity: .5; transform: none; box-shadow: none; }
+
+/* ------------------------------------------------------------ cards */
+body.is-storefront :is(.card, .panel, .tcard, .post-card, .step-card, .pay-panel, .faq-item) {
+  border-radius: 18px;
+  border: 1px solid var(--hm-line);
+  background: var(--hm-paper);
+  box-shadow: var(--hm-shadow);
+}
+body.is-storefront :is(.tcard, .post-card):hover { transform: translateY(-3px); border-color: #d6c9b8; box-shadow: 0 1px 2px rgba(43, 33, 29, .05), 0 18px 34px -16px rgba(43, 33, 29, .22); }
+
+/* ------------------------------------------------------------ forms */
+body.is-storefront :is(input:not([type=radio]):not([type=checkbox]), select, textarea) {
+  font-family: 'Inter', system-ui, sans-serif;
+  border-color: var(--hm-line);
+  border-radius: 12px;
+  background-color: #fff;
+  color: var(--hm-ink);
+}
+body.is-storefront :is(input, select, textarea):focus { border-color: var(--hm-gold); outline: none; box-shadow: 0 0 0 3px rgba(207, 169, 84, .22); }
+body.is-storefront :is(input[type=radio], input[type=checkbox]) { accent-color: var(--hm-ink); }
+body.is-storefront .field-label { font-weight: 500; color: var(--hm-ink); letter-spacing: 0; text-transform: none; font-family: 'Inter', system-ui, sans-serif; }
+body.is-storefront :is(.alert-error, .field-error) { color: #93321f; }
+
+/* ------------------------------------------------------------ the buy steps */
+body.is-storefront :is(.stepper-num, .step-n) { font-family: 'Inter', system-ui, sans-serif; font-weight: 500; }
+body.is-storefront .stepper .is-on, body.is-storefront .co-step.is-on { background: var(--hm-ink); color: #fff; border-color: var(--hm-ink); }
+body.is-storefront .stepper .is-on :is(.stepper-num, .stepper-dot) { border-color: rgba(255, 255, 255, .6); color: #fff; }
+body.is-storefront .step-count { color: var(--hm-muted); }
+
+/* The breadcrumb trail and the FAQ sign, in the quieter tone. */
+body.is-storefront .crumbs, body.is-storefront .crumbs a { color: var(--hm-muted); font-size: 13px; }
+body.is-storefront .faq-sign { color: var(--hm-maroon); }
+
+/* ------------------------------------------------------------ on maroon
+   "Something different in mind?" (.custom) and the bar above the shop:
+   light words and light buttons, as the homepage does on its dark grounds. */
+body.is-storefront :is(.custom, .announce-bar) :is(h1, h2, h3) { color: #fff; }
+body.is-storefront .custom h2 { margin: 18px auto 28px; }
+body.is-storefront .custom :is(h1, h2, h3) em { color: var(--hm-gold-soft); opacity: 1; }
+body.is-storefront .custom .eyebrow { color: rgba(255, 255, 255, .7); background: transparent; border-color: rgba(255, 255, 255, .28); }
+body.is-storefront .custom .btn { background: var(--hm-beige); color: var(--hm-ink); box-shadow: 0 0 0 4px rgba(235, 226, 213, .22), 0 10px 24px -10px rgba(0, 0, 0, .35); }
+body.is-storefront .custom .btn:hover { background: #fff; color: var(--hm-ink); }
+body.is-storefront .custom .btn-ghost { background: rgba(255, 255, 255, .1); color: #fff; border-color: rgba(255, 255, 255, .28); box-shadow: none; }
+body.is-storefront .custom .btn-ghost:hover { background: rgba(255, 255, 255, .18); color: #fff; }
+
+/* ------------------------------------------------------------ sign up, forgot, reset
+   The words on the maroon half: light, the second line in soft gold. */
+body.is-storefront .auth-brand :is(h1, h2, h3, .auth-display) { color: #fff; font-size: clamp(30px, 3.4vw, 44px); line-height: 1.08; }
+body.is-storefront .auth-eyebrow { color: var(--hm-gold-soft); }
+body.is-storefront .auth-brand-note { color: rgba(255, 255, 255, .72); }
+
+/* ------------------------------------------------------------ a shelf's designs
+   The homepage's cards (views/storefront/category.ejs), every one of them in
+   a grid rather than a sliding row. */
+.hm-cat-shop { margin-top: 26px; }
+.hm-cat-shop .hm-filters { margin-bottom: 22px; }
+.hm-track.hm-grid { grid-auto-flow: row; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-columns: auto; overflow: visible; scroll-snap-type: none; margin: 0; padding: 0; gap: 22px 18px; }
+@media (max-width: 1180px) { .hm-track.hm-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 860px) { .hm-track.hm-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 12px; } }
+@media (max-width: 560px) { .hm-track.hm-grid { grid-template-columns: minmax(0, 1fr); } }
+.hm-track.hm-grid .hm-none { grid-column: 1 / -1; }
+
+/* ------------------------------------------------------------ not found, went wrong
+   The two error pages: the message in the middle of the screen. */
+body.is-storefront main.page.centered { min-height: 56vh; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 14px; padding: 72px var(--hm-side); text-align: center; }
+body.is-storefront main.page.centered p { margin: 0; }

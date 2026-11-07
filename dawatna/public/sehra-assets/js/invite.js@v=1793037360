@@ -1,0 +1,467 @@
+/* Dawatnama invitation engine – no dependencies */
+(function () {
+  'use strict';
+  const I = window.INVITE || {};
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const html = document.documentElement;
+  if (window !== window.top) html.classList.add('embedded');   // inside the landing-page phone mockup
+
+  /* ---------------- card extras: haptics and text size (switched on per card; absent on older cards) ---------------- */
+  const X = I.extras || {};
+  function hap(p) { if (!X.haptics || !navigator.vibrate) return; try { navigator.vibrate(p); } catch (_) {} }
+  const sizeBtn = $('#sizeBtn');
+  if (sizeBtn) {   // Aa: 100% / 112% / 125% of the page's text, remembered on this phone
+    const STEPS = [100, 112, 125]; let si = 0; try { si = +localStorage.getItem('sehra_tsz') || 0; } catch (_) {} if (si < 0 || si >= STEPS.length) si = 0;
+    const applySize = () => { html.style.fontSize = STEPS[si] === 100 ? '' : STEPS[si] + '%'; sizeBtn.classList.toggle('on', si > 0); sizeBtn.dataset.size = STEPS[si]; sizeBtn.setAttribute('aria-label', 'Text size ' + STEPS[si] + '%'); window.dispatchEvent(new Event('resize')); };
+    sizeBtn.addEventListener('click', () => { si = (si + 1) % STEPS.length; try { localStorage.setItem('sehra_tsz', si); } catch (_) {} applySize(); hap(8); });
+    applySize();
+  }
+
+  /* ---------------- language ---------------- */
+  let saved = null;
+  try { saved = localStorage.getItem('dn_lang_' + I.slug); } catch (_) {}
+  if (saved === 'en' || saved === 'ur') setLang(saved);
+  function setLang(l) { html.setAttribute('data-lang', l); html.lang = l; try { localStorage.setItem('dn_lang_' + I.slug, l); } catch (_) {} updateShareLink(); }
+  $('#langBtn')?.addEventListener('click', () => { setLang(html.getAttribute('data-lang') === 'ur' ? 'en' : 'ur'); hap(8); });
+
+  /* ---------------- audio ---------------- */
+  const musicBtn = $('#musicBtn');
+  const musicPlayer = window.SehraAudio?.create(musicBtn);
+  function unlock() { musicPlayer?.unlock(); }
+
+  /* ---------------- entrance ---------------- */
+  const ent = $('#entrance');
+  const demoOpening = document.body.classList.contains('demo-design') || I.entrance === 'floral' || !!$('#blenderStage') || !!$('#atelierStage');
+  const card = $('#card');
+  // Keep keyboard/screen-reader focus on the opening until the invitation is revealed.
+  if (demoOpening) [card, $('.controls'), $('#actionbar')].forEach(el => { if (el) el.inert = true; });
+  let entered = false;
+  function enter() {
+    if (entered) return; entered = true;
+    ent.classList.add('leave');
+    musicPlayer?.start();
+    setTimeout(() => {
+      document.body.classList.remove('pre-entry'); ent.remove();
+      if (demoOpening) {
+        [card, $('.controls'), $('#actionbar')].forEach(el => { if (el) el.inert = false; });
+        card?.focus({ preventScroll: true });
+      }
+      revealNow(); startPetals();
+    }, reduce ? 50 : 1000);
+    try { if (navigator.maxTouchPoints > 0) navigator.vibrate(30); } catch (_) {}
+  }
+  if (reduce && !$('#gatefoldContinue') && !$('#blenderStage') && !$('#atelierStage')) { /* still require one tap so audio can start */ ent.addEventListener('click', () => { unlock(); enter(); }, { once: true }); }
+  window.SehraBlenderOpening?.mount($('#blenderStage'), enter, unlock);
+  window.SehraAtelierOpening?.mount($('#atelierStage'), enter, unlock);
+
+  // Floral stationery: untie the ribbon, unfold four panels, reveal live details.
+  const floralStage = $('#floralStage');
+  if (floralStage) {
+    let opened = false, openingTimer = 0;
+    const openFloral = () => {
+      if (opened || entered) return;
+      opened = true; unlock();
+      floralStage.classList.add('is-open');
+      $('#floralOpen').setAttribute('aria-expanded', 'true');
+      // Move focus before the ribbon fades so keyboard users can skip the sequence.
+      $('#floralContinue').focus({ preventScroll: true });
+      openingTimer = setTimeout(enter, reduce ? 0 : 12500);
+    };
+    $('#floralOpen').addEventListener('click', openFloral);
+    $('#floralContinue').addEventListener('click', () => {
+      clearTimeout(openingTimer); unlock(); enter();
+    });
+    window.addEventListener('pagehide', () => clearTimeout(openingTimer), { once: true });
+  }
+
+  // Heirloom book: turn the cloth cover, then lift the paper invitation.
+  const bookOpen = $('#bookOpen');
+  if (bookOpen) bookOpen.addEventListener('click', () => {
+    unlock();
+    $('#invitationBook')?.classList.add('opened');
+    bookOpen.setAttribute('aria-expanded', 'true');
+    setTimeout(enter, reduce ? 50 : 1950);
+  }, { once: true });
+
+  // origami: tap the wax seal to unfold 4 flaps in 3D (Bazm-e-Ghulab)
+  const origamiSeal = $('#origamiSeal');
+  if (origamiSeal) {
+    let unfolded = false;
+    const unfoldOrigami = () => {
+      if (unfolded) return; unfolded = true;
+      unlock();
+      $('#origamiBox')?.classList.add('unfolded');
+      setTimeout(enter, 1350);
+    };
+    origamiSeal.addEventListener('click', unfoldOrigami, { once: true });
+    $('#origamiBox')?.addEventListener('click', unfoldOrigami);
+    ent.addEventListener('click', unfoldOrigami);
+  }
+
+  // bow: tap the bow (or pull a ribbon tail down) to untie it; the ribbons slide away and the panels part
+  const bowStage = $('#bowStage');
+  if (bowStage) {
+    let y0 = null, done = false;
+    const untie = () => { if (done) return; done = true; unlock(); bowStage.classList.add('untie'); ent.classList.add('untying'); try { if (navigator.maxTouchPoints > 0) navigator.vibrate(18); } catch (_) {} setTimeout(enter, 1900); };
+    $('#bowBtn').addEventListener('click', untie);
+    bowStage.addEventListener('pointerdown', e => { y0 = e.clientY; });
+    bowStage.addEventListener('pointermove', e => { if (y0 !== null && e.clientY - y0 > 50) untie(); });
+    addEventListener('pointerup', () => { y0 = null; });
+  }
+
+  // gatefold: tap the silk ribbon bow to untie and open the doors
+  const gatefoldBow = $('#gatefoldBow');
+  if (gatefoldBow) {
+    let opened = false;
+    const openGatefold = () => {
+      if (opened) return; opened = true;
+      unlock();
+      $('#gatefoldRibbon')?.classList.add('untied');
+      $('#gatefoldDoors')?.classList.add('open');
+      const next=$('#gatefoldContinue');
+      if(next){setTimeout(()=>{next.hidden=false;$('#gatefoldStage')?.classList.add('note-open');window.dispatchEvent(new Event('resize'));next.focus({preventScroll:true});},reduce?0:1400);}
+      else setTimeout(enter,1400);
+    };
+    gatefoldBow.addEventListener('click', openGatefold, { once: true });
+    $('#gatefoldContinue')?.addEventListener('click',event=>{event.stopPropagation();enter();},{once:true});
+    $('#gatefoldRibbon')?.addEventListener('click', openGatefold);
+    $('#gatefoldStage')?.addEventListener('click', openGatefold);
+    ent.addEventListener('click', openGatefold);
+  }
+
+  // noor: tap the fanoos lantern to illuminate the arch
+  const noorFanoos = $('#noorFanoos');
+  if (noorFanoos) {
+    let lit = false;
+    const lightNoor = () => {
+      if (lit) return; lit = true;
+      unlock();
+      $('.noor-arch-frame')?.classList.add('illuminated');
+      setTimeout(enter, 1250);
+    };
+    noorFanoos.addEventListener('click', lightNoor, { once: true });
+    $('#noorStage')?.addEventListener('click', lightNoor);
+    ent.addEventListener('click', lightNoor);
+  }
+
+  // diya: press & hold ~1.4s
+  const diya = $('#diya');
+  if (diya) {
+    let f = 0, raf = 0, holding = false, last = 0, dq = 0;
+    const HOLD_MS = 1300;
+    const set = v => { f = Math.max(0, Math.min(1, v)); ent.style.setProperty('--f', f.toFixed(3)); };
+    const loop = t => { const dt = last ? t - last : 16; last = t; set(f + (holding ? dt / HOLD_MS : -dt / 500)); const nq = Math.floor(f * 4); if (holding && nq > dq) hap(10); dq = nq; if (f >= 1) { hap([20, 40, 30]); ent.classList.add('lit'); set(1); setTimeout(enter, 500); return; } if (holding || f > 0) raf = requestAnimationFrame(loop); };
+    let downAt = 0;
+    const down = e => { e.preventDefault(); unlock(); holding = true; last = 0; downAt = performance.now(); cancelAnimationFrame(raf); raf = requestAnimationFrame(loop); };
+    // a quick tap (mouse click / light touch) lights the lamp on its own instead of doing nothing
+    const up = () => { if (holding && performance.now() - downAt < 350 && f < 1) return; holding = false; };
+    ent.addEventListener('pointerdown', down); ent.addEventListener('pointerup', up); ent.addEventListener('pointercancel', up); ent.addEventListener('pointerleave', up);
+  }
+
+  // seal: tap
+  const seal = $('#seal');
+  if (seal) seal.addEventListener('click', () => { unlock(); $('#envelope').classList.add('open'); setTimeout(enter, 2100); }, { once: true });
+
+  // sehra: swipe or tap to part the floral veil
+  const sehraStage = $('#sehraStage');
+  if (sehraStage) {
+    let x0 = null, parted = false;
+    const partSehra = () => {
+      if (parted) return; parted = true;
+      unlock();
+      sehraStage.classList.add('parted');
+      setTimeout(enter, 1200);
+    };
+    ent.addEventListener('pointerdown', e => { unlock(); x0 = e.clientX; });
+    ent.addEventListener('pointermove', e => {
+      if (x0 === null) return;
+      if (Math.abs(e.clientX - x0) > 35) { partSehra(); x0 = null; }
+    });
+    ent.addEventListener('pointerup', e => {
+      if (x0 !== null && Math.abs((e?.clientX ?? x0) - x0) < 15) partSehra();
+      x0 = null;
+    });
+    ent.addEventListener('click', partSehra);
+  }
+
+  // farmaan: tap the royal seal to unroll the decree
+  const farmaanSeal = $('#farmaanSeal');
+  if (farmaanSeal) {
+    let unrolled = false;
+    const unrollFarmaan = () => {
+      if (unrolled) return; unrolled = true;
+      unlock();
+      $('#farmaanBox')?.classList.add('unrolled');
+      setTimeout(enter, 1300);
+    };
+    farmaanSeal.addEventListener('click', unrollFarmaan, { once: true });
+    $('#farmaanBox')?.addEventListener('click', unrollFarmaan);
+    ent.addEventListener('click', unrollFarmaan);
+  }
+
+  // doors: knock three times
+  const doors = $('#doors');
+  if (doors) {
+    let n = 0; const dots = $$('.knocks i');
+    ent.addEventListener('pointerdown', e => {
+      if (doors.classList.contains('open')) return;
+      unlock(); n++; dots[n - 1]?.classList.add('on');
+      doors.classList.remove('knock'); void doors.offsetWidth; doors.classList.add('knock');
+      try { if (navigator.maxTouchPoints > 0) navigator.vibrate(15); } catch (_) {}
+      if (n >= 3) { doors.classList.add('open'); setTimeout(enter, 1300); }
+    });
+    ent.addEventListener('click', e => { if (e.detail === 0) ent.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true })); });   // Enter / Space on a knocker
+  }
+
+  // curtains: swipe / drag horizontally (either direction), or click on desktop
+  const curtains = $('#curtains');
+  if (curtains) {
+    let x0 = null, p = 0;
+    const setP = v => { p = Math.max(0, Math.min(1, v)); curtains.style.setProperty('--p', p.toFixed(3)); };
+    ent.addEventListener('pointerdown', e => { unlock(); x0 = e.clientX; curtains.classList.add('drag'); });
+    ent.addEventListener('pointermove', e => { if (x0 === null) return; setP(Math.abs(e.clientX - x0) / (innerWidth * 0.45)); });
+    let moved = 0;
+    const end = e => { if (x0 === null) return; curtains.classList.remove('drag'); const tap = Math.abs((e?.clientX ?? x0) - x0) < 8; if (p > 0.5 || tap) { curtains.classList.add('open'); setTimeout(enter, 1100); } else setP(0); x0 = null; };
+    ent.addEventListener('pointerup', end); ent.addEventListener('pointercancel', end);
+    ent.addEventListener('dblclick', () => { curtains.classList.add('open'); setTimeout(enter, 1100); });
+    ent.addEventListener('click', e => { if (e.detail === 0 && !curtains.classList.contains('open')) { unlock(); curtains.classList.add('open'); setTimeout(enter, 1100); } });   // Enter / Space on the tassel
+  }
+
+  // scratch card: rub away the gold foil (>45% cleared opens the card)
+  const scratchBox = $('#scratch');
+  if (scratchBox) {
+    const cv = $('#scratchCanvas'), ctx = cv.getContext('2d');
+    const size = () => { const r = scratchBox.getBoundingClientRect(); cv.width = r.width * devicePixelRatio; cv.height = r.height * devicePixelRatio; paintFoil(); };
+    const paintFoil = () => {
+      const g = ctx.createLinearGradient(0, 0, cv.width, cv.height);
+      g.addColorStop(0, '#b8902a'); g.addColorStop(.3, '#f3dc8a'); g.addColorStop(.5, '#c9a227'); g.addColorStop(.7, '#f7e7a8'); g.addColorStop(1, '#a67c1b');
+      ctx.globalCompositeOperation = 'source-over'; ctx.fillStyle = g; ctx.fillRect(0, 0, cv.width, cv.height);
+      ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.font = `600 ${16 * devicePixelRatio}px Inter, sans-serif`; ctx.textAlign = 'center';
+      ctx.fillText('✦  SCRATCH HERE  ✦', cv.width / 2, cv.height / 2 + 6 * devicePixelRatio);
+      for (let i = 0; i < 40; i++) { ctx.fillStyle = 'rgba(255,255,255,' + (Math.random() * .25) + ')'; ctx.fillRect(Math.random() * cv.width, Math.random() * cv.height, 2, 2); }
+    };
+    size(); addEventListener('resize', size);
+    let down = false, cleared = 0, samples = 0;
+    const rub = e => {
+      const r = cv.getBoundingClientRect(); const x = (e.clientX - r.left) * devicePixelRatio, y = (e.clientY - r.top) * devicePixelRatio;
+      ctx.globalCompositeOperation = 'destination-out'; ctx.fillStyle = '#000'; ctx.beginPath(); ctx.arc(x, y, 26 * devicePixelRatio, 0, Math.PI * 2); ctx.fill();
+      if (++samples % 12 === 0) {
+        const d = ctx.getImageData(0, 0, cv.width, cv.height).data; let t = 0; for (let i = 3; i < d.length; i += 4 * 16) if (d[i] < 40) t++;
+        cleared = t / (d.length / (4 * 16));
+        if (cleared > .45) { scratchBox.classList.add('done'); setTimeout(enter, 900); }
+      }
+    };
+    let moves = 0;
+    cv.addEventListener('pointerdown', e => { unlock(); down = true; moves = 0; rub(e); });
+    cv.addEventListener('pointermove', e => { if (down) { moves++; rub(e); } });
+    addEventListener('pointerup', () => {
+      if (down && moves < 3 && !scratchBox.classList.contains('done')) {        // tap → scratch it away automatically
+        const r = cv.getBoundingClientRect(); let i = 0;
+        const cols = Math.ceil(r.width / 22), rows = Math.ceil(r.height / 22), total = cols * rows, order = [...Array(total).keys()].sort(() => Math.random() - .5);
+        const tick = () => { for (let k = 0; k < 14 && i < total; k++, i++) { const n = order[i]; rub({ clientX: r.left + (n % cols) * 22 + 11, clientY: r.top + Math.floor(n / cols) * 22 + 11 }); } if (i < total && !scratchBox.classList.contains('done')) setTimeout(tick, 30); };
+        tick();
+      }
+      down = false;
+    });
+  }
+
+  /* ---------------- in-page links (#events, #rsvp, #wishes) ----------------
+     The page has a <base href>, which would make "#events" resolve to the site root — so scroll in-page instead. */
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[href^="#"]'); if (!a) return;
+    const id = a.getAttribute('href').slice(1); if (!id) return;
+    const t = document.getElementById(id); if (!t) return;
+    e.preventDefault(); t.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  });
+
+  /* ---------------- scroll reveal ---------------- */
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  $$('.rv').forEach(el => io.observe(el));
+  function revealNow() {
+    $$('.hero .rv').forEach((el, i) => setTimeout(() => el.classList.add('in'), 120 + i * 140));
+    // split the English names into letters for the staggered reveal, then let the gold shimmer run.
+    // Each word keeps its letters together and the spaces stay real spaces, so a long name wraps between words and never in the middle of one.
+    let d = 0;
+    $$('.name [lang="en"]').forEach(span => {
+      const txt = span.textContent; span.textContent = '';
+      txt.split(/(\s+)/).forEach(part => {
+        if (part === '') return;
+        if (/^\s+$/.test(part)) { span.appendChild(document.createTextNode(' ')); return; }
+        const w = document.createElement('span'); w.className = 'wd';
+        [...part].forEach(ch => { const c = document.createElement('span'); c.className = 'ch'; c.style.setProperty('--d', d++); c.textContent = ch; w.appendChild(c); });
+        span.appendChild(w);
+      });
+    });
+    // a single word wider than the screen is made smaller instead of running off it
+    // (the width available is the parent's: a heading holding one very long word grows to the word's own width, so its own width says nothing)
+    $$('.name:not(.fit-single-name)').forEach(n => { const box = n.parentElement || n, avail = box.clientWidth; if (!avail) return; let widest = 0; $$('.wd', n).forEach(w => { widest = Math.max(widest, w.getBoundingClientRect().width); }); if (widest > avail + 1) n.style.fontSize = (parseFloat(getComputedStyle(n).fontSize) * (avail - 6) / widest).toFixed(1) + 'px'; });
+    setTimeout(() => $$('.name').forEach(n => { n.classList.add('shimmer'); $$('.ch', n).forEach(c => { c.style.animation = 'none'; c.style.opacity = 1; c.style.transform = 'none'; }); }), 300 + d * 45 + 800);
+  }
+  // gentle parallax on the hero corner ornaments
+  const hero = $('.hero');
+  if (hero && !reduce) addEventListener('scroll', () => { const y = Math.min(scrollY, 400); hero.style.setProperty('--py', (y * .18).toFixed(1)); }, { passive: true });
+
+  /* ---------------- countdown ---------------- */
+  const cd = $('#countdown');
+  if (cd && I.date) {
+    const target = new Date(I.date + 'T00:00:00').getTime();
+    const units = { d: 86400000, h: 3600000, m: 60000, s: 1000 };
+    const els = Object.fromEntries($$('[data-u]', cd).map(el => [el.dataset.u, el]));
+    let last = {};
+    const tick = () => {
+      let diff = Math.max(0, target - Date.now());
+      const v = { d: Math.floor(diff / units.d) }; diff %= units.d;
+      v.h = Math.floor(diff / units.h); diff %= units.h; v.m = Math.floor(diff / units.m); diff %= units.m; v.s = Math.floor(diff / units.s);
+      for (const k in v) { const s = String(v[k]).padStart(2, '0'); if (last[k] !== s) { els[k].textContent = s; els[k].classList.remove('tick'); void els[k].offsetWidth; els[k].classList.add('tick'); last[k] = s; } }
+    };
+    tick(); setInterval(tick, 1000);
+  }
+
+  /* ---------------- petals (canvas) ---------------- */
+  function startPetals() {
+    const cv = $('#petals'); if (!cv || reduce || (I.petals || 'rose') === 'none') return;
+    const ctx = cv.getContext('2d'); let W, H, P = [];
+    if (!ctx) return;
+    const maple = I.petals === 'maple';
+    const mapleShape = maple ? new Path2D('M0,-1.15 L.19,-.64 L.34,-.78 L.36,-.28 L.70,-.58 L.69,-.27 L1,-.33 L.81,-.04 L1.04,.05 L.51,.49 L.59,.69 L.10,.58 L.035,.99 L-.035,.99 L-.09,.58 L-.58,.69 L-.50,.49 L-1.04,.05 L-.81,-.04 L-1,-.33 L-.69,-.27 L-.70,-.58 L-.36,-.28 L-.34,-.78 L-.19,-.64 Z') : null;
+    const embedded = window !== window.top;               // hero phone on the marketing site
+    const DPR = 1;                                        // petals don't need retina resolution
+    const palette = maple ? ['#a94324', '#c8642e', '#d89836', '#954337', '#bc803c'] : I.petals === 'marigold' ? ['#f4a300', '#ff8c1a', '#ffc247', '#e0741b'] : ['#f7a6b8', '#ef7f9a', '#fbd0da', '#e56b8c'];
+    const resize = () => { W = cv.width = innerWidth * DPR; H = cv.height = innerHeight * DPR; cv.style.width = innerWidth + 'px'; cv.style.height = innerHeight + 'px'; };
+    resize(); addEventListener('resize', resize);
+    const N = Math.min(embedded ? 8 : (innerWidth < 720 ? 12 : 22), Math.floor(innerWidth / 26));
+    // petals belong to the opening moment: fade them out once the guest scrolls past the hero
+    const heroH = () => (document.querySelector('.hero')?.offsetHeight || 600);
+    addEventListener('scroll', () => { cv.style.opacity = Math.max(0, 1 - scrollY / (heroH() * 0.9)).toFixed(2); }, { passive: true });
+    const mk = (top) => ({ x: Math.random() * W, y: top ? -40 : Math.random() * H, r: ((maple ? 12 : 6) + Math.random() * (maple ? 10 : 8)) * DPR, a: Math.random() * Math.PI * 2, va: (Math.random() - .5) * (maple ? .018 : .04), vy: (.4 + Math.random() * .8) * DPR, vx: (Math.random() - .5) * .5 * DPR, c: palette[Math.random() * palette.length | 0], w: Math.random() * Math.PI * 2 });
+    for (let i = 0; i < N; i++) P.push(mk(false));
+    let running = !document.hidden, lastFrame = 0;
+    document.addEventListener('visibilitychange', () => { const was = running; running = !document.hidden; lastFrame = 0; if (running && !was) requestAnimationFrame(draw); });
+    function draw(t) {
+      if (!running) return;
+      const step = lastFrame ? Math.min(2, (t - lastFrame) / (1000 / 60)) : 1;
+      lastFrame = t;
+      ctx.clearRect(0, 0, W, H);
+      for (const p of P) {
+        p.y += p.vy * step; p.x += (p.vx + Math.sin(t / (maple ? 1300 : 900) + p.w) * (maple ? .75 : .4) * DPR) * step; p.a += p.va * step;
+        if (p.y > H + 40) Object.assign(p, mk(true));
+        if (p.x < -40) p.x = W + 35; else if (p.x > W + 40) p.x = -35;
+        ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.a); ctx.globalAlpha = .7; ctx.fillStyle = p.c;
+        if (maple) {
+          ctx.scale(p.r * (.65 + .35 * Math.cos(t / 1250 + p.w) ** 2), p.r);
+          ctx.fill(mapleShape);
+          ctx.strokeStyle = 'rgba(80,40,20,.38)'; ctx.lineWidth = .045; ctx.lineCap = 'round';
+          ctx.beginPath(); ctx.moveTo(0, .91); ctx.lineTo(0, -.89);
+          ctx.moveTo(0, .39); ctx.lineTo(.62, -.28); ctx.moveTo(0, .39); ctx.lineTo(-.62, -.28);
+          ctx.moveTo(0, .47); ctx.lineTo(.76, .08); ctx.moveTo(0, .47); ctx.lineTo(-.76, .08); ctx.stroke();
+        } else {
+          ctx.beginPath(); ctx.moveTo(0, -p.r); ctx.bezierCurveTo(p.r, -p.r, p.r, p.r * .6, 0, p.r); ctx.bezierCurveTo(-p.r, p.r * .6, -p.r, -p.r, 0, -p.r); ctx.fill();
+        }
+        ctx.restore();
+      }
+      requestAnimationFrame(draw);
+    }
+    requestAnimationFrame(draw);
+  }
+
+  /* ---------------- calendar ---------------- */
+  const sheet = $('#calSheet');
+  const evByKey = Object.fromEntries((I.events || []).map(e => [e.key, e]));
+  function calendarStamp(date) { return date.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, ''); }
+  function calendarPeriod(ev) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(ev.date || '')) return null;
+    const day = new Date(ev.date + 'T00:00:00Z');
+    if (!Number.isFinite(day.getTime()) || day.toISOString().slice(0, 10) !== ev.date) return null;
+    // A date without a start time is an all-day event. Pakistani functions stay at
+    // the venue's time even when an overseas guest adds them to a calendar.
+    if (!ev.start) return { start: ev.date.replace(/-/g, ''), end: new Date(day.getTime() + 86400000).toISOString().slice(0, 10).replace(/-/g, ''), allDay: true };
+    const validTime = value => /^(?:[01]\d|2[0-3]):[0-5]\d(?::[0-5]\d)?$/.test(value || '');
+    if (!validTime(ev.start)) return null;
+    const start = new Date(ev.date + 'T' + ev.start + (ev.start.length === 5 ? ':00' : '') + '+05:00');
+    if (!Number.isFinite(start.getTime())) return null;
+    let end = validTime(ev.end) ? new Date(ev.date + 'T' + ev.end + (ev.end.length === 5 ? ':00' : '') + '+05:00') : null;
+    if (!end || !Number.isFinite(end.getTime()) || end.getTime() === start.getTime()) end = new Date(start.getTime() + 10800000);
+    else if (end < start) end = new Date(end.getTime() + 86400000);
+    return { start: calendarStamp(start), end: calendarStamp(end), allDay: false };
+  }
+  function calendarText(value) { return String(value || '').replace(/\\/g, '\\\\').replace(/\r\n|\r|\n/g, '\\n').replace(/;/g, '\\;').replace(/,/g, '\\,'); }
+  function calendarLine(line) {
+    let result = '', bytes = 0;
+    for (const ch of line) {
+      const size = new TextEncoder().encode(ch).length;
+      if (bytes + size > 75) { result += '\r\n '; bytes = 1; }
+      result += ch; bytes += size;
+    }
+    return result;
+  }
+  $$('.cal').forEach(b => {
+    const ev = evByKey[b.dataset.ev], period = ev && calendarPeriod(ev);
+    if (!period) { b.disabled = true; b.title = 'An event date is needed to add this to your calendar.'; return; }
+    b.addEventListener('click', () => {
+    const title = ev.name + ' – ' + I.title, loc = [ev.venue, ev.address].filter(Boolean).join(', ');
+    const { start: s, end: e, allDay } = period;
+    $('[data-cal=google]', sheet).href = 'https://calendar.google.com/calendar/render?action=TEMPLATE&ctz=Asia%2FKarachi&text=' + encodeURIComponent(title) + '&dates=' + s + '/' + e + '&location=' + encodeURIComponent(loc) + '&details=' + encodeURIComponent(I.url);
+    const dateParam = allDay ? ';VALUE=DATE:' : ':';
+    const ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//sehra.pk//EN', 'BEGIN:VEVENT', 'UID:' + I.slug + '-' + ev.key + '@sehra.pk', 'DTSTAMP:' + calendarStamp(new Date()), 'DTSTART' + dateParam + s, 'DTEND' + dateParam + e, 'SUMMARY:' + calendarText(title), 'LOCATION:' + calendarText(loc), 'DESCRIPTION:' + calendarText(I.url), 'END:VEVENT', 'END:VCALENDAR'].map(calendarLine).join('\r\n') + '\r\n';
+    const a = $('[data-cal=ics]', sheet); a.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics); a.download = ev.key + '.ics';
+    sheet.hidden = false;
+    });
+  });
+  sheet?.addEventListener('click', e => { if (e.target === sheet || e.target.closest('.sheet-close') || e.target.closest('a')) sheet.hidden = true; });
+
+  /* ---------------- gallery lightbox ---------------- */
+  const lb = $('#lightbox');
+  $$('.ph').forEach(a => a.addEventListener('click', e => { e.preventDefault(); $('img', lb).src = a.href; lb.hidden = false; }));
+  lb?.addEventListener('click', () => lb.hidden = true);
+
+  /* ---------------- forms ---------------- */
+  async function submit(form, url, onOk) {
+    const msg = $('.form-msg', form), btn = $('button[type=submit]', form);
+    msg.textContent = ''; msg.classList.remove('err'); btn.disabled = true;
+    try {
+      const fd = new FormData(form); fd.append('slug', I.slug);
+      const r = await fetch(url, { method: 'POST', body: fd }); const j = await r.json();
+      if (!j.ok) throw new Error(j.error || 'Something went wrong');
+      onOk(j); hap([18, 50, 18]);
+    } catch (err) { msg.textContent = err.message; msg.classList.add('err'); }
+    btn.disabled = false;
+  }
+  const rsvpForm = $('#rsvpForm');
+  if (rsvpForm) {
+    const acc = $('.acc', rsvpForm);
+    rsvpForm.addEventListener('change', e => { if (e.target.name === 'attending') acc.classList.toggle('hide', e.target.value === 'no'); });
+    rsvpForm.addEventListener('submit', e => { e.preventDefault(); submit(rsvpForm, 'api/rsvp.php', () => { rsvpForm.classList.add('done'); const a = rsvpForm.elements.attending.value, ur = html.getAttribute('data-lang') === 'ur'; const msg = { yes: ur ? 'جزاک اللہ! ہم آپ کے منتظر ہیں۔' : 'JazakAllah! We can\'t wait to see you.', maybe: ur ? 'شکریہ! ہم آپ کی جگہ رکھیں گے۔' : 'Thank you — we\'ll keep a place for you.', no: ur ? 'آپ کی دعاؤں کا شکریہ۔' : 'Thank you for your duas — you will be missed.' }; $('.form-msg', rsvpForm).textContent = msg[a] || msg.yes; }); });
+  }
+  const wishForm = $('#wishForm'), wall = $('#wishWall');
+  function wishEl(w) { const d = document.createElement('div'); d.className = 'wish'; d.innerHTML = '<b></b><p></p><time></time>'; $('b', d).textContent = w.name; $('p', d).textContent = w.message; $('time', d).textContent = w.when; return d; }
+  if (wishForm) {
+    fetch('api/wishes.php?slug=' + encodeURIComponent(I.slug)).then(r => r.json()).then(j => (j.wishes || []).forEach(w => wall.appendChild(wishEl(w)))).catch(() => {});
+    wishForm.addEventListener('submit', e => { e.preventDefault(); submit(wishForm, 'api/wish.php', j => { if (j.wish) wall.prepend(wishEl(j.wish)); wishForm.reset(); $('.form-msg', wishForm).textContent = j.pending ? 'Thank you — your wish will appear after approval.' : 'Thank you!'; }); });
+  }
+
+  /* ---------------- voice message ---------------- */
+  const vp = $('#voicePlay');
+  if (vp) {
+    const va = new Audio(vp.dataset.src), vt = $('#voiceTime'), fmt = t => Math.floor(t / 60) + ':' + String(Math.floor(t % 60)).padStart(2, '0');
+    vp.addEventListener('click', () => {
+      if (va.paused) { musicPlayer?.duck(true); va.play().then(() => vp.classList.add('on')).catch(() => { musicPlayer?.duck(false); vp.classList.remove('on'); }); }
+      else { va.pause(); vp.classList.remove('on'); musicPlayer?.duck(false); }
+    });
+    va.addEventListener('timeupdate', () => vt.textContent = fmt(va.currentTime) + (va.duration ? ' / ' + fmt(va.duration) : ''));
+    const restoreMusic = () => { vp.classList.remove('on'); musicPlayer?.duck(false); };
+    va.addEventListener('ended', restoreMusic);
+    va.addEventListener('error', restoreMusic);
+  }
+
+  /* ---------------- copy buttons (shagun) ---------------- */
+  $$('.copy[data-copy]').forEach(b => b.addEventListener('click', async () => { try { await navigator.clipboard.writeText(b.dataset.copy); b.classList.add('done'); setTimeout(() => b.classList.remove('done'), 1200); } catch (_) { prompt('Copy', b.dataset.copy); } }));
+
+  /* ---------------- share ---------------- */
+  function shareText() { return (html.getAttribute('data-lang') === 'ur' ? 'آپ کو دعوت دی جاتی ہے: ' : "You're invited! ") + I.title + (I.hashtag ? ' ' + I.hashtag : '') + '\n' + I.url; }
+  function updateShareLink() { const wa = $('#shareWa'); if (wa) wa.href = 'https://wa.me/?text=' + encodeURIComponent(shareText()); }
+  updateShareLink();
+  $('#abShare')?.addEventListener('click', async e => { e.preventDefault(); const text = shareText(); if (navigator.share) { try { await navigator.share({ title: I.title, text, url: I.url }); } catch (_) {} } else open('https://wa.me/?text=' + encodeURIComponent(text), '_blank'); });
+  $('#copyLink')?.addEventListener('click', async e => { try { await navigator.clipboard.writeText(I.url); e.target.closest('button').style.opacity = .5; setTimeout(() => e.target.closest('button').style.opacity = 1, 600); } catch (_) { prompt('Copy this link', I.url); } });
+})();

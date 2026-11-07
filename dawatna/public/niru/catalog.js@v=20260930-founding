@@ -1,0 +1,278 @@
+/* ============================================================================
+   NIRU — the design catalog. ONE source of truth.
+
+   Both home.html (the designs carousel) and order.html (step 1 + pricing) read
+   this file. Do not hand-copy a design into either page: they drifted before,
+   and the homepage sat on "Coming soon" for a card that was already orderable.
+
+   Adding a design:
+     1. add an entry to DESIGNS below, in the order it should appear
+     2. drop assets/thumb-<slug>.jpg  (square, ~900x900) — or set img: to something
+        else on the entry if there is no square thumbnail for it yet
+     3. ship card-<slug>.build.html and demo-<slug>.html
+   Nothing else needs editing.
+
+   `live:false` renders as "Coming soon" everywhere and cannot be ordered.
+   Price comes from the tier, never from the design.
+============================================================================ */
+(function (root) {
+
+  /* What actually separates the tiers, so the copy on every page can stop inventing its own:
+       Signature  Essential Interactive -- the entrance, a form RSVP, the gallery, a custom palette.
+       Premium    Complete Experience -- premium artwork, richer sections and guest management.
+       Atelier    Cinematic Experience -- everything in Premium, plus a film-led entrance.
+
+     THE CLASSIC TIER WAS REMOVED on 2026-08-15, along with all six of its designs. It was the
+     3,500 entry point and the only tier with no entrance animation. Signature is the entry tier
+     now, so its feature list had to stop saying "Everything in Classic" and start naming the
+     baseline outright -- the tier it deferred to no longer exists, and a features list whose
+     first line points at nothing is worse than a long one. If a cheap no-entrance tier ever
+     comes back it needs its own designs; nothing from the old one survives on disk.
+
+     PERSONALISATION is a separate axis from the tier, and the two must not be confused.
+     Personalised means a design drawn from nothing, FOR one couple -- it does not mean adjusting
+     a template you picked. Personalising changes ONLY the design, never the tier's features.
+     `personalisedPrice` is the template price plus the approved custom-design fee:
+     Signature +3,000, Premium +4,000, Atelier +7,000.
+
+     ATELIER STOPPED BEING ALWAYS-PERSONALISED on 2026-08-17. It used to carry
+     `alwaysPersonalised`, which meant its three built designs were shown as examples of the work
+     rather than as things you could buy, and the only way into the tier was a commission. It now
+     works like every other tier: templates at 15,900, or a Personalised Edition at 27,900.
+     The consequence is that the tier's OWN feature list may no longer promise anything drawn for
+     one couple -- a template buyer does not get an illustration set made for them, an entrance
+     built around their story, or a film of themselves. Every one of those claims moved into
+     `personalisedNote`, which is the only place a commission is described. Keep it that way. */
+  /* Approved studio rate card, published across the catalogue, order form and design pages. */
+  var PRICING_PUBLISHED = true;
+  /* FOUNDING PRICE. `price` below is what the first `limit` confirmed couples pay; `regularPrice`
+     is what everyone after them pays. This replaced a dated launch offer on 2026-09-30.
+     Keep it true: set `claimed` to the number of confirmed (paid) founding orders after each one
+     (null hides the "places left" counter). When claimed reaches limit, every page, the design
+     pages and -- after the next release rebuild -- the order backend switch to regularPrice by
+     themselves. Never raise the limit or reset claimed to keep the offer running; a discount
+     from a price nobody is ever charged is not a discount. */
+  var FOUNDING = { limit: 50, claimed: null };
+  var FOUNDING_OPEN = FOUNDING.claimed == null || FOUNDING.claimed < FOUNDING.limit;
+  var TIERS = {
+    signature: {
+      name: 'Signature', label: 'Essential Interactive', price: 5900, regularPrice: 8500, entrance: 'A cinematic entrance you open with your hand',
+      personalisedPrice: 8900, regularPersonalisedPrice: 11500,
+      personalisedNote: 'A Signature Personalised Edition created for your wedding alone, with unlimited revisions within the approved creative direction. Its delivery schedule is agreed during your consultation.',
+      feats: ['Your Template Edition completed with all your details', 'A cinematic entrance animation',
+        'RSVP form, guest wishes wall and a private live response sheet', 'Full photo gallery',
+        'Custom colour palette', 'English & Urdu bilingual', 'Scratch to reveal moments',
+        'Venue maps & Add to Calendar', 'Live countdown to the day',
+        'Background music with mute toggle', 'One private link, unlimited guests',
+        'Five revision rounds', 'First preview in 24–48 hours',
+        'One year of hosting, with memory hosting available'],
+    },
+    premium: {
+      name: 'Premium', label: 'Complete Experience', price: 8400, regularPrice: 14500, entrance: 'A refined interactive entrance built around premium artwork',
+      personalisedPrice: 12400, regularPersonalisedPrice: 18500,
+      personalisedNote: 'A Premium Personalised Edition created from a new brief — the complete Premium feature set, with a visual direction made for your wedding alone.',
+      feats: ['Everything in Signature', 'Premium artwork & original illustrations',
+        'Premium entrance interactions', 'Our story timeline',
+        'Private live RSVP response sheet and guest summary', 'Unlimited revisions', 'Dedicated concierge',
+        'First preview in 2–3 days', 'One year of hosting, with memory hosting available']
+    },
+    /* Atelier is Premium's cinematic route. Its price step pays for the couple film and the
+       more technical entrance sequence, not a claim that its artwork is automatically prettier. */
+    atelier: {
+      name: 'Atelier', label: 'Cinematic Experience', price: 12490, regularPrice: 18900, entrance: 'Everything in Premium, elevated with a cinematic couple entrance',
+      personalisedPrice: 19490, regularPersonalisedPrice: 25900,
+      personalisedNote: 'An Atelier Personalised Edition — the complete Premium experience, a tailored visual direction and a cinematic couple entrance developed through your creative brief.',
+      feats: ['Everything in Premium',
+        'A cinematic couple film built into the entrance',
+        'A multi-stage entrance interaction',
+        'A seamless film-to-invitation transition', 'Original music selection',
+        'Unlimited revisions', 'Dedicated concierge', 'First preview in 4–5 days',
+        'One year of hosting, with memory hosting available'],
+    }
+  };
+
+  /* Founding places gone: the regular price is the price. */
+  if (!FOUNDING_OPEN) Object.keys(TIERS).forEach(function (k) {
+    var t = TIERS[k];
+    t.price = t.regularPrice || t.price;
+    t.personalisedPrice = t.regularPersonalisedPrice || t.personalisedPrice;
+  });
+
+  /* Order here is the order shown on the site. */
+  var DESIGNS = [
+    { slug: 'chinar', name: 'Chinar', tier: 'premium', meta: 'Hand embroidery', live: true, badge: 'New',
+      desc: 'Kashmir in hand embroidery. Sage, olive and lake blue stitched onto ivory linen, every ornament worked in satin stitch and French knots. Chinar leaves, a shikara on still water and a snow ridge behind, carrying the Mehndi, Baraat & Nikah and Walima.' },
+
+    { slug: 'baradari', name: 'Baradari', tier: 'premium', meta: 'Garden pavilion', live: true, badge: 'New',
+      desc: 'Ivory and deep forest green, no gold and no maroon — the most distinct card in the collection. Carved doors swing open onto a Mughal garden pavilion, drapes part across the order of the day, and each function gets its own watercolour: the mehndi canopy, the pavilion and the walima table.' },
+
+    { slug: 'neelum', name: 'Neelum', tier: 'premium', meta: 'Cobalt & lemon', live: true, badge: 'New',
+      desc: 'Sapphire cobalt and lemon yellow on cream, the only blue card in the collection. A butter yellow envelope releases its wax seal and the card rises out of the light, into hand painted lemons, a tiled Moorish arch and an illustrated run of the wedding day.' },
+
+    { slug: 'gulaab', name: 'Gulaab', tier: 'premium', meta: 'Roses & burgundy', live: true, badge: 'New',
+      desc: 'Olive green and deep burgundy, drawn in fine botanical ink. A rose wreath turns behind your names with butterflies drifting through it, the date is hidden under rose gold foil to be scratched off, and a chai tower marks the celebrations.' },
+
+    { slug: 'sahar', name: 'Sahar', tier: 'premium', meta: 'Powder blue lace', live: true, badge: 'New',
+      desc: 'Powder blue and pearl, damask paper edged in lace. A wax sealed envelope opens into daybreak white, and the card settles onto a château behind parted drapes, with a Regency calm that no other card in the set has.' },
+
+    { slug: 'kaghaz', name: 'Kaghaz', tier: 'premium', meta: 'Cut paper', live: true, badge: 'New',
+      desc: 'Everything sculpted from cut and folded paper — cream, navy and dusty blue, lit from one side so every layer casts its own shadow. The film travels through a paper haveli into the courtyard, and pleated paper curtains part on your names to close the card.' },
+
+    { slug: 'qasr', name: 'Qasr', tier: 'premium', meta: 'Palace gate', live: true,
+      desc: 'Sage green and warm cream, a palace in watercolour. Olive doors closed by a wax seal swing open onto a chandelier and drawn drapes, and the card runs as one long scroll: an ornate sage frame around the Bismillah, a cartouche for each of the Mehndi, Baraat & Nikah and Walima, a string of lights over the order of the day, the colours of the evening, and an RSVP under an embossed envelope.' },
+
+    { slug: 'firdaus', name: 'Firdaus', tier: 'premium', meta: 'Wax seal', live: true,
+      desc: 'Cream paper, bas relief roses and a single warm gold. A pair of doors sealed with a gold wax medallion opens, and your names are written out letter by letter in calligraphy. Carries the Mehndi, Baraat & Nikah and Walima, each with its own date cartouche, venue window and RSVP.' },
+
+    { slug: 'gulkari', name: 'Gulkari', tier: 'premium', meta: 'Lace doors', live: true,
+      desc: 'Ivory lace and warm gold, in the register of chikankari needlework. A pair of embroidered doors opens on a pearl cameo, and the card turns like a deck of full page cards over one fixed lace frame. Mehndi, Baraat & Nikah and Walima each get their own date plate, venue window, order of the day and RSVP.' },
+
+    { slug: 'moti-bagh', name: 'Moti Bagh', tier: 'premium', meta: 'Pearl curtain', live: true,
+      desc: 'Ivory, pearl and sage, every ornament hand embroidered in beadwork. Opened by pearl beaded curtains that part onto a garden banquet, and carrying the Mehndi, Baraat and Walima.' },
+
+    { slug: 'parda', name: 'Parda', tier: 'premium', meta: 'Velvet curtain', live: true,
+      desc: 'Deep oxblood velvet and cream, theatrical and ceremonial. Velvet curtains part like a stage, three gold discs are scratched to reveal the date, and it carries the Qawwali night, Mehndi, Baraat and Walima.' },
+
+    { slug: 'saahil', name: 'Saahil', tier: 'premium', meta: 'Envelope & sail', live: true,
+      desc: 'Sea navy and soft paper, watercolour shells and gulls. A shell sealed envelope opens onto a sailboat at sunset, a little boat sails the countdown in, and it carries the Mayun, Mehndi, Baraat and Walima by the water in Karachi.' },
+
+    { slug: 'roshni', name: 'Roshni', tier: 'signature', meta: 'Press and hold the diya', live: true,
+      img: 'assets/thumb-roshni.jpg',
+      desc: 'Deep royal maroon and antique gold, opened by our signature press and hold Roshni diya entrance — hold the flame and the card lights up around it.' },
+
+    /* Live 2026-08-18 at the user's instruction. Its artwork provenance was raised and the user
+       decided to ship it — see NIRU-TASKS.md task 0; BLOOM-PROMPTS.md has the replacement prompts
+       if it is ever revisited. Square thumbnail landed the same day, so it now uses the standard
+       assets/thumb-<slug>.jpg path like every other card and needs no `img:` override. */
+    { slug: 'bahaar', name: 'Bahaar', tier: 'premium', meta: 'Coastal watercolour', live: true, badge: 'New',
+      desc: 'Loose botanical watercolour on warm cream paper — forest green ink, dusty rose and sage, painted rather than photographed. A destination card for a wedding on the Karachi coast: fishing boats, a whitewashed seafront estate, a garlanded shuttle coach and an arcaded courtyard, carrying the Mehndi, Nikah, Walima and Reception, with travel and stay for the families who come down for it.' },
+
+    { slug: 'gulbadan', name: 'Gulbadan', tier: 'premium', meta: 'Ivory & rose embroidery', live: true, badge: 'New',
+      desc: 'Ivory silk hand embroidered in rose and gold — roses, calla lilies, hydrangea and pearls worked in satin stitch around a bare oval window. An ivory bow unties and two embroidered panels part onto your names, carrying the Mehndi, Baraat & Nikah and Walima.' },
+
+    { slug: 'dehleez', name: 'Dehleez', tier: 'atelier', meta: 'Knock three times', live: true, badge: 'New',
+      desc: 'A carved haveli door at night, lit from within. Knock three times and it swings open onto a film of the couple walking to meet each other. Inside, the whole card is worked in zardozi and resham embroidery on ivory paper, with a three-disc scratch date and the Mehndi, Baraat & Nikah and Walima.' },
+
+    { slug: 'ajrak', name: 'Ajrak', tier: 'atelier', meta: 'Indigo & madder', live: true, badge: 'New',
+      desc: 'A carved Sindhi door in ochre and madder, lit from behind. Knock three times and it swings open onto a film of the couple walking to meet each other in a Hyderabad haveli. Inside, every ornament is hand block-printed ajrak with sheesha mirror work on ivory paper, with a three-disc scratch date and the Dholki, Nikah and Walima.' },
+
+    /* Live 2026-08-17, once its own 23 assets landed and were checked: the three grounds are
+       genuinely seamless, the eight petal sprites sit one per cell, and no ornament is inlined
+       twice. See AANGAN-PLAN.md for the standard it is held to and what it measured against it. */
+    { slug: 'aangan', name: 'Aangan', tier: 'atelier', meta: 'The courtyard at night', live: true, badge: 'New',
+      img: 'assets/thumb-aangan.jpg',
+      desc: 'A pair of pierced marble jali screens with the lamplight coming through them. Knock three times and they swing apart onto a film of the two of them crossing a Bahawalpur courtyard at night to a gilded jhoola hung with roses. Inside, every ornament is parchin kari — Mughal stone inlay cut flush into marble — on grounds of marble, blush dupioni and night stone, with a three-disc scratch date and the Mayun, Nikah and Walima.' },
+
+    { slug: 'sahil-e-rang', name: 'Sahil-e-Rang', tier: 'premium', meta: 'Cobalt & bougainvillea', live: true, badge: 'New',
+      desc: 'A cobalt door in a whitewashed sea wall, bougainvillea spilling over the arch. Tap and both leaves swing open onto the water. Painted in watercolour throughout, with a scratch-to-reveal date and the Mehndi, Baraat & Nikah and Walima.' },
+
+    { slug: 'haveli', name: 'Haveli', tier: 'signature', meta: 'Swing the lantern', live: true, badge: 'New',
+      img: 'assets/thumb-haveli.jpg?v=20260818-1',
+      desc: 'A Lahore haveli courtyard at night, lit lamp by lamp. A lantern hangs in the dark on its chain — swing it, and the pool of light rides the bob until the whole courtyard is awake — marigold garlands, jaali windows, the doorway glowing at the end of the marble. Inside: gold foil scratched off a December calendar to find the date, a live countdown, painted medallions for the Mehndi, Baraat & Nikah and Walima, a photo gallery, and a wishes wall the family reads aloud. English and Urdu.' },
+
+    { slug: 'chandni', name: 'Chandni', tier: 'signature', meta: 'Touch the water', live: true, badge: 'New',
+      desc: 'A white marble pavilion on black water under a full moon — the only black-and-white card in the collection, with colour left only in the things that are burning. Put your hand on the water and hold: ripples spread from your finger, the reflection bends under them, and the lamps come back one by one. Inside: silver leaf scratched off a February calendar to find the date, a live countdown, ink-drawn medallions for the Mehndi, Baraat & Nikah and Walima, a photo gallery, and a wishes wall the family reads aloud. English and Urdu.' },
+
+    { slug: 'chunri', name: 'Chunri', tier: 'signature', meta: 'Draw the cloth aside', live: true, badge: 'New',
+      img: 'assets/thumb-chunri.jpg',
+      desc: 'The bright one. A bandhani chunri in fuchsia, mustard and parrot green fills the whole screen, gota kinari down its edge — then you take it in your hand and draw it aside, and it folds and drags and falls back if you let go too soon. Underneath: a Multan haveli courtyard in the afternoon sun, marigold strung overhead and the mehndi laid out on a white sheet. Inside: gota gold scratched off a March calendar to find the date, a live countdown, painted medallions for the Mehndi, Baraat & Nikah and Walima, a photo gallery, and a wishes wall the family reads aloud. English and Urdu.' },
+
+
+
+
+
+    /* Farmaan was built on 2026-08-16 and simply never got an entry here, which is the whole
+       reason it was not on the site -- home.html, order.html, gendemos.py and niru_check.py all
+       read this file by slug, so a card that is not listed is invisible to every one of them.
+       Its gallery plates are shared with Dehleez and Dilkusha; raised as a concern and decided
+       on 2026-08-17 that reuse is fine here. Live since. */
+    { slug: 'farmaan', name: 'Farmaan', tier: 'signature', meta: 'A royal decree', live: true, badge: 'New',
+      img: 'assets/thumb-farmaan.jpg',
+      desc: 'A gold-finialled scroll lying on watercolour paper. Touch it and it unrolls, two stages, until the whole decree is open and your names are written across it in burnt terracotta and old gold. Inside: the Bismillah, the three occasions each with its own painted scene, a live countdown, a panel to scratch for the date, a gallery, an RSVP form, directions for every function, and both families named. English and Urdu.' },
+
+    { slug: 'dilkusha', name: 'Dilkusha', tier: 'signature', meta: 'Palace & pale gold', live: true, badge: 'New',
+      img: 'assets/thumb-dilkusha.jpg',
+      desc: 'A cream palace under an open sky, painted rather than photographed, with your names set across the light. Inside: the Bismillah, the three days each with its own scene, a live countdown on deep green, a panel to scratch for the date, a photo gallery, an RSVP form, venue directions for all three functions, both families with their grandparents named, and a wishes wall. English and Urdu.' },
+
+    /* ---- personalised, one per tier ----
+       Personalised belongs IN the catalog, not beside it as an add-on. Asking someone to pick a
+       template and then tick "actually, draw me a new one" was incoherent -- there was nothing for
+       the template to do. These are the entry point for a commission at each tier: no demo (there
+       is nothing built to demo yet), and `personalised:true` is what every page keys off.
+       All three tiers work the same way now: the designs above are templates you can buy, and
+       these are the commission you buy instead. */
+
+    { slug: 'personalised-signature', name: 'Signature Personalised Edition', tier: 'signature', meta: 'Created for you',
+      live: true, personalised: true, badge: 'Personalised',
+      /* The entrance is NOT drawn from nothing at this tier -- it is one of the built Signature
+         entrances, rebuilt in the couple's palette. The copy has to say so: promising a bespoke
+         entrance for 8,900 and delivering a re-coloured one is the kind of gap people ask for
+         money back over. An original entrance is what Atelier sells. */
+      desc: 'Not one of the designs above. A Signature card drawn from nothing, around your colours, your families and your story — an RSVP form and wishes wall, and a full photo gallery. You choose your entrance from our Signature cards — hold the diya, swing the lantern, touch the water, draw the cloth aside — and we rebuild it in your colours.' },
+
+    { slug: 'personalised-premium', name: 'Premium Personalised Edition', tier: 'premium', meta: 'Created for you',
+      live: true, personalised: true, badge: 'Personalised',
+      desc: 'Not one of the designs above. A Premium card drawn from nothing on our premium artwork — your own illustrations, your own entrance, a concierge and an RSVP dashboard behind it.' },
+
+    { slug: 'personalised-atelier', name: 'Atelier Personalised Edition', tier: 'atelier', meta: 'Created for you',
+      live: true, personalised: true, badge: 'Personalised',
+      desc: 'Not one of the designs above. Your Atelier Personalised Edition begins with a new brief: a tailored visual direction, the complete Premium experience, and a cinematic couple entrance developed with you.' },
+
+    /* The four "coming soon" placeholders that used to sit here were removed at the user's
+       request: a card the customer cannot buy is an advertisement for an empty shelf. Their
+       stock photography was standing in for designs that were never built.
+       The empty-tier handling in the tier filter and the order page is kept anyway — it is
+       what stops the next removal showing a blank grid, and it has now earned its keep twice. */
+  ];
+
+  /* Conventional paths, so an entry only overrides them when it is unusual. */
+  DESIGNS.forEach(function (d) {
+    if (!d.img)  d.img  = 'assets/thumb-' + d.slug + '.jpg';
+    if (/^assets\/thumb-[\w-]+\.jpg$/.test(d.img)) {
+      var thumb = d.img.replace('assets/', 'assets/thumbs/').replace(/\.jpg$/, '');
+      d.img = thumb + '-900.webp';
+      d.thumbSrcset = thumb + '-480.webp 480w, ' + d.img + ' 900w';
+    }
+    /* a personalised card has nothing built yet, so it has no demo to link to */
+    if (!d.demo && d.live && !d.personalised) d.demo = 'demo-' + d.slug;
+    d.price = d.personalised ? (TIERS[d.tier].personalisedPrice || TIERS[d.tier].price)
+                             : TIERS[d.tier].price + (d.priceOffset || 0);
+    d.regularPrice = d.personalised ? (TIERS[d.tier].regularPersonalisedPrice || d.price)
+                                    : (TIERS[d.tier].regularPrice || d.price) + (d.priceOffset || 0);
+  });
+
+  var BY_SLUG = {};
+  DESIGNS.forEach(function (d) { BY_SLUG[d.slug] = d; });
+
+  root.NIRU_CATALOG = {
+    pricingPublished: PRICING_PUBLISHED,
+    founding: {
+      open: FOUNDING_OPEN, limit: FOUNDING.limit, claimed: FOUNDING.claimed,
+      left: FOUNDING.claimed == null ? null : Math.max(0, FOUNDING.limit - FOUNDING.claimed),
+      /* one sentence every page can print, so the wording cannot drift between them */
+      note: FOUNDING_OPEN
+        ? 'Founding price for our first ' + FOUNDING.limit + ' couples' +
+          (FOUNDING.claimed == null ? '' : ' · ' + Math.max(0, FOUNDING.limit - FOUNDING.claimed) + ' places left')
+        : ''
+    },
+    tiers: TIERS,
+    /* what an order actually costs. Personalising never lowers a price. */
+    priceFor: function (tierKey, personalised) {
+      var t = TIERS[tierKey];
+      if (!personalised || !t.personalisedPrice) return t.price;
+      return Math.max(t.price, t.personalisedPrice);
+    },
+    regularPriceFor: function (tierKey, personalised) {
+      var t = TIERS[tierKey];
+      return personalised ? (t.regularPersonalisedPrice || t.personalisedPrice || t.price)
+                          : (t.regularPrice || t.price);
+    },
+    savingFor: function (tierKey, personalised) {
+      return Math.max(0, this.regularPriceFor(tierKey, personalised) - this.priceFor(tierKey, personalised));
+    },
+    designs: DESIGNS,
+    bySlug: BY_SLUG,
+    money: function (n) { return PRICING_PUBLISHED ? ('PKR ' + Number(n).toLocaleString('en-US')) : ''; }
+  };
+
+})(window);

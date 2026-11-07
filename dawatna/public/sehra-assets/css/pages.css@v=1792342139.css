@@ -1,0 +1,63 @@
+/* Landing pages: functions, topics, guides, Urdu page, themes. Built on site.css (colours, buttons, nav, footer). */
+.pg-body { background: var(--ivory); overflow-x: hidden; }
+.pg-nav { position: sticky; top: 0; }
+.pg-links { display: flex; gap: 18px; margin-left: auto; margin-right: 8px; font-size: .9rem; }
+.pg-links a { color: var(--ink); opacity: .8; padding: 6px 2px; }
+.pg-links a:hover { opacity: 1; }
+.pg-hero { padding: 64px 0 34px; background: linear-gradient(180deg, var(--cream), var(--ivory)); }
+.pg-hero h1 { font-family: var(--fd); font-weight: 500; font-size: clamp(2rem, 6vw, 3.1rem); line-height: 1.12; margin: 6px 0 16px; color: var(--green-2); letter-spacing: -.01em; }
+.pg-lead { font-size: 1.12rem; color: var(--muted); margin: 0 0 24px; max-width: 62ch; }
+.pg-crumb { font-size: .82rem; color: var(--muted); margin: 0 0 8px; }
+.pg-crumb a { text-decoration: underline; text-underline-offset: 2px; }
+.pg-cta { display: flex; flex-wrap: wrap; gap: 12px; }
+.pg-swatches { display: flex; gap: 10px; margin-top: 22px; }
+.pg-swatches span { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); box-shadow: 0 6px 14px -8px rgba(0,0,0,.4); }
+.pg-article { padding-bottom: 20px; }
+.pg-sec { padding: 26px 0 4px; }
+.pg-sec h2 { font-family: var(--fd); font-weight: 500; font-size: clamp(1.4rem, 4vw, 1.8rem); line-height: 1.2; margin: 0 0 12px; color: var(--green-2); }
+.pg-sec p { margin: 0 0 14px; font-size: 1.04rem; overflow-wrap: break-word; }
+.pg-list { margin: 0 0 14px; padding-left: 1.25em; display: grid; gap: 8px; font-size: 1.04rem; }
+.pg-list li::marker { color: var(--gold); }
+.pg-quote { margin: 0 0 14px; padding: 14px 18px; border-left: 3px solid var(--gold); background: #fff; border-radius: 0 12px 12px 0; box-shadow: 0 1px 0 var(--line); font-style: italic; color: #3b4741; overflow-wrap: break-word; }
+.pg-note { padding: 12px 16px; background: rgba(201,162,39,.12); border-radius: 12px; font-size: .96rem; }
+.pg-faq details { border: 1px solid var(--line); border-radius: 14px; padding: 0 16px; margin: 0 0 10px; background: #fff; }
+.pg-faq summary { cursor: pointer; font-weight: 600; padding: 14px 0; list-style: none; }
+.pg-faq summary::-webkit-details-marker { display: none; }
+.pg-faq summary::after { content: '+'; float: right; color: var(--gold); font-size: 1.3rem; line-height: 1; }
+.pg-faq details[open] summary::after { content: '\2212'; }
+.pg-faq details p { margin: 0 0 14px; color: var(--muted); }
+.pg-band { margin: 38px 0 0; padding: 44px 0; background: var(--green-2); color: #fff; text-align: center; }
+.pg-band h2 { font-family: var(--fd); font-weight: 500; font-size: clamp(1.5rem, 4.5vw, 2.1rem); margin: 0 0 10px; color: #fff; }
+.pg-band p { margin: 0 auto 22px; max-width: 52ch; color: rgba(255,255,255,.82); }
+.pg-band .pg-cta { justify-content: center; }
+.pg-band .btn.ghost { color: #fff; border-color: rgba(255,255,255,.6); }
+.pg-related { padding: 40px 0 10px; }
+.pg-related h2 { font-family: var(--fd); font-weight: 500; font-size: 1.5rem; margin: 0 0 16px; color: var(--green-2); }
+.pg-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; }
+.pg-card { display: grid; gap: 6px; padding: 16px 18px; border: 1px solid var(--line); border-radius: 16px; background: #fff; transition: transform .3s var(--ease), border-color .3s; }
+.pg-card:hover { transform: translateY(-3px); border-color: var(--gold); }
+.pg-card b { font-family: var(--fd); font-weight: 500; font-size: 1.08rem; color: var(--green-2); }
+.pg-card span { font-size: .88rem; color: var(--muted); }
+.pg-footer { margin-top: 0; }
+/* Urdu page: right to left, Nastaliq */
+.pg-ur .pg-hero h1, .pg-ur .pg-sec h2, .pg-ur .pg-band h2 { font-family: 'Noto Nastaliq Urdu', serif; line-height: 1.9; font-weight: 400; }
+.pg-ur .pg-lead, .pg-ur .pg-sec p, .pg-ur .pg-list, .pg-ur .pg-quote, .pg-ur .pg-faq summary, .pg-ur .pg-faq details p, .pg-ur .pg-band p { font-family: 'Noto Nastaliq Urdu', serif; line-height: 2.25; }
+.pg-ur .pg-list { padding-left: 0; padding-right: 1.25em; }
+.pg-ur .pg-quote { border-left: 0; border-right: 3px solid var(--gold); border-radius: 12px 0 0 12px; font-style: normal; }
+.pg-ur .pg-faq summary::after { float: left; }
+@media (max-width: 640px) {
+  .pg-links { display: none; }
+  .pg-hero { padding: 40px 0 24px; }
+  .pg-cta .btn { flex: 1 1 100%; }
+}
+
+/* order tracking */
+.pg-track { list-style: none; margin: 0 0 14px; padding: 0; display: grid; gap: 10px; }
+.pg-track li { position: relative; padding: 14px 16px 14px 52px; border: 1px solid var(--line); border-radius: 14px; background: #fff; }
+.pg-track li::before { content: ''; position: absolute; left: 16px; top: 15px; width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--line); background: #fff; }
+.pg-track li.done::before { background: var(--green); border-color: var(--green); }
+.pg-track li.done::after { content: '\2713'; position: absolute; left: 22px; top: 14px; color: #fff; font-size: .85rem; }
+.pg-track li.now { border-color: var(--gold); box-shadow: 0 6px 18px -10px rgba(201,162,39,.7); }
+.pg-track li.now::before { border-color: var(--gold); background: rgba(201,162,39,.2); }
+.pg-track b { display: block; color: var(--green-2); }
+.pg-track span { color: var(--muted); font-size: .92rem; }

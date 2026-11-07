@@ -1,0 +1,288 @@
+(function () {
+  const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+
+  // nav
+  const nav = $('#nav');
+  const onScroll = () => nav.classList.toggle('scrolled', scrollY > 20);
+  onScroll(); addEventListener('scroll', onScroll, { passive: true });
+  $('#burger').addEventListener('click', () => nav.classList.toggle('open'));
+  $$('.links a').forEach(a => a.addEventListener('click', () => nav.classList.remove('open')));
+
+  // reveal
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .1, rootMargin: '0px 0px -6% 0px' });
+  $$('.rv').forEach(el => io.observe(el));
+
+  // hero phone: load the live demo only after the page has painted (or on tap)
+  const frame = $('#phoneFrame'), poster = $('#phonePoster'), phone = $('#phone');
+  const heroStatusText = $('#heroStatusText');
+  const heroOpenFullBtn = $('#heroOpenFullBtn');
+  const phoneHint = $('#phoneHint');
+  let chosenDemo = false;
+
+  const removePoster = () => {
+    if (!poster) return;
+    poster.style.transition = 'opacity .35s ease';
+    poster.style.opacity = '0';
+    poster.style.pointerEvents = 'none';
+    setTimeout(() => { if (poster.parentNode) poster.remove(); }, 360);
+  };
+
+  const loadFrame = (slug) => {
+    let target = slug || frame?.dataset?.src;
+    if (!target) return;
+    if (!target.includes('.php') && !target.startsWith('http')) {
+      target = 'i.php?slug=' + encodeURIComponent(target);
+    }
+    if (frame && frame.getAttribute('src') !== target) {
+      frame.src = target;
+    }
+    removePoster();
+  };
+
+  // render the demo at a real 375px phone width and scale it to fit the frame, so it matches a real phone exactly
+  const fitPhone = () => {
+    const scr = $('.phone-screen');
+    if (chosenDemo && phone) {
+      const host = phone.closest('.hero-phone');
+      const status = $('#heroPhoneStatus');
+      const outerHeight = el => el?.getClientRects().length ? el.offsetHeight + parseFloat(getComputedStyle(el).marginTop) + parseFloat(getComputedStyle(el).marginBottom) : 0;
+      const available = (window.visualViewport?.height || innerHeight) - nav.offsetHeight - outerHeight(status) - outerHeight(phoneHint) - 32;
+      phone.style.width = Math.min(320, host.clientWidth, Math.max(60, available - 24) * 375 / 812 + 24) + 'px';
+    }
+    if (scr) $('#phone')?.style.setProperty('--pscale', (scr.clientWidth / 375).toFixed(4));
+  };
+  fitPhone(); addEventListener('resize', fitPhone);
+  window.visualViewport?.addEventListener('resize', fitPhone);
+  poster?.addEventListener('click', () => loadFrame());
+  const idle = window.requestIdleCallback || (cb => setTimeout(cb, 1200));
+  addEventListener('load', () => idle(() => { if (!chosenDemo) loadFrame(); }));
+
+  // Preview in Hero Phone (No Popup Modal)
+  const previewInHeroPhone = (slug, themeName, href) => {
+    chosenDemo = true;
+    const targetSlug = slug || 'demo-sehra';
+    const targetHref = href || ('i.php?slug=' + encodeURIComponent(targetSlug));
+    const title = themeName || 'Theme';
+
+    // 1. Update hero phone iframe
+    loadFrame(targetHref);
+
+    // 2. Update status indicator above phone
+    if (heroStatusText) {
+      heroStatusText.innerHTML = 'Previewing: <b>' + title + '</b>';
+    }
+    if (heroOpenFullBtn) {
+      heroOpenFullBtn.href = targetHref;
+    }
+    if (phoneHint) {
+      phoneHint.innerHTML = '↑ Currently viewing <b>' + title + '</b> — tap and interact above';
+    }
+
+    // Keep the whole opening and its controls below the fixed navigation.
+    if (phone) {
+      const host = phone.closest('.hero-phone');
+      host.classList.add('is-previewing');
+      fitPhone();
+      scrollTo({top:scrollY + host.getBoundingClientRect().top - nav.offsetHeight - 12,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'});
+    }
+  };
+
+  // theme cards -> preview in phone & open full
+  $$('.theme-card').forEach(card => {
+    const slug = card.dataset.slug || 'demo-sehra';
+    const name = card.dataset.name || card.querySelector('h3')?.textContent || 'Theme';
+    const demoHref = () => {
+      const url = new URL(card.dataset.href || ('i.php?slug=' + encodeURIComponent(slug)), location.href);
+      const opening = $('#demoOpeningChoice')?.value;
+      if (opening) url.searchParams.set('opening', opening); else url.searchParams.delete('opening');
+      return url.pathname + url.search;
+    };
+    const syncLink = () => { const a = $('.open-full-btn', card); if (a) a.href = demoHref(); };
+    $('#demoOpeningChoice')?.addEventListener('change', syncLink); syncLink();
+
+    const preview = () => {
+      $$('.theme-card').forEach(c => c.classList.remove('active'));
+      card.classList.add('active');
+      previewInHeroPhone(slug, name, demoHref());
+    };
+
+    // "Preview in phone" button: updates hero phone & scrolls to it
+    const prevBtn = card.querySelector('.preview-btn');
+    if (prevBtn) {
+      prevBtn.addEventListener('click', e => {
+        e.stopPropagation();
+        preview();
+      });
+      prevBtn.disabled = false;
+    }
+
+    // "Open full" button: opens standalone invitation in new tab
+    const openBtn = card.querySelector('.open-full-btn');
+    if (openBtn) {
+      openBtn.addEventListener('click', e => {
+        e.stopPropagation();
+      });
+    }
+
+    // Clicking anywhere on card (except links or buttons) activates preview
+    card.addEventListener('click', e => {
+      if (e.target.closest('a') || e.target.closest('button')) return;
+      preview();
+    });
+  });
+
+  $$('.announcement-demo-card').forEach(card => {
+    const btn=$('.announcement-preview',card);
+    btn.addEventListener('click',()=>previewInHeroPhone('',card.dataset.name,card.dataset.href));
+    btn.disabled=false;
+  });
+
+  // Every opening can be tried with any demo theme, in the phone or full screen.
+  $$('.opening-demo-card').forEach(card => {
+    const href = () => {
+      const url = new URL(card.dataset.href, location.href);
+      const chosenTheme = $('#openingDemoTheme')?.value;
+      if (chosenTheme) url.searchParams.set('theme', chosenTheme);
+      return url.pathname + url.search;
+    };
+    const sync = () => { $('.opening-full', card).href = href(); };
+    $('#openingDemoTheme')?.addEventListener('change', sync); sync();
+    $('.opening-preview', card)?.addEventListener('click', () => {
+      const theme = $('#openingDemoTheme')?.selectedOptions[0]?.textContent || 'Theme';
+      previewInHeroPhone('', card.dataset.name + ' · ' + theme, href());
+    });
+    $('.opening-preview', card).disabled = false;
+  });
+
+  // Categories, search and saved designs compose into a single filter.
+  const filterBtns = $$('.theme-filter-btn'), themeCards = $$('.theme-card');
+  let currentCategory='all', savedDesigns=new Set();
+  try { const stored=JSON.parse(localStorage.getItem('sehra_saved_designs')||'[]'); if(Array.isArray(stored)) savedDesigns=new Set(stored.filter(x=>typeof x==='string')); } catch(_) {}
+  function filterThemes(){
+    const query=($('#themeSearch')?.value||'').trim().toLocaleLowerCase();let count=0;
+    themeCards.forEach(card=>{
+      const show=(currentCategory==='all'||card.dataset.cat===currentCategory)
+        &&(!$('#newThemesOnly')?.checked||card.dataset.new==='1')
+        &&(!$('#savedThemesOnly')?.checked||savedDesigns.has(card.dataset.key))
+        &&(!query||card.textContent.toLocaleLowerCase().includes(query));
+      card.hidden=!show;if(show)count++;
+    });
+    if($('#themeResults')) $('#themeResults').textContent=count+(count===1?' design':' designs')+(count?'':' — try another search or clear the filters');
+  }
+  themeCards.forEach(card=>{
+    const save=$('.save-theme',card);if(!save)return;
+    const paint=()=>{const saved=savedDesigns.has(card.dataset.key);save.setAttribute('aria-pressed',String(saved));save.textContent=saved?'♥ Saved':'♡ Save design';};
+    save.addEventListener('click',()=>{const key=card.dataset.key;if(savedDesigns.has(key))savedDesigns.delete(key);else savedDesigns.add(key);try{localStorage.setItem('sehra_saved_designs',JSON.stringify([...savedDesigns]));}catch(_){}paint();filterThemes();});paint();
+  });
+  filterBtns.forEach(btn=>btn.addEventListener('click',()=>{currentCategory=btn.dataset.filter;filterBtns.forEach(b=>{b.classList.toggle('active',b===btn);b.setAttribute('aria-selected',String(b===btn));});filterThemes();}));
+  ['themeSearch','newThemesOnly','savedThemesOnly'].forEach(id=>$('#'+id)?.addEventListener('input',filterThemes));filterThemes();
+
+  // order form: add-ons + live total. Each add-on card carries its price and the packages that include it.
+  const pkgSelect = $('select[name=package]');
+  const totalEl = $('#orderTotal'), extraRow = $('#extraCardsRow'), extraSel = $('#extraCards');
+  const rs = n => 'Rs ' + n.toLocaleString('en-US');
+  const addons = $$('.order-addon-card[data-price]').map(card => ({ card, chk: $('.addon-input', card), badge: $('.addon-badge', card), hint: $('.addon-included-hint', card),
+    price: +card.dataset.price || 0, per: card.dataset.per || '', incl: (card.dataset.included || '').split(' ').filter(Boolean) }));
+  const includedIn = a => !!pkgSelect && a.incl.indexOf(pkgSelect.value) !== -1;
+  function syncTotal() {
+    if (!pkgSelect) return;
+    const opt = pkgSelect.selectedOptions[0], base = +(opt && opt.dataset.price) || 0;
+    let extra = 0;
+    addons.forEach(a => {
+      const incl = includedIn(a);
+      a.card.classList.toggle('active', a.chk.checked);
+      if (a.badge) { a.badge.textContent = incl ? 'Included free' : '+ ' + rs(a.price) + (a.per ? ' / extra ' + a.per : ''); a.badge.classList.toggle('badge-included', incl); }
+      if (a.hint) a.hint.style.display = incl ? 'block' : 'none';
+      if (a.chk.checked && !incl) extra += a.price * (a.per ? (+(extraSel && extraSel.value) || 1) : 1);
+    });
+    const cardsChk = $('#separate_cards');
+    if (extraRow) extraRow.hidden = !(cardsChk && cardsChk.checked);
+    const designEl = $('input[name=design_option]:checked'), fee = +(designEl && designEl.dataset.fee) || 0;   // custom-design charge: paid in full in advance
+    const total = base + extra + fee, advance = Math.ceil((base + extra) / 2) + fee;
+    const hint = $('#designHint'); if (hint) hint.style.display = fee ? 'block' : 'none';
+    if (totalEl) totalEl.innerHTML = '<span>Total</span> <b>' + rs(total) + '</b> <small>' + (extra || fee ? rs(base) + ' package' + (extra ? ' + ' + rs(extra) + ' add-ons' : '') + (fee ? ' + ' + rs(fee) + ' design' : '') + ' · ' : '') + '50% advance' + (fee ? ' + design charge' : '') + ': ' + rs(advance) + '</small>';
+  }
+  addons.forEach(a => a.chk.addEventListener('change', syncTotal));
+  if (extraSel) extraSel.addEventListener('change', syncTotal);
+  $$('input[name=design_option]').forEach(r => r.addEventListener('change', syncTotal));
+  if (pkgSelect) {
+    // switching to a package that includes an add-on ticks it, so the order shows what the customer gets
+    pkgSelect.addEventListener('change', () => { addons.forEach(a => { if (includedIn(a)) a.chk.checked = true; }); syncTotal(); });
+    syncTotal();
+  }
+  $$('[data-package]').forEach(a => a.addEventListener('click', () => {
+    if (pkgSelect) { pkgSelect.value = a.dataset.package; pkgSelect.dispatchEvent(new Event('change')); }
+  }));
+
+  // Meta Pixel events (only when the Pixel is set up in admin → Settings)
+  const track = (ev, data, opts) => { try { if (window.fbq) fbq('track', ev, data || {}, opts || {}); } catch (_) {} };
+  document.addEventListener('click', e => {
+    const l = e.target.closest && e.target.closest('a[href]'); if (!l) return;
+    const h = l.getAttribute('href') || '';
+    if (/wa\.me|whatsapp\.com/i.test(h)) track('Contact', { content_name: 'WhatsApp' });
+    else if (/(^|\/|slug=)demo-[a-z0-9-]+/i.test(h)) track('ViewContent', { content_name: (h.match(/demo-[a-z0-9-]+/i) || [''])[0], content_type: 'demo_card' });
+    else if (l.dataset.package) track('InitiateCheckout', { content_name: l.dataset.package, currency: 'PKR' });
+  }, true);
+  const orderForm = $('#orderForm');
+  if (orderForm) {
+    let started = false;
+    orderForm.addEventListener('focusin', () => { if (started) return; started = true; track('InitiateCheckout', { content_name: pkgSelect ? pkgSelect.value : '', currency: 'PKR' }); });
+    if (orderForm.elements.page_url) orderForm.elements.page_url.value = location.href.split('#')[0];
+    const fbclid = new URLSearchParams(location.search).get('fbclid'); if (fbclid && orderForm.elements.fbclid) orderForm.elements.fbclid.value = fbclid;
+  }
+
+  // order form with manual payment workflow
+  const form = $('#orderForm');
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const msg = $('.form-msg', form), btn = $('button[type=submit]', form);
+    msg.textContent = ''; msg.classList.remove('err');
+    const nameVal = form.elements.name.value.trim();
+    if (!nameVal || form.elements.phone.value.replace(/\D/g, '').length < 10) { msg.textContent = 'Please enter your name and a valid WhatsApp number.'; msg.classList.add('err'); return; }
+    btn.disabled = true; btn.textContent = 'Sending…';
+    try {
+      const r = await fetch('api/order.php', { method: 'POST', body: new FormData(form) }); const j = await r.json();
+      if (!j.ok) throw new Error(j.error || 'Something went wrong');
+      track('Lead', { value: j.total, currency: 'PKR', content_name: j.package }, { eventID: j.event_id });
+      form.classList.add('done');
+      msg.innerHTML = `
+        <div class="order-success-card">
+          <div class="os-header">
+            <span class="os-check">✓</span>
+            <h3>Order #${j.id} Received!</h3>
+            <p class="os-greeting"></p>
+          </div>
+          <div class="os-payment-box">
+            <span class="os-pill">Your request is saved</span>
+            <p class="os-sub">Our team will confirm your order and payment details before you pay.</p>
+          </div>
+        </div>
+      `;
+      $('.os-greeting', msg).textContent = 'Shukriya, ' + nameVal + '! We have received your invitation request.';
+      // Offer contact only after a real business number has been configured.
+      let contactUrl = null;
+      try {
+        const candidate = new URL(j.whatsapp);
+        const number = candidate.pathname.replace(/^\//, '');
+        if (candidate.protocol === 'https:' && candidate.hostname === 'wa.me' && /^\d{10,15}$/.test(number) && !['923001234567', '03001234567'].includes(number)) contactUrl = candidate.href;
+      } catch (_) {}
+      try {   // the private link that shows where the order is, any time
+        const tu = new URL(j.track || '', location.href);
+        if (tu.origin === location.origin && tu.pathname.replace(/^\//, '') === 'track-order') {
+          const tp = document.createElement('p'); tp.className = 'os-track';
+          const ta = document.createElement('a'); ta.href = tu.href; ta.textContent = 'See where your order is'; ta.target = '_blank'; ta.rel = 'noopener';
+          const ts = document.createElement('small'); ts.textContent = 'Save this link: it shows the progress of your order at any time.';
+          tp.appendChild(ta); tp.appendChild(document.createElement('br')); tp.appendChild(ts); $('.os-payment-box', msg).appendChild(tp);
+        }
+      } catch (_) {}
+      if (contactUrl) {
+        const contact = document.createElement('a');
+        contact.className = 'btn wa lg os-wa-btn'; contact.href = contactUrl;
+        contact.target = '_blank'; contact.rel = 'noopener';
+        contact.textContent = 'Discuss your order on WhatsApp ↗';
+        $('.os-payment-box', msg).appendChild(contact);
+      }
+    } catch (err) { msg.textContent = err.message; msg.classList.add('err'); }
+    btn.disabled = false; btn.textContent = 'Send my request';
+  });
+})();

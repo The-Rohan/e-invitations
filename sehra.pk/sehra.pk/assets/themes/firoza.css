@@ -1,0 +1,78 @@
+/* Theme: Firoza – Persian turquoise, lapis lazuli tilework & illuminated gold filigree */
+:root {
+  --primary: #0e7490; --accent: #dfa838; --bg: #f0f9ff; --card: #ffffff; --ink: #0f172a; --muted: #536b7a; --line: rgba(14,116,144,.2);
+  --backdrop: radial-gradient(circle at 50% 25%, #0e7490, #082f49 85%);
+  --env: #0e7490; --env-dark: #084c5e; --door: #0c2d3a; --curtain: #0e7490;
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-script: 'Great Vibes', cursive;
+  --ornament: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 38' fill='none' stroke='%23dfa838' stroke-width='1.2' stroke-linecap='round'%3E%3Cpath d='M2 19h45M113 19h45'/%3E%3Cpath d='M80 5l8 9-8 9-8-9z' fill='%230e7490' fill-opacity='.25' stroke='%23dfa838'/%3E%3Cpath d='M80 15l8 9-8 9-8-9z' fill='%230e7490' fill-opacity='.15' stroke='%23dfa838'/%3E%3Ccircle cx='80' cy='19' r='2' fill='%23dfa838'/%3E%3Ccircle cx='55' cy='19' r='2' fill='%230e7490'/%3E%3Ccircle cx='105' cy='19' r='2' fill='%230e7490'/%3E%3C/svg%3E");
+}
+
+.hero {
+  background-color: var(--card);
+  background-image:
+    radial-gradient(circle at 50% 0%, rgba(223,168,56,.14) 0, transparent 65%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 44 44' fill='none' stroke='%230e7490' stroke-opacity='.10' stroke-width='1'%3E%3Cpath d='M22 0l11 11-11 11-11-11zM22 22l11 11-11 11-11-11z'/%3E%3Ccircle cx='22' cy='22' r='2' fill='%23dfa838' fill-opacity='.2'/%3E%3C/svg%3E");
+}
+
+.hero::before, .hero::after {
+  content: ''; position: absolute; top: 52px; width: 84px; height: 84px; opacity: .85;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 84 84' fill='none' stroke='%230e7490' stroke-width='1.2'%3E%3Cpath d='M4 4h36M4 4v36'/%3E%3Cpath d='M10 10l20 20M10 30l20-20' stroke='%23dfa838' stroke-opacity='.5'/%3E%3Ccircle cx='10' cy='10' r='3' fill='%23dfa838'/%3E%3Crect x='18' y='18' width='12' height='12' transform='rotate(45 24 24)' fill='%230e7490' fill-opacity='.15' stroke='%230e7490'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+.hero::before { left: 14px; }
+.hero::after { right: 14px; transform: scaleX(-1); }
+
+.name {
+  color: var(--primary);
+  text-shadow: 0 2px 4px rgba(14,116,144,.15);
+}
+.amp { color: var(--accent); }
+.monogram {
+  border: 2px solid var(--accent);
+  color: var(--primary);
+  background: #ffffff;
+  box-shadow: 0 4px 14px rgba(14,116,144,.18);
+}
+
+.frame {
+  border-width: 2px;
+  border-color: var(--accent);
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px -10px rgba(14,116,144,.1);
+}
+.frame::before {
+  inset: 6px;
+  border-color: var(--line);
+  border-radius: 8px;
+}
+
+.event {
+  border-radius: 12px;
+  border-color: rgba(223,168,56,.26);
+  background: #ffffff;
+  box-shadow: 0 4px 14px -4px rgba(15,23,42,.05);
+}
+.ev-icon {
+  background-color: var(--primary);
+  color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(14,116,144,.25);
+}
+
+.countdown > div {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px -2px rgba(14,116,144,.12);
+}
+.countdown b { color: var(--primary); }
+
+.seal {
+  background: radial-gradient(circle at 35% 30%, #1793b5, #084c5e 75%);
+  color: #ffffff;
+  box-shadow: 0 12px 28px -6px rgba(8,76,94,.6);
+}
+.diya-bowl { background: linear-gradient(#dfa838, #0e7490); }
+.actionbar { background: rgba(8,47,73,.95); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.btn.primary { background: linear-gradient(135deg, #0e7490, #084c5e); box-shadow: 0 6px 18px -4px rgba(14,116,144,.35); }

@@ -1,0 +1,27 @@
+/* Fit live bilingual copy into the straight-sided, safe area of the paper arch. */
+(() => {
+  'use strict';
+  const box = document.querySelector('.floral-copy');
+  const copy = document.querySelector('.floral-copy-inner');
+  if (!box || !copy) return;
+  let frame = 0;
+  function fit() {
+    frame = 0;
+    if (!box.isConnected) { resize?.disconnect(); language.disconnect(); return; }
+    // Layout measurements ignore the reveal transforms and the scale applied here.
+    // Keep a small inset for script flourishes and Urdu ascenders/descenders.
+    const scale = Math.min(1, (box.clientHeight - 4) / Math.max(1, copy.scrollHeight),
+      (box.clientWidth - 6) / Math.max(1, copy.scrollWidth));
+    copy.style.setProperty('--floral-fit', String(Math.max(.05, scale)));
+  }
+  const schedule = () => { if (!frame) frame = requestAnimationFrame(fit); };
+  const resize = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(schedule) : null;
+  resize?.observe(box); resize?.observe(copy);
+  const language = new MutationObserver(schedule);
+  language.observe(document.documentElement, { attributes: true, attributeFilter: ['data-lang'] });
+  window.addEventListener('resize', schedule, { passive: true });
+  document.fonts?.ready.then(schedule);
+  document.fonts?.addEventListener('loadingdone', schedule);
+  window.addEventListener('pagehide', () => { resize?.disconnect(); language.disconnect(); cancelAnimationFrame(frame); });
+  schedule();
+})();

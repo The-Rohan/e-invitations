@@ -1,0 +1,69 @@
+/* Friction against casual copying.
+
+   Read this before relying on it.
+
+   A browser cannot be stopped from showing a page's own source. Everything
+   below is bypassed by pressing "disable JavaScript", by opening devtools from
+   the browser menu instead of the keyboard, by View Source on the URL, or by
+   `curl`. A determined developer defeats all of it in under a minute, and no
+   amount of extra code changes that — the markup has to reach the browser for
+   the browser to draw it.
+
+   What this does buy:
+
+     - It stops the accidental route. Right-click, Save As, copy the text.
+       That is most of what actually happens.
+     - It makes the deliberate route obvious rather than idle. Somebody who
+       turns off JavaScript to read the markup knows they are doing something.
+
+   What actually protects the product is not here and cannot be taken from a
+   page: the section registry, the layout resolver, the editor, per-guest
+   links, the pricing and the whole panel are server-side. A copied card is a
+   flat page with someone else's names in it. It has no dashboard behind it.
+*/
+(function () {
+  'use strict';
+
+  var root = document.documentElement;
+  var inPanel = root.getAttribute('data-protect') === 'panel';
+
+  // Somewhere the person is legitimately typing or pasting. Never interfered
+  // with: a paying customer who cannot paste a venue address into their own
+  // card would be a far worse problem than a copied layout.
+  function isOwnField(el) {
+    return Boolean(el && el.closest &&
+      el.closest('input, textarea, select, [contenteditable="true"]'));
+  }
+
+  document.addEventListener('contextmenu', function (e) {
+    if (inPanel && isOwnField(e.target)) return;
+    e.preventDefault();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    var k = (e.key || '').toLowerCase();
+    var mod = e.ctrlKey || e.metaKey;
+
+    // View source.
+    if (mod && !e.shiftKey && k === 'u') { e.preventDefault(); return; }
+    // Save page.
+    if (mod && !e.shiftKey && k === 's' && !isOwnField(e.target)) { e.preventDefault(); return; }
+    // Devtools, in the shapes the keyboard offers them.
+    if (k === 'f12') { e.preventDefault(); return; }
+    if (mod && e.shiftKey && (k === 'i' || k === 'j' || k === 'c')) { e.preventDefault(); }
+  });
+
+  // Dragging an image out of the page is a copy too.
+  document.addEventListener('dragstart', function (e) {
+    if (e.target && e.target.tagName === 'IMG') e.preventDefault();
+  });
+
+  /* On a guest's card, selecting the text is not something anybody needs to
+     do, so it is turned off. In the panel it is left alone — the owner has to
+     be able to select what they wrote. */
+  if (!inPanel) {
+    document.addEventListener('copy', function (e) {
+      if (!isOwnField(e.target)) e.preventDefault();
+    });
+  }
+})();

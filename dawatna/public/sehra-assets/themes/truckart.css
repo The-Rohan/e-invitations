@@ -1,0 +1,46 @@
+/* Theme: Truck Art – bold Pakistani truck-art colours */
+:root {
+  --primary: #0b6fb3; --accent: #f2b705; --bg: #fff6e0; --card: #fffdf5; --ink: #1c1c1c; --muted: #6b5e4a; --line: rgba(0,0,0,.12);
+  --backdrop: repeating-linear-gradient(135deg, #0b6fb3 0 28px, #e63946 28px 56px, #f2b705 56px 84px, #2a9d8f 84px 112px);
+  --env: #e63946; --env-dark: #b71f2c; --door: #0b6fb3; --curtain: #e63946;
+  --font-display: 'Bebas Neue', 'Cormorant Garamond', sans-serif; --font-script: 'Great Vibes', cursive;
+  --ornament: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 34'%3E%3Cg fill='%23e63946'%3E%3Ccircle cx='20' cy='17' r='6'/%3E%3Ccircle cx='140' cy='17' r='6'/%3E%3C/g%3E%3Cg fill='%232a9d8f'%3E%3Cpath d='M40 17l8-8 8 8-8 8zM104 17l8-8 8 8-8 8z'/%3E%3C/g%3E%3Cg fill='%23f2b705'%3E%3Ccircle cx='80' cy='17' r='9'/%3E%3C/g%3E%3Cg fill='%230b6fb3'%3E%3Ccircle cx='80' cy='17' r='4'/%3E%3Cpath d='M60 17l6-4v8zM100 17l-6-4v8z'/%3E%3C/g%3E%3C/svg%3E");
+  --radius: 14px;
+}
+.card { border: 8px solid var(--accent); outline: 4px solid var(--primary); outline-offset: -12px; }
+@media (min-width: 720px) { .card { outline-offset: -14px; } }
+.hero {
+  background-color: var(--card);
+  background-image:
+    radial-gradient(circle at 12% 18%, #e63946 0 14px, #fff 15px 20px, #f2b705 21px 28px, transparent 29px),
+    radial-gradient(circle at 88% 18%, #2a9d8f 0 14px, #fff 15px 20px, #e63946 21px 28px, transparent 29px),
+    radial-gradient(circle at 12% 88%, #0b6fb3 0 14px, #fff 15px 20px, #f2b705 21px 28px, transparent 29px),
+    radial-gradient(circle at 88% 88%, #f2b705 0 14px, #fff 15px 20px, #2a9d8f 21px 28px, transparent 29px);
+}
+.name { font-family: var(--font-script); color: #e63946; text-shadow: 3px 3px 0 var(--accent); }
+.name [lang="ur"] { text-shadow: none; }
+.amp { color: var(--primary); font-family: 'Bebas Neue', sans-serif; font-style: normal; }
+.eyebrow { font-family: 'Bebas Neue', sans-serif; font-style: normal; letter-spacing: .2em; font-size: 1.1rem; color: #2a9d8f; }
+.sec-title { font-family: 'Bebas Neue', sans-serif; letter-spacing: .12em; font-size: 2.4rem; color: #e63946; }
+.sec-title::after { background: var(--primary); height: 4px; width: 80px; }
+.monogram { border: 3px solid #e63946; color: #e63946; font-family: 'Bebas Neue', sans-serif; letter-spacing: .2em; font-size: 1.1rem; }
+.frame { border: 4px solid #2a9d8f; border-radius: 22px; background: #fff; }
+.frame::before { inset: 8px; border: 2px dashed var(--accent); border-radius: 14px; }
+.families > div > .bi:first-child { font-family: 'Bebas Neue', sans-serif; font-size: 1.9rem; color: #e63946; }
+.events { background: #fff2c9; }
+.event { border: 3px solid var(--primary); box-shadow: 6px 6px 0 var(--accent); }
+.event:nth-child(2) { border-color: #e63946; box-shadow: 6px 6px 0 #2a9d8f; }
+.event:nth-child(3) { border-color: #2a9d8f; box-shadow: 6px 6px 0 #e63946; }
+.ev-body h3 { font-family: 'Bebas Neue', sans-serif; letter-spacing: .08em; font-size: 1.9rem; }
+.ev-icon { background-color: #e63946; box-shadow: 0 0 0 4px #fff, 0 0 0 7px var(--accent); }
+.btn { border-width: 2px; font-weight: 600; }
+.btn.primary { background: #e63946; border-color: #e63946; }
+.countdown b { font-family: 'Bebas Neue', sans-serif; font-size: 2.4rem; color: #e63946; }
+.countdown > div { background: #fff; border: 2px solid var(--primary); }
+.timeline { border-color: #2a9d8f; } .timeline li::before { background: #e63946; }
+.hashtag { color: #e63946; font-family: 'Bebas Neue', sans-serif; font-size: 2rem; }
+.ent-names { text-shadow: 0 3px 14px rgba(0,0,0,.7), 0 0 24px rgba(230,57,70,.5); }
+.door .panel { border-color: var(--accent); background: repeating-linear-gradient(90deg, rgba(255,255,255,.06) 0 4px, transparent 4px 28px), radial-gradient(circle at 50% 30%, #f2b705 0 40px, transparent 41px), radial-gradient(circle at 50% 70%, #e63946 0 30px, transparent 31px); }
+.door-r { background: #2a9d8f; }
+.seal { background: radial-gradient(circle at 35% 30%, #ffd84d, #b7860b 70%); color: #3a2a00; }
+.diya-bowl { background: linear-gradient(#f2b705, #b7860b); }

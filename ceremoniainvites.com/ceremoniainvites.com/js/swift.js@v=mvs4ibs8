@@ -1,0 +1,83 @@
+/* Moving between screens.
+
+   Every screen in the account is a page the server draws, so pressing a name
+   in the sidebar is a real page load: the markup, the shell's script, five
+   stylesheets. Done cold that is most of a second of a screen that looks like
+   it has ignored you, and the answer to it was a curtain with our mark on it
+   — which is honest and still an admission that nothing is happening.
+
+   So nothing happens later. The page is fetched while the pointer is on its
+   way to the link, which is somewhere between 80 and 300 milliseconds of
+   warning, and by the time the press lands the markup is in the browser's
+   cache and the navigation is a repaint. Nothing about the destination
+   changes; this only asks for it earlier.
+
+   Three signals, in the order they arrive:
+
+     touchstart   a finger is down and the press is 100ms away
+     pointerenter a pointer is over the link
+     focus        somebody is tabbing and will probably press Return
+
+   Each address is asked for once. GETs only, same origin only, and the
+   request is the one the browser would have made, so anything not cacheable
+   simply costs one request nobody waits on.
+
+   The curtain is deliberately not used here: see ui.js. It belongs on things
+   that change something -- a save, an upload -- where the wait is real work
+   and the screen must not be touched while it happens. */
+(function () {
+  'use strict';
+
+  if (!window.fetch) return;
+
+  /* A connection that says it is slow, or a reader who has asked their
+     browser to use less data, does not want speculative requests. */
+  var net = navigator.connection || {};
+  if (net.saveData) return;
+  if (/(^|\b)(slow-)?2g$/.test(String(net.effectiveType || ''))) return;
+
+  var asked = Object.create(null);
+  var inFlight = 0;
+
+  function ours(a) {
+    if (!a || a.target === '_blank' || a.hasAttribute('download')) return null;
+    if (a.hasAttribute('data-no-prefetch')) return null;
+    var href = a.getAttribute('href') || '';
+    if (!href || href.charAt(0) === '#') return null;
+
+    var url;
+    try { url = new URL(a.href, window.location.href); } catch (err) { return null; }
+    if (url.origin !== window.location.origin) return null;
+    if (url.href === window.location.href) return null;
+    return url.href;
+  }
+
+  function warm(a) {
+    var href = ours(a);
+    /* Two at a time. A sidebar the pointer sweeps down is six links in a
+       second, and six speculative page loads is worse than one real one. */
+    if (!href || asked[href] || inFlight >= 2) return;
+    asked[href] = true;
+    inFlight += 1;
+
+    fetch(href, {
+      credentials: 'same-origin',
+      /* Marked so the server could tell these apart if it ever needs to; it
+         does not today, and the response is the page either way. */
+      headers: { 'X-Ceremonia-Warm': '1' },
+      priority: 'low'
+    })
+      .then(function (r) { return r.text(); })
+      .catch(function () { delete asked[href]; })
+      .then(function () { inFlight -= 1; });
+  }
+
+  function from(e) {
+    var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+    if (a) warm(a);
+  }
+
+  document.addEventListener('pointerenter', from, true);
+  document.addEventListener('touchstart', from, { capture: true, passive: true });
+  document.addEventListener('focusin', from, true);
+})();

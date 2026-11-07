@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#123d2b">
+  <meta name="description" content="The wedding invitation of Madiha and Abdullah — 5 December 2026 at Pearl Banquet Hall, North Nazimabad, Karachi.">
+  <title>Madiha &amp; Abdullah | Wedding Invitation</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23123d2b'/%3E%3Cpath d='M15 44c18-1 27-13 34-31-20 5-32 14-34 31Zm5-4c9-7 17-13 25-21' fill='none' stroke='%23d9bd72' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="preload" href="assets/cover.webp" as="image" type="image/webp">
+  <link rel="preload" href="assets/front.webp" as="image" type="image/webp">
+  <link rel="stylesheet" href="assets/motion.css@v=3.css">
+  <link rel="stylesheet" href="styles.css@v=3.css">
+</head>
+<body>
+  <audio id="invite-music" preload="metadata" loop>
+    <source src="assets/mast-magan.mp3" type="audio/mpeg">
+  </audio>
+  <button class="music-toggle" type="button" data-music-toggle aria-pressed="false" aria-label="Turn music on">
+    <span class="music-icon" aria-hidden="true">♪</span>
+    <span data-music-label>Music Off</span>
+  </button>
+
+  <div class="cover" data-invite-cover hidden aria-label="Wedding invitation cover">
+    <div class="cover-stage">
+      <div class="cover-panel cover-panel-left" data-panel="left" aria-hidden="true"></div>
+      <div class="cover-panel cover-panel-right" data-panel="right" aria-hidden="true"></div>
+      <button class="skip-button" type="button" data-skip-invite>Skip animation</button>
+      <div class="cover-card">
+        <p class="cover-kicker">Together with their families</p>
+        <p class="cover-tagline">A beautiful beginning<br>is about to unfold</p>
+        <button class="open-button" type="button" data-open-invite>
+          <span class="open-icon" aria-hidden="true">✦</span>
+          <span>Open Invitation</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="floating-leaves" data-ambient aria-hidden="true"></div>
+  <div class="page-frame" data-invite-frame aria-hidden="true"></div>
+
+  <main class="invitation" data-invite-page data-invite-content tabindex="-1">
+    <section class="hero" data-invite-section aria-labelledby="couple-names">
+      <div class="hero-shade" aria-hidden="true"></div>
+      <div class="hero-copy" data-scroll-reveal>
+        <p class="eyebrow">Together with their families</p>
+        <h1 id="couple-names"><span>Madiha</span><small>&amp;</small><span>Abdullah</span></h1>
+        <p class="hero-tagline">invite you to celebrate<br>their beautiful beginning</p>
+        <p class="hero-date">05 · 12 · 2026</p>
+      </div>
+      <a class="scroll-cue" href="index.html#date-reveal" aria-label="Scroll to invitation details">
+        <span>Discover</span><i aria-hidden="true"></i>
+      </a>
+    </section>
+
+    <section class="section dark-section intro-section" data-invite-section>
+      <div class="section-inner narrow" data-scroll-reveal>
+        <p class="ornament" aria-hidden="true">❦</p>
+        <p class="section-kicker">A celebration of love</p>
+        <h2>We would be delighted<br>to celebrate with you</h2>
+        <p class="body-copy">Join us for an evening filled with warmth, joy and beautiful memories as Madiha and Abdullah begin their new chapter together.</p>
+      </div>
+    </section>
+
+    <section class="section light-section" id="date-reveal" data-invite-section>
+      <div class="section-inner" data-scroll-reveal>
+        <p class="section-kicker green">Save the date</p>
+        <h2 class="green-heading">Scratch to reveal</h2>
+        <p class="scratch-instruction">Gently scratch the medallion, or use the reveal button.</p>
+        <div class="scratch-wrap">
+          <div class="scratch-card" data-scratch-card data-scratch-shape="arch" data-scratch-color="#b99950">
+            <div class="revealed-date" data-reveal-date>
+              <span>Saturday</span>
+              <strong>05</strong>
+              <span>December · 2026</span>
+              <em>9:30 PM</em>
+            </div>
+            <canvas data-scratch-canvas aria-hidden="true"></canvas>
+            <div data-particle-layer aria-hidden="true"></div>
+          </div>
+          <button class="reveal-button" type="button" data-scratch-reveal>Reveal the date</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section dark-section countdown-section" data-invite-section aria-labelledby="countdown-title">
+      <div class="section-inner" data-scroll-reveal>
+        <p class="section-kicker">Until we celebrate</p>
+        <h2 id="countdown-title">Counting every moment</h2>
+        <div class="countdown" data-countdown aria-live="polite">
+          <div><strong data-days>00</strong><span>Days</span></div>
+          <div><strong data-hours>00</strong><span>Hours</span></div>
+          <div><strong data-minutes>00</strong><span>Minutes</span></div>
+          <div><strong data-seconds>00</strong><span>Seconds</span></div>
+        </div>
+        <p class="countdown-message" data-countdown-message></p>
+      </div>
+    </section>
+
+    <section class="section light-section programme-section" data-invite-section aria-labelledby="programme-title">
+      <div class="section-inner">
+        <p class="section-kicker green">The celebration</p>
+        <h2 class="green-heading" id="programme-title">Evening programme</h2>
+        <p class="preview-label">Preview programme</p>
+        <ol class="timeline">
+          <li data-scroll-reveal><time datetime="21:30">9:30 PM</time><div><strong>Guest Arrival</strong><span>A warm welcome awaits</span></div></li>
+          <li data-scroll-reveal><time datetime="22:00">10:00 PM</time><div><strong>Celebration Begins</strong><span>Meet, greet and make memories</span></div></li>
+          <li data-scroll-reveal><time datetime="22:30">10:30 PM</time><div><strong>Dinner</strong><span>A joyful feast together</span></div></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section dark-section events-section" data-invite-section aria-labelledby="events-title">
+      <div class="section-inner">
+        <p class="section-kicker">Before the big day</p>
+        <h2 id="events-title">Pre-wedding moments</h2>
+        <p class="preview-note">The dates below are preview details.</p>
+        <div class="event-grid">
+          <article class="event-card" data-scroll-reveal>
+            <span class="event-number">03</span>
+            <div><p class="event-month">December · 2026</p><h3>Mehndi Night</h3><p>8:00 PM</p><small>Preview details</small></div>
+          </article>
+          <article class="event-card" data-scroll-reveal>
+            <span class="event-number">04</span>
+            <div><p class="event-month">December · 2026</p><h3>Dholki Evening</h3><p>8:00 PM</p><small>Preview details</small></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section light-section venue-section" data-invite-section aria-labelledby="venue-title">
+      <div class="section-inner narrow" data-scroll-reveal>
+        <p class="section-kicker green">The venue</p>
+        <p class="venue-icon" aria-hidden="true">⌖</p>
+        <h2 class="green-heading" id="venue-title">Pearl Banquet Hall</h2>
+        <p class="venue-address">North Nazimabad, Karachi</p>
+        <p class="venue-time">Saturday, 5 December 2026<br><strong>9:30 PM</strong></p>
+        <a class="venue-button" href="https://www.google.com/maps/search/?api=1&amp;query=Pearl+Banquet+Hall+North+Nazimabad+Karachi" target="_blank" rel="noopener noreferrer">View venue area</a>
+      </div>
+    </section>
+
+    <section class="section dark-section rsvp-section" data-invite-section aria-labelledby="rsvp-title">
+      <div class="section-inner narrow" data-scroll-reveal>
+        <p class="section-kicker">Kindly respond</p>
+        <h2 id="rsvp-title">RSVP</h2>
+        <div class="rsvp-list">
+          <p><strong>Adil Khan</strong><span>0333-6659894</span></p>
+          <i aria-hidden="true"></i>
+          <p><strong>Khizer Ahmed</strong><span>0336-8879744</span></p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="closing" data-invite-section>
+      <div class="closing-inner" data-scroll-reveal>
+        <p class="ornament" aria-hidden="true">❦</p>
+        <p class="closing-note">Waiting to see you all.</p>
+        <p class="closing-names">Madiha <span>&amp;</span> Abdullah</p>
+        <p class="closing-date">05 · 12 · 2026</p>
+      </div>
+    </footer>
+  </main>
+
+  <noscript><style>.cover{display:none!important}.invitation{display:block!important}.revealed-date{visibility:visible!important}[data-scratch-canvas]{display:none!important}</style></noscript>
+  <script type="module" src="app.mjs@v=3"></script>
+</body>
+</html>

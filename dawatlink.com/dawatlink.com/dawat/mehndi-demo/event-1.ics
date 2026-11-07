@@ -1,0 +1,19 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//DawatLink//Invitation//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:mehndi-demo-1@dawatlink.com
+DTSTAMP:20261028T130444Z
+DTSTART:20261126T150000Z
+DTEND:20261126T180000Z
+SUMMARY:Mehndi — Usman & Mahnoor
+LOCATION:The Haveli Courtyard\, Street 4\, DHA Phase 6\, Lahore
+DESCRIPTION:Dress code: yellow & green\n\nhttps://dawatlink.com/dawat/mehn
+ di-demo/\nhttps://maps.app.goo.gl/dawatlinkDemo3
+URL:https://dawatlink.com/dawat/mehndi-demo/
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

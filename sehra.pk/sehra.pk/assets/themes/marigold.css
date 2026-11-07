@@ -1,0 +1,39 @@
+/* Theme: Marigold – Mehndi night: genda-phool yellow, mehndi green, garlands */
+:root {
+  --primary: #2f6b2f; --accent: #f2a900; --bg: #fff7dd; --card: #fffdf3; --ink: #2b2a1c; --muted: #7a7455; --line: rgba(47,107,47,.16);
+  --backdrop: radial-gradient(circle at 30% 20%, #f7b733, #d4571b 70%);
+  --env: #f2a900; --env-dark: #d18b00; --door: #2f6b2f; --curtain: #f2a900;
+  --font-script: 'Great Vibes', cursive;
+  --ornament: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 34'%3E%3Cg fill='%23f2a900'%3E%3Ccircle cx='14' cy='17' r='5'/%3E%3Ccircle cx='34' cy='17' r='5'/%3E%3Ccircle cx='54' cy='17' r='5'/%3E%3Ccircle cx='106' cy='17' r='5'/%3E%3Ccircle cx='126' cy='17' r='5'/%3E%3Ccircle cx='146' cy='17' r='5'/%3E%3C/g%3E%3Cg fill='%23e07b12'%3E%3Ccircle cx='24' cy='17' r='3'/%3E%3Ccircle cx='44' cy='17' r='3'/%3E%3Ccircle cx='116' cy='17' r='3'/%3E%3Ccircle cx='136' cy='17' r='3'/%3E%3C/g%3E%3Cpath d='M80 5c4 6 4 18 0 24-4-6-4-18 0-24z' fill='%232f6b2f'/%3E%3Cpath d='M66 17c4-4 9-4 14 0-5 4-10 4-14 0zM80 17c4-4 9-4 14 0-5 4-10 4-14 0z' fill='%2360a05a'/%3E%3C/svg%3E");
+  --radius: 20px;
+}
+.hero { background-color: var(--card);
+  background-image: radial-gradient(circle at 10% 15%, rgba(242,169,0,.35) 0 34px, transparent 35px), radial-gradient(circle at 90% 12%, rgba(224,123,18,.3) 0 26px, transparent 27px), radial-gradient(circle at 92% 88%, rgba(242,169,0,.35) 0 40px, transparent 41px), radial-gradient(circle at 8% 90%, rgba(96,160,90,.3) 0 30px, transparent 31px),
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60' fill='none' stroke='%232f6b2f' stroke-opacity='.09'%3E%3Cpath d='M30 4c4 10 12 18 22 22-10 4-18 12-22 22-4-10-12-18-22-22 10-4 18-12 22-22z'/%3E%3Ccircle cx='30' cy='30' r='5'/%3E%3C/svg%3E"); }
+/* marigold garland strings hanging from the top corners */
+.hero::before, .hero::after { content: ''; position: absolute; top: 56px; width: 60px; height: 150px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 150'%3E%3Cpath d='M30 0v150' stroke='%232f6b2f' stroke-width='1.5'/%3E%3Cg fill='%23f2a900'%3E%3Ccircle cx='30' cy='14' r='9'/%3E%3Ccircle cx='30' cy='42' r='9'/%3E%3Ccircle cx='30' cy='70' r='9'/%3E%3Ccircle cx='30' cy='98' r='9'/%3E%3Ccircle cx='30' cy='126' r='9'/%3E%3C/g%3E%3Cg fill='%23e07b12'%3E%3Ccircle cx='30' cy='28' r='5'/%3E%3Ccircle cx='30' cy='56' r='5'/%3E%3Ccircle cx='30' cy='84' r='5'/%3E%3Ccircle cx='30' cy='112' r='5'/%3E%3C/g%3E%3Cg fill='%2360a05a'%3E%3Cpath d='M22 21c-6-2-8-8-6-12 5 1 8 6 6 12zM38 49c6-2 8-8 6-12-5 1-8 6-6 12zM22 77c-6-2-8-8-6-12 5 1 8 6 6 12zM38 105c6-2 8-8 6-12-5 1-8 6-6 12z'/%3E%3C/g%3E%3C/svg%3E") center top/contain no-repeat; }
+.hero::before { left: 18px; } .hero::after { right: 18px; }
+.name { color: var(--primary); text-shadow: 0 2px 0 rgba(242,169,0,.35); }
+.amp, .eyebrow { color: #e07b12; }
+.monogram { background: var(--accent); color: #2b2a1c; border-color: var(--accent); }
+.countdown > div { background: #fff; border-color: rgba(242,169,0,.5); }
+.countdown b { color: #e07b12; }
+.sec-title { color: var(--primary); }
+.frame { border: 2px dashed var(--accent); border-radius: 22px; background: #fff; }
+.frame::before { inset: 7px; border: 1px solid var(--primary); border-radius: 16px; opacity: .3; }
+.events, .gallery, .travel { background: #fff1c2; }
+.event, .info-card { border-color: rgba(242,169,0,.5); }
+.ev-icon { background-color: var(--primary); box-shadow: 0 0 0 4px #fff, 0 0 0 5px var(--accent); }
+.btn { border-color: var(--primary); color: var(--primary); }
+.btn.primary { background: var(--primary); }
+.timeline { border-color: var(--accent); } .timeline li::before { background: #e07b12; }
+.hashtag { color: #e07b12; }
+.wish { background: #fff7dd; border-left-color: #e07b12; }
+.closing { background: linear-gradient(180deg, var(--card), #fff1c2); }
+.ent-names { text-shadow: 0 4px 30px rgba(0,0,0,.4); }
+.seal { background: radial-gradient(circle at 35% 30%, #4e9a4e, #1f4d1f 70%); color: #fff7dd; }
+.diya-bowl { background: linear-gradient(#f2a900, #a86f00); }
+.door .panel { border-color: var(--accent); }
+.curtain::after { background: var(--primary); }
+.actionbar a.ab-main { background: var(--accent); color: #2b2a1c; }

@@ -1,0 +1,228 @@
+/* A clothbound keepsake with live type, gilded edges and a left-hand hinge. */
+body.demo-design .entrance-book {
+  --book-cover-ink: var(--ink);
+  --book-gold: color-mix(in srgb, var(--accent) 76%, #e7ca8a);
+  --book-width: min(76vw, 360px, calc((100svh - 152px) * .72));
+  perspective: 1600px;
+}
+body.demo-design[data-design-family="heritage"] .entrance-book,
+body.demo-design[data-design-family="craft"] .entrance-book {
+  --book-cover-ink: #fff0d2;
+  --book-gold: #d3b87f;
+}
+body.demo-design .entrance-book .entrance-bg {
+  background: radial-gradient(ellipse at 50% 40%, #ffffff90, transparent 68%), var(--linen), var(--card);
+}
+body.demo-design .entrance-book .book-stage {
+  position: relative;
+  width: var(--book-width);
+  margin-top: 8px;
+  perspective: 1600px;
+  text-align: center;
+}
+body.demo-design .entrance-book .invitation-book {
+  position: relative;
+  width: 100%;
+  aspect-ratio: .72;
+  transform: rotate(-2deg) rotateY(-8deg);
+  transform-style: preserve-3d;
+  transition: transform 1.5s cubic-bezier(.2,.65,.2,1);
+}
+body.demo-design .entrance-book .book-back {
+  position: absolute;
+  inset: 0 -5px -3px 0;
+  border: 1px solid var(--book-gold);
+  border-radius: 3px 7px 7px 3px;
+  background: var(--atelier-art) center / 100% 100%, var(--ink);
+  box-shadow: 14px 20px 35px #30251130, 3px 3px 4px #30251140;
+  transform: translateZ(-13px);
+}
+body.demo-design .entrance-book .book-pages {
+  position: absolute;
+  inset: 6px -1px 7px 6px;
+  border-radius: 0 5px 5px 0;
+  border-right: 1px solid var(--accent);
+  background: repeating-linear-gradient(90deg, #b5a282 0 1px, #f7ecd5 1px 3px);
+  box-shadow: inset -2px 0 2px #80674135;
+  transform: translateZ(-7px);
+}
+body.demo-design .entrance-book .book-paper {
+  position: absolute;
+  inset: 8px 7px 10px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(10px, 2.6vh, 22px);
+  padding: 30px 22px;
+  color: var(--ink);
+  background: linear-gradient(90deg, #9f865929, transparent 13%), var(--linen), var(--card);
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  border-radius: 0 3px 3px 0;
+  box-shadow: inset 0 0 0 6px var(--card), inset 0 0 0 7px var(--line);
+  transform: translateZ(-2px);
+  transform-origin: left center;
+  transition: transform 1.1s .75s cubic-bezier(.22,.6,.2,1), box-shadow 1.1s .75s;
+}
+body.demo-design .entrance-book .book-paper-blessing { font: 400 clamp(.68rem, 2.4vw, 1rem)/2 var(--font-urdu); }
+body.demo-design .entrance-book .book-paper-label { font: 400 .62rem/1.8 var(--font-body); }
+body.demo-design .entrance-book .book-paper-names { font: 400 clamp(1.35rem, 5.6vw, 2.25rem)/1.15 var(--font-display); overflow-wrap: anywhere; }
+body.demo-design .entrance-book .book-paper-names i { display: block; margin: 6px; font-size: .6em; font-weight: 400; }
+body.demo-design .entrance-book .book-paper-rule { width: 38px; height: 1px; flex: 0 0 1px; background: var(--accent); opacity: .7; }
+body.demo-design .entrance-book .book-paper-date { font: 400 .62rem/1.8 var(--font-body); letter-spacing: .09em; }
+body.demo-design .entrance-book .book-paper-flower { font: 400 2rem/1 Georgia, serif; color: var(--accent); }
+body.demo-design .entrance-book .book-spine {
+  position: absolute;
+  inset: 0 auto 0 -7px;
+  width: 13px;
+  border-radius: 4px 0 0 4px;
+  background: linear-gradient(90deg, #27160760, #f8e7b925 32%, #27160735 75%, transparent), var(--ink);
+  box-shadow: inset 1px 0 1px #fff9d750;
+  transform: translateZ(-5px);
+}
+body.demo-design .entrance-book .book-spine::after {
+  content: '';
+  position: absolute;
+  inset: 9% 1px;
+  border-top: 2px solid var(--book-gold);
+  border-bottom: 2px solid var(--book-gold);
+  box-shadow: 0 -5px 0 -4px var(--book-gold), 0 5px 0 -4px var(--book-gold);
+}
+body.demo-design .entrance-book .book-cover {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 2px 6px 6px 2px;
+  background: transparent;
+  color: var(--book-cover-ink);
+  font: inherit;
+  text-align: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transform: rotateY(0deg);
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  transition: transform 1.5s cubic-bezier(.23,.68,.19,1);
+}
+body.demo-design .entrance-book .book-cover:focus-visible { outline: 2px solid var(--accent); outline-offset: 10px; }
+body.demo-design .entrance-book .book-cover-front,
+body.demo-design .entrance-book .book-cover-inside {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: inherit;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+body.demo-design .entrance-book .book-cover-front {
+  justify-content: space-between;
+  padding: 15% 12% 12% 15%;
+  background: linear-gradient(90deg, #24150635, transparent 7%, #fff5d72b 9%, transparent 12%), var(--linen), var(--atelier-art) center / 100% 100%, var(--card);
+  border: 1px solid var(--book-gold);
+  box-shadow: 2px 3px 5px #32250f40, inset -1px 0 1px #fff4da70;
+  transform: translateZ(1px);
+}
+body.demo-design .entrance-book .book-cover-border {
+  position: absolute;
+  inset: 5% 6% 5% 9%;
+  border: 1px solid var(--book-gold);
+  box-shadow: inset 0 0 0 3px #fff9dd09, inset 0 0 0 4px color-mix(in srgb, var(--book-gold) 45%, transparent);
+  opacity: .8;
+  pointer-events: none;
+}
+body.demo-design .entrance-book .book-cover-copy {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(8px, 1.8vh, 16px);
+}
+body.demo-design .entrance-book .book-cover-top,
+body.demo-design .entrance-book .book-cover-bottom { position: relative; font: 500 .53rem/1.8 var(--font-body); text-transform: uppercase; letter-spacing: .19em; }
+/* garden + festive covers: the arch / garland art reaches down to where the label sits, so it sits lower, inside the frame */
+body.demo-design[data-design-family="garden"] .entrance-book .book-cover-top,
+body.demo-design[data-design-family="festive"] .entrance-book .book-cover-top { top: 6.5%; }
+/* same two covers: the garden / gazebo art starts where the "A beautiful beginning" line sat, so the text block and that line move up into the clear paper */
+body.demo-design[data-design-family="garden"] .entrance-book .book-cover-copy,
+body.demo-design[data-design-family="festive"] .entrance-book .book-cover-copy { position: relative; top: -4%; }
+body.demo-design[data-design-family="garden"] .entrance-book .book-cover-bottom,
+body.demo-design[data-design-family="festive"] .entrance-book .book-cover-bottom { top: -11%; }
+body.demo-design[data-design-family="festive"] .entrance-book .book-cover-copy { top: -6%; }
+body.demo-design[data-design-family="festive"] .entrance-book .book-cover-bottom { top: -17%; }
+body.demo-design .entrance-book .book-monogram { font: 400 clamp(1.5rem, 6vw, 2.6rem)/1.1 var(--font-display); letter-spacing: .04em; }
+body.demo-design .entrance-book .book-cover-ornament { display: flex; align-items: center; gap: 13px; color: var(--book-gold); font: 400 1rem/1 Georgia, serif; }
+body.demo-design .entrance-book .book-cover-ornament::before,
+body.demo-design .entrance-book .book-cover-ornament::after { content: ''; width: 24px; height: 1px; background: currentColor; }
+body.demo-design .entrance-book .book-cover-names { font: 400 clamp(1.45rem, 5.7vw, 2.4rem)/1.1 var(--font-display); overflow-wrap: anywhere; text-shadow: 0 1px 1px #fbf1d512; }
+body.demo-design .entrance-book .book-cover-names i { display: block; margin: 5px 0; font: italic .55em/1 var(--font-display); }
+body.demo-design .entrance-book .book-cover-date { font: 400 .55rem/1.8 var(--font-body); letter-spacing: .12em; text-transform: uppercase; }
+body.demo-design .entrance-book .book-cover-inside {
+  justify-content: center;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  background: linear-gradient(270deg, #8b673226, transparent 18%), var(--linen), var(--card);
+  box-shadow: inset 0 0 0 14px var(--card), inset 0 0 0 15px var(--line);
+  transform: rotateY(180deg);
+}
+body.demo-design .entrance-book .book-cover-inside > span { font: 400 4rem/1 Georgia, serif; opacity: .7; }
+body.demo-design .entrance-book .book-bookmark {
+  position: absolute;
+  top: 97%;
+  right: 16%;
+  width: 19px;
+  height: 37px;
+  background: linear-gradient(90deg, #ffffff40, transparent 40%, #4a300f25), var(--accent);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 82%, 0 100%);
+  transform: translateZ(-9px);
+}
+body.demo-design .entrance-book .book-hint {
+  margin: 33px -20px 0;
+  color: var(--ink);
+  font: 400 .6rem/1.8 var(--font-body);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  transition: opacity .35s;
+}
+body.demo-design .entrance-book .book-hint-line { display: inline-block; width: 23px; height: 1px; margin: 0 12px 3px 0; background: var(--accent); }
+body.demo-design .entrance-book .book-hint [lang="ur"] { display: block; margin-top: 3px; font: 400 .76rem/2 var(--font-urdu); letter-spacing: 0; text-transform: none; opacity: .85; }
+body.demo-design .entrance-book .book-cover [lang="ur"],
+body.demo-design .entrance-book .book-paper [lang="ur"] { display: none; margin: 0; letter-spacing: 0; opacity: 1; }
+html[data-lang="ur"] body.demo-design .entrance-book .book-cover [lang="ur"],
+html[data-lang="ur"] body.demo-design .entrance-book .book-paper [lang="ur"] { display: inline; }
+html[data-lang="ur"] body.demo-design .entrance-book .book-cover-names,
+html[data-lang="ur"] body.demo-design .entrance-book .book-paper-names { font-size: clamp(1.1rem, 4.6vw, 1.8rem); }
+html[data-lang="ur"] body.demo-design .entrance-book .book-cover-top,
+html[data-lang="ur"] body.demo-design .entrance-book .book-cover-bottom { font-size: .72rem; }
+body.demo-design .entrance-book .invitation-book.opened { transform: translateX(32%) scale(.68) rotateY(7deg); }
+body.demo-design .entrance-book .invitation-book.opened .book-cover { transform: rotateY(-155deg); cursor: default; }
+body.demo-design .entrance-book .invitation-book.opened .book-paper { transform: translateZ(9px) rotateY(-7deg); box-shadow: 7px 8px 16px #47331926, inset 0 0 0 6px var(--card), inset 0 0 0 7px var(--line); }
+body.demo-design .entrance-book .invitation-book.opened + .book-hint { opacity: 0; }
+@media (hover: hover) {
+  body.demo-design .entrance-book .invitation-book:not(.opened):has(.book-cover:hover) { transform: rotate(-1deg) rotateY(-4deg) translateY(-4px); }
+}
+@media (max-height: 560px) {
+  body.demo-design .entrance-book { --book-width: min(76vw, 280px, calc((100svh - 98px) * .72)); }
+  body.demo-design .entrance-book .book-stage { margin-top: 0; }
+  body.demo-design .entrance-book .book-hint { margin-top: 22px; font-size: .5rem; }
+  body.demo-design .entrance-book .book-hint [lang="ur"] { font-size: .6rem; }
+  body.demo-design .entrance-book .book-cover-top,
+  body.demo-design .entrance-book .book-cover-bottom { font-size: .43rem; letter-spacing: .1em; }
+  body.demo-design .entrance-book .book-cover-copy { gap: 7px; }
+  body.demo-design .entrance-book .book-monogram { font-size: 1.4rem; }
+  body.demo-design .entrance-book .book-cover-names { font-size: clamp(1.05rem, 5vh, 1.8rem); }
+  body.demo-design .entrance-book .book-paper { gap: 8px; padding: 18px; }
+  body.demo-design .entrance-book .book-paper-names { font-size: 1.25rem; }
+  body.demo-design .entrance-book .book-paper-flower { font-size: 1.2rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.demo-design .entrance-book .invitation-book,
+  body.demo-design .entrance-book .book-cover,
+  body.demo-design .entrance-book .book-paper,
+  body.demo-design .entrance-book .book-hint { transition-duration: .1s; transition-delay: 0s; }
+}

@@ -1,0 +1,114 @@
+/* Persistent invitation music. Scrolling/section visibility never controls playback. */
+(() => {
+  'use strict';
+  class InvitationAudio {
+    constructor(button) {
+      this.button = button; this.wanted = false; this.ducked = false;
+      this.pending = null; this.generation = 0; this.fadeFrame = 0;
+      this.retries = 0; this.retryTimer = 0; this.needsGesture = false;
+      const audio = this.audio = document.createElement('audio');
+      audio.id = 'invitationAudio'; audio.src = button.dataset.src;
+      audio.loop = true; audio.preload = 'auto'; audio.volume = .55;
+      audio.setAttribute('playsinline', ''); audio.setAttribute('webkit-playsinline', '');
+      audio.setAttribute('aria-hidden', 'true');
+      document.body.appendChild(audio);
+      this.state('off');
+      audio.addEventListener('playing', () => {
+        if (!this.wanted) { audio.pause(); return; }
+        this.needsGesture = false; this.retries = 0; this.state('on');
+      });
+      audio.addEventListener('pause', () => {
+        this.cancelFade(); this.state(this.wanted ? 'retry' : 'off');
+        if (this.wanted) this.needsGesture = true;
+      });
+      audio.addEventListener('ended', () => {
+        if (this.wanted) { audio.currentTime = 0; this.play(); }
+      });
+      audio.addEventListener('waiting', () => { if (this.wanted) this.state('loading'); });
+      audio.addEventListener('stalled', () => { if (this.wanted) this.state('loading'); });
+      audio.addEventListener('canplay', () => {
+        if (this.wanted && audio.paused && !this.needsGesture) this.play();
+      });
+      audio.addEventListener('error', () => {
+        this.state('retry');
+        // Retry temporary network failures only. Invalid/unsupported uploads need a new file.
+        if (this.wanted && audio.error?.code === 2 && this.retries < 2) {
+          ++this.retries;
+          const resumeAt = Number.isFinite(audio.currentTime) ? audio.currentTime : 0;
+          clearTimeout(this.retryTimer);
+          this.retryTimer = setTimeout(() => {
+            if (!this.wanted) return;
+            audio.load();
+            audio.addEventListener('loadedmetadata', () => {
+              if (Number.isFinite(audio.duration) && resumeAt < audio.duration) audio.currentTime = resumeAt;
+            }, { once: true });
+            this.play();
+          }, 1200);
+        }
+      });
+      button.addEventListener('click', () => {
+        if (this.wanted && (!audio.paused || this.pending)) this.stop();
+        else this.start();
+      });
+      const resume = event => {
+        if (event?.target?.closest?.('#musicBtn, #voicePlay, audio, video')) return;
+        if (this.wanted && this.needsGesture && audio.paused && !document.hidden) this.play();
+      };
+      document.addEventListener('pointerup', resume, { passive: true });
+      document.addEventListener('touchend', resume, { passive: true });
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden && this.wanted && audio.paused) this.play();
+      });
+      window.addEventListener('pageshow', () => {
+        if (this.wanted && audio.paused) this.play();
+      });
+      window.addEventListener('pagehide', () => { clearTimeout(this.retryTimer); this.cancelFade(); });
+    }
+    state(value) {
+      this.button.dataset.state = value;
+      this.button.classList.toggle('on', value === 'on');
+      this.button.setAttribute('aria-pressed', String(this.wanted));
+      const label = value === 'on' ? 'Pause music' : value === 'loading' ? 'Music loading — tap to pause' : value === 'retry' ? 'Music interrupted — tap to resume' : 'Play music';
+      this.button.setAttribute('aria-label', label); this.button.title = label;
+    }
+    cancelFade() { cancelAnimationFrame(this.fadeFrame); this.fadeFrame = 0; }
+    fadeTo(target) {
+      this.cancelFade();
+      const start = performance.now(), from = this.audio.volume;
+      const step = now => {
+        if (!this.wanted) return;
+        const progress = Math.min(1, (now - start) / 350);
+        this.audio.volume = Math.max(0, Math.min(1, from + (target - from) * progress));
+        if (progress < 1) this.fadeFrame = requestAnimationFrame(step);
+      };
+      this.fadeFrame = requestAnimationFrame(step);
+    }
+    play() {
+      if (!this.wanted || this.pending) return this.pending;
+      const generation = this.generation;
+      this.state('loading');
+      // An audible start inside the opening gesture avoids mobile silent-play suspension.
+      this.audio.volume = this.ducked ? .12 : .55;
+      this.pending = Promise.resolve(this.audio.play()).then(() => {
+        if (!this.wanted) { this.audio.pause(); return; }
+        if (generation !== this.generation) return;
+        this.needsGesture = false; this.state('on'); this.fadeTo(this.ducked ? .12 : .55);
+      }).catch(() => {
+        if (this.wanted && generation === this.generation) { this.needsGesture = true; this.state('retry'); }
+      }).finally(() => {
+        this.pending = null;
+        // A quick pause/play must not leave the newer request waiting on the older promise.
+        if (this.wanted && generation !== this.generation && this.audio.paused) this.play();
+      });
+      return this.pending;
+    }
+    start() { this.wanted = true; return this.play(); }
+    unlock() { return this.start(); }
+    stop() {
+      this.wanted = false; ++this.generation; this.needsGesture = false;
+      clearTimeout(this.retryTimer); this.cancelFade(); this.audio.pause(); this.state('off');
+    }
+    duck(on) { this.ducked = on; if (this.wanted && !this.audio.paused) this.fadeTo(on ? .12 : .55); }
+  }
+  window.SehraAudio = { create: button => button ? new InvitationAudio(button) : null };
+})();

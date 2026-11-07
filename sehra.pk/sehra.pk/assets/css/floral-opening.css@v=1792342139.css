@@ -1,0 +1,96 @@
+/* Original live floral stationery. Names, dates and places remain selectable HTML. */
+body .entrance.entrance-floral {
+  --floral-ink: #814b58; --floral-gold: #b49a65; --floral-paper: #fff9ed;
+  --floral-art: url('https://sehra.pk/assets/img/atelier/floral-rose-paper.webp');
+  background: #eee5df; color: var(--floral-ink); perspective: 1600px;
+  top:0; bottom:0; height:100dvh; box-sizing:border-box; touch-action:pan-y; overflow-x:hidden; overflow-y:auto;
+}
+body .entrance.entrance-floral .entrance-bg, body.demo-design .entrance.entrance-floral .entrance-bg {
+  background: radial-gradient(ellipse at 50% 36%, #fffaf4, #e7d9d2);
+}
+body .entrance.entrance-floral::after { display: none; }
+.floral-stage { width:min(calc(100% - 56px),420px,calc((100svh - 160px) * .68)); position:relative; padding:0; margin:18px auto; perspective:1400px; }
+.floral-stationery { position:relative; width:100%; aspect-ratio:.68; container-type:inline-size; perspective:1500px; isolation:isolate; border-radius:7px; box-shadow:0 20px 65px #664c4233; background:#f6e9d9; }
+.floral-paper { position: absolute; inset: 0; background: linear-gradient(#fff8e650,#fff8e650),var(--floral-art) center / 100% 100%, var(--floral-paper); border: 1px solid #b5986c80; border-radius: 6px; transform: scale(.94); transition: transform 1.4s 2.05s cubic-bezier(.2,.7,.2,1); }
+.floral-arch { position: absolute; inset: 6% 10% 8%; width: 80%; height: 86%; overflow: visible; filter: drop-shadow(0 2px 2px #8e693821); }
+.floral-arch path { fill: #fff9edef; stroke: var(--floral-gold); stroke-width: 1.2; }
+.floral-arch .arch-inner { fill: none; stroke-width: .45; }
+.floral-copy { position:absolute; inset:23% 19% 13%; display:flex; align-items:center; justify-content:center; text-align:center; }
+.floral-copy-inner { width:100%; flex:none; display:flex; flex-direction:column; align-items:center; gap:min(2.2cqw,9px); transform:scale(var(--floral-fit,1)); transform-origin:center; }
+.floral-copy-inner > * { flex:none; max-width:100%; }
+.floral-copy p { margin:0; }
+.floral-blessing { font:400 min(3.8cqw,16px)/1.9 var(--font-urdu); color:#927844; }
+.floral-intro { font:400 min(2.65cqw,11px)/1.6 var(--font-body); max-width:190px; text-transform:uppercase; letter-spacing:.06em; }
+.floral-kind { font:500 min(5.5cqw,24px)/1.2 var(--font-display); overflow-wrap:anywhere; }
+.floral-names { width:100%; padding:0 4px; box-sizing:border-box; }
+.floral-name { font:400 min(9.2cqw,38px)/1.3 var(--font-script); overflow-wrap:anywhere; }
+.floral-amp { display:block; font:italic min(5.5cqw,22px)/1.2 var(--font-display); color:var(--floral-gold); margin:3px 0; }
+.floral-rule { display:flex; align-items:center; gap:10px; color:var(--floral-gold); font-size:min(3.6cqw,14px); }
+.floral-rule::before,.floral-rule::after { content:''; height:1px; width:8cqw; background:currentColor; opacity:.6; }
+.floral-details { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:min(2cqw,8px); width:100%; font:400 min(2.9cqw,12px)/1.5 var(--font-body); color:#63584d; }
+.floral-details > div { min-width:0; overflow-wrap:anywhere; }
+.floral-details > .floral-venue { grid-column:1/-1; padding:0 4px; }
+.floral-detail-icon { display:block; margin-bottom:4px; color:#a47880; }
+.floral-detail-icon svg { width:min(5cqw,20px); height:min(5cqw,20px); margin:auto; fill:none; stroke:currentColor; stroke-width:1.3; }
+.floral-closing { font:400 min(2.6cqw,11px)/1.65 var(--font-body); max-width:180px; }
+.floral-step { opacity:0; transform:translateY(7px); }
+.floral-fold { position: absolute; backface-visibility: hidden; -webkit-backface-visibility: hidden; background-color: #dbc0b1; background-image: linear-gradient(#ddaab343,#eac6b83b),var(--floral-art); box-shadow: inset 0 0 25px #62413538; transition: transform 1.6s 1.25s cubic-bezier(.35,.1,.3,1), opacity .25s 2.75s; pointer-events: none; }
+.floral-fold::after { content: ''; position: absolute; inset: 0; opacity: 0; background: linear-gradient(90deg, #2a140f, #6a3b32); transition: opacity 1.6s 1.25s ease-in; }
+.floral-left,.floral-right { top: 0; bottom: 0; width: 54%; z-index: 4; background-size: 200% 100%; }
+.floral-clip-defs { position:absolute; }
+.floral-left { left:0; background-position:left center; transform-origin:left center; clip-path:url(floral-opening.css@v=1792342139.css); }
+.floral-right { right:0; background-position:right center; transform-origin:right center; clip-path:url(floral-opening.css@v=1792342139.css); }
+.floral-top,.floral-bottom { left: 0; right: 0; height: 51%; z-index: 3; background-image: linear-gradient(105deg,#c9a597,#e6c9bb 45%,#d9b8a9); }
+.floral-top { top: 0; transform-origin: center top; background-position: center top; clip-path: polygon(0 0,100% 0,100% 70%,80% 90%,66% 89%,50% 100%,34% 89%,20% 90%,0 70%); }
+.floral-bottom { bottom: 0; transform-origin: center bottom; background-position: center bottom; clip-path: polygon(0 100%,100% 100%,100% 30%,80% 10%,66% 11%,50% 0,34% 11%,20% 10%,0 30%); }
+.floral-ribbon { position:absolute; inset:0; z-index:5; pointer-events:none; }
+.floral-ribbon i { position:absolute; top:44%; width:54%; height:8%; background:linear-gradient(174deg,#d2c0ab 0%,#fffdf6 19%,#e9ddcc 42%,#c7b69d 58%,#fffcf2 80%,#dfcfb6); box-shadow:0 5px 9px #563c3b26,inset 0 1px 1px #fff9; }
+.floral-band-left { left:-2%; transform:rotate(2deg); border-radius:9px 0 0 9px; }
+.floral-band-right { right:-2%; transform:rotate(-2deg); border-radius:0 9px 9px 0; }
+.floral-band-left::before,.floral-band-right::after { content:''; position:absolute; top:6%; width:3%; height:88%; background:linear-gradient(90deg,#8f795d,#ddcbb1); border-radius:50%; opacity:.6; }
+.floral-band-left::before { left:0; } .floral-band-right::after { right:0; transform:scaleX(-1); }
+.floral-bow-piece { position:absolute; width:52%; aspect-ratio:1; left:24%; top:35.5%; transform-origin:50% 28%; filter:drop-shadow(0 5px 4px #6c4a3c38); }
+.floral-bow-piece img { display:block; width:100%; height:100%; }
+.floral-bow-left { clip-path:inset(0 49.9% 0 0); }
+.floral-bow-right { clip-path:inset(0 0 0 49.9%); }
+.floral-open { position:absolute; z-index:6; top:40.5%; left:40%; width:20%; aspect-ratio:.9; padding:0; border:0; background:transparent; cursor:pointer; filter:drop-shadow(0 4px 3px #4d1c274d); transition:transform 1.05s .12s cubic-bezier(.5,0,.85,.45),opacity .2s 1.05s; }
+.floral-seal { display:block; width:100%; height:100%; }
+.floral-open:focus-visible { outline: 2px solid var(--floral-ink); outline-offset: 2px; border-radius: 40%; }
+.floral-cover-label { position: absolute; z-index: 5; left: 16%; right:16%; top: 16%; text-align: center; color: #734b4c; transition: opacity .45s; }
+.floral-cover-label > span:first-child { display: block; font: 400 27px/1.3 var(--font-display); }
+.floral-cover-label .bi { font: 400 9px/1.7 var(--font-body); text-transform:uppercase; letter-spacing:.12em; }
+.floral-footer { position:relative; text-align:center; padding-top:15px; }
+.floral-hint { font:400 10px/1.7 var(--font-body); text-transform:uppercase; letter-spacing:.12em; margin:0 0 6px; transition:opacity .3s; }
+.floral-continue { font:500 11px/1.7 var(--font-body); color:#734b4c; background:#fff9edf2; border:1px solid #b49a6555; border-radius:24px; min-height:40px; padding:8px 20px; cursor:pointer; }
+.floral-continue:focus-visible { outline:2px solid var(--floral-ink); outline-offset:3px; }
+.floral-stage.is-open .floral-left { transform: translateX(-10%) rotateY(-98deg); opacity:0; }
+.floral-stage.is-open .floral-left::after, .floral-stage.is-open .floral-right::after { opacity: .55; }
+.floral-stage.is-open .floral-right { transform: translateX(10%) rotateY(98deg); opacity:0; }
+.floral-stage.is-open .floral-top { transform: rotateX(110deg); opacity:0; transition-duration:1.25s,.25s; transition-delay:2s,3.1s; }
+.floral-stage.is-open .floral-top::after, .floral-stage.is-open .floral-bottom::after { opacity: .5; transition-duration: 1.25s; transition-delay: 2s; }
+.floral-stage.is-open .floral-bottom { transform: rotateX(-110deg); opacity:0; transition-duration:1.25s,.25s; transition-delay:2s,3.1s; }
+.floral-stage.is-open .floral-open { transform:translate(8%,72vh) rotate(18deg); opacity:0; pointer-events:none; }
+.floral-stage.is-open .floral-band-left { animation:floralBandLeft 1.25s .55s both; }
+.floral-stage.is-open .floral-band-right { animation:floralBandRight 1.25s .55s both; }
+.floral-stage.is-open .floral-bow-left { animation:floralBowLeft 1.3s .22s both; }
+.floral-stage.is-open .floral-bow-right { animation:floralBowRight 1.3s .22s both; }
+@keyframes floralBandLeft { 0% { transform:rotate(2deg); animation-timing-function:ease-out; } 22% { transform:translate(-5%,3%) rotate(-2deg); animation-timing-function:cubic-bezier(.5,0,.85,.45); } 92% { transform:translate(-34%,70vh) rotate(-26deg); opacity:1; } 100% { transform:translate(-36%,76vh) rotate(-28deg); opacity:0; } }
+@keyframes floralBandRight { 0% { transform:rotate(-2deg); animation-timing-function:ease-out; } 22% { transform:translate(5%,3%) rotate(2deg); animation-timing-function:cubic-bezier(.5,0,.85,.45); } 92% { transform:translate(34%,70vh) rotate(26deg); opacity:1; } 100% { transform:translate(36%,76vh) rotate(28deg); opacity:0; } }
+@keyframes floralBowLeft { 0% { transform:none; animation-timing-function:ease-out; } 26% { transform:translate(-3%,2%) rotate(-9deg) scaleX(.95); animation-timing-function:ease-in-out; } 46% { transform:translate(-8%,7%) rotate(-18deg) scaleX(.86); animation-timing-function:cubic-bezier(.5,0,.85,.45); } 94% { transform:translate(-26%,72vh) rotate(-38deg) scaleX(.8); opacity:1; } 100% { transform:translate(-27%,78vh) rotate(-40deg) scaleX(.8); opacity:0; } }
+@keyframes floralBowRight { 0% { transform:none; animation-timing-function:ease-out; } 26% { transform:translate(3%,1%) rotate(8deg) scaleX(.95); animation-timing-function:ease-in-out; } 46% { transform:translate(8%,5%) rotate(17deg) scaleX(.87); animation-timing-function:cubic-bezier(.5,0,.85,.45); } 94% { transform:translate(24%,74vh) rotate(36deg) scaleX(.82); opacity:1; } 100% { transform:translate(25%,80vh) rotate(38deg) scaleX(.82); opacity:0; } }
+.floral-stage.is-open .floral-hint { opacity:0; }
+.floral-stage.is-open .floral-paper { transform:scale(1); }
+.floral-stage.is-open .floral-step { animation:floralTypeIn 1.05s var(--reveal-at,3.3s) ease both; }
+.floral-intro { --reveal-at:3.9s; }
+.floral-kind { --reveal-at:4.7s; }
+.floral-names { --reveal-at:5.9s; }
+.floral-rule { --reveal-at:7.1s; }
+.floral-details { --reveal-at:7.7s; }
+.floral-closing { --reveal-at:8.9s; }
+@keyframes floralTypeIn { to { opacity:1; transform:translateY(0); } }
+/* The opening has its own bilingual layout; avoid the generic entrance override. */
+html[data-lang="en"] .entrance-floral [lang="ur"] { display:none; }
+html[data-lang="ur"] .entrance-floral [lang="en"] { display:none; }
+html[data-lang="ur"] .entrance-floral [lang="ur"] { display:inline; opacity:1; margin:0; font-size:1em; line-height:1.9; letter-spacing:0; }
+html[data-lang="ur"] .floral-name { font-size:min(6.5cqw,28px); line-height:1.95; }
+@media(prefers-reduced-motion:reduce) { .floral-stage *, .floral-stage *::before, .floral-stage *::after { animation:none!important; transition:none!important; } .floral-step { opacity:1; transform:none; } }

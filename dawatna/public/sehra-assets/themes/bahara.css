@@ -1,0 +1,103 @@
+﻿/* Theme: Jashan-e-Bahara – Festive celebration saffron, royal emerald, marigold garlands & antique brass */
+:root {
+  --primary: #c2410c;
+  --accent: #0f5132;
+  --bg: #1c1407;
+  --card: #fffef8;
+  --ink: #2b1f14;
+  --muted: #7c6853;
+  --line: rgba(229,160,29,.25);
+  --backdrop: radial-gradient(circle at 50% 25%, #4a2800, #140900 85%);
+  --env: #9a3412;
+  --env-dark: #6c2207;
+  --door: #3d1b06;
+  --curtain: #9a3412;
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-script: 'Great Vibes', cursive;
+  --ornament: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 38' fill='none' stroke='%23e5a01d' stroke-width='1.2' stroke-linecap='round'%3E%3Cpath d='M2 19h45M113 19h45'/%3E%3Ccircle cx='80' cy='19' r='8' fill='%23c2410c' fill-opacity='.12' stroke='%23e5a01d'/%3E%3Ccircle cx='80' cy='19' r='3' fill='%230f5132'/%3E%3Cpath d='M72 19q8-8 16 0M72 19q8 8 16 0' stroke='%23c2410c'/%3E%3Ccircle cx='56' cy='19' r='2' fill='%23e5a01d'/%3E%3Ccircle cx='104' cy='19' r='2' fill='%23e5a01d'/%3E%3C/svg%3E");
+}
+
+body { color: var(--ink); }
+.card {
+  box-shadow: 0 40px 85px -25px rgba(0,0,0,.6), 0 0 0 1px rgba(229,160,29,.3);
+}
+
+.hero {
+  background-color: var(--card);
+  background-image:
+    radial-gradient(circle at 50% 0%, rgba(229,160,29,.18) 0%, transparent 68%),
+    radial-gradient(circle at 50% 100%, rgba(15,81,50,.06) 0%, transparent 60%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='52' height='52' viewBox='0 0 52 52' fill='none' stroke='%23e5a01d' stroke-opacity='.12' stroke-width='1'%3E%3Ccircle cx='26' cy='26' r='16'/%3E%3Cpath d='M26 6v40M6 26h40'/%3E%3Ccircle cx='26' cy='26' r='2.5' fill='%230f5132' fill-opacity='.15'/%3E%3C/svg%3E");
+}
+
+.hero::before, .hero::after {
+  content: ''; position: absolute; top: 48px; width: 94px; height: 94px; opacity: .88;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 94 94' fill='none' stroke='%23e5a01d' stroke-width='1.3' stroke-linecap='round'%3E%3Cpath d='M4 4h42M4 4v42'/%3E%3Cpath d='M10 10q34 0 34 34M10 10q0 34 34 34' stroke='%230f5132' stroke-opacity='.45'/%3E%3Ccircle cx='12' cy='12' r='3.5' fill='%23e5a01d'/%3E%3Ccircle cx='26' cy='26' r='2.5' fill='%230f5132'/%3E%3Cpath d='M19 6l2.5 6 6 2.5-6 2.5-2.5 6-2.5-6-6-2.5 6-2.5z' fill='%23e5a01d' stroke='none'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+.hero::before { left: 15px; }
+.hero::after { right: 15px; transform: scaleX(-1); }
+
+.name {
+  color: var(--primary);
+  text-shadow: 0 2px 4px rgba(194,65,12,.15);
+}
+.amp { color: var(--accent); }
+
+.monogram {
+  border-color: #e5a01d;
+  color: var(--primary);
+  background: linear-gradient(135deg, #fffdf8, #fbf0d8);
+  box-shadow: 0 5px 16px rgba(229,160,29,.25);
+}
+
+.frame {
+  border: 2px solid #e5a01d;
+  background: #ffffff;
+  border-radius: 26px 6px 26px 6px;
+  box-shadow: 0 12px 30px -10px rgba(194,65,12,.1);
+}
+.frame::before {
+  inset: 6px;
+  border: 1px solid var(--line);
+  border-radius: 20px 4px 20px 4px;
+}
+
+.bismillah { color: var(--accent); }
+
+.event {
+  border-radius: 18px 6px 18px 6px;
+  border-color: rgba(229,160,29,.3);
+  background: #ffffff;
+  box-shadow: 0 5px 18px -6px rgba(43,31,20,.08);
+}
+.ev-icon {
+  background: linear-gradient(135deg, #c2410c, #9a3412);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(194,65,12,.3), 0 0 0 2px var(--card), 0 0 0 4px #e5a01d;
+}
+
+.countdown > div {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  box-shadow: 0 5px 14px -3px rgba(229,160,29,.18);
+}
+.countdown b { color: var(--primary); }
+
+.btn { border-color: #e5a01d; color: var(--primary); }
+.btn.primary {
+  background: linear-gradient(135deg, #c2410c, #9a3412);
+  color: #ffffff;
+  border-color: #e5a01d;
+  box-shadow: 0 6px 20px -6px rgba(194,65,12,.4);
+}
+.btn.primary:hover {
+  box-shadow: 0 8px 24px -6px rgba(194,65,12,.55);
+}
+
+.seal {
+  background: radial-gradient(circle at 35% 30%, #f59e0b, #b45309 75%);
+  color: #fffef5;
+  box-shadow: 0 10px 22px -5px rgba(180,83,9,.6);
+}
+
+.ent-names { color: #fed7aa; text-shadow: 0 4px 20px rgba(0,0,0,.6); }

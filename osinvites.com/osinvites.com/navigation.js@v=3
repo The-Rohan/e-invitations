@@ -1,0 +1,128 @@
+(() => {
+  const header = document.querySelector('header');
+  const desktopNav = header?.querySelector(':scope > nav');
+  if (!header || !desktopNav) return;
+
+  const homeLink = desktopNav.querySelector('a[href="index.php"]');
+  const webpageLink = desktopNav.querySelector('a[href="wedding-webpages.php"]');
+  const animatedMenu = desktopNav.querySelector('.category-menu');
+  const staticLink = desktopNav.querySelector('a[href="static-invitations.php"]');
+
+  if (homeLink && webpageLink && animatedMenu && staticLink) {
+    webpageLink.textContent = 'Webpage Invitations';
+    homeLink.after(webpageLink, animatedMenu, staticLink);
+  }
+
+  const toggle = document.createElement('button');
+  toggle.type = 'button';
+  toggle.className = 'mobile-menu-toggle';
+  toggle.setAttribute('aria-label', 'Open navigation menu');
+  toggle.setAttribute('aria-expanded', 'false');
+  toggle.setAttribute('aria-controls', 'mobile-nav-drawer');
+  toggle.innerHTML = '<span></span><span></span><span></span>';
+
+  const overlay = document.createElement('div');
+  overlay.className = 'mobile-nav-overlay';
+  overlay.setAttribute('aria-hidden', 'true');
+
+  const drawer = document.createElement('aside');
+  drawer.id = 'mobile-nav-drawer';
+  drawer.className = 'mobile-nav-drawer';
+  drawer.setAttribute('aria-hidden', 'true');
+  drawer.innerHTML = '<div class="mobile-nav-head"><strong>Menu</strong><button type="button" class="mobile-nav-close" aria-label="Close navigation menu">×</button></div><div class="mobile-nav-content"></div>';
+
+  header.append(toggle);
+  document.body.append(overlay, drawer);
+
+  const content = drawer.querySelector('.mobile-nav-content');
+  const closeButton = drawer.querySelector('.mobile-nav-close');
+
+  function rebuildDrawer() {
+    const clone = desktopNav.cloneNode(true);
+    clone.className = 'mobile-nav-links';
+    clone.removeAttribute('aria-label');
+    clone.querySelectorAll('[id]').forEach(element => element.removeAttribute('id'));
+
+    const categoryToggle = clone.querySelector('.category-toggle');
+    if (categoryToggle) {
+      const title = document.createElement('button');
+      title.type = 'button';
+      title.className = 'mobile-category-title';
+      title.setAttribute('aria-expanded', 'false');
+      title.innerHTML = '<span>Animated Invitations</span><span class="mobile-category-arrow" aria-hidden="true">⌄</span>';
+      title.style.cssText = 'width:100%;display:flex;align-items:center;justify-content:space-between;border:0;background:transparent;font:inherit;text-align:left;cursor:pointer;';
+      categoryToggle.replaceWith(title);
+    }
+    const categorySubmenu = clone.querySelector('.category-submenu');
+    if (categorySubmenu) {
+      categorySubmenu.hidden = false;
+      categorySubmenu.setAttribute('aria-hidden', 'true');
+      categorySubmenu.removeAttribute('aria-labelledby');
+      categorySubmenu.style.setProperty('display', 'none', 'important');
+    }
+    content.replaceChildren(clone);
+  }
+
+  function openMenu() {
+    rebuildDrawer();
+    document.body.classList.add('mobile-nav-open');
+    toggle.setAttribute('aria-expanded', 'true');
+    drawer.setAttribute('aria-hidden', 'false');
+    closeButton.focus({ preventScroll: true });
+  }
+
+  function closeMenu({ restoreFocus = true } = {}) {
+    document.body.classList.remove('mobile-nav-open');
+    toggle.setAttribute('aria-expanded', 'false');
+    drawer.setAttribute('aria-hidden', 'true');
+    if (restoreFocus) toggle.focus({ preventScroll: true });
+  }
+
+  toggle.addEventListener('click', openMenu);
+  closeButton.addEventListener('click', () => closeMenu());
+  overlay.addEventListener('click', () => closeMenu());
+
+  drawer.addEventListener('click', event => {
+    const mobileCategoryToggle = event.target.closest('.mobile-category-title');
+    if (mobileCategoryToggle) {
+      const submenu = mobileCategoryToggle.closest('.category-menu')?.querySelector('.category-submenu');
+      if (!submenu) return;
+      const willOpen = mobileCategoryToggle.getAttribute('aria-expanded') !== 'true';
+      mobileCategoryToggle.setAttribute('aria-expanded', String(willOpen));
+      submenu.setAttribute('aria-hidden', String(!willOpen));
+      submenu.style.setProperty('display', willOpen ? 'block' : 'none', 'important');
+      const arrow = mobileCategoryToggle.querySelector('.mobile-category-arrow');
+      if (arrow) arrow.style.transform = willOpen ? 'rotate(180deg)' : '';
+      return;
+    }
+
+    const categoryButton = event.target.closest('[data-category-link]');
+    if (categoryButton) {
+      const value = categoryButton.dataset.categoryLink;
+      const filter = [...document.querySelectorAll('.filters [data-filter]')]
+        .find(item => item.dataset.filter === value);
+      if (filter) {
+        filter.click();
+        closeMenu({ restoreFocus: false });
+        setTimeout(() => document.querySelector('.filters')?.scrollIntoView({
+          behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+          block: 'start'
+        }), 80);
+      }
+      return;
+    }
+    if (event.target.closest('a')) closeMenu({ restoreFocus: false });
+  });
+
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && document.body.classList.contains('mobile-nav-open')) {
+      closeMenu();
+    }
+  });
+
+  matchMedia('(min-width: 761px)').addEventListener('change', event => {
+    if (event.matches && document.body.classList.contains('mobile-nav-open')) {
+      closeMenu({ restoreFocus: false });
+    }
+  });
+})();

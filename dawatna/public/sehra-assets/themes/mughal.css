@@ -1,0 +1,22 @@
+/* Theme: Mughal – emerald & gold, jaali lattice */
+:root {
+  --primary: #0f5f4a; --accent: #c9a227; --bg: #f3efe3; --card: #fbf8f0; --ink: #1c211e; --muted: #5f6a64;
+  --backdrop: radial-gradient(circle at 30% 20%, #1c5a47, #06201a 70%);
+  --env: #0f5f4a; --env-dark: #0a4636; --door: #4c2b12; --curtain: #0f5f4a;
+  --ornament: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 34' fill='none' stroke='%23c9a227' stroke-width='1.2'%3E%3Cpath d='M2 17h50M108 17h50'/%3E%3Cpath d='M80 4c6 6 6 20 0 26-6-6-6-20 0-26z'/%3E%3Cpath d='M64 17c5-6 11-6 16 0-5 6-11 6-16 0zM80 17c5-6 11-6 16 0-5 6-11 6-16 0z'/%3E%3Ccircle cx='56' cy='17' r='2'/%3E%3Ccircle cx='104' cy='17' r='2'/%3E%3C/svg%3E");
+}
+.hero {
+  background-color: var(--card);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56' fill='none' stroke='%230f5f4a' stroke-opacity='.10'%3E%3Cpath d='M28 0c8 10 18 18 28 28-10 10-20 18-28 28C20 46 10 38 0 28 10 18 20 10 28 0z'/%3E%3Cpath d='M28 14c4 5 9 10 14 14-5 4-10 9-14 14-4-5-9-10-14-14 5-4 10-9 14-14z'/%3E%3C/svg%3E");
+}
+.hero::before, .hero::after {
+  content: ''; position: absolute; top: 60px; width: 70px; height: 70px; opacity: .8;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 70 70' fill='none' stroke='%23c9a227' stroke-width='1.3'%3E%3Cpath d='M2 2h30M2 2v30'/%3E%3Cpath d='M8 8c14 0 22 8 22 22M8 8c0 14 8 22 22 22'/%3E%3Cpath d='M14 14c8 0 12 4 12 12M14 14c0 8 4 12 12 12'/%3E%3Ccircle cx='8' cy='8' r='2.5'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+.hero::before { left: 18px; } .hero::after { right: 18px; transform: scaleX(-1); }
+.name { text-shadow: 0 2px 0 rgba(201,162,39,.25); }
+.frame { border-width: 2px; border-color: var(--accent); }
+.frame::before { inset: 5px; border-color: var(--primary); opacity: .4; }
+.ev-icon { background-color: var(--primary); }
+.closing { background: linear-gradient(180deg, var(--card), #eef3ec); }
+.diya-bowl { background: linear-gradient(#c9a227, #7a5a10); }

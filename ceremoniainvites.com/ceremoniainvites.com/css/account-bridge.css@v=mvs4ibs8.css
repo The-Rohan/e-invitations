@@ -1,0 +1,245 @@
+/* ==========================================================================
+   Only what a mockup never has to draw.
+
+   public/css/account.css is the design's own file, copied unchanged, and
+   every visual decision lives there. This file exists for the states a
+   mockup does not have, because in a mockup the password is always right and
+   nothing is ever disabled.
+
+   If a rule here starts deciding what something looks like rather than what
+   it does when it goes wrong, it belongs in a conversation about the design.
+   ========================================================================== */
+
+.account-form-message {
+  margin: 18px 0 0;
+  border-left: 3px solid #cfa954;
+  padding: 10px 0 10px 13px;
+  background: rgba(207, 169, 84, .12);
+  color: rgba(43, 33, 29, .78);
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+.account-form-message.is-error {
+  border-left-color: #b3402c;
+  background: rgba(179, 64, 44, .08);
+  color: #93321f;
+}
+
+/* Log out is a form button so a browser cannot prefetch it; it has to sit in
+   the menu like the links around it. */
+.account-menu-group form { margin: 0; }
+.account-menu-group form button { width: 100%; text-align: left; }
+.account-sidebar-bottom form { margin: 0; }
+.account-sidebar-bottom form button { width: 100%; }
+
+/* The cards list has no sidebar -- the design's shell is always a sidebar
+   plus the rest and never has to draw it missing. */
+.account-app-shell.is-bare { grid-template-columns: minmax(0, 1fr); }
+
+/* An anchor arrives underlined; a button does not, so their file never had to
+   say so. This is the one declaration the generated mirror cannot supply. */
+.account-app-shell a,
+.account-login-page a,
+.account-app-shell a { text-decoration: none; }
+.account-login-create a,
+.account-menu-live { text-decoration: underline; text-underline-offset: 3px; }
+
+/* ==========================================================================
+   The dashboard on one screen.
+
+   Two places where our card differs from the mockup's, both asked for:
+
+   The heading. Theirs is clamp(3.2rem, 5vw, 5.7rem) -- 91px on a laptop, and
+   with the greeting on two lines that is a third of the screen spent saying
+   hello. Pulled back so the things you came to use are above the fold.
+
+   The tiles. Their card has one function, so three tiles fit a row of three.
+   A real wedding has five or six, and a fixed three-column grid turns that
+   into three rows of mostly empty card. auto-fit lays out whatever number a
+   customer actually has.
+
+   Everything else is theirs. "Setup for me" stays below the fold on purpose:
+   it is an offer, not a control, and it is the right thing to find by
+   scrolling.
+   ========================================================================== */
+
+.account-dashboard-page .account-dashboard-intro {
+  margin: 20px 0 18px;
+}
+.account-dashboard-page .account-dashboard-intro h1 {
+  font-size: clamp(2.1rem, 3vw, 3.1rem);
+}
+.account-dashboard-page .account-dashboard-intro > div:first-child p {
+  margin-top: 9px;
+  font-size: 13px;
+}
+
+.account-dashboard-page .account-stats {
+  grid-template-columns: repeat(auto-fit, minmax(104px, 1fr));
+  gap: 8px;
+}
+.account-dashboard-page .account-stats > div { min-height: 78px; padding: 11px 12px; }
+.account-dashboard-page .account-stats strong { font-size: 23px; margin-top: 3px; }
+
+.account-dashboard-page .account-dashboard-preview { width: 168px; flex: 0 0 168px; }
+
+/* The card's own colours, standing in for their artwork component. */
+.account-preview-art {
+  display: grid;
+  place-items: center;
+  min-height: 88px;
+  background-size: cover;
+  background-position: center;
+}
+.account-preview-art b {
+  font-family: var(--app-font-serif);
+  font-size: 34px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, .82);
+}
+
+.account-panel-empty {
+  margin-top: 12px;
+  font-size: 12.5px;
+  color: rgba(43, 33, 29, .5);
+}
+
+/* Their countdown holds one card, because their sample wedding has one
+   function. A real one has five, and stacked they push everything below them
+   off the screen. */
+.account-countdown-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(104px, 1fr));
+  gap: 7px;
+  margin-top: 11px;
+}
+.account-countdown-card { padding: 11px 10px; }
+.account-countdown-card strong { font-size: 12.5px; line-height: 1.3; }
+.account-countdown-card.is-passed { opacity: .55; }
+
+/* The last 58px, measured against a 900px window: the working half of the
+   dashboard -- greeting, numbers, countdown and links -- ends on the screen
+   it opens on. Setup for me still lives below it, deliberately. */
+.account-dashboard-page .account-confirmation-notice { padding: 11px 14px; font-size: 12.5px; }
+.account-dashboard-page .account-dashboard-intro { margin: 10px 0 10px; }
+.account-dashboard-page .account-stats > div { min-height: 64px; }
+.account-dashboard-page .account-countdown-card { padding: 8px 9px; }
+.account-dashboard-page .account-countdown-card small { font-size: 8px; }
+.account-dashboard-page .account-panel { padding: 15px 16px; }
+
+/* ==========================================================================
+   Fixed overlays, positioned against the viewport again.
+
+   Their .account-page-content animates in with a transform and `both` fill,
+   so a transform stays on the element forever after. An element with a
+   transform becomes the containing block for any position:fixed descendant --
+   which is every overlay our panel has: the guest drawer, the event picker,
+   the modals, the support button.
+
+   The guest drawer hides itself off-canvas with right:0 and translateX(100%).
+   Measured against the viewport that puts it exactly off the edge; measured
+   against a narrower box it leaves 68px of drawer sitting on top of the guest
+   table. It looked like a drawer stuck open. It was the page it lives on.
+
+   Same entrance, without the transform.
+   ========================================================================== */
+.account-page-content { animation-name: account-fade-in; }
+@keyframes account-fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+/* ==========================================================================
+   Login on a phone: the form, and nothing else.
+
+   A deviation from the design, asked for directly. Their layout stacks the
+   maroon story panel above the form, which puts the password field below the
+   fold -- somebody arriving to log in has to scroll past a paragraph to reach
+   the thing they came for. The words are good; they are not what that person
+   came for.
+
+   Desktop is untouched.
+   ========================================================================== */
+/* Hidden on a laptop, where the story panel already carries it. Declared
+   before the media query below, or that one never wins. */
+.account-login-form-wrap .account-brand { display: none; }
+
+@media (max-width: 760px) {
+  .account-login-page { grid-template-columns: 1fr; grid-template-rows: 1fr; }
+  .account-login-story { display: none; }
+  .account-login-form-wrap {
+    min-height: 100dvh;
+    align-items: center;
+    padding: 26px 22px;
+  }
+  .account-login-form { width: 100%; }
+  /* The mark comes across, so the screen is still ours rather than a form
+     floating on a coloured ground. */
+  .account-login-form-wrap .account-brand { display: inline-flex; margin-bottom: 22px; }
+}
+
+/* Their .invite-art sizes the card preview; ours is a coloured panel with an
+   initial, so it needs its own height or it renders as a sliver. */
+.account-dashboard-preview .account-preview-art { min-height: 88px; width: 100%; }
+
+@media (max-width: 900px) {
+  .account-dashboard-intro { flex-direction: column; align-items: stretch; }
+  .account-dashboard-preview { width: 100%; flex: none; }
+  .account-dashboard-preview .account-preview-art { min-height: 128px; }
+  /* Clear of the floating support button. */
+  .account-page-content { padding-bottom: 88px; }
+}
+
+/* Log out is a form button in the phone drawer, so it needs the styling their
+   `.account-mobile-drawer > a` rule gives its neighbours. */
+.account-mobile-drawer form { margin: 0; }
+.account-mobile-drawer form button {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  border: 0;
+  border-radius: 11px;
+  padding: 13px 12px;
+  background: transparent;
+  color: #5a1621;
+  font: inherit;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+}
+.account-mobile-drawer form button:hover { background: #f9f4ee; }
+
+
+/* ------------------------------------------------------------- the name
+
+   The account sidebar and the sign-in screens used to write it as
+   "<strong>Ceremonia</strong> Invites" -- half of it bold, in whatever face
+   the panel was set in. It is one name in one face now; see
+   /css/wordmark.css. All that is decided here is the size. */
+/* Written with the element named, and the size said outright.
+
+   The account screens come from a bought design whose own stylesheet sets
+   `.account-brand > span:last-child` to 17px -- a class, a pseudo-class and a
+   tag, which outweighs two classes of ours however late it is loaded. Naming
+   the span matches its weight, and this file is loaded after theirs. */
+.account-brand span.ci-wordmark { --ci-wordmark-size: 20px; font-size: 20px; }
+.auth-mark span.ci-wordmark { --ci-wordmark-size: 21px; font-size: 21px; }
+
+/* ==========================================================================
+   The login page in the site's 2026 type (2026-10-22), like sign up and the
+   rest of the shop: Inter, the homepage's pill button. Only this page -- the
+   account screens keep their own type; their colours are the new palette.
+   ========================================================================== */
+@font-face { font-family: 'Inter'; font-style: normal; font-weight: 400 600; font-display: swap;
+  src: url('../fonts/inter-normal-400-600-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Inter'; font-style: normal; font-weight: 400 600; font-display: swap;
+  src: url('../fonts/inter-normal-400-600-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+.account-login-page, .account-login-page :is(h1, h2, p, a, label, input, button, div, span):not(.ci-wordmark) { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+.account-login-page :is(.account-login-story h1, .account-login-form h2) { font-weight: 500; letter-spacing: -.035em; line-height: 1.08; }
+.account-login-page .account-login-story h1 { font-size: clamp(34px, 3.6vw, 48px); }
+.account-login-page .account-login-story h1 span { font-style: normal; color: #ecd29a; }
+.account-login-page .account-login-form h2 { font-size: clamp(30px, 3vw, 40px); }
+.account-login-page .account-eyebrow { font-size: 12px; font-weight: 500; letter-spacing: .24em; }
+.account-login-page :is(.account-login-home, .account-login-foot) { font-size: 12px; letter-spacing: .14em; }
+.account-login-page .account-primary-button { min-height: 50px; font-size: 15px; font-weight: 500; letter-spacing: -.01em; text-transform: none; background: #2b211d; border-color: #2b211d; box-shadow: 0 0 0 4px rgba(43, 33, 29, .07), 0 12px 22px -12px rgba(43, 33, 29, .45); }
+.account-login-page .account-primary-button:hover { background: #3a2d27; border-color: #3a2d27; }

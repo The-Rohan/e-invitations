@@ -1,0 +1,55 @@
+/* Client-facing catalogue. Previewing a design never changes a saved invitation. */
+(() => {
+  const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+  const cards = $$('.theme-card'), tabs = $$('.theme-filter-btn');
+  let category = 'all', saved = new Set();
+  try { const value = JSON.parse(localStorage.getItem('sehra_saved_designs') || '[]'); if (Array.isArray(value)) saved = new Set(value.filter(v => typeof v === 'string')); } catch (_) {}
+  const filter = () => {
+    const query = ($('#themeSearch')?.value || '').trim().toLocaleLowerCase(); let count = 0;
+    cards.forEach(card => {
+      card.hidden = !((category === 'all' || card.dataset.cat === category)
+        && (!$('#newThemesOnly')?.checked || card.dataset.new === '1')
+        && (!$('#savedThemesOnly')?.checked || saved.has(card.dataset.key))
+        && (!query || card.textContent.toLocaleLowerCase().includes(query)));
+      if (!card.hidden) count++;
+    });
+    $('#themeResults').textContent = count + (count === 1 ? ' design' : ' designs') + (count ? '' : ' — clear the filters or try another search');
+  };
+  tabs.forEach((tab, index) => {
+    tab.addEventListener('click', () => { category = tab.dataset.filter; tabs.forEach(t => {t.classList.toggle('active',t === tab);t.setAttribute('aria-selected',String(t === tab));}); filter(); });
+    tab.addEventListener('keydown', event => {
+      let next;
+      if (event.key === 'ArrowRight') next = (index + 1) % tabs.length;
+      if (event.key === 'ArrowLeft') next = (index - 1 + tabs.length) % tabs.length;
+      if (event.key === 'Home') next = 0;
+      if (event.key === 'End') next = tabs.length - 1;
+      if (next !== undefined) {event.preventDefault();tabs[next].focus();tabs[next].click();}
+    });
+  });
+  ['themeSearch','newThemesOnly','savedThemesOnly'].forEach(id => $('#' + id)?.addEventListener('input',filter));
+  const dialog = $('#studioThemePreview'), frame = $('#studioPreviewFrame');
+  const phone = SehraPhonePreview.mount($('.studio-preview-viewport'),frame);
+  const preview = (href, title) => {
+    $('#studioPreviewTitle').textContent = title;
+    $('#studioPreviewFull').href = href;frame.src = href;
+    dialog.showModal();phone.fit();
+  };
+  $('#studioPreviewClose').addEventListener('click', () => dialog.close());
+  dialog.addEventListener('close', () => frame.removeAttribute('src'));
+  cards.forEach(card => {
+    const save = card.querySelector('.save-theme');
+    const paint = () => {const on = saved.has(card.dataset.key);save.setAttribute('aria-pressed',String(on));save.textContent = on ? '♥ Saved' : '♡ Save design';};
+    save.addEventListener('click', () => {const key=card.dataset.key;saved.has(key) ? saved.delete(key) : saved.add(key);try {localStorage.setItem('sehra_saved_designs',JSON.stringify([...saved]));} catch (_) {}paint();filter();});paint();
+    const href = () => {const url=new URL(card.dataset.href,location.href);const opening=$('#demoOpeningChoice').value;if(opening)url.searchParams.set('opening',opening);return url.pathname+url.search;};
+    const link=card.querySelector('.open-full-btn');
+    const sync=()=>link.href=href();$('#demoOpeningChoice').addEventListener('change',sync);sync();
+    const btn=card.querySelector('.preview-btn');btn.disabled=false;btn.addEventListener('click',()=>preview(href(),card.dataset.name));
+  });
+  $$('.opening-demo-card').forEach(card => {
+    const href=()=>{const url=new URL(card.dataset.href,location.href);const theme=$('#openingDemoTheme').value;if(theme)url.searchParams.set('theme',theme);return url.pathname+url.search;};
+    const sync=()=>card.querySelector('.opening-full').href=href();$('#openingDemoTheme').addEventListener('change',sync);sync();
+    const btn=card.querySelector('.opening-preview');btn.disabled=false;btn.addEventListener('click',()=>preview(href(),card.dataset.name));
+  });
+  $$('.announcement-demo-card').forEach(card=>{const btn=card.querySelector('.announcement-preview');btn.disabled=false;btn.addEventListener('click',()=>preview(card.dataset.href,card.dataset.name));});
+  filter();
+})();

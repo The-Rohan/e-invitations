@@ -1,0 +1,19 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//DawatLink//Invitation//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:ali-ayesha-demo-1@dawatlink.com
+DTSTAMP:20261028T130442Z
+DTSTART:20261218T143000Z
+DTEND:20261218T173000Z
+SUMMARY:Nikah — Ali Raza & Ayesha Khan
+LOCATION:Royal Gardens Marquee\, Canal Bank Road\, Lahore
+DESCRIPTION:Your presence will make our happiness complete.\n\nhttps://daw
+ atlink.com/dawat/ali-ayesha-demo/\nhttps://maps.app.goo.gl/dawatlinkDemo1
+URL:https://dawatlink.com/dawat/ali-ayesha-demo/
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

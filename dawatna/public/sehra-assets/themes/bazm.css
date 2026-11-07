@@ -1,0 +1,103 @@
+﻿/* Theme: Bazm-e-Ghulab – Ceremonia-inspired royal burgundy velvet, embossed gold jaali & damascene rose garlands */
+:root {
+  --primary: #85182a;
+  --accent: #d4af37;
+  --bg: #2a060d;
+  --card: #fffdfa;
+  --ink: #2a1117;
+  --muted: #785a62;
+  --line: rgba(212,175,55,.24);
+  --backdrop: radial-gradient(circle at 50% 25%, #580e1b, #180306 85%);
+  --env: #6b1020;
+  --env-dark: #480914;
+  --door: #350810;
+  --curtain: #6b1020;
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-script: 'Great Vibes', cursive;
+  --ornament: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 38' fill='none' stroke='%23d4af37' stroke-width='1.2' stroke-linecap='round'%3E%3Cpath d='M2 19h42M116 19h42'/%3E%3Cpath d='M80 6c6 6 6 18 0 25-6-6-6-18 0-25z' fill='%2385182a' fill-opacity='.18'/%3E%3Ccircle cx='80' cy='19' r='3.5' fill='%23d4af37'/%3E%3Cpath d='M62 19c5-5 10-5 15 0-5 5-10 5-15 0zM83 19c5-5 10-5 15 0-5 5-10 5-15 0z' stroke='%23d4af37'/%3E%3Ccircle cx='50' cy='19' r='2' fill='%2385182a'/%3E%3Ccircle cx='110' cy='19' r='2' fill='%2385182a'/%3E%3C/svg%3E");
+}
+
+body { color: var(--ink); }
+.card {
+  box-shadow: 0 45px 90px -30px rgba(0,0,0,.65), 0 0 0 1px rgba(212,175,55,.28);
+}
+
+.hero {
+  background-color: var(--card);
+  background-image:
+    radial-gradient(circle at 50% 0%, rgba(212,175,55,.16) 0%, transparent 68%),
+    radial-gradient(circle at 50% 100%, rgba(133,24,42,.05) 0%, transparent 60%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56' fill='none' stroke='%23d4af37' stroke-opacity='.10' stroke-width='1'%3E%3Ccircle cx='28' cy='28' r='18'/%3E%3Cpath d='M28 6v44M6 28h44'/%3E%3Ccircle cx='28' cy='28' r='3' fill='%2385182a' fill-opacity='.14'/%3E%3C/svg%3E");
+}
+
+.hero::before, .hero::after {
+  content: ''; position: absolute; top: 48px; width: 96px; height: 96px; opacity: .9;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96' fill='none' stroke='%23d4af37' stroke-width='1.3' stroke-linecap='round'%3E%3Cpath d='M4 4h44M4 4v44'/%3E%3Cpath d='M10 10q36 0 36 36M10 10q0 36 36 36' stroke='%2385182a' stroke-opacity='.5'/%3E%3Ccircle cx='12' cy='12' r='3.5' fill='%23d4af37'/%3E%3Ccircle cx='28' cy='28' r='2.5' fill='%23d4af37'/%3E%3Cpath d='M20 6l3 7 7 3-7 3-3 7-3-7-7-3 7-3z' fill='%23d4af37' stroke='none'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+.hero::before { left: 16px; }
+.hero::after { right: 16px; transform: scaleX(-1); }
+
+.name {
+  color: var(--primary);
+  text-shadow: 0 2px 6px rgba(133,24,42,.18);
+}
+.amp { color: var(--accent); }
+
+.monogram {
+  border-color: var(--accent);
+  color: var(--primary);
+  background: linear-gradient(135deg, #fffcf8, #f8ebd1);
+  box-shadow: 0 6px 18px rgba(212,175,55,.25), inset 0 0 0 1px rgba(255,255,255,.9);
+}
+
+.frame {
+  border: 2px solid var(--accent);
+  background: #ffffff;
+  border-radius: 28px 8px 28px 8px;
+  box-shadow: 0 14px 34px -10px rgba(133,24,42,.12);
+}
+.frame::before {
+  inset: 6px;
+  border: 1px solid var(--line);
+  border-radius: 22px 5px 22px 5px;
+}
+
+.bismillah { color: var(--accent); }
+
+.event {
+  border-radius: 20px 6px 20px 6px;
+  border-color: rgba(212,175,55,.3);
+  background: #ffffff;
+  box-shadow: 0 6px 20px -6px rgba(133,24,42,.08);
+}
+.ev-icon {
+  background: linear-gradient(135deg, #85182a, #5b0d1a);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(133,24,42,.35), 0 0 0 2px var(--card), 0 0 0 4px var(--accent);
+}
+
+.countdown > div {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  box-shadow: 0 6px 14px -3px rgba(212,175,55,.18);
+}
+.countdown b { color: var(--primary); }
+
+.btn { border-color: var(--accent); color: var(--primary); }
+.btn.primary {
+  background: linear-gradient(135deg, #85182a 0%, #5d0d1b 100%);
+  color: #ffffff;
+  border-color: var(--accent);
+  box-shadow: 0 8px 22px -6px rgba(133,24,42,.45);
+}
+.btn.primary:hover {
+  box-shadow: 0 10px 28px -6px rgba(133,24,42,.6);
+}
+
+.seal {
+  background: radial-gradient(circle at 35% 30%, #e0bc60, #966f19 75%);
+  color: #fff9ea;
+  box-shadow: 0 10px 24px -5px rgba(150,111,25,.65);
+}
+
+.ent-names { color: #fbf5e6; text-shadow: 0 4px 20px rgba(0,0,0,.6); }
