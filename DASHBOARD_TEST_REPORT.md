@@ -4,6 +4,7 @@ Verified against the production build with an isolated temporary database. Demo 
 
 - PASS: Private admin endpoints deny anonymous writes
 - PASS: Wrong credentials rejected; valid login survives reload
+- PASS: Skipped steps and invalid contact details show actionable errors
 - PASS: gulistan: create, private preview, activate, share and RSVP
 - PASS: baradari: create, private preview, activate, share and RSVP
 - PASS: shabistan: create, private preview, activate, share and RSVP
@@ -21,6 +22,6 @@ Verified against the production build with an isolated temporary database. Demo 
 - PASS: Logout revokes the server session, including copied cookies
 - PASS: Browser has no runtime errors
 
-Fixes include phone normalization, URL collision rejection, missing-order edit rejection, calendar-date validation, server-side logout revocation, and personalized venue/date/family information. Native invitation RSVP buttons now open the connected guest reply form.
+Fixes include shared field-specific validation, guarded step navigation, actionable customer contact and event errors, suggested custom URLs, phone normalization, URL collision rejection, missing-order edit rejection, calendar-date validation, server-side logout revocation, and personalized venue/date/family information. Native invitation RSVP buttons now open the connected guest reply form.
 
 Limits: WhatsApp links were inspected, not sent. Real payments remain manually verified. This validates the tested scenarios, not a guarantee that every possible issue is absent. Storage requires one Node instance with persistent disk.
