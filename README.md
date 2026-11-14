@@ -36,3 +36,9 @@ See [TEMPLATE_STUDIO.md](TEMPLATE_STUDIO.md) for supported controls, review beha
 ## Updating an existing installation
 
 Back up and keep `.env.local` and the entire configured data directory. Copy updated application files without replacing those private files. Run `npm ci`, rebuild if using production mode, and restart the app. Existing orders remain available; editing and saving one in the current studio enables the new delivery review workflow. No production data or credentials are included in the distribution ZIP.
+
+## Live GitHub Codespaces preview
+
+Create a Codespace from the `wedinvite-final-2026-11-14` branch. The included devcontainer installs dependencies, generates unique credentials in `.env.local`, and starts the full app. Open the forwarded port 3000 from the Ports panel; append `/admin` for the studio. Open `.env.local` in the editor to read your admin username and password. Use sample customer/payment data while testing; activation is a manual action and does not collect money.
+
+The preview is private by default. Records persist in this Codespace's `.data` directory across stops/restarts. Deleting the Codespace deletes its local records, so download a backup first if needed. Codespaces is a development preview, not always-on hosting; GitHub account quotas and billing apply. Keep `.env.local` out of commits and do not expose a development server publicly.

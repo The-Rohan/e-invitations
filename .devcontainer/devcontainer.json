@@ -1,0 +1,10 @@
+{
+  "name": "WedInvite full app preview",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-24-bookworm",
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": { "label": "WedInvite preview", "onAutoForward": "openBrowser", "visibility": "private" }
+  },
+  "postCreateCommand": "npm ci && node .devcontainer/setup.cjs",
+  "postStartCommand": "bash .devcontainer/start.sh"
+}
