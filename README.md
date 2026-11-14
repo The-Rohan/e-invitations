@@ -1,67 +1,38 @@
-# 📜 Pakistani E-Invitations Market: Competitor Intelligence & Source Code Archive
+# WedInvite — storefront and invitation studio
 
-A central repository compiling real-world source code, interactive web templates, design assets, and business intelligence from the top 7 commercial digital wedding invitation competitors in Pakistan, alongside the **WedInvite.pk (`dawatna`)** Next.js platform engine.
+This app includes the storefront, orders/CRM, admin studio, and all ten original invitation designs. The separate original-template repository is not required to run it.
 
-This repository is optimized for AI agents and engineering teams to analyze competitor mechanics, reverse-engineer interactive ceremony rituals, audit pricing strategies, and synthesize best-in-class digital invitation products.
+## Run locally from the ZIP
 
----
+1. Install **Node.js 24**.
+2. Extract the ZIP and open a terminal in the extracted folder containing `package.json`.
+3. Copy `.env.example` to `.env.local`. Set `WEDINVITE_ADMIN_USERNAME` and replace `WEDINVITE_ADMIN_KEY` with your own long password. If there is no example file, create `.env.local` with:
 
-## 🗂️ Repository Structure
+   ```env
+   WEDINVITE_ADMIN_USERNAME=admin
+   WEDINVITE_ADMIN_KEY=YOUR_OWN_LONG_PASSWORD
+   WEDINVITE_DATA_DIR=.data
+   ```
 
-### 1. Competitor Websites & Codebases
+4. Run:
 
-| Competitor | Business Model | Price Range (PKR) | Primary Fulfillment | Tech Stack / Architecture |
-|---|---|---|---|---|
-| **[`ceremoniainvites.com`](./ceremoniainvites.com/)** | Automated SaaS + VIP Concierge | Rs. 5,000 – Rs. 15,000 | Instant preview / 1 hr live | PHP / HTML5 / Video Hand-offs |
-| **[`dawatlink.com`](./dawatlink.com/)** | Micro-transaction Budget SaaS | Rs. 100 – Rs. 500 | Instant automated (browser) | Static HTML / JavaScript |
-| **[`dawatnama.app`](./dawatnama.app/)** | SaaS (Tayyab Tech, Karachi) | Rs. 0 – Rs. 5,999 | Instant / 15-min onboard | Next.js / Tailwind / SPA |
-| **[`dawatnama.store`](./dawatnama.store/)** | Studio Boutique (Karachi) | Rs. 3,999 – Rs. 25,000+ | Live demo / Same day | Custom Web / Video Mockups |
-| **[`niru.pk`](./niru.pk/)** | Luxury Design Studio (Lahore) | Rs. 5,900 – Rs. 19,490+ | 24–48 hrs draft / 50% split | Custom CSS / Canvas / Audio BGM |
-| **[`osinvites.com`](./osinvites.com/)** | WhatsApp Direct Agency | Rs. 1,000 – Rs. 5,999 | Manual WhatsApp delivery | Static Multi-event HTML Pages |
-| **[`sehra.pk`](./sehra.pk/)** | Studio Platform with 3-Day Trial | Rs. 2,000 – Rs. 5,500 | 3-Day Free Trial / Instant | Interactive JS Card Engine |
-| **[`wedinvite-mehndi`](./wedinvite-mehndi/)** | Interactive Single-Event Card | Standalone Demo | Direct Web Card | Fluid Cloth & Diya Physics |
+   ```sh
+   npm ci
+   npm run dev
+   ```
 
----
+5. Open http://localhost:3000. Sign in at http://localhost:3000/admin with the credentials you configured. Keep the terminal open; Ctrl+C stops the server.
 
-### 2. Platform Engine: `dawatna/` (WedInvite.pk Next.js App)
+For a production build, use `npm run build` followed by `npm start`. The app needs a running Node server and persistent disk; GitHub Pages cannot run the admin, CRM, or invitation APIs. See `RUN-ON-GITHUB.md` in the distribution ZIP for GitHub build instructions.
 
-Located in [`dawatna/`](./dawatna/), this is the full Next.js 16 application incorporating:
-* **45 Master Invitation Templates**: Standalone 60fps HTML master templates across Crown Jewel 4K, Niru Tactile, and Ceremonia Film series.
-* **4-Step Customization Studio**: Real-time typography, Urdu nastaliq, palette, and audio preview at `/studio`.
-* **Guest Management & RSVP**: Headcount allocation, private guest URLs (`/g/[token]`), Raast digital salami logging, and couple dashboard (`/dashboard`).
-* **Ritual Animation Engine**: Diya flame bloom, wax seal breaking, velvet curtain parting, and royal farmaan scroll.
-* **Reference Guide**: Full AI setup instructions in [`dawatna/AI_HANDOFF_INSTRUCTIONS.md`](./dawatna/AI_HANDOFF_INSTRUCTIONS.md).
+## Create and deliver a wedding suite
 
----
+Open an order → **Edit invitation**, or choose **Create invitation**. Select the design and a package covering the required event count. Enter the couple and event details, then use the template-specific settings in **Review & save**. The personalized preview supports the full invitation and each standalone event, on desktop and mobile, before saving.
 
-### 3. Master Intelligence & Strategy Documents
+After saving, open the order's **Invitation delivery suite**. A three-event order has four links: the complete invitation, Mehndi only, Barat only, and Walima only. Preview and mark each current version reviewed. Verify payment to activate the links, copy the delivery message, and track fulfillment. Content changes reset review checks.
 
-* **[`PAKISTANI_E_INVITATIONS_MASTER_REPORT.md`](./PAKISTANI_E_INVITATIONS_MASTER_REPORT.md)**: Exhaustive 459-line teardown dissecting:
-  * Macroeconomics of Pakistani wedding stationery (print vs WhatsApp web-links).
-  * Feature matrices, pricing models, payment rails (Raast, JazzCash, Easypaisa, UBL/HBL bank transfer verification).
-  * Strengths, weaknesses, and customer friction points across all competitors.
-* **[`PAKISTANI_E_INVITATIONS_MASTER_BLUEPRINT.md`](./PAKISTANI_E_INVITATIONS_MASTER_BLUEPRINT.md)**: Product development roadmap, high-converting WhatsApp sales funnels, and viral guest acquisition loops.
-* **Visual Reference Still Life**: [`Luxury Wedding Invitation Still Life.png`](./Luxury%20Wedding%20Invitation%20Still%20Life.png).
+See [TEMPLATE_STUDIO.md](TEMPLATE_STUDIO.md) for supported controls, review behavior, limitations, and test commands, and [STUDIO_OPERATIONS.md](STUDIO_OPERATIONS.md) for CRM operations.
 
----
+## Updating an existing installation
 
-### 4. Rendered Frame & Ritual Previews
-
-* `baraat-frame.png` — Baraat event agenda card layout.
-* `curtain-frame.png` — Velvet curtain opening transition.
-* `mehndi-frame.png` — Traditional yellow/green floral mehndi palette.
-* `walima-frame.png` — Elegant evening reception typography.
-* `dehleez-rendered.png` — Haveli door swing entrance.
-* `bazm-shahi-rendered.png` & `bazm-opened-test.png` — Royal Mughal court gate animation.
-* `roshni-rendered.png` & `roshni-opened-rendered.png` — Diya illumination reveal interaction.
-* `w-ahmad-mawra-rendered.png` — Production couple card demonstration.
-
----
-
-## 🤖 Instructions for AI Agents Connecting to this Repository
-
-When you are queried to design, optimize, or code features for digital wedding invitations:
-1. **To build high-converting landing pages or studios**: Reference [`dawatna/app/studio/`](./dawatna/app/studio/) and [`ceremoniainvites.com`](./ceremoniainvites.com/).
-2. **To implement Pakistani payment rails & WhatsApp checkout**: Reference Section 4 of [`PAKISTANI_E_INVITATIONS_MASTER_REPORT.md`](./PAKISTANI_E_INVITATIONS_MASTER_REPORT.md) and [`dawatna/app/checkout/`](./dawatna/app/checkout/).
-3. **To craft authentic cultural animations**: Examine CSS/JS ritual implementations in [`dawatna/public/templates/`](./dawatna/public/templates/) and [`niru.pk`](./niru.pk/).
-4. **To write bilingual Urdu (Nastaliq) / English typography**: Review the font loading and bidirectional RTL stylesheets in [`dawatna/public/fonts/`](./dawatna/public/fonts/) and [`ceremoniainvites.com/ceremoniainvites.com/fonts/`](./ceremoniainvites.com/ceremoniainvites.com/fonts/).
+Back up and keep `.env.local` and the entire configured data directory. Copy updated application files without replacing those private files. Run `npm ci`, rebuild if using production mode, and restart the app. Existing orders remain available; editing and saving one in the current studio enables the new delivery review workflow. No production data or credentials are included in the distribution ZIP.

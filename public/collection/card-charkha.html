@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script src="assets/card-boot.js"></script>
+<script src="assets/card-celebration.js"></script>
+<meta charset="utf-8">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232B3A55'/%3E%3Ccircle cx='30' cy='30' r='16' fill='none' stroke='%23C98E3E' stroke-width='3'/%3E%3Ccircle cx='30' cy='30' r='6' fill='none' stroke='%23C98E3E' stroke-width='2.5'/%3E%3Cpath d='M30 46v8M46 30h8' stroke='%23F6EFDF' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, noimageindex">
+<meta name="theme-color" content="#F3EAD8">
+<title>Bilal &amp; Mahrukh — Charkha Wedding Invitation</title>
+<link rel="preload" as="image" href="assets/charkha/gate-poster.jpg" fetchpriority="high">
+<link rel="preload" as="image" href="assets/charkha/hero.jpg" fetchpriority="high">
+<link rel="preload" as="font" type="font/woff2" href="assets/charkha/fonts/marcellus-400.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="assets/charkha/fonts/italianno-400.woff2" crossorigin>
+<link rel="stylesheet" href="assets/charkha/charkha.css">
+</head>
+<body class="locked">
+
+<div class="stage">
+  <div class="phoneWrap" id="phoneWrap">
+
+    <div class="fabs" aria-label="Display controls">
+      <button class="fab muted" id="musicFab" type="button" aria-label="Play music" aria-pressed="false"><span class="eq"><i></i><i></i><i></i></span></button>
+      <button class="fab tsz" id="tszFab" type="button" aria-label="Change text size"><b>A</b><s>A</s></button>
+      <button class="fab" id="langFab" type="button" aria-label="Switch language">اردو</button>
+    </div>
+
+    <nav class="mapDock" id="mapDock" aria-label="Courtyard navigation">
+      <button class="dockBtn" id="mapBtn" type="button" aria-haspopup="dialog" aria-expanded="false" aria-label="Courtyard map">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V10a8 8 0 0 1 16 0v11"/><path d="M8 21v-8a4 4 0 0 1 8 0v8"/></svg>
+        <span data-ur="نقشہ">Map</span>
+      </button>
+      <a class="dockBtn dockRsvp" href="#rsvp"><span data-ur="جواب">Reply</span><span aria-hidden="true">→</span></a>
+    </nav>
+
+    <div class="phone" id="phone">
+
+      <section class="entrance" id="entrance" aria-label="Enter the courtyard film">
+        <video class="envVid" id="gateVid" muted playsinline disablepictureinpicture preload="metadata"
+               poster="assets/charkha/gate-poster.jpg">
+          <source src="assets/charkha/gate.mp4" type="video/mp4"/>
+        </video>
+        <i class="gateShade" aria-hidden="true"></i>
+        <div class="gateTop">
+          <div class="gateMonogram"><span>B</span><i></i><span>M</span></div>
+          <button class="gateSound" id="gateSound" type="button" aria-pressed="true"></button>
+        </div>
+        <div class="gateBottom">
+          <div class="gateKicker" data-ur="چرخہ اور چوک">The wheel and the courtyard</div>
+          <h1 class="gateNames"><span data-ur="بلال">Bilal</span><span class="amp" data-ur="اور">&amp;</span><span data-ur="ماہ رخ">Mahrukh</span></h1>
+          <button class="enterBtn" id="enterBtn" type="button">
+            <span data-ur="صحن میں آ جاؤ">Step into the courtyard</span><span class="arrow" aria-hidden="true">→</span>
+          </button>
+          <p class="gateHint" data-ur="آواز کے ساتھ بہتر · شروع کرنے کے لیے دبائیں">Best with sound · Tap to begin</p>
+        </div>
+      </section>
+
+      <main id="bodyMain">
+
+        <section class="hero" id="hero">
+          <img class="heroArt" src="assets/charkha/hero.jpg" fetchpriority="high"
+               alt="A walnut charkha spinning wheel in a sunlit courtyard with printed indigo cloth drying behind">
+          <i class="heroShade" aria-hidden="true"></i>
+          <div class="heroIn">
+            <div class="heroKicker" data-ur="جہاں ڈور بنتی ہے">Where the thread is spun</div>
+            <h1 class="heroNames">
+              <span data-ur="بلال">Bilal</span>
+              <span class="amp" data-ur="اور">&amp;</span>
+              <span data-ur="ماہ رخ">Mahrukh</span>
+            </h1>
+            <div class="heroDate" data-ur="۱۲ جون ۲۰۲۷">12 June 2027</div>
+            <div class="heroPlace" data-ur="بنجوسہ جھیل · راولاکوٹ">Banjosa Lake &middot; Rawalakot</div>
+            <div class="heroRule" aria-hidden="true"></div>
+          </div>
+          <div class="scrollCue" aria-hidden="true"><span data-ur="صحن کے راستے پر چلیں">Walk the courtyard path</span><i></i></div>
+        </section>
+
+        <section class="panel panelInvitation" id="invitation">
+          <i class="panelColumn l" aria-hidden="true"></i>
+          <i class="panelColumn r" aria-hidden="true"></i>
+          <div class="panelInner rv">
+            <div class="eyebrow" data-ur="اہلِ خانہ کی جانب سے">Together with their families</div>
+            <div class="bism">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
+            <p class="verse" data-ur="اور اُس کی نشانیوں میں سے یہ ہے کہ اُس نے تمہارے لیے تمہی میں سے جوڑے بنائے، تاکہ تم اُن کے پاس سکون پاؤ، اور تمہارے درمیان محبت اور رحمت رکھ دی۔<cite>سورۃ الروم، ۳۰:۲۱</cite>">
+              &ldquo;And among His signs is that He created for you mates from among yourselves,
+              that you may find tranquillity in them; and He placed between you affection and mercy.&rdquo;
+              <cite>Surah Ar-Rum &middot; 30:21</cite>
+            </p>
+            <div class="fams">
+              <div class="fam"><b data-ur="عباسی">Abbasi</b><span data-ur="خاندان">Family</span></div>
+              <div class="famrule" aria-hidden="true"></div>
+              <div class="fam"><b data-ur="کیانی">Kiyani</b><span data-ur="خاندان">Family</span></div>
+            </div>
+            <p class="lede" data-ur="چرخہ گھوم رہا ہے، سوت روشن ہے، اور صرف آپ کی کمی ہے۔">
+              The wheel is turning, the thread is bright, and the only thing missing is you.
+            </p>
+            <div class="countdown" aria-label="Countdown to the wedding">
+              <div class="cdCell"><b id="cdD">—</b><span data-ur="دن">Days</span></div>
+              <i class="cdSep" aria-hidden="true"></i>
+              <div class="cdCell"><b id="cdH">00</b><span data-ur="گھنٹے">Hours</span></div>
+              <i class="cdSep" aria-hidden="true"></i>
+              <div class="cdCell"><b id="cdM">00</b><span data-ur="منٹ">Minutes</span></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="revealSec" id="reveal">
+          <div class="inner rv">
+            <div class="eyebrow" data-ur="تاریخ">The date</div>
+            <h2 class="t" data-ur="چرخہ گھماؤ">Spin the Charkha</h2>
+            <p class="lede" data-ur="چرخہ تین بار مکمل گھمائیں — ڈور بند ہو جائے گا، اور صحن آپ کو تاریخ بتا دے گا۔">
+              Turn the wheel three full times — the thread winds, and the courtyard will tell you when.
+            </p>
+            <div class="spinStage lockStage" id="lockStage">
+              <button class="wheelBtn" id="wheelBtn" type="button" aria-label="Spin the wheel: drag in circles">
+                <i class="wheelRim" aria-hidden="true"></i>
+                <img class="wheelImg" id="wheelImg" src="assets/charkha/wheel.jpg" alt="">
+                <i class="wheelHandle" aria-hidden="true"></i>
+              </button>
+              <div class="bobbinRow" id="bobbinRow" aria-hidden="true">
+                <i></i><i></i><i></i>
+              </div>
+              <div class="dateReveal">
+                <div class="dateDay" id="dateDay">Saturday</div>
+                <div class="dateBig" id="dateBig">12 &middot; 06 &middot; 2027</div>
+                <div class="dateSub" id="dateSub">Banjosa Lake &middot; Rawalakot</div>
+              </div>
+            </div>
+            <p class="keyHint" id="keyHint" data-ur="پکڑ کر گھماؤ — ہر ایک چکر ایک بوبن بند کرے گا۔">Grab the wheel and turn it — each full turn winds one bobbin.</p>
+            <div class="dateActions" id="dateActions">
+              <a class="btn light" id="gcalDate" target="_blank" rel="noopener" href="#"><span data-ur="گوگل کیلنڈر">Google Calendar</span></a>
+              <a class="btn light" id="icsDate" download="charkha-save-the-date.ics" href="#"><span data-ur="آئی فون / ایپل">Apple / iPhone</span></a>
+            </div>
+          </div>
+        </section>
+
+        <section class="sec eventsSec" id="events">
+          <div class="inner rv">
+            <div class="eyebrow" data-ur="تقریبات">The celebrations</div>
+            <h2 class="t" data-ur="صحن میں تین شامیں">Three Evenings in the Courtyard</h2>
+            <p class="lede" data-ur="ہر تقریب کی چوک اپنی سی ہے۔">Every celebration has its own square of the courtyard.</p>
+            <div class="scenePlate"><img src="assets/charkha/scene-events.jpg" loading="lazy" decoding="async"
+              alt="The courtyard dressed for a mehndi with cots, printed cloth flags and marigold trays" width="768" height="1376"></div>
+            <div class="eventPath rv" id="eventPath"></div>
+          </div>
+        </section>
+
+        <section class="panel panelAttire" id="dress">
+          <div class="panelInner rv">
+            <div class="eyebrow" data-ur="لباس">What to wear</div>
+            <h2 class="t" data-ur="ڈابو فارمل">Indigo Formal</h2>
+            <div class="scenePlate dressScene"><img src="assets/charkha/scene-dress.jpg" loading="lazy" decoding="async"
+              alt="Formalwear displayed against traditional courtyard walls" width="768" height="1376"></div>
+            <p class="dressNote" data-ur="چھپی ہوئی نیلی، آئیوری، اور تھوڑا سا گلابی مٹی۔ شامیں ٹھنڈی ہوتی ہیں — شال ساتھ رکھیے۔ سفید سے گریز کیجیے گا۔">
+              Printed indigo, ivory, and a little earthy marigold. Evenings are cool &mdash;
+              bring a shawl. Please avoid white.
+            </p>
+            <div class="dressPalette" aria-hidden="true">
+              <div class="swatch"><i style="background:#2B3A55"></i><span data-ur="نیلا">Indigo</span></div>
+              <div class="swatch"><i style="background:#F6EFDF"></i><span data-ur="آئیوری">Ivory</span></div>
+              <div class="swatch"><i style="background:#A65E3F"></i><span data-ur="گندمی">Clay</span></div>
+              <div class="swatch"><i style="background:#C98E3E"></i><span data-ur="پیتل">Brass</span></div>
+            </div>
+            <div class="dressRail rv" id="dressRail"></div>
+            <p class="dressHint" data-ur="ہر تقریب کے رنگ نیچے دیکھیں">Every event has its own palette</p>
+          </div>
+        </section>
+
+        <section class="sec staySec" id="stay">
+          <div class="inner rv">
+            <div class="lampPlate" aria-hidden="true"></div>
+            <div class="eyebrow" data-ur="قیام">Where to stay</div>
+            <h2 class="t" data-ur="گسٹ ہاؤس آپ کا منتظر ہے">The Guesthouse Awaits</h2>
+            <p class="lede" data-ur="جھیل کے کنارے کمرے ہم نے پہلے سے رکھوا لیے ہیں۔ بکنگ کے لیے بس اِتنا بتا دیجیے کہ آپ عباسی۔کیانی شادی میں آ رہے ہیں۔">
+              We have held a block of rooms by the lake. To book, you only need to say
+              you are with the Abbasi&ndash;Kiyani wedding.
+            </p>
+            <div class="scenePlate"><img src="assets/charkha/scene-stay.jpg" loading="lazy" decoding="async"
+              alt="A daylight weaver's guesthouse room with indigo-print coverlets" width="768" height="1376"></div>
+            <div class="hotelName" data-ur="ڈابو گسٹ ہاؤس">Dabu Guest House</div>
+            <div class="hotelWhere" data-ur="بنجوسہ جھیل · راولاکوٹ">Banjosa Lake &middot; Rawalakot</div>
+            <div class="stayMail">+92 300 123 4567</div>
+            <a class="btn" target="_blank" rel="noopener"
+               href="https://www.google.com/maps/search/?api=1&amp;query=Banjosa+Lake+Rawalakot"
+               data-ur="میپ پر دیکھیں">View on maps</a>
+          </div>
+        </section>
+
+        <section class="sec travelSec" id="travel">
+          <div class="inner rv">
+            <div class="eyebrow" data-ur="سفر">The journey</div>
+            <h2 class="t" data-ur="صحن تک کا سفر">Up to the Courtyard</h2>
+            <div class="scenePlate"><img src="assets/charkha/scene-travel.jpg" loading="lazy" decoding="async"
+              alt="A village lane lined with cloth strung overhead" width="768" height="1376"></div>
+            <div class="legs">
+              <div class="leg">
+                <h3 data-ur="کوچ کا انتظام">Coaches</h3>
+                <div class="w" data-ur="۱۰ جون، صبح نو بجے، ایف ۹ پارک اسلام آباد سے<em>سیٹ رکھوانے کے لیے بتا دیجیے گا</em>">
+                  From F&#8209;9 Park, Islamabad &middot; 10 June, 9 AM<em>Tell us and we will keep you a seat</em>
+                </div>
+              </div>
+              <div class="leg">
+                <h3 data-ur="استقبال">Someone will meet you</h3>
+                <div class="w" data-ur="کوہالہ پر، اور اوپر پہنچنے پر بھی<em>راستے میں چائے کے لیے رکیں گے</em>">
+                  At Kohala, and again at the top<em>We stop for chai on the way</em>
+                </div>
+              </div>
+              <div class="leg">
+                <h3 data-ur="پہنچنے کے بعد">Once you are here</h3>
+                <div class="w" data-ur="سب کچھ گسٹ ہاؤس سے دس منٹ کے فاصلے پر<em>چرخہ صبح سے گھوم رہا ہے</em>">
+                  Everything is ten minutes from the guesthouse<em>The wheel is already spinning</em>
+                </div>
+              </div>
+            </div>
+            <a class="btn light" target="_blank" rel="noopener"
+               href="https://www.google.com/maps/search/?api=1&amp;query=Banjosa+Lake+Rawalakot"
+               data-ur="میپ پر دیکھیں">View on maps</a>
+          </div>
+        </section>
+
+        <section class="rsvpSec" id="rsvp">
+          <div class="rsvpSheet rv" id="rsvpSheet">
+            <div class="fountainPlate" aria-hidden="true"></div>
+            <div class="eyebrow" data-ur="جواب">Reply</div>
+            <h2 class="t" data-ur="صحن میں کوئی پیغام چھوڑیں">Leave a Note in the Courtyard</h2>
+            <p class="lede" data-ur="۱۵ اپریل تک جواب دیجیے۔ پہاڑ پر کمرے جلدی بھر جاتے ہیں۔">
+              Please reply by 15 April. Rooms on the mountain fill up early.
+            </p>
+            <div class="rsvpBox">
+              <form id="rsvpForm" novalidate>
+                <input type="hidden" name="card" value="charkha"/>
+                <div class="fld">
+                  <label data-ur="آپ کا نام">Full name</label>
+                  <input type="text" name="name" required placeholder="Your name" data-ur-ph="اپنا نام لکھیے"/>
+                </div>
+                <div id="rsvpEvents"></div>
+                <div class="fld" style="margin-top:20px">
+                  <label data-ur="جوڑے کے لیے پیغام">Message for the couple</label>
+                  <textarea name="message" placeholder="Share your wishes or a message…" data-ur-ph="اپنی دعائیں یا کوئی پیغام لکھیے…"></textarea>
+                </div>
+                <button class="send" type="submit" data-ur="اپنا جواب مہر کریں">Seal your reply</button>
+              </form>
+              <div class="thanks">
+                <div class="fountainPlate" aria-hidden="true"></div>
+                <h3 id="doneTitle">Your reply is sealed</h3>
+                <p id="doneMsg">Your presence is the best gift we could receive.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <footer class="foot" id="foot">
+          <div class="footArch">
+            <img class="footCloth" src="assets/charkha/foot-cloth.jpg" alt="" loading="lazy" decoding="async">
+            <h2><span data-ur="بلال">Bilal</span> <span data-ur="اور">&amp;</span> <span data-ur="ماہ رخ">Mahrukh</span></h2>
+            <div class="fd" data-ur="۱۲ جون ۲۰۲۷">The 12th of June 2027</div>
+            <p class="footDua" data-ur="آپ کی شرکت بھی چاہیے اور دعائیں بھی۔">
+              We ask for the pleasure of your company, and for your prayers.
+            </p>
+            <div class="made"><span data-ur="محبت سے بنایا گیا">Made with love by</span> <a href="#">wedinvite.pk</a></div>
+          </div>
+        </footer>
+
+      </main>
+      <div class="grain" aria-hidden="true"></div>
+    </div>
+  </div>
+</div>
+
+<div class="mapModal" id="mapModal" hidden>
+  <div class="mapSheet" role="dialog" aria-modal="true" aria-labelledby="mapTitle">
+    <button class="mapClose" id="mapClose" type="button" aria-label="Close courtyard map">&times;</button>
+    <div class="mapHero">
+      <img src="assets/charkha/map-hero.jpg" alt="Indigo cloth mid block-print beside a carved block">
+      <h2 id="mapTitle" data-ur="صحن کا نقشہ">Courtyard map</h2>
+    </div>
+    <div class="mapBody">
+      <p class="mapIntro" data-ur="صحن کے راستے پر چلیں۔ کسی بھی مقام پر جا کر وہاں پہنچیں۔">
+        Follow the courtyard path. Choose a stop to go straight there.
+      </p>
+      <div class="mapStops" id="mapStops"></div>
+      <div class="mapMiniTitle" data-ur="تقریبات">The celebrations</div>
+      <div class="mapEvents" id="mapEvents"></div>
+    </div>
+  </div>
+</div>
+
+<audio id="bgm" src="assets/music.mp3" loop preload="auto"></audio>
+<script src="assets/charkha/charkha.js"></script>
+</body>
+</html>

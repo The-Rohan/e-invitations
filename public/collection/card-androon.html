@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script src="assets/card-boot.js"></script>
+<script src="assets/card-celebration.js"></script>
+<meta charset="utf-8">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23F5EBD8'/%3E%3Ctext x='32' y='44' font-family='Georgia' font-size='34' font-style='italic' text-anchor='middle' fill='%233E2A20'%3EA%3C/text%3E%3C/svg%3E">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, noimageindex">
+<meta name="theme-color" content="#F5EBD8">
+<title>Bilal &amp; Mahrukh — Androon, a dusk in the walled city</title>
+<link rel="preload" as="image" href="assets/androon/gate-poster.jpg" fetchpriority="high">
+<link rel="preload" as="image" href="assets/androon/hero.jpg" fetchpriority="high">
+<link rel="preload" as="font" type="font/ttf" href="assets/androon/fonts/playfair-italic-600.ttf" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="assets/androon/fonts/jost-var.woff2" crossorigin>
+<link rel="stylesheet" href="assets/androon/androon.css?v=1">
+</head>
+<body class="locked">
+
+<div class="stage">
+<div class="phoneWrap" id="phoneWrap">
+
+  <div class="fabs">
+    <button class="fab muted" id="musicFab" type="button" aria-label="Toggle music"><span class="eq"><i></i><i></i><i></i></span></button>
+    <button class="fab tsz" id="tszFab" type="button" aria-label="Change text size"><b>A</b><s>A</s></button>
+    <button class="fab" id="langFab" type="button" aria-label="Switch language">اردو</button>
+  </div>
+  <button class="nextBtn" id="nextBtn" type="button">
+    <b data-ur="نیچے سکرول کریں">Scroll down</b><i>&darr;</i></button>
+
+  <div class="phone" id="phone">
+
+    <section class="entrance" id="entrance" aria-label="Open the haveli door film">
+      <video class="envVid" id="gateVid" muted playsinline
+             poster="assets/androon/gate-poster.jpg" disablepictureinpicture preload="metadata">
+        <source src="assets/androon/gate.mp4" type="video/mp4"/>
+      </video>
+      <button class="tap" id="enterBtn" aria-label="Open the invitation">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" width="22" height="22" aria-hidden="true" focusable="false">
+          <path d="M8.7 21.4h4.6a2.5 2.5 0 0 0 2.5-2.5v-6.3a1.35 1.35 0 0 0-2.7 0v1.9h-.6V7.9a1.35 1.35 0 0 0-2.7 0v6.6h-.6V6.1a1.35 1.35 0 0 0-2.7 0v9.2"/>
+          <path d="M6.5 15.3v-4.8a1.35 1.35 0 0 0-2.7 0v6.9c0 2.6 1.1 5 3 6.7"/>
+          <path d="M14.9 4.3c1.1.5 1.9 1.6 1.9 2.9" stroke-opacity=".55"/>
+          <path d="M17.6 2.6c1.7.9 2.9 2.6 2.9 4.6" stroke-opacity=".4"/>
+        </svg>
+      </button>
+    </section>
+
+    <main id="bodyMain">
+
+      <section class="hero" id="hero">
+        <i class="bgArt" aria-hidden="true"></i>
+        <i class="wash" aria-hidden="true"></i>
+        <div class="heroIn">
+          <div class="heroKick" data-ur="آپ کو ہماری شادی میں<br>شرکت کی دعوت ہے">You are invited to<br>celebrate the wedding of</div>
+          <h1 class="heroNames"><span class="nm" id="nm1" data-en="Bilal" data-ur="بلال">Bilal</span>
+            <span class="amp" data-ur="اور">&amp;</span>
+            <span class="nm" id="nm2" data-en="Mahrukh" data-ur="ماہ رخ">Mahrukh</span></h1>
+          <p class="heroLede" data-ur="شام ڈھلتی گلی، لالٹینیں ایک ایک کر کے جلتی ہوئیں، اور آپ سب — بس یہی چاہیے۔">
+            Blue hour down in the lane, lanterns coming on one by one, and all of you —
+            that is the whole idea.
+          </p>
+        </div>
+        <div class="heroScroll" aria-hidden="true">
+          <b data-ur="سکرول">Scroll</b><i>&darr;</i>
+        </div>
+      </section>
+
+      <section class="sec alt">
+        <div class="inner rv">
+          <div class="eyebrow" data-ur="اہلِ خانہ کی جانب سے">Together with their families</div>
+          <div class="bism">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
+          <p class="verse" data-ur="اور اُس کی نشانیوں میں سے یہ ہے کہ اُس نے تمہارے لیے تمہی میں سے جوڑے بنائے، تاکہ تم اُن کے پاس سکون پاؤ، اور تمہارے درمیان محبت اور رحمت رکھ دی۔<cite>سورۃ الروم، ۳۰:۲۱</cite>">
+            &ldquo;And among His signs is that He created for you mates from among yourselves,
+            that you may find tranquillity in them; and He placed between you affection and mercy.&rdquo;
+            <cite>Surah Ar-Rum &middot; 30:21</cite>
+          </p>
+          <div class="fams">
+            <div class="fam b"><b data-ur="عباسی">Abbasi</b><span data-ur="خاندان">Family</span></div>
+            <div class="famrule"></div>
+            <div class="fam b"><b data-ur="کیانی">Kiyani</b><span data-ur="خاندان">Family</span></div>
+          </div>
+          <p class="lede" data-ur="گلی پر گلدستے، حویلی کے دروازے کھلے، اور پورا محلہ سمیٹا ہوا۔">
+            Marigolds over the lane, the haveli doors thrown open, and the whole
+            mohalla gathered.
+          </p>
+        </div>
+      </section>
+
+      <section class="sec">
+        <div class="inner rv">
+          <div class="motif motifCypress" role="img" aria-label="Two cypress trees drawn in ink"></div>
+          <h2 class="t" data-ur="تاریخ">The Date</h2>
+          <p class="revNote" data-ur="موم پر دبائے رکھیں — تاریخ سیاہی میں اُبھرے گی">Press and hold each seal — the date comes up through the wax</p>
+          <div class="seals" id="seals"></div>
+          <div class="revDone" id="revDone" data-ur="ہماری شادی ہو رہی ہے!">We&rsquo;re getting married!</div>
+        </div>
+      </section>
+
+      <section class="sec alt cdSec">
+        <div class="inner rv">
+          <h2 class="t" style="margin-top:0" data-ur="گنتی">Countdown</h2>
+          <div class="cdRow">
+            <div class="cdCell"><b id="cdD">&mdash;</b><span data-ur="دن">Days</span></div>
+            <div class="cdCell"><b id="cdH">00</b><span data-ur="گھنٹے">Hours</span></div>
+            <div class="cdCell"><b id="cdM">00</b><span data-ur="منٹ">Min</span></div>
+            <div class="cdCell"><b id="cdS">00</b><span data-ur="سیکنڈ">Sec</span></div>
+          </div>
+          <div class="cdUntil" data-ur="بڑے دن تک">until the big day</div>
+        </div>
+      </section>
+
+      <section class="sec">
+        <div class="inner rv">
+          <div class="motif motifDiya" role="img" aria-label="A brass lantern drawn in ink"></div>
+          <div class="eyebrow" data-ur="تقریب یہاں ہوگی">The celebration will take place at</div>
+          <div class="venueName" data-ur="اندرون حویلی">Androon Haveli</div>
+          <div class="venueWhere" data-ur="کوچہ اندرون، اندرون شہر">Kucha Androon, Walled City</div>
+          <div class="venueAddr" data-ur="لاہور">Lahore</div>
+          <i class="venueArt" role="img" aria-label="A carved haveli doorway hung with marigolds at dusk"></i>
+          <a class="mapBtn" target="_blank" rel="noopener"
+             href="https://www.google.com/maps/search/?api=1&amp;query=Walled+City+Lahore"
+             data-ur="گوگل میپ پر کھولیں">Open in Google Maps</a>
+        </div>
+      </section>
+
+      <section class="sec alt">
+        <div class="inner rv">
+          <div class="motif motifDholak" role="img" aria-label="A dholak drawn in ink"></div>
+          <div class="eyebrow" data-ur="تین تقریبات">Three celebrations</div>
+          <h2 class="t" data-ur="تقریبات">The Celebrations</h2>
+          <div class="evGrid" id="evGrid"></div>
+        </div>
+      </section>
+
+      <section class="sec">
+        <div class="inner rv" style="padding-bottom:0">
+          <div class="eyebrow" data-ur="ترتیب">Schedule</div>
+          <h2 class="t" data-ur="شادی کا دن">The wedding day</h2>
+        </div>
+        <div class="tlFrame" role="img" aria-label="A mehndi table on a haveli balcony, painted in gouache">
+          <div class="tlWin">
+            <div class="inner rv">
+              <div class="tlRow"><span class="tm" data-ur="شام ۵:۰۰ — اندرون حویلی">5:00 PM &middot; Androon Haveli</span>
+                <span class="pn" data-ur="نکاح">Nikah</span></div>
+              <i class="tlDot" aria-hidden="true"></i>
+              <div class="tlRow"><span class="tm" data-ur="شام ۶:۳۰">6:30 PM</span>
+                <span class="pn" data-ur="رسمیں">Rasmein</span></div>
+              <i class="tlDot" aria-hidden="true"></i>
+              <div class="tlRow"><span class="tm" data-ur="رات ۸:۰۰">8:00 PM</span>
+                <span class="pn" data-ur="کھانا">Dinner</span></div>
+              <div class="tlEnd" data-ur="اور پھر رخصتی">Rukhsati to follow</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="sec alt">
+        <div class="inner rv">
+          <h2 class="t" style="margin-top:0" data-ur="لباس">Dress code</h2>
+          <i class="dressArt" role="img" aria-label="Wedding guests in jewel-toned formal wear walking a garlanded lane at dusk"></i>
+          <p class="lede" data-ur="اس خاص موقع کے لیے روایتی اور باوقار لباس زیبِ تن کیجیے۔">
+            We invite you to dress traditionally and elegantly for this celebration.
+          </p>
+          <div class="dressSub" data-ur="روایتی رسمی لباس">Eastern formal</div>
+          <div class="dressRules" data-ur="مہندی کے لیے مٹیالے رنگ<br>بارات و ولیمہ کے لیے شیروانی، لہنگا یا گھرارہ<br>دلہن کا رنگ زیبِ تن نہ کیجیے">
+            Earth tones for the Mehndi<br>
+            Sherwani, lehenga or gharara for the Baraat and Walima<br>
+            Please leave white to the bride
+          </div>
+        </div>
+      </section>
+
+      <section class="sec">
+        <div class="inner rv">
+          <div class="infoCards">
+            <div class="infoCard">
+              <div class="eyebrow" data-ur="آنے جانے کا انتظام">Getting around</div>
+              <h3 data-ur="سفر">Getting in</h3>
+              <p data-ur="دروازے کے اندر گلیاں تنگ اور پیدل ہیں۔ گاڑی سٹی گیٹ کی پارکنگ میں چھوڑیے، اور لالٹینوں کے ساتھ گلی میں چلیں — دروازے پر کوئی آپ کا استقبال کرے گا۔">
+                The lanes inside the gate are narrow and walk-only. Leave the car at the
+                city gate and follow the lanterns — someone will be waiting at the door.
+              </p>
+            </div>
+            <div class="infoCard">
+              <div class="eyebrow" data-ur="قیام">Accommodation</div>
+              <h3 data-ur="رہائش">Where to stay</h3>
+              <p data-ur="حویلی کے محلے کے ایک گیسٹ ہاؤس میں کمرے پہلے سے رکھوائے ہیں۔ باہر سے آئیں تو بتا دیجیے۔">
+                Rooms are held at a guesthouse in the haveli's own quarter. Tell us
+                if you are travelling in and we will guide you in.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="sec alt" id="rsvpCard">
+        <div class="inner rv">
+          <div class="motif motifLotus" role="img" aria-label="Two lotus blooms drawn in ink"></div>
+          <h2 class="t" data-ur="شرکت کی تصدیق">Confirm your attendance</h2>
+          <p class="lede" data-ur="۱۵ اپریل تک بتا دیجیے۔">Please let us know by 15 April.</p>
+          <div class="rsvpBox">
+            <form id="rsvpForm" novalidate>
+              <input type="hidden" name="card" value="androon"/>
+              <div class="fld">
+                <label data-ur="آپ کا نام">Full name</label>
+                <input type="text" name="name" required placeholder="Your name" data-ur-ph="اپنا نام لکھیے"/>
+              </div>
+              <div id="rsvpEvents"></div>
+              <div class="fld" style="margin-top:22px">
+                <label data-ur="جوڑے کے لیے پیغام">Message for the couple</label>
+                <textarea name="message" placeholder="Share your wishes or a message…" data-ur-ph="اپنی دعائیں یا کوئی پیغام لکھیے…"></textarea>
+              </div>
+              <button class="send" type="submit" data-ur="جواب بھیج دیں">Send RSVP</button>
+            </form>
+            <div class="thanks">
+              <h3 id="doneTitle">Thank you</h3>
+              <p id="doneMsg">Your presence is the best gift we could receive.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="foot" id="foot">
+        <div class="deckle">
+          <div class="deckleIn">
+            <h2 data-ur="شکریہ">Thank you</h2>
+            <p class="footDua" data-ur="ہمارے اس خاص دن میں شریک ہونے کے لیے۔ آپ کا آنا ہی ہمارے لیے سب سے بڑا تحفہ ہے۔">
+              For joining us on this special day. Your presence is the best gift
+              we could receive.
+            </p>
+            <div class="footNames"><span data-ur="بلال">Bilal</span>
+              <span data-ur="اور">&amp;</span> <span data-ur="ماہ رخ">Mahrukh</span></div>
+            <div class="footWhen" data-ur="اندرون حویلی، اندرون شہر، لاہور، ۱۲ جون ۲۰۲۷">Androon Haveli &middot; Walled City, Lahore &middot; 12 June 2027</div>
+          </div>
+        </div>
+        <div class="made">Made with love by <a href="#">wedinvite.pk</a></div>
+      </section>
+
+    </main>
+
+  </div>
+</div>
+</div>
+
+<audio id="bgm" src="assets/music.mp3" loop preload="auto"></audio>
+<script src="assets/androon/androon.js?v=9"></script>
+</body>
+</html>

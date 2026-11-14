@@ -1,0 +1,62 @@
+[hidden],
+#rsvpForm {
+  display: none !important;
+}
+.heroNames,
+.gateNames,
+.footNames {
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+.heroNames .nm {
+  max-width: 100%;
+  white-space: normal !important;
+}
+.wi-occasion {
+  font: 500 12px/1.8 var(--sans, sans-serif);
+  letter-spacing: 0.08em;
+  padding: 12px 8px;
+  overflow-wrap: anywhere;
+}
+.evName,
+.ev h3,
+.evVenue,
+.evAddr,
+.vn,
+.evBlurb,
+.footWhen,
+.heroPlace,
+.heroWhere,
+.hotelName,
+.hotelWhere {
+  overflow-wrap: anywhere;
+}
+.wi-large .lede,
+.wi-large .evBlurb,
+.wi-large .vn,
+.wi-large .evAddr,
+.wi-large .w {
+  font-size: 18px !important;
+  line-height: 1.8 !important;
+}
+[data-wi-copy] {
+  white-space: normal;
+}
+.tlList .tlRow {
+  padding: 12px 18px;
+  gap: 16px;
+  display: flex;
+  justify-content: space-between;
+}
+@media (max-width: 360px) {
+  .heroNames {
+    font-size: clamp(34px, 14vw, 60px) !important;
+  }
+  .gateNames,
+  .footNames {
+    font-size: clamp(26px, 11vw, 48px) !important;
+  }
+  .wi-occasion {
+    font-size: 10px;
+  }
+}
