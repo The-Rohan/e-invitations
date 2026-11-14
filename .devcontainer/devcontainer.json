@@ -1,10 +1,22 @@
 {
   "name": "WedInvite full app preview",
-  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-24-bookworm",
-  "forwardPorts": [3000],
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+  "forwardPorts": [
+    3000
+  ],
   "portsAttributes": {
-    "3000": { "label": "WedInvite preview", "onAutoForward": "openBrowser", "visibility": "private" }
+    "3000": {
+      "label": "WedInvite preview",
+      "onAutoForward": "openBrowser",
+      "visibility": "private"
+    }
   },
-  "postCreateCommand": "npm ci && node .devcontainer/setup.cjs",
-  "postStartCommand": "bash .devcontainer/start.sh"
+  "postCreateCommand": "npm ci && node .devcontainer/setup.cjs && npm run build",
+  "postStartCommand": "bash .devcontainer/start.sh",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "24"
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  }
 }
