@@ -2800,3 +2800,19 @@ a.wv-product-live:focus-visible {
   .wv:has(.wv-compare-tray) .whatsapp-float { bottom: calc(100px + env(safe-area-inset-bottom, 0px)); }
 }
 @media(prefers-reduced-motion: reduce) { .whatsapp-float, .whatsapp-float-label { transition: none; } }
+
+/* Two equal feature groups form one uninterrupted, slow-moving ribbon. */
+.wv .wv-ribbon { display: block; overflow: hidden; padding-inline: 0; }
+.wv-ribbon-track { display: flex; width: max-content; animation: wv-ribbon-drift 55s linear infinite; }
+.wv-ribbon-group { display: flex; flex: 0 0 auto; align-items: center; justify-content: space-around; min-width: 100vw; gap: clamp(35px, 5vw, 80px); padding-inline: clamp(18px, 2.5vw, 40px); }
+.wv-ribbon-group > span { flex-shrink: 0; white-space: nowrap; }
+.wv-ribbon-group svg { flex-shrink: 0; }
+.wv-ribbon:focus-within .wv-ribbon-track { animation-play-state: paused; }
+.wv-ribbon:focus-visible { outline: 2px solid #986840; outline-offset: -3px; }
+@media (hover: hover) { .wv-ribbon:hover .wv-ribbon-track { animation-play-state: paused; } }
+@keyframes wv-ribbon-drift { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) {
+  .wv-ribbon-track { animation: none; width: 100%; }
+  .wv-ribbon-group { flex-wrap: wrap; width: 100%; min-width: 0; gap: 18px 30px; }
+  .wv-ribbon-group[aria-hidden="true"] { display: none; }
+}

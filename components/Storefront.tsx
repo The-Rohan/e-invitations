@@ -575,22 +575,21 @@ function Deliverables() {
   );
 }
 function Ribbon() {
+  const items = [
+    [Smartphone, "No app. Just a little link."],
+    [Languages, "English & اردو"],
+    [MessageCircle, "Made for WhatsApp"],
+    [Heart, "Created by our studio"],
+  ] as const;
   return (
-    <div className="wv-ribbon">
-      {[
-        [Smartphone, "No app. Just a little link."],
-        [Languages, "English & اردو"],
-        [MessageCircle, "Made for WhatsApp"],
-        [Heart, "Created by our studio"],
-      ].map(([Icon, text]) => {
-        const I = Icon as typeof Heart;
-        return (
-          <span key={text as string}>
-            <I size={16} />
-            {text as string}
-          </span>
-        );
-      })}
+    <div className="wv-ribbon" role="region" aria-label="Invitation features. Focus to pause scrolling." tabIndex={0}>
+      <div className="wv-ribbon-track">
+        {[0, 1].map(copy => (
+          <div className="wv-ribbon-group" key={copy} aria-hidden={copy === 1 ? true : undefined}>
+            {items.map(([Icon, text]) => <span key={text}><Icon size={16} aria-hidden="true"/>{text}</span>)}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
