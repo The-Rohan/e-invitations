@@ -1,3 +1,4 @@
+import { isSameAppOrigin } from "@/lib/request-origin";
 import { detailIssues, customizationIssues } from "@/lib/invitation-validation";
 import { eventId, deliverables } from "@/lib/template-config";
 import { offerById } from "@/lib/offers";
@@ -34,10 +35,7 @@ export async function GET() {
   });
 }
 export async function POST(req: NextRequest) {
-  if (
-    !req.headers.get("origin") ||
-    new URL(req.headers.get("origin")!).host !== req.headers.get("host")
-  )
+  if (!isSameAppOrigin(req.headers))
     return NextResponse.json({ error: "Invalid origin" }, { status: 403 });
   try {
     const b = await req.json();

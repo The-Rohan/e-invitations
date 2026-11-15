@@ -1,3 +1,4 @@
+import { isSameAppOrigin } from "@/lib/request-origin";
 import { NextRequest, NextResponse } from "next/server";
 import { readDB, writeDB, hash } from "@/lib/platform-server";
 import { collection, prices } from "@/lib/platform";
@@ -20,19 +21,7 @@ export async function GET(req: NextRequest) {
   return response({ lead: input, revision: lead.revision, id: lead.id });
 }
 export async function POST(req: NextRequest) {
-  if (
-    req.headers.get("origin") !== req.nextUrl.origin &&
-    (() => {
-      try {
-        return (
-          new URL(req.headers.get("origin") || "").host !==
-          req.headers.get("host")
-        );
-      } catch {
-        return true;
-      }
-    })()
-  )
+  if (!isSameAppOrigin(req.headers))
     return response({ error: "Invalid origin" }, 403);
   const k = key(req);
   if (!k) return response({ error: "Invalid session" }, 401);

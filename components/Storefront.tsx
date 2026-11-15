@@ -122,7 +122,10 @@ export function SiteNav() {
           <Link onClick={() => setOpen(false)} href="/#packages">
             Our packages <ArrowRight />
           </Link>
-          <a href="/order">
+          <Link onClick={() => setOpen(false)} href="/#process">
+            How it works <ArrowRight />
+          </Link>
+          <a onClick={() => setOpen(false)} href="/order">
             Start your invitation <MessageCircle />
           </a>
         </nav>

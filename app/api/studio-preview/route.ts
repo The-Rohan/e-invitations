@@ -1,3 +1,4 @@
+import { isSameAppOrigin } from "@/lib/request-origin";
 import { NextRequest } from "next/server";
 import { identity } from "@/lib/platform-server";
 import { collection, type Order } from "@/lib/platform";
@@ -7,10 +8,7 @@ import { renderInvitation, escapeHTML } from "@/lib/invitation-renderer";
 import fs from "node:fs";
 import path from "node:path";
 export async function POST(req: NextRequest) {
-  if (
-    !req.headers.get("origin") ||
-    new URL(req.headers.get("origin")!).host !== req.headers.get("host")
-  )
+  if (!isSameAppOrigin(req.headers))
     return Response.json({ error: "Invalid origin" }, { status: 403 });
   const { admin } = await identity();
   if (!admin)

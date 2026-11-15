@@ -1,3 +1,4 @@
+import { isSameAppOrigin } from "@/lib/request-origin";
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { identity, identityFromCookies, writeDB } from "@/lib/platform-server";
@@ -24,9 +25,7 @@ export async function GET() {
 }
 export async function POST(req: NextRequest) {
   try {
-    if (
-      new URL(req.headers.get("origin") || "").host !== req.headers.get("host")
-    )
+    if (!isSameAppOrigin(req.headers))
       return reply({ error: "Invalid origin" }, 403);
     const b = await req.json();
     const jar = await cookies();
