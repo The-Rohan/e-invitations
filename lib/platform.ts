@@ -126,6 +126,10 @@ export type Details = {
   events: EventInfo[];
 };
 export type Order = {
+  eventLinks?: Record<string, string>;
+  retiredIndependentLinks?: string[];
+  combinedPublic?: boolean;
+  linkRevision?: number;
   retiredEventSlugs?: string[];
   suiteVersion?: number;
   contentRevision?: number;

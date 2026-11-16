@@ -59,10 +59,21 @@ export function eventSlugs(events: LinkEvent[], reserved: string[] = []) {
   });
 }
 export function invitationLink(
-  order: { id: string; slug?: string; details?: { events: LinkEvent[] } },
+  order: {
+    id: string;
+    slug?: string;
+    eventLinks?: Record<string, string>;
+    details?: { events: LinkEvent[] };
+  },
   event?: string,
   preview = false,
 ) {
+  if (event && order.eventLinks?.[event])
+    return (
+      "/event/" +
+      encodeURIComponent(order.eventLinks[event]) +
+      (preview ? "?preview=1" : "")
+    );
   const p = new URLSearchParams();
   const events = order.details?.events || [];
   const index = events.findIndex((e, i) => eventId(e, i) === event);
@@ -79,6 +90,7 @@ export function invitationLink(
   );
 }
 export function deliverables(order: {
+  eventLinks?: Record<string, string>;
   id: string;
   slug?: string;
   details: { events: LinkEvent[] };

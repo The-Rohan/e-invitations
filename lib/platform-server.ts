@@ -78,3 +78,18 @@ export function identityFromCookies(c: Awaited<ReturnType<typeof cookies>>) {
       ),
   };
 }
+
+export function resolveInvitation(orders: Order[], id: string, scope?: string) {
+  if (id.startsWith("event:")) {
+    const alias = id.slice(6);
+    const order = orders.find((o) =>
+      Object.values(o.eventLinks || {}).includes(alias),
+    );
+    const event = Object.entries(order?.eventLinks || {}).find(
+      ([, value]) => value === alias,
+    )?.[0];
+    if (scope && scope !== event) return {};
+    return { order, scope: event };
+  }
+  return { order: orders.find((o) => o.id === id || o.slug === id), scope };
+}

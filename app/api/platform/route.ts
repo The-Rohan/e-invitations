@@ -5,6 +5,7 @@ import { offerById } from "@/lib/offers";
 import { NextRequest, NextResponse } from "next/server";
 import {
   identity,
+  resolveInvitation,
   identityFromCookies,
   writeDB,
   token,
@@ -111,10 +112,17 @@ export async function POST(req: NextRequest) {
         403,
       );
     if (b.action === "rsvp") {
-      const o = db.orders.find(
-        (o) => (o.id === b.id || o.slug === b.id) && o.status === "approved",
+      const { order: o, scope } = resolveInvitation(
+        db.orders,
+        String(b.id || ""),
+        b.eventId,
       );
-      if (!o) return fail("Invitation unavailable", 404);
+      if (
+        !o ||
+        o.status !== "approved" ||
+        (!scope && o.combinedPublic === false)
+      )
+        return fail("Invitation unavailable", 404);
       if (
         typeof b.name !== "string" ||
         !b.name.trim() ||
@@ -128,7 +136,7 @@ export async function POST(req: NextRequest) {
         return fail("Guest replies are closed for this invitation.", 400);
       const allowed = o.details.events
         .map((e, i) => ({ id: eventId(e, i), name: e.name }))
-        .filter((e) => !b.eventId || e.id === b.eventId);
+        .filter((e) => !scope || e.id === scope);
       if (!allowed.length) return fail("Event not found", 404);
       if (
         b.eventIds !== undefined &&
@@ -166,9 +174,69 @@ export async function POST(req: NextRequest) {
         count: b.count,
         attending: !!b.attending,
         requestId,
-        eventId: b.eventId || undefined,
+        eventId: scope || undefined,
         responses,
       });
+      writeDB(db);
+      return NextResponse.json({ ok: true });
+    }
+    if (b.action === "configure-links") {
+      if (!admin) return fail("Admin sign-in required", 403);
+      const o = db.orders.find((o) => o.id === b.id);
+      if (!o) return fail("Order not found", 404);
+      if (b.linkRevision !== (o.linkRevision || 0))
+        return fail(
+          "Links changed in another session. Reload before saving.",
+          409,
+        );
+      if (
+        typeof b.combinedPublic !== "boolean" ||
+        !b.eventLinks ||
+        typeof b.eventLinks !== "object" ||
+        Array.isArray(b.eventLinks)
+      )
+        return fail(
+          "Provide event addresses and complete-invitation visibility.",
+        );
+      const links: Record<string, string> = {};
+      for (const [i, e] of o.details.events.entries()) {
+        const key = eventId(e, i),
+          alias = b.eventLinks[key];
+        if (
+          typeof alias !== "string" ||
+          !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(alias) ||
+          alias.length < 3 ||
+          alias.length > 80
+        )
+          return fail(
+            "Use 3–80 lowercase letters, numbers and single hyphens for each address.",
+          );
+        if (
+          db.orders.some((other) =>
+            other.retiredIndependentLinks?.includes(alias),
+          ) ||
+          Object.values(links).includes(alias) ||
+          db.orders.some((other) =>
+            Object.entries(other.eventLinks || {}).some(
+              ([event, value]) =>
+                value === alias && (other.id !== o.id || event !== key),
+            ),
+          )
+        )
+          return fail("The address " + alias + " is already in use.");
+        links[key] = alias;
+      }
+      o.retiredIndependentLinks = [
+        ...new Set([
+          ...(o.retiredIndependentLinks || []),
+          ...Object.values(o.eventLinks || {}).filter(
+            (old) => !Object.values(links).includes(old),
+          ),
+        ]),
+      ];
+      o.eventLinks = links;
+      o.combinedPublic = b.combinedPublic;
+      o.linkRevision = (o.linkRevision || 0) + 1;
       writeDB(db);
       return NextResponse.json({ ok: true });
     }

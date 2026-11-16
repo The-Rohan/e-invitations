@@ -1,7 +1,12 @@
 "use client";
 import { useState } from "react";
 import type { Order } from "@/lib/platform";
-import { deliverables, invitationLink } from "@/lib/template-config";
+import {
+  deliverables,
+  invitationLink,
+  eventId,
+  eventSlugs,
+} from "@/lib/template-config";
 export default function DeliverySuite({
   order,
   busy,
@@ -22,7 +27,10 @@ export default function DeliverySuite({
   ).length;
   const message = () =>
     `Your invitations for ${order.details.groom} & ${order.details.bride}\n\n` +
-    versions.map((v) => v.label + "\n" + location.origin + v.href).join("\n\n");
+    versions
+      .filter((v) => v.key !== "combined" || order.combinedPublic !== false)
+      .map((v) => v.label + "\n" + location.origin + v.href)
+      .join("\n\n");
   const copy = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
@@ -54,11 +62,26 @@ export default function DeliverySuite({
         keeps the selected design and its own event details, maps, calendars and
         RSVP scope.
       </p>
+      <LinkSettings
+        key={
+          order.id +
+          ":" +
+          (order.linkRevision || 0) +
+          ":" +
+          order.details.events.map((e, i) => eventId(e, i)).join(",")
+        }
+        order={order}
+        busy={busy}
+        act={act}
+      />
       {versions.map((v) => (
         <div className="suite-version" key={v.key}>
           <div>
             <strong>{v.label}</strong>
             <small>{v.href}</small>
+            {v.key === "combined" && order.combinedPublic === false && (
+              <span>Private · studio preview only</span>
+            )}
             <span>
               {order.reviewedDeliverables?.[v.key] === revision
                 ? "Reviewed · current version"
@@ -72,11 +95,12 @@ export default function DeliverySuite({
             >
               Preview {v.key === "combined" ? "complete" : v.label}
             </button>
-            {order.status === "approved" && (
-              <button onClick={() => void copy(location.origin + v.href)}>
-                Copy link
-              </button>
-            )}
+            {order.status === "approved" &&
+              (v.key !== "combined" || order.combinedPublic !== false) && (
+                <button onClick={() => void copy(location.origin + v.href)}>
+                  Copy link
+                </button>
+              )}
           </div>
         </div>
       ))}
@@ -163,5 +187,94 @@ export default function DeliverySuite({
         </div>
       )}
     </section>
+  );
+}
+
+function LinkSettings({
+  order,
+  busy,
+  act,
+}: {
+  order: Order;
+  busy: boolean;
+  act: (body: Record<string, unknown>) => Promise<unknown>;
+}) {
+  const [links, setLinks] = useState<Record<string, string>>(() =>
+    Object.fromEntries(
+      order.details.events.map((e, i) => [
+        eventId(e, i),
+        order.eventLinks?.[eventId(e, i)] ||
+          (
+            (order.slug || "invitation") +
+            "-" +
+            eventSlugs(order.details.events)[i]
+          )
+            .slice(0, 80)
+            .replace(/-$/, ""),
+      ]),
+    ),
+  );
+  const [combined, setCombined] = useState(order.combinedPublic !== false);
+  return (
+    <details className="invitation-link-settings">
+      <summary>Link settings</summary>
+      <p>
+        Choose independent addresses for individual events. Removing the address
+        leaves /event, not your complete invitation.
+      </p>
+      <form
+        onSubmit={async (e) => {
+          e.preventDefault();
+          await act({
+            action: "configure-links",
+            id: order.id,
+            linkRevision: order.linkRevision || 0,
+            eventLinks: links,
+            combinedPublic: combined,
+          });
+        }}
+      >
+        {order.details.events.map((e, i) => {
+          const key = eventId(e, i);
+          return (
+            <label key={key}>
+              {e.name} address
+              <span>/event/</span>
+              <input
+                required
+                minLength={3}
+                maxLength={80}
+                pattern="[a-z0-9]+(-[a-z0-9]+)*"
+                value={links[key] || ""}
+                onChange={(event) =>
+                  setLinks({ ...links, [key]: event.target.value })
+                }
+              />
+            </label>
+          );
+        })}
+        <label className="link-visibility">
+          <input
+            type="checkbox"
+            checked={combined}
+            onChange={(e) => setCombined(e.target.checked)}
+          />
+          Allow guests to open the complete invitation
+        </label>
+        <p>
+          {combined
+            ? "Anyone with the complete invitation address can view all events."
+            : "The complete invitation will be unavailable to guests, including through its old address and API. Studio previews remain available."}
+        </p>
+        <p>
+          Changing an independent address stops its previous address from
+          working. Existing nested event links continue to work. Names and
+          addresses are public links, not guest passwords.
+        </p>
+        <button disabled={busy} type="submit">
+          Save link settings
+        </button>
+      </form>
+    </details>
   );
 }

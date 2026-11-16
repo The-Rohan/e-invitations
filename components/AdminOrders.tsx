@@ -252,7 +252,7 @@ export default function AdminOrders({
                       Preview invitation{" "}
                       <ArrowUpRight size={13} aria-hidden="true" />
                     </Link>
-                    {o.status === "approved" && (
+                    {o.status === "approved" && o.combinedPublic !== false && (
                       <>
                         <button
                           onClick={() =>

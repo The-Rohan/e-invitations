@@ -170,6 +170,187 @@ let browser;
       duplicate.details.events.map((e) => e.publicSlug),
       ["mehndi", "mehndi-2", "mehndi-3"],
     );
+    // Configure independent addresses in the actual admin UI.
+    await admin.grantPermissions(["clipboard-read", "clipboard-write"]);
+    const ap = await admin.newPage();
+    await ap.goto(base + "/admin?order=" + id);
+    await ap.getByText("Link settings", { exact: true }).click();
+    await ap.getByLabel(/^Walima address/).fill("sara-reception");
+    await ap.getByLabel(/^Barat address/).fill("sara-ceremony");
+    await ap.getByLabel(/^Mehndi address/).fill("sara-mehndi");
+    await ap
+      .getByLabel("Allow guests to open the complete invitation")
+      .uncheck();
+    await ap
+      .getByRole("button", { name: "Save link settings", exact: true })
+      .click();
+    await ap.getByText("/event/sara-mehndi", { exact: true }).waitFor();
+    assert.equal(
+      await ap
+        .getByRole("button", { name: "Copy live link", exact: true })
+        .count(),
+      0,
+    );
+    await ap
+      .getByRole("button", { name: "Copy full delivery message", exact: true })
+      .click();
+    const copied = await ap.evaluate(() => navigator.clipboard.readText());
+    assert(copied.includes("/event/sara-mehndi"));
+    assert(!copied.includes("/invite/qa-couple"));
+    for (const target of ["qa-couple", id]) {
+      for (const query of ["", "?format=meta", "?preview=1"])
+        assert.equal(
+          (
+            await guest.request.get(base + "/api/invitation/" + target + query)
+          ).status(),
+          404,
+        );
+    }
+    assert.equal(
+      (
+        await guest.request.post(base + "/api/platform", {
+          headers: { Origin: base },
+          data: {
+            action: "rsvp",
+            id,
+            name: "Bypass",
+            count: 1,
+            attending: true,
+          },
+        })
+      ).status(),
+      404,
+    );
+    assert.equal(
+      (
+        await guest.request.post(base + "/api/platform", {
+          headers: { Origin: base },
+          data: { action: "configure-links", id },
+        })
+      ).status(),
+      403,
+    );
+    await page.goto(base + "/event/sara-mehndi");
+    await page
+      .getByRole("button", { name: "Reply with love ♡", exact: true })
+      .click();
+    await page
+      .getByLabel("Your name", { exact: true })
+      .fill("Independent guest");
+    await page
+      .getByRole("button", { name: "Send my reply ♡", exact: true })
+      .click();
+    await page
+      .getByText("Thank you. Your reply has reached the couple.", {
+        exact: true,
+      })
+      .waitFor();
+    const meta = await (
+      await guest.request.get(
+        base + "/api/invitation/event%3Asara-mehndi?format=meta",
+      )
+    ).json();
+    assert.deepEqual(
+      meta.events.map((e) => e.id),
+      ["new-mehndi"],
+    );
+    assert.equal(
+      (
+        await guest.request.get(
+          base + "/api/invitation/event%3Asara-mehndi?event=stable-1",
+        )
+      ).status(),
+      403,
+    );
+    await page.goto(base + "/event");
+    assert.equal(await page.locator("iframe").count(), 0);
+    const headers = {
+      Origin: base,
+      Cookie: (await admin.cookies())
+        .map((c) => c.name + "=" + c.value)
+        .join("; "),
+    };
+    assert.equal(
+      (
+        await admin.request.get(base + "/api/invitation/" + id, { headers })
+      ).status(),
+      200,
+      "studio still previews full invitation",
+    );
+    const links = {
+      "stable-2": "sara-reception",
+      "stable-1": "sara-ceremony",
+      "new-mehndi": "sara-henna",
+    };
+    assert.equal(
+      (
+        await admin.request.post(base + "/api/platform", {
+          headers,
+          data: {
+            action: "configure-links",
+            id,
+            linkRevision: 0,
+            eventLinks: links,
+            combinedPublic: false,
+          },
+        })
+      ).status(),
+      409,
+    );
+    await post({
+      action: "configure-links",
+      id,
+      linkRevision: 1,
+      eventLinks: links,
+      combinedPublic: false,
+    });
+    assert.equal(
+      (
+        await guest.request.get(base + "/api/invitation/event%3Asara-mehndi")
+      ).status(),
+      403,
+    );
+    assert.equal(
+      (
+        await guest.request.get(base + "/api/invitation/event%3Asara-henna")
+      ).status(),
+      200,
+    );
+    assert.equal(
+      (
+        await admin.request.post(base + "/api/platform", {
+          headers,
+          data: {
+            action: "configure-links",
+            id: duplicate.id,
+            linkRevision: 0,
+            eventLinks: {
+              "dup-0": "sara-henna",
+              "dup-1": "unused-a",
+              "dup-2": "unused-b",
+            },
+            combinedPublic: false,
+          },
+        })
+      ).status(),
+      400,
+    );
+    await post({
+      action: "configure-links",
+      id,
+      linkRevision: 2,
+      eventLinks: links,
+      combinedPublic: true,
+    });
+    assert.equal(
+      (await guest.request.get(base + "/api/invitation/" + id)).status(),
+      200,
+    );
+    db = JSON.parse(fs.readFileSync(dir + "/platform.json"));
+    assert.equal(db.rsvps.at(-1).eventId, "new-mehndi");
+    console.log(
+      "PASS editable independent links, copied delivery URLs, stripped parent, disabled full API/meta/RSVP, alias scope enforcement, studio access, conflicts, address changes and visibility restore",
+    );
     console.log(
       "PASS clean event routes, private access, scoped RSVP, legacy URLs, rename/reorder stability, removed-link protection, duplicate names and server-controlled slugs",
     );

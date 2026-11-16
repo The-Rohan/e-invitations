@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { identity } from "@/lib/platform-server";
+import { identity, resolveInvitation } from "@/lib/platform-server";
 import {
   renderInvitation,
   scopedEvents,
@@ -18,13 +18,21 @@ export async function GET(
 ) {
   const { id } = await params;
   const { db, admin } = await identity();
-  const o = db.orders.find((o) => o.id === id || o.slug === id);
+  const { order: o, scope } = resolveInvitation(
+    db.orders,
+    id,
+    req.nextUrl.searchParams.get("event") || undefined,
+  );
   if (!o || (o.status !== "approved" && !admin))
     return new Response(
       "This invitation is private until payment is confirmed.",
       { status: 403, headers },
     );
-  const scope = req.nextUrl.searchParams.get("event") || undefined;
+  if (!scope && o.combinedPublic === false && !admin)
+    return new Response("This invitation is unavailable.", {
+      status: 404,
+      headers,
+    });
   const events = scopedEvents(o, scope);
   if (!events.length)
     return new Response("This event invitation is unavailable.", {
@@ -43,7 +51,7 @@ export async function GET(
   if (req.nextUrl.searchParams.get("preview") === "1") {
     const cardUrl =
       "/api/invitation/" +
-      encodeURIComponent(o.id) +
+      encodeURIComponent(id) +
       (scope ? "?event=" + encodeURIComponent(scope) : "");
     let shell = fs.readFileSync(
       path.join(process.cwd(), "public/collection", o.template + ".html"),

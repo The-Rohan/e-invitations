@@ -960,3 +960,10 @@
 .event-reorder button:disabled {
   opacity: 0.3;
 }
+
+.invitation-link-settings { margin: 20px 0; padding: 18px; border: 1px solid #ded8d0; border-radius: 12px; }
+.invitation-link-settings summary { cursor: pointer; font-weight: 600; }
+.invitation-link-settings form { display: grid; gap: 14px; }
+.invitation-link-settings label { display: grid; gap: 6px; }
+.invitation-link-settings input:not([type="checkbox"]) { width: 100%; min-width: 0; padding: 10px; border: 1px solid #bfb7af; border-radius: 6px; background: white; color: #382732; }
+.invitation-link-settings .link-visibility { display: flex; align-items: center; gap: 10px; }
