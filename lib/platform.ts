@@ -80,6 +80,7 @@ export function isCalendarDate(value: string) {
 }
 export type EventInfo = {
   id?: string;
+  publicSlug?: string;
   nameUr?: string;
   venueUr?: string;
   addressUr?: string;
@@ -125,6 +126,7 @@ export type Details = {
   events: EventInfo[];
 };
 export type Order = {
+  retiredEventSlugs?: string[];
   suiteVersion?: number;
   contentRevision?: number;
   reviewedDeliverables?: Record<string, number>;

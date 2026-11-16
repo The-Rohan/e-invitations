@@ -12,6 +12,7 @@ export default function PhoneMockup({
       <div className="phone-mockup-screen">{children}</div>
       <Image
         className="phone-mockup-frame"
+        loading="eager"
         src="/collection/assets/iphone-mockup-20260921.webp"
         alt=""
         aria-hidden="true"

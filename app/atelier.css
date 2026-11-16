@@ -1,4 +1,11 @@
 @font-face {
+  font-family: "Noto Nastaliq Urdu";
+  src: url("/fonts/noto-nastaliq-urdu-normal-400-600-arabic.woff2") format("woff2");
+  font-weight: 400 600;
+  font-display: swap;
+  unicode-range: U+0600-06FF,U+0750-077F,U+0870-089F,U+08A0-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FEFF;
+}
+@font-face {
   font-family: Atelier Display;
   src: url("/fonts/playfair-display-normal-500-700-latin.woff2") format("woff2");
   font-weight: 500 700;
@@ -2816,3 +2823,6 @@ a.wv-product-live:focus-visible {
   .wv-ribbon-group { flex-wrap: wrap; width: 100%; min-width: 0; gap: 18px 30px; }
   .wv-ribbon-group[aria-hidden="true"] { display: none; }
 }
+
+.wv-film-poster { object-fit: cover; }
+.wv-film video { position: absolute; inset: 0; }

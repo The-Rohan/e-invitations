@@ -1,6 +1,6 @@
 import { isSameAppOrigin } from "@/lib/request-origin";
 import { detailIssues, customizationIssues } from "@/lib/invitation-validation";
-import { eventId, deliverables } from "@/lib/template-config";
+import { eventId, eventSlugs, deliverables } from "@/lib/template-config";
 import { offerById } from "@/lib/offers";
 import { NextRequest, NextResponse } from "next/server";
 import {
@@ -294,6 +294,27 @@ export async function POST(req: NextRequest) {
           { status: 400 },
         );
       let o = db.orders.find((o) => o.id === b.id);
+      const oldEvents = o?.details.events || [];
+      const oldSlugs = eventSlugs(oldEvents);
+      d.events = d.events.map((e) => {
+        const previous = oldEvents.findIndex(
+          (old, i) => eventId(old, i) === e.id,
+        );
+        return {
+          ...e,
+          publicSlug: previous >= 0 ? oldSlugs[previous] : undefined,
+        };
+      });
+      const retiredSlugs = [
+        ...new Set([
+          ...(o?.retiredEventSlugs || []),
+          ...oldEvents.flatMap((old, i) =>
+            d.events.some((e) => e.id === eventId(old, i)) ? [] : [oldSlugs[i]],
+          ),
+        ]),
+      ];
+      const slugs = eventSlugs(d.events, retiredSlugs);
+      d.events = d.events.map((e, i) => ({ ...e, publicSlug: slugs[i] }));
       if (
         o &&
         b.contentRevision !== undefined &&
@@ -369,6 +390,7 @@ export async function POST(req: NextRequest) {
           amount,
           details: d,
         });
+      o.retiredEventSlugs = retiredSlugs;
       o.contentRevision = (o.contentRevision || 0) + 1;
       if (b.suiteVersion === 2) o.suiteVersion = 2;
       if (o.suiteVersion === 2) {

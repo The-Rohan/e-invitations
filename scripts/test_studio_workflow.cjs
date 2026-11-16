@@ -233,7 +233,8 @@ const errors = [];
       .click();
     const copied = await page.evaluate(() => navigator.clipboard.readText());
     assert.equal((copied.match(/http:\/\//g) || []).length, 4);
-    assert(copied.includes("event=event-0"));
+    assert(copied.includes("/invite/qa-studio-suite/mehndi"));
+    assert(!copied.includes("?event="));
     await page.getByLabel("Update fulfillment status").selectOption("ready");
     await page
       .getByRole("button", { name: "Save fulfillment", exact: true })

@@ -308,46 +308,47 @@ function QuickLook({
   );
 }
 function Film({
-  design,
-  auto = false,
-  className = "",
-  controls = false,
+  design, auto = false, className = "", controls = false, priority = false,
 }: {
-  design: Design;
-  auto?: boolean;
-  className?: string;
-  controls?: boolean;
+  design: Design; auto?: boolean; className?: string; controls?: boolean; priority?: boolean;
 }) {
   const ref = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
+  const [ready, setReady] = useState("");
+  const manuallyPaused = useRef(false);
   useEffect(() => {
-    if (auto && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      ref.current?.play().catch(() => {});
-    }
+    manuallyPaused.current = false;
+    const video = ref.current;
+    if (!video) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        if (auto && !manuallyPaused.current && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          video.play().catch(() => {});
+        }
+      } else video.pause();
+    }, { threshold: 0.15 });
+    observer.observe(video);
+    return () => observer.disconnect();
   }, [auto, design.id]);
   return (
     <div className={"wv-film " + className}>
       <video
-        key={design.id}
-        ref={ref}
-        src={design.film}
-        poster={design.poster}
-        muted
-        playsInline
-        loop
-        preload={auto ? "metadata" : "none"}
-        onPlay={() => setPlaying(true)}
-        onPause={() => setPlaying(false)}
+        key={design.id} ref={ref} src={design.film}
+        muted playsInline loop preload="none"
+        onLoadedData={() => setReady(design.id)}
+        onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)}
       />
+      {ready !== design.id && <Image className="wv-film-poster" src={design.poster} alt="" fill
+        sizes="(max-width: 600px) 65vw, 400px" loading={priority ? "eager" : "lazy"}
+        fetchPriority={priority ? "high" : "auto"} />}
       {controls && (
-        <button
-          className="wv-film-control"
+        <button className="wv-film-control"
           aria-label={playing ? "Pause opening film" : "Play opening film"}
           onClick={() => {
+            manuallyPaused.current = playing;
             if (playing) ref.current?.pause();
             else ref.current?.play().catch(() => {});
-          }}
-        >
+          }}>
           {playing ? <Pause size={12} /> : <Play size={12} />}
           <span>{playing ? "Pause film" : "Play film"}</span>
         </button>
@@ -967,12 +968,11 @@ function Experience() {
   return (
     <section className="wv-experience" id="experience">
       <div className="wv-experience-art">
-        <div
-          className="wv-exp-background"
-          style={{
-            backgroundImage: "url(" + items[active].design.poster + ")",
-          }}
-        />
+        <div className="wv-exp-background">
+          <Image src={items[active].design.poster} alt="" fill
+            sizes="(max-width: 768px) 100vw, 50vw" loading="lazy"
+            style={{ objectFit: "cover" }} />
+        </div>
         <div className="wv-exp-device">
           <Image
             width={402}
@@ -1365,7 +1365,7 @@ export function ProductPage({ id }: { id: string }) {
             </div>
             <PhoneMockup className="wv-product-device">
               {view === "film" ? (
-                <Film design={t} auto controls />
+                <Film design={t} auto controls priority />
               ) : (
                 <Image
                   width={402}

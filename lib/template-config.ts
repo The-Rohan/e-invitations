@@ -36,24 +36,52 @@ export const mediaSlots = [
 export function eventId(e: { id?: string }, index: number) {
   return e.id || `event-${index + 1}`;
 }
+type LinkEvent = { id?: string; name: string; publicSlug?: string };
+export function eventSlugs(events: LinkEvent[], reserved: string[] = []) {
+  const used = new Set([
+    ...reserved,
+    ...events.flatMap((e) => (e.publicSlug ? [e.publicSlug] : [])),
+  ]);
+  return events.map((e) => {
+    if (e.publicSlug) return e.publicSlug;
+    const base =
+      e.name
+        .normalize("NFKD")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-|-$/g, "")
+        .slice(0, 60) || "celebration";
+    let slug = base,
+      suffix = 2;
+    while (used.has(slug)) slug = base + "-" + suffix++;
+    used.add(slug);
+    return slug;
+  });
+}
 export function invitationLink(
-  order: { id: string; slug?: string },
+  order: { id: string; slug?: string; details?: { events: LinkEvent[] } },
   event?: string,
   preview = false,
 ) {
   const p = new URLSearchParams();
-  if (event) p.set("event", event);
+  const events = order.details?.events || [];
+  const index = events.findIndex((e, i) => eventId(e, i) === event);
+  const eventPath =
+    index >= 0 ? "/" + encodeURIComponent(eventSlugs(events)[index]) : "";
+  // Preserve callers with only an ID; old query links remain supported.
+  if (event && index < 0) p.set("event", event);
   if (preview) p.set("preview", "1");
   return (
     "/invite/" +
     encodeURIComponent(order.slug || order.id) +
+    eventPath +
     (p.size ? "?" + p : "")
   );
 }
 export function deliverables(order: {
   id: string;
   slug?: string;
-  details: { events: { id?: string; name: string }[] };
+  details: { events: LinkEvent[] };
 }) {
   return [
     {
