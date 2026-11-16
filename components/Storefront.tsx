@@ -1055,6 +1055,7 @@ function Experience() {
 }
 function Sharing() {
   const [copied, setCopied] = useState(false);
+  const [manualLink, setManualLink] = useState("");
   return (
     <section className="wv-sharing wv-section">
       <div>
@@ -1073,11 +1074,17 @@ function Sharing() {
           <span>wedinvite.pk/invite/your-story</span>
           <button
             aria-label="Copy sample invitation link"
-            onClick={() =>
-              navigator.clipboard
-                .writeText(location.origin + "/preview/gulistan")
-                .then(() => setCopied(true))
-            }
+            onClick={async () => {
+              const url = location.origin + "/preview/gulistan";
+              try {
+                await navigator.clipboard.writeText(url);
+                setCopied(true);
+                setManualLink("");
+              } catch {
+                setCopied(false);
+                setManualLink(url);
+              }
+            }}
           >
             {copied ? <Check size={16} /> : <Copy size={16} />}
           </button>
@@ -1085,8 +1092,24 @@ function Sharing() {
         <small role="status">
           {copied
             ? "Sample preview link copied."
-            : "Your own memorable address, chosen with the studio."}
+            : manualLink
+              ? "Copying is unavailable. Select and copy the link below."
+              : "Your own memorable address, chosen with the studio."}
         </small>
+        {manualLink && (
+          <input
+            aria-label="Sample invitation link"
+            readOnly
+            value={manualLink}
+            onFocus={(event) => event.currentTarget.select()}
+            style={{
+              width: "100%",
+              minWidth: 0,
+              padding: "12px",
+              marginTop: "12px",
+            }}
+          />
+        )}
       </div>
       <div className="wv-chat-scene">
         <div className="wv-chat-top">

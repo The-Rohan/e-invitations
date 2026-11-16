@@ -192,7 +192,7 @@ export default function OrderJourney() {
   const offer = offerById(data.tier);
   const message = `Assalam o Alaikum! I’m ${data.name}. Inquiry ${reference || "pending sync"}. I chose ${chosen.name}, ${offer.name} (${money(total(data.tier, data.addons))}). Payment: ${data.paymentClaimed ? "claimed, awaiting manual verification" : "not yet paid"}. ${data.transaction ? "Reference: " + data.transaction + ". " : ""}Please help me with wedding details and delivery.`;
   return (
-    <div className="wv order-site">
+    <div className="wv order-site" id="top">
       <SiteNav />
       <main className="journey">
         <header className="journey-heading">
@@ -226,7 +226,9 @@ export default function OrderJourney() {
               {status}
             </div>
             {!ready ? (
-              <p>Preparing your invitation journey…</p>
+              <div className="journey-loading" role="status">
+                Preparing your invitation journey…
+              </div>
             ) : (
               <>
                 {data.step === 0 && (

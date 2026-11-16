@@ -980,3 +980,6 @@
     padding-right: 20px;
   }
 }
+
+/* Reserve the contact form space while a saved journey is restored. */
+.journey-loading { min-height: 520px; }
