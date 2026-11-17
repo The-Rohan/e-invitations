@@ -98,6 +98,7 @@
         "en": "Scroll down",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "Scroll down"
       },
       {
@@ -110,6 +111,7 @@
         "en": "You are invited to\ncelebrate the wedding of",
         "group": "hero",
         "managed": false,
+        "managedBy": "",
         "label": "You are invited to celebrate the wedding of"
       },
       {
@@ -122,6 +124,7 @@
         "en": "Bilal",
         "group": "hero",
         "managed": true,
+        "managedBy": "",
         "label": "Bilal"
       },
       {
@@ -134,6 +137,7 @@
         "en": "&",
         "group": "hero",
         "managed": false,
+        "managedBy": "",
         "label": "&"
       },
       {
@@ -146,6 +150,7 @@
         "en": "Mahrukh",
         "group": "hero",
         "managed": true,
+        "managedBy": "",
         "label": "Mahrukh"
       },
       {
@@ -157,7 +162,8 @@
         "ur": "شام ڈھلتی گلی، لالٹینیں ایک ایک کر کے جلتی ہوئیں، اور آپ سب — بس یہی چاہیے۔",
         "en": "Blue hour down in the lane, lanterns coming on one by one, and all of you —\n            that is the whole idea.",
         "group": "hero",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Welcome message",
         "label": "Blue hour down in the lane, lanterns coming on one by one, and all of "
       },
       {
@@ -170,6 +176,7 @@
         "en": "Scroll",
         "group": "hero",
         "managed": false,
+        "managedBy": "",
         "label": "Scroll"
       },
       {
@@ -182,6 +189,7 @@
         "en": "Together with their families",
         "group": "invitation",
         "managed": false,
+        "managedBy": "",
         "label": "Together with their families"
       },
       {
@@ -194,6 +202,7 @@
         "en": "“And among His signs is that He created for you mates from among yourselves,\n            that you may find tranquillity in them; and He placed between you affection and mercy.”\n            \nSurah Ar-Rum · 30:21",
         "group": "invitation",
         "managed": false,
+        "managedBy": "",
         "label": "“And among His signs is that He created for you mates from among yours"
       },
       {
@@ -206,6 +215,7 @@
         "en": "Abbasi",
         "group": "invitation",
         "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Abbasi"
       },
       {
@@ -217,7 +227,8 @@
         "ur": "خاندان",
         "en": "Family",
         "group": "invitation",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Family"
       },
       {
@@ -230,6 +241,7 @@
         "en": "Kiyani",
         "group": "invitation",
         "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Kiyani"
       },
       {
@@ -241,7 +253,8 @@
         "ur": "خاندان",
         "en": "Family",
         "group": "invitation",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Family"
       },
       {
@@ -253,7 +266,8 @@
         "ur": "گلی پر گلدستے، حویلی کے دروازے کھلے، اور پورا محلہ سمیٹا ہوا۔",
         "en": "Marigolds over the lane, the haveli doors thrown open, and the whole\n            mohalla gathered.",
         "group": "invitation",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Welcome message",
         "label": "Marigolds over the lane, the haveli doors thrown open, and the whole  "
       },
       {
@@ -266,6 +280,7 @@
         "en": "The Date",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "The Date"
       },
       {
@@ -278,6 +293,7 @@
         "en": "Press and hold each seal — the date comes up through the wax",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "Press and hold each seal — the date comes up through the wax"
       },
       {
@@ -290,6 +306,7 @@
         "en": "We’re getting married!",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "We’re getting married!"
       },
       {
@@ -302,6 +319,7 @@
         "en": "Countdown",
         "group": "countdown",
         "managed": false,
+        "managedBy": "",
         "label": "Countdown"
       },
       {
@@ -314,6 +332,7 @@
         "en": "Days",
         "group": "countdown",
         "managed": false,
+        "managedBy": "",
         "label": "Days"
       },
       {
@@ -326,6 +345,7 @@
         "en": "Hours",
         "group": "countdown",
         "managed": false,
+        "managedBy": "",
         "label": "Hours"
       },
       {
@@ -338,6 +358,7 @@
         "en": "Min",
         "group": "countdown",
         "managed": false,
+        "managedBy": "",
         "label": "Min"
       },
       {
@@ -350,6 +371,7 @@
         "en": "Sec",
         "group": "countdown",
         "managed": false,
+        "managedBy": "",
         "label": "Sec"
       },
       {
@@ -362,6 +384,7 @@
         "en": "until the big day",
         "group": "countdown",
         "managed": false,
+        "managedBy": "",
         "label": "until the big day"
       },
       {
@@ -374,6 +397,7 @@
         "en": "The celebration will take place at",
         "group": "venue",
         "managed": false,
+        "managedBy": "",
         "label": "The celebration will take place at"
       },
       {
@@ -386,6 +410,7 @@
         "en": "Androon Haveli",
         "group": "venue",
         "managed": true,
+        "managedBy": "",
         "label": "Androon Haveli"
       },
       {
@@ -398,6 +423,7 @@
         "en": "Kucha Androon, Walled City",
         "group": "venue",
         "managed": true,
+        "managedBy": "",
         "label": "Kucha Androon, Walled City"
       },
       {
@@ -410,6 +436,7 @@
         "en": "Lahore",
         "group": "venue",
         "managed": true,
+        "managedBy": "",
         "label": "Lahore"
       },
       {
@@ -422,6 +449,7 @@
         "en": "Open in Google Maps",
         "group": "venue",
         "managed": false,
+        "managedBy": "",
         "label": "Open in Google Maps"
       },
       {
@@ -434,6 +462,7 @@
         "en": "Three celebrations",
         "group": "events",
         "managed": true,
+        "managedBy": "",
         "label": "Three celebrations"
       },
       {
@@ -446,6 +475,7 @@
         "en": "The Celebrations",
         "group": "events",
         "managed": false,
+        "managedBy": "",
         "label": "The Celebrations"
       },
       {
@@ -458,6 +488,7 @@
         "en": "Schedule",
         "group": "schedule",
         "managed": false,
+        "managedBy": "",
         "label": "Schedule"
       },
       {
@@ -470,6 +501,7 @@
         "en": "The wedding day",
         "group": "schedule",
         "managed": false,
+        "managedBy": "",
         "label": "The wedding day"
       },
       {
@@ -482,6 +514,7 @@
         "en": "5:00 PM · Androon Haveli",
         "group": "schedule",
         "managed": true,
+        "managedBy": "",
         "label": "5:00 PM · Androon Haveli"
       },
       {
@@ -494,6 +527,7 @@
         "en": "Nikah",
         "group": "schedule",
         "managed": true,
+        "managedBy": "",
         "label": "Nikah"
       },
       {
@@ -506,6 +540,7 @@
         "en": "6:30 PM",
         "group": "schedule",
         "managed": true,
+        "managedBy": "",
         "label": "6:30 PM"
       },
       {
@@ -518,6 +553,7 @@
         "en": "Rasmein",
         "group": "schedule",
         "managed": true,
+        "managedBy": "",
         "label": "Rasmein"
       },
       {
@@ -530,6 +566,7 @@
         "en": "8:00 PM",
         "group": "schedule",
         "managed": true,
+        "managedBy": "",
         "label": "8:00 PM"
       },
       {
@@ -542,6 +579,7 @@
         "en": "Dinner",
         "group": "schedule",
         "managed": true,
+        "managedBy": "",
         "label": "Dinner"
       },
       {
@@ -554,6 +592,7 @@
         "en": "Rukhsati to follow",
         "group": "schedule",
         "managed": true,
+        "managedBy": "",
         "label": "Rukhsati to follow"
       },
       {
@@ -566,6 +605,7 @@
         "en": "Dress code",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Dress code"
       },
       {
@@ -578,6 +618,7 @@
         "en": "We invite you to dress traditionally and elegantly for this celebration.",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "We invite you to dress traditionally and elegantly for this celebratio"
       },
       {
@@ -590,6 +631,7 @@
         "en": "Eastern formal",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Eastern formal"
       },
       {
@@ -601,7 +643,8 @@
         "ur": "مہندی کے لیے مٹیالے رنگ\nبارات و ولیمہ کے لیے شیروانی، لہنگا یا گھرارہ\nدلہن کا رنگ زیبِ تن نہ کیجیے",
         "en": "Earth tones for the Mehndi\n\n            Sherwani, lehenga or gharara for the Baraat and Walima\n\n            Please leave white to the bride",
         "group": "dress",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Dress code in Events & venues",
         "label": "Earth tones for the Mehndi              Sherwani, lehenga or gharara f"
       },
       {
@@ -614,6 +657,7 @@
         "en": "Getting around",
         "group": "travel_stay",
         "managed": false,
+        "managedBy": "",
         "label": "Getting around"
       },
       {
@@ -626,6 +670,7 @@
         "en": "Getting in",
         "group": "travel_stay",
         "managed": false,
+        "managedBy": "",
         "label": "Getting in"
       },
       {
@@ -637,7 +682,8 @@
         "ur": "دروازے کے اندر گلیاں تنگ اور پیدل ہیں۔ گاڑی سٹی گیٹ کی پارکنگ میں چھوڑیے، اور لالٹینوں کے ساتھ گلی میں چلیں — دروازے پر کوئی آپ کا استقبال کرے گا۔",
         "en": "The lanes inside the gate are narrow and walk-only. Leave the car at the\n                city gate and follow the lanterns — someone will be waiting at the door.",
         "group": "travel_stay",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Travel and accommodation details",
         "label": "The lanes inside the gate are narrow and walk-only. Leave the car at t"
       },
       {
@@ -650,6 +696,7 @@
         "en": "Accommodation",
         "group": "travel_stay",
         "managed": false,
+        "managedBy": "",
         "label": "Accommodation"
       },
       {
@@ -662,6 +709,7 @@
         "en": "Where to stay",
         "group": "travel_stay",
         "managed": false,
+        "managedBy": "",
         "label": "Where to stay"
       },
       {
@@ -673,7 +721,8 @@
         "ur": "حویلی کے محلے کے ایک گیسٹ ہاؤس میں کمرے پہلے سے رکھوائے ہیں۔ باہر سے آئیں تو بتا دیجیے۔",
         "en": "Rooms are held at a guesthouse in the haveli's own quarter. Tell us\n                if you are travelling in and we will guide you in.",
         "group": "travel_stay",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Travel and accommodation details",
         "label": "Rooms are held at a guesthouse in the haveli's own quarter. Tell us   "
       },
       {
@@ -686,6 +735,7 @@
         "en": "Confirm your attendance",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Confirm your attendance"
       },
       {
@@ -698,6 +748,7 @@
         "en": "Please let us know by 15 April.",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Please let us know by 15 April."
       },
       {
@@ -710,6 +761,7 @@
         "en": "Full name",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Full name"
       },
       {
@@ -722,6 +774,7 @@
         "en": "Message for the couple",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Message for the couple"
       },
       {
@@ -734,6 +787,7 @@
         "en": "Send RSVP",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Send RSVP"
       },
       {
@@ -746,6 +800,7 @@
         "en": "Thank you",
         "group": "foot",
         "managed": false,
+        "managedBy": "",
         "label": "Thank you"
       },
       {
@@ -758,6 +813,7 @@
         "en": "For joining us on this special day. Your presence is the best gift\n              we could receive.",
         "group": "foot",
         "managed": false,
+        "managedBy": "",
         "label": "For joining us on this special day. Your presence is the best gift    "
       },
       {
@@ -770,6 +826,7 @@
         "en": "Bilal",
         "group": "foot",
         "managed": true,
+        "managedBy": "",
         "label": "Bilal"
       },
       {
@@ -782,6 +839,7 @@
         "en": "&",
         "group": "foot",
         "managed": false,
+        "managedBy": "",
         "label": "&"
       },
       {
@@ -794,6 +852,7 @@
         "en": "Mahrukh",
         "group": "foot",
         "managed": true,
+        "managedBy": "",
         "label": "Mahrukh"
       },
       {
@@ -806,6 +865,7 @@
         "en": "Androon Haveli · Walled City, Lahore · 12 June 2027",
         "group": "foot",
         "managed": true,
+        "managedBy": "",
         "label": "Androon Haveli · Walled City, Lahore · 12 June 2027"
       }
     ]
@@ -888,6 +948,7 @@
         "en": "Map",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "Map"
       },
       {
@@ -900,6 +961,7 @@
         "en": "Reply",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "Reply"
       },
       {
@@ -912,6 +974,7 @@
         "en": "A garden wedding",
         "group": "entrance",
         "managed": false,
+        "managedBy": "",
         "label": "A garden wedding"
       },
       {
@@ -924,6 +987,7 @@
         "en": "Bilal",
         "group": "entrance",
         "managed": true,
+        "managedBy": "",
         "label": "Bilal"
       },
       {
@@ -936,6 +1000,7 @@
         "en": "&",
         "group": "entrance",
         "managed": false,
+        "managedBy": "",
         "label": "&"
       },
       {
@@ -948,6 +1013,7 @@
         "en": "Mahrukh",
         "group": "entrance",
         "managed": true,
+        "managedBy": "",
         "label": "Mahrukh"
       },
       {
@@ -960,6 +1026,7 @@
         "en": "Enter the garden",
         "group": "entrance",
         "managed": false,
+        "managedBy": "",
         "label": "Enter the garden"
       },
       {
@@ -972,6 +1039,7 @@
         "en": "Best with sound · Tap to begin",
         "group": "entrance",
         "managed": false,
+        "managedBy": "",
         "label": "Best with sound · Tap to begin"
       },
       {
@@ -984,6 +1052,7 @@
         "en": "Together in the garden",
         "group": "hero",
         "managed": false,
+        "managedBy": "",
         "label": "Together in the garden"
       },
       {
@@ -996,6 +1065,7 @@
         "en": "Bilal",
         "group": "hero",
         "managed": true,
+        "managedBy": "",
         "label": "Bilal"
       },
       {
@@ -1008,6 +1078,7 @@
         "en": "&",
         "group": "hero",
         "managed": false,
+        "managedBy": "",
         "label": "&"
       },
       {
@@ -1020,6 +1091,7 @@
         "en": "Mahrukh",
         "group": "hero",
         "managed": true,
+        "managedBy": "",
         "label": "Mahrukh"
       },
       {
@@ -1032,6 +1104,7 @@
         "en": "12 June 2027",
         "group": "hero",
         "managed": true,
+        "managedBy": "",
         "label": "12 June 2027"
       },
       {
@@ -1044,6 +1117,7 @@
         "en": "Banjosa Lake · Rawalakot",
         "group": "hero",
         "managed": true,
+        "managedBy": "",
         "label": "Banjosa Lake · Rawalakot"
       },
       {
@@ -1056,6 +1130,7 @@
         "en": "Walk the garden path",
         "group": "hero",
         "managed": false,
+        "managedBy": "",
         "label": "Walk the garden path"
       },
       {
@@ -1068,6 +1143,7 @@
         "en": "Together with their families",
         "group": "invitation",
         "managed": false,
+        "managedBy": "",
         "label": "Together with their families"
       },
       {
@@ -1080,6 +1156,7 @@
         "en": "“And among His signs is that He created for you mates from among yourselves,\n              that you may find tranquillity in them; and He placed between you affection and mercy.”\n              \nSurah Ar-Rum · 30:21",
         "group": "invitation",
         "managed": false,
+        "managedBy": "",
         "label": "“And among His signs is that He created for you mates from among yours"
       },
       {
@@ -1092,6 +1169,7 @@
         "en": "Abbasi",
         "group": "invitation",
         "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Abbasi"
       },
       {
@@ -1103,7 +1181,8 @@
         "ur": "خاندان",
         "en": "Family",
         "group": "invitation",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Family"
       },
       {
@@ -1116,6 +1195,7 @@
         "en": "Kiyani",
         "group": "invitation",
         "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Kiyani"
       },
       {
@@ -1127,7 +1207,8 @@
         "ur": "خاندان",
         "en": "Family",
         "group": "invitation",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Family"
       },
       {
@@ -1139,7 +1220,8 @@
         "ur": "باغ کھلا ہے، پانی ٹھہرا ہے، اور صرف آپ کی کمی ہے۔",
         "en": "The garden is open, the water is still, and the only thing missing is you.",
         "group": "invitation",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Welcome message",
         "label": "The garden is open, the water is still, and the only thing missing is "
       },
       {
@@ -1152,6 +1234,7 @@
         "en": "Days",
         "group": "invitation",
         "managed": false,
+        "managedBy": "",
         "label": "Days"
       },
       {
@@ -1164,6 +1247,7 @@
         "en": "Hours",
         "group": "invitation",
         "managed": false,
+        "managedBy": "",
         "label": "Hours"
       },
       {
@@ -1176,6 +1260,7 @@
         "en": "Minutes",
         "group": "invitation",
         "managed": false,
+        "managedBy": "",
         "label": "Minutes"
       },
       {
@@ -1188,6 +1273,7 @@
         "en": "The date",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "The date"
       },
       {
@@ -1200,6 +1286,7 @@
         "en": "The Garden Keeps One Secret",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "The Garden Keeps One Secret"
       },
       {
@@ -1212,6 +1299,7 @@
         "en": "Take the brass key. Turn it in the lock, and the garden will tell you when.",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "Take the brass key. Turn it in the lock, and the garden will tell you "
       },
       {
@@ -1224,6 +1312,7 @@
         "en": "Drag the key to the lock, or tap to turn it.",
         "group": "reveal",
         "managed": true,
+        "managedBy": "",
         "label": "Drag the key to the lock, or tap to turn it."
       },
       {
@@ -1236,6 +1325,7 @@
         "en": "Google Calendar",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "Google Calendar"
       },
       {
@@ -1248,6 +1338,7 @@
         "en": "Apple / iPhone",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "Apple / iPhone"
       },
       {
@@ -1260,6 +1351,7 @@
         "en": "The celebrations",
         "group": "events",
         "managed": false,
+        "managedBy": "",
         "label": "The celebrations"
       },
       {
@@ -1272,6 +1364,7 @@
         "en": "Three Evenings in the Garden",
         "group": "events",
         "managed": true,
+        "managedBy": "",
         "label": "Three Evenings in the Garden"
       },
       {
@@ -1284,6 +1377,7 @@
         "en": "Every celebration has its own corner of the garden.",
         "group": "events",
         "managed": false,
+        "managedBy": "",
         "label": "Every celebration has its own corner of the garden."
       },
       {
@@ -1296,6 +1390,7 @@
         "en": "What to wear",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "What to wear"
       },
       {
@@ -1308,6 +1403,7 @@
         "en": "Garden Formal",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Garden Formal"
       },
       {
@@ -1319,7 +1415,8 @@
         "ur": "ہلکے سبز، گرم کریمی، تھوڑا سا ٹیراکوٹا۔ شامیں ٹھنڈی ہوتی ہیں — شال ساتھ رکھیے۔ سفید سے گریز کیجیے گا۔",
         "en": "Soft greens, warm cream, a little terracotta. Evenings turn cold — bring a shawl.\n              Please avoid white.",
         "group": "dress",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Dress code in Events & venues",
         "label": "Soft greens, warm cream, a little terracotta. Evenings turn cold — bri"
       },
       {
@@ -1332,6 +1429,7 @@
         "en": "Forest",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Forest"
       },
       {
@@ -1344,6 +1442,7 @@
         "en": "Ivory",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Ivory"
       },
       {
@@ -1356,6 +1455,7 @@
         "en": "Terracotta",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Terracotta"
       },
       {
@@ -1368,6 +1468,7 @@
         "en": "Brass",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Brass"
       },
       {
@@ -1380,6 +1481,7 @@
         "en": "Every event has its own palette",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Every event has its own palette"
       },
       {
@@ -1392,6 +1494,7 @@
         "en": "Where to stay",
         "group": "stay",
         "managed": false,
+        "managedBy": "",
         "label": "Where to stay"
       },
       {
@@ -1404,6 +1507,7 @@
         "en": "The Courtyard Awaits",
         "group": "stay",
         "managed": false,
+        "managedBy": "",
         "label": "The Courtyard Awaits"
       },
       {
@@ -1416,6 +1520,7 @@
         "en": "We have held a block of rooms by the lake. To book, you only need to say\n              you are with the Abbasi–Kiyani wedding.",
         "group": "stay",
         "managed": true,
+        "managedBy": "Accommodation details",
         "label": "We have held a block of rooms by the lake. To book, you only need to s"
       },
       {
@@ -1427,7 +1532,8 @@
         "ur": "گلستان ویو ہوٹل",
         "en": "Gulistan View Hotel",
         "group": "stay",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Hotel / guest house",
         "label": "Gulistan View Hotel"
       },
       {
@@ -1440,6 +1546,7 @@
         "en": "Banjosa Lake · Rawalakot",
         "group": "stay",
         "managed": true,
+        "managedBy": "Accommodation address",
         "label": "Banjosa Lake · Rawalakot"
       },
       {
@@ -1452,6 +1559,7 @@
         "en": "View on maps",
         "group": "stay",
         "managed": false,
+        "managedBy": "",
         "label": "View on maps"
       },
       {
@@ -1464,6 +1572,7 @@
         "en": "The journey",
         "group": "travel",
         "managed": false,
+        "managedBy": "",
         "label": "The journey"
       },
       {
@@ -1476,6 +1585,7 @@
         "en": "Up to the Garden",
         "group": "travel",
         "managed": false,
+        "managedBy": "",
         "label": "Up to the Garden"
       },
       {
@@ -1487,7 +1597,8 @@
         "ur": "کوچ کا انتظام",
         "en": "Coaches",
         "group": "travel",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Transport, parking & directions",
         "label": "Coaches"
       },
       {
@@ -1499,7 +1610,8 @@
         "ur": "۱۰ جون، صبح نو بجے، ایف ۹ پارک اسلام آباد سے\nسیٹ رکھوانے کے لیے بتا دیجیے گا",
         "en": "From F‑9 Park, Islamabad · 10 June, 9 AM\nTell us and we will keep you a seat",
         "group": "travel",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Transport, parking & directions",
         "label": "From F‑9 Park, Islamabad · 10 June, 9 AM Tell us and we will keep you "
       },
       {
@@ -1511,7 +1623,8 @@
         "ur": "استقبال",
         "en": "Someone will meet you",
         "group": "travel",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Transport, parking & directions",
         "label": "Someone will meet you"
       },
       {
@@ -1523,7 +1636,8 @@
         "ur": "کوہالہ پر، اور اوپر پہنچنے پر بھی\nراستے میں چائے کے لیے رکیں گے",
         "en": "At Kohala, and again at the top\nWe stop for chai on the way",
         "group": "travel",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Transport, parking & directions",
         "label": "At Kohala, and again at the top We stop for chai on the way"
       },
       {
@@ -1535,7 +1649,8 @@
         "ur": "پہنچنے کے بعد",
         "en": "Once you are here",
         "group": "travel",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Transport, parking & directions",
         "label": "Once you are here"
       },
       {
@@ -1547,7 +1662,8 @@
         "ur": "سب کچھ ہوٹل سے دس منٹ کے فاصلے پر\nجھیل پر کشتیاں صبح سے چلتی ہیں",
         "en": "Everything is ten minutes from the hotel\nBoats on the lake from morning",
         "group": "travel",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Transport, parking & directions",
         "label": "Everything is ten minutes from the hotel Boats on the lake from mornin"
       },
       {
@@ -1560,6 +1676,7 @@
         "en": "View on maps",
         "group": "travel",
         "managed": false,
+        "managedBy": "",
         "label": "View on maps"
       },
       {
@@ -1572,6 +1689,7 @@
         "en": "Reply",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Reply"
       },
       {
@@ -1584,6 +1702,7 @@
         "en": "Leave a Note in the Garden",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Leave a Note in the Garden"
       },
       {
@@ -1596,6 +1715,7 @@
         "en": "Please reply by 15 April. Rooms on the mountain fill up early.",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Please reply by 15 April. Rooms on the mountain fill up early."
       },
       {
@@ -1608,6 +1728,7 @@
         "en": "Full name",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Full name"
       },
       {
@@ -1620,6 +1741,7 @@
         "en": "Message for the couple",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Message for the couple"
       },
       {
@@ -1632,6 +1754,7 @@
         "en": "Seal your reply",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Seal your reply"
       },
       {
@@ -1644,6 +1767,7 @@
         "en": "Bilal",
         "group": "controls",
         "managed": true,
+        "managedBy": "",
         "label": "Bilal"
       },
       {
@@ -1656,6 +1780,7 @@
         "en": "&",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "&"
       },
       {
@@ -1668,6 +1793,7 @@
         "en": "Mahrukh",
         "group": "controls",
         "managed": true,
+        "managedBy": "",
         "label": "Mahrukh"
       },
       {
@@ -1680,6 +1806,7 @@
         "en": "The 12th of June 2027",
         "group": "controls",
         "managed": true,
+        "managedBy": "",
         "label": "The 12th of June 2027"
       },
       {
@@ -1692,6 +1819,7 @@
         "en": "We ask for the pleasure of your company, and for your prayers.",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "We ask for the pleasure of your company, and for your prayers."
       },
       {
@@ -1704,6 +1832,7 @@
         "en": "Made with love by",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "Made with love by"
       },
       {
@@ -1716,6 +1845,7 @@
         "en": "Garden map",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "Garden map"
       },
       {
@@ -1728,6 +1858,7 @@
         "en": "Follow the garden path. Choose a stop to go straight there.",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "Follow the garden path. Choose a stop to go straight there."
       },
       {
@@ -1740,6 +1871,7 @@
         "en": "The celebrations",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "The celebrations"
       }
     ]
@@ -1822,6 +1954,7 @@
         "en": "Map",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "Map"
       },
       {
@@ -1834,6 +1967,7 @@
         "en": "Reply",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "Reply"
       },
       {
@@ -1846,6 +1980,7 @@
         "en": "A rooftop wedding",
         "group": "entrance",
         "managed": false,
+        "managedBy": "",
         "label": "A rooftop wedding"
       },
       {
@@ -1858,6 +1993,7 @@
         "en": "Bilal",
         "group": "entrance",
         "managed": true,
+        "managedBy": "",
         "label": "Bilal"
       },
       {
@@ -1870,6 +2006,7 @@
         "en": "&",
         "group": "entrance",
         "managed": false,
+        "managedBy": "",
         "label": "&"
       },
       {
@@ -1882,6 +2019,7 @@
         "en": "Mahrukh",
         "group": "entrance",
         "managed": true,
+        "managedBy": "",
         "label": "Mahrukh"
       },
       {
@@ -1894,6 +2032,7 @@
         "en": "Up to the rooftop",
         "group": "entrance",
         "managed": false,
+        "managedBy": "",
         "label": "Up to the rooftop"
       },
       {
@@ -1906,6 +2045,7 @@
         "en": "Best with sound · Tap to begin",
         "group": "entrance",
         "managed": false,
+        "managedBy": "",
         "label": "Best with sound · Tap to begin"
       },
       {
@@ -1918,6 +2058,7 @@
         "en": "Together on the rooftops",
         "group": "hero",
         "managed": false,
+        "managedBy": "",
         "label": "Together on the rooftops"
       },
       {
@@ -1930,6 +2071,7 @@
         "en": "Bilal",
         "group": "hero",
         "managed": true,
+        "managedBy": "",
         "label": "Bilal"
       },
       {
@@ -1942,6 +2084,7 @@
         "en": "&",
         "group": "hero",
         "managed": false,
+        "managedBy": "",
         "label": "&"
       },
       {
@@ -1954,6 +2097,7 @@
         "en": "Mahrukh",
         "group": "hero",
         "managed": true,
+        "managedBy": "",
         "label": "Mahrukh"
       },
       {
@@ -1966,6 +2110,7 @@
         "en": "12 June 2027",
         "group": "hero",
         "managed": true,
+        "managedBy": "",
         "label": "12 June 2027"
       },
       {
@@ -1978,6 +2123,7 @@
         "en": "The Old City · Rawalakot",
         "group": "hero",
         "managed": true,
+        "managedBy": "",
         "label": "The Old City · Rawalakot"
       },
       {
@@ -1990,6 +2136,7 @@
         "en": "Cross the rooftops",
         "group": "hero",
         "managed": false,
+        "managedBy": "",
         "label": "Cross the rooftops"
       },
       {
@@ -2002,6 +2149,7 @@
         "en": "Together with their families",
         "group": "invitation",
         "managed": false,
+        "managedBy": "",
         "label": "Together with their families"
       },
       {
@@ -2014,6 +2162,7 @@
         "en": "“And among His signs is that He created for you mates from among yourselves,\n              that you may find tranquillity in them; and He placed between you affection and mercy.”\n              \nSurah Ar-Rum · 30:21",
         "group": "invitation",
         "managed": false,
+        "managedBy": "",
         "label": "“And among His signs is that He created for you mates from among yours"
       },
       {
@@ -2026,6 +2175,7 @@
         "en": "Abbasi",
         "group": "invitation",
         "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Abbasi"
       },
       {
@@ -2037,7 +2187,8 @@
         "ur": "خاندان",
         "en": "Family",
         "group": "invitation",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Family"
       },
       {
@@ -2050,6 +2201,7 @@
         "en": "Kiyani",
         "group": "invitation",
         "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Kiyani"
       },
       {
@@ -2061,7 +2213,8 @@
         "ur": "خاندان",
         "en": "Family",
         "group": "invitation",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Family"
       },
       {
@@ -2073,7 +2226,8 @@
         "ur": "پتنگیں اُڑ رہی ہیں، ڈور سخت ہے، اور صرف آپ کی کمی ہے۔",
         "en": "The kites are up, the string is taut, and the only thing missing is you.",
         "group": "invitation",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Welcome message",
         "label": "The kites are up, the string is taut, and the only thing missing is yo"
       },
       {
@@ -2086,6 +2240,7 @@
         "en": "Days",
         "group": "invitation",
         "managed": false,
+        "managedBy": "",
         "label": "Days"
       },
       {
@@ -2098,6 +2253,7 @@
         "en": "Hours",
         "group": "invitation",
         "managed": false,
+        "managedBy": "",
         "label": "Hours"
       },
       {
@@ -2110,6 +2266,7 @@
         "en": "Minutes",
         "group": "invitation",
         "managed": false,
+        "managedBy": "",
         "label": "Minutes"
       },
       {
@@ -2122,6 +2279,7 @@
         "en": "The date",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "The date"
       },
       {
@@ -2134,6 +2292,7 @@
         "en": "Fly the Kites",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "Fly the Kites"
       },
       {
@@ -2146,6 +2305,7 @@
         "en": "Tap each kite to set it soaring — the rooftops will tell you when.",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "Tap each kite to set it soaring — the rooftops will tell you when."
       },
       {
@@ -2158,6 +2318,7 @@
         "en": "Tap each kite to send it up.",
         "group": "reveal",
         "managed": true,
+        "managedBy": "",
         "label": "Tap each kite to send it up."
       },
       {
@@ -2170,6 +2331,7 @@
         "en": "Google Calendar",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "Google Calendar"
       },
       {
@@ -2182,6 +2344,7 @@
         "en": "Apple / iPhone",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "Apple / iPhone"
       },
       {
@@ -2194,6 +2357,7 @@
         "en": "The celebrations",
         "group": "events",
         "managed": false,
+        "managedBy": "",
         "label": "The celebrations"
       },
       {
@@ -2206,6 +2370,7 @@
         "en": "Three Evenings on the Rooftops",
         "group": "events",
         "managed": true,
+        "managedBy": "",
         "label": "Three Evenings on the Rooftops"
       },
       {
@@ -2218,6 +2383,7 @@
         "en": "Every celebration has its own corner of the rooftops.",
         "group": "events",
         "managed": false,
+        "managedBy": "",
         "label": "Every celebration has its own corner of the rooftops."
       },
       {
@@ -2230,6 +2396,7 @@
         "en": "What to wear",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "What to wear"
       },
       {
@@ -2242,6 +2409,7 @@
         "en": "Rooftop Formal",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Rooftop Formal"
       },
       {
@@ -2253,7 +2421,8 @@
         "ur": "کاغذیں پیلے، مرغوب نارنجی، اور تھوڑا سا فیروزی۔ دن سردار ہوتے ہیں — دھوپ کے لیے آستین ہلکی رکھیے۔ سفید پتنگ سے گریز کیجیے گا۔",
         "en": "Kite-yellow, marigold, a touch of teal. Afternoons are warm — light\n              sleeves for the sun. Please avoid kite-paper white.",
         "group": "dress",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Dress code in Events & venues",
         "label": "Kite-yellow, marigold, a touch of teal. Afternoons are warm — light   "
       },
       {
@@ -2266,6 +2435,7 @@
         "en": "Kite-yellow",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Kite-yellow"
       },
       {
@@ -2278,6 +2448,7 @@
         "en": "Marigold",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Marigold"
       },
       {
@@ -2290,6 +2461,7 @@
         "en": "Teal ink",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Teal ink"
       },
       {
@@ -2302,6 +2474,7 @@
         "en": "Paper",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Paper"
       },
       {
@@ -2314,6 +2487,7 @@
         "en": "Every event has its own palette",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Every event has its own palette"
       },
       {
@@ -2326,6 +2500,7 @@
         "en": "Where to stay",
         "group": "stay",
         "managed": false,
+        "managedBy": "",
         "label": "Where to stay"
       },
       {
@@ -2338,6 +2513,7 @@
         "en": "The Guesthouse Awaits",
         "group": "stay",
         "managed": false,
+        "managedBy": "",
         "label": "The Guesthouse Awaits"
       },
       {
@@ -2350,6 +2526,7 @@
         "en": "We have held a block of rooms by the lake. To book, you only need to say\n              you are with the Abbasi–Kiyani wedding.",
         "group": "stay",
         "managed": true,
+        "managedBy": "Accommodation details",
         "label": "We have held a block of rooms by the lake. To book, you only need to s"
       },
       {
@@ -2361,7 +2538,8 @@
         "ur": "بصنت ہاؤس",
         "en": "Basant House",
         "group": "stay",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Hotel / guest house",
         "label": "Basant House"
       },
       {
@@ -2374,6 +2552,7 @@
         "en": "The Old City · Rawalakot",
         "group": "stay",
         "managed": true,
+        "managedBy": "Accommodation address",
         "label": "The Old City · Rawalakot"
       },
       {
@@ -2386,6 +2565,7 @@
         "en": "View on maps",
         "group": "stay",
         "managed": false,
+        "managedBy": "",
         "label": "View on maps"
       },
       {
@@ -2398,6 +2578,7 @@
         "en": "The journey",
         "group": "travel",
         "managed": false,
+        "managedBy": "",
         "label": "The journey"
       },
       {
@@ -2410,6 +2591,7 @@
         "en": "Up to the Rooftops",
         "group": "travel",
         "managed": false,
+        "managedBy": "",
         "label": "Up to the Rooftops"
       },
       {
@@ -2421,7 +2603,8 @@
         "ur": "کوچ کا انتظام",
         "en": "Coaches",
         "group": "travel",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Transport, parking & directions",
         "label": "Coaches"
       },
       {
@@ -2433,7 +2616,8 @@
         "ur": "۱۰ جون، صبح نو بجے، ایف ۹ پارک اسلام آباد سے\nسیٹ رکھوانے کے لیے بتا دیجیے گا",
         "en": "From F‑9 Park, Islamabad · 10 June, 9 AM\nTell us and we will keep you a seat",
         "group": "travel",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Transport, parking & directions",
         "label": "From F‑9 Park, Islamabad · 10 June, 9 AM Tell us and we will keep you "
       },
       {
@@ -2445,7 +2629,8 @@
         "ur": "استقبال",
         "en": "Someone will meet you",
         "group": "travel",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Transport, parking & directions",
         "label": "Someone will meet you"
       },
       {
@@ -2457,7 +2642,8 @@
         "ur": "کوہالہ پر، اور اوپر پہنچنے پر بھی\nراستے میں چائے کے لیے رکیں گے",
         "en": "At Kohala, and again at the top\nWe stop for chai on the way",
         "group": "travel",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Transport, parking & directions",
         "label": "At Kohala, and again at the top We stop for chai on the way"
       },
       {
@@ -2469,7 +2655,8 @@
         "ur": "پہنچنے کے بعد",
         "en": "Once you are here",
         "group": "travel",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Transport, parking & directions",
         "label": "Once you are here"
       },
       {
@@ -2481,7 +2668,8 @@
         "ur": "سب کچھ گست ہاؤس سے دس منٹ کے فاصلے پر\nپتنگیں پورا دن فضاء میں ہوتی ہیں",
         "en": "Everything is ten minutes from the guesthouse\nThe kites fly all day",
         "group": "travel",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Transport, parking & directions",
         "label": "Everything is ten minutes from the guesthouse The kites fly all day"
       },
       {
@@ -2494,6 +2682,7 @@
         "en": "View on maps",
         "group": "travel",
         "managed": false,
+        "managedBy": "",
         "label": "View on maps"
       },
       {
@@ -2506,6 +2695,7 @@
         "en": "Reply",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Reply"
       },
       {
@@ -2518,6 +2708,7 @@
         "en": "Leave a Note on the Rooftop",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Leave a Note on the Rooftop"
       },
       {
@@ -2530,6 +2721,7 @@
         "en": "Please reply by 15 April. Rooms on the mountain fill up early.",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Please reply by 15 April. Rooms on the mountain fill up early."
       },
       {
@@ -2542,6 +2734,7 @@
         "en": "Full name",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Full name"
       },
       {
@@ -2554,6 +2747,7 @@
         "en": "Message for the couple",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Message for the couple"
       },
       {
@@ -2566,6 +2760,7 @@
         "en": "Seal your reply",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Seal your reply"
       },
       {
@@ -2578,6 +2773,7 @@
         "en": "Bilal",
         "group": "controls",
         "managed": true,
+        "managedBy": "",
         "label": "Bilal"
       },
       {
@@ -2590,6 +2786,7 @@
         "en": "&",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "&"
       },
       {
@@ -2602,6 +2799,7 @@
         "en": "Mahrukh",
         "group": "controls",
         "managed": true,
+        "managedBy": "",
         "label": "Mahrukh"
       },
       {
@@ -2614,6 +2812,7 @@
         "en": "The 12th of June 2027",
         "group": "controls",
         "managed": true,
+        "managedBy": "",
         "label": "The 12th of June 2027"
       },
       {
@@ -2626,6 +2825,7 @@
         "en": "We ask for the pleasure of your company, and for your prayers.",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "We ask for the pleasure of your company, and for your prayers."
       },
       {
@@ -2638,6 +2838,7 @@
         "en": "Made with love by",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "Made with love by"
       },
       {
@@ -2650,6 +2851,7 @@
         "en": "Rooftop map",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "Rooftop map"
       },
       {
@@ -2662,6 +2864,7 @@
         "en": "Follow the rooftop path. Choose a stop to go straight there.",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "Follow the rooftop path. Choose a stop to go straight there."
       },
       {
@@ -2674,6 +2877,7 @@
         "en": "The celebrations",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "The celebrations"
       }
     ]
@@ -2756,6 +2960,7 @@
         "en": "Map",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "Map"
       },
       {
@@ -2768,6 +2973,7 @@
         "en": "Reply",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "Reply"
       },
       {
@@ -2780,6 +2986,7 @@
         "en": "The wheel and the courtyard",
         "group": "entrance",
         "managed": false,
+        "managedBy": "",
         "label": "The wheel and the courtyard"
       },
       {
@@ -2792,6 +2999,7 @@
         "en": "Bilal",
         "group": "entrance",
         "managed": true,
+        "managedBy": "",
         "label": "Bilal"
       },
       {
@@ -2804,6 +3012,7 @@
         "en": "&",
         "group": "entrance",
         "managed": false,
+        "managedBy": "",
         "label": "&"
       },
       {
@@ -2816,6 +3025,7 @@
         "en": "Mahrukh",
         "group": "entrance",
         "managed": true,
+        "managedBy": "",
         "label": "Mahrukh"
       },
       {
@@ -2828,6 +3038,7 @@
         "en": "Step into the courtyard",
         "group": "entrance",
         "managed": false,
+        "managedBy": "",
         "label": "Step into the courtyard"
       },
       {
@@ -2840,6 +3051,7 @@
         "en": "Best with sound · Tap to begin",
         "group": "entrance",
         "managed": false,
+        "managedBy": "",
         "label": "Best with sound · Tap to begin"
       },
       {
@@ -2852,6 +3064,7 @@
         "en": "Where the thread is spun",
         "group": "hero",
         "managed": false,
+        "managedBy": "",
         "label": "Where the thread is spun"
       },
       {
@@ -2864,6 +3077,7 @@
         "en": "Bilal",
         "group": "hero",
         "managed": true,
+        "managedBy": "",
         "label": "Bilal"
       },
       {
@@ -2876,6 +3090,7 @@
         "en": "&",
         "group": "hero",
         "managed": false,
+        "managedBy": "",
         "label": "&"
       },
       {
@@ -2888,6 +3103,7 @@
         "en": "Mahrukh",
         "group": "hero",
         "managed": true,
+        "managedBy": "",
         "label": "Mahrukh"
       },
       {
@@ -2900,6 +3116,7 @@
         "en": "12 June 2027",
         "group": "hero",
         "managed": true,
+        "managedBy": "",
         "label": "12 June 2027"
       },
       {
@@ -2912,6 +3129,7 @@
         "en": "Banjosa Lake · Rawalakot",
         "group": "hero",
         "managed": true,
+        "managedBy": "",
         "label": "Banjosa Lake · Rawalakot"
       },
       {
@@ -2924,6 +3142,7 @@
         "en": "Walk the courtyard path",
         "group": "hero",
         "managed": false,
+        "managedBy": "",
         "label": "Walk the courtyard path"
       },
       {
@@ -2936,6 +3155,7 @@
         "en": "Together with their families",
         "group": "invitation",
         "managed": false,
+        "managedBy": "",
         "label": "Together with their families"
       },
       {
@@ -2948,6 +3168,7 @@
         "en": "“And among His signs is that He created for you mates from among yourselves,\n              that you may find tranquillity in them; and He placed between you affection and mercy.”\n              \nSurah Ar-Rum · 30:21",
         "group": "invitation",
         "managed": false,
+        "managedBy": "",
         "label": "“And among His signs is that He created for you mates from among yours"
       },
       {
@@ -2960,6 +3181,7 @@
         "en": "Abbasi",
         "group": "invitation",
         "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Abbasi"
       },
       {
@@ -2971,7 +3193,8 @@
         "ur": "خاندان",
         "en": "Family",
         "group": "invitation",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Family"
       },
       {
@@ -2984,6 +3207,7 @@
         "en": "Kiyani",
         "group": "invitation",
         "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Kiyani"
       },
       {
@@ -2995,7 +3219,8 @@
         "ur": "خاندان",
         "en": "Family",
         "group": "invitation",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Family"
       },
       {
@@ -3007,7 +3232,8 @@
         "ur": "چرخہ گھوم رہا ہے، سوت روشن ہے، اور صرف آپ کی کمی ہے۔",
         "en": "The wheel is turning, the thread is bright, and the only thing missing is you.",
         "group": "invitation",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Welcome message",
         "label": "The wheel is turning, the thread is bright, and the only thing missing"
       },
       {
@@ -3020,6 +3246,7 @@
         "en": "Days",
         "group": "invitation",
         "managed": false,
+        "managedBy": "",
         "label": "Days"
       },
       {
@@ -3032,6 +3259,7 @@
         "en": "Hours",
         "group": "invitation",
         "managed": false,
+        "managedBy": "",
         "label": "Hours"
       },
       {
@@ -3044,6 +3272,7 @@
         "en": "Minutes",
         "group": "invitation",
         "managed": false,
+        "managedBy": "",
         "label": "Minutes"
       },
       {
@@ -3056,6 +3285,7 @@
         "en": "The date",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "The date"
       },
       {
@@ -3068,6 +3298,7 @@
         "en": "Spin the Charkha",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "Spin the Charkha"
       },
       {
@@ -3080,6 +3311,7 @@
         "en": "Turn the wheel three full times — the thread winds, and the courtyard will tell you when.",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "Turn the wheel three full times — the thread winds, and the courtyard "
       },
       {
@@ -3092,6 +3324,7 @@
         "en": "Grab the wheel and turn it — each full turn winds one bobbin.",
         "group": "reveal",
         "managed": true,
+        "managedBy": "",
         "label": "Grab the wheel and turn it — each full turn winds one bobbin."
       },
       {
@@ -3104,6 +3337,7 @@
         "en": "Google Calendar",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "Google Calendar"
       },
       {
@@ -3116,6 +3350,7 @@
         "en": "Apple / iPhone",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "Apple / iPhone"
       },
       {
@@ -3128,6 +3363,7 @@
         "en": "The celebrations",
         "group": "events",
         "managed": false,
+        "managedBy": "",
         "label": "The celebrations"
       },
       {
@@ -3140,6 +3376,7 @@
         "en": "Three Evenings in the Courtyard",
         "group": "events",
         "managed": true,
+        "managedBy": "",
         "label": "Three Evenings in the Courtyard"
       },
       {
@@ -3152,6 +3389,7 @@
         "en": "Every celebration has its own square of the courtyard.",
         "group": "events",
         "managed": false,
+        "managedBy": "",
         "label": "Every celebration has its own square of the courtyard."
       },
       {
@@ -3164,6 +3402,7 @@
         "en": "What to wear",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "What to wear"
       },
       {
@@ -3176,6 +3415,7 @@
         "en": "Indigo Formal",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Indigo Formal"
       },
       {
@@ -3187,7 +3427,8 @@
         "ur": "چھپی ہوئی نیلی، آئیوری، اور تھوڑا سا گلابی مٹی۔ شامیں ٹھنڈی ہوتی ہیں — شال ساتھ رکھیے۔ سفید سے گریز کیجیے گا۔",
         "en": "Printed indigo, ivory, and a little earthy marigold. Evenings are cool —\n              bring a shawl. Please avoid white.",
         "group": "dress",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Dress code in Events & venues",
         "label": "Printed indigo, ivory, and a little earthy marigold. Evenings are cool"
       },
       {
@@ -3200,6 +3441,7 @@
         "en": "Indigo",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Indigo"
       },
       {
@@ -3212,6 +3454,7 @@
         "en": "Ivory",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Ivory"
       },
       {
@@ -3224,6 +3467,7 @@
         "en": "Clay",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Clay"
       },
       {
@@ -3236,6 +3480,7 @@
         "en": "Brass",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Brass"
       },
       {
@@ -3248,6 +3493,7 @@
         "en": "Every event has its own palette",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Every event has its own palette"
       },
       {
@@ -3260,6 +3506,7 @@
         "en": "Where to stay",
         "group": "stay",
         "managed": false,
+        "managedBy": "",
         "label": "Where to stay"
       },
       {
@@ -3272,6 +3519,7 @@
         "en": "The Guesthouse Awaits",
         "group": "stay",
         "managed": false,
+        "managedBy": "",
         "label": "The Guesthouse Awaits"
       },
       {
@@ -3284,6 +3532,7 @@
         "en": "We have held a block of rooms by the lake. To book, you only need to say\n              you are with the Abbasi–Kiyani wedding.",
         "group": "stay",
         "managed": true,
+        "managedBy": "Accommodation details",
         "label": "We have held a block of rooms by the lake. To book, you only need to s"
       },
       {
@@ -3295,7 +3544,8 @@
         "ur": "ڈابو گسٹ ہاؤس",
         "en": "Dabu Guest House",
         "group": "stay",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Hotel / guest house",
         "label": "Dabu Guest House"
       },
       {
@@ -3308,6 +3558,7 @@
         "en": "Banjosa Lake · Rawalakot",
         "group": "stay",
         "managed": true,
+        "managedBy": "Accommodation address",
         "label": "Banjosa Lake · Rawalakot"
       },
       {
@@ -3320,6 +3571,7 @@
         "en": "View on maps",
         "group": "stay",
         "managed": false,
+        "managedBy": "",
         "label": "View on maps"
       },
       {
@@ -3332,6 +3584,7 @@
         "en": "The journey",
         "group": "travel",
         "managed": false,
+        "managedBy": "",
         "label": "The journey"
       },
       {
@@ -3344,6 +3597,7 @@
         "en": "Up to the Courtyard",
         "group": "travel",
         "managed": false,
+        "managedBy": "",
         "label": "Up to the Courtyard"
       },
       {
@@ -3355,7 +3609,8 @@
         "ur": "کوچ کا انتظام",
         "en": "Coaches",
         "group": "travel",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Transport, parking & directions",
         "label": "Coaches"
       },
       {
@@ -3367,7 +3622,8 @@
         "ur": "۱۰ جون، صبح نو بجے، ایف ۹ پارک اسلام آباد سے\nسیٹ رکھوانے کے لیے بتا دیجیے گا",
         "en": "From F‑9 Park, Islamabad · 10 June, 9 AM\nTell us and we will keep you a seat",
         "group": "travel",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Transport, parking & directions",
         "label": "From F‑9 Park, Islamabad · 10 June, 9 AM Tell us and we will keep you "
       },
       {
@@ -3379,7 +3635,8 @@
         "ur": "استقبال",
         "en": "Someone will meet you",
         "group": "travel",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Transport, parking & directions",
         "label": "Someone will meet you"
       },
       {
@@ -3391,7 +3648,8 @@
         "ur": "کوہالہ پر، اور اوپر پہنچنے پر بھی\nراستے میں چائے کے لیے رکیں گے",
         "en": "At Kohala, and again at the top\nWe stop for chai on the way",
         "group": "travel",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Transport, parking & directions",
         "label": "At Kohala, and again at the top We stop for chai on the way"
       },
       {
@@ -3403,7 +3661,8 @@
         "ur": "پہنچنے کے بعد",
         "en": "Once you are here",
         "group": "travel",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Transport, parking & directions",
         "label": "Once you are here"
       },
       {
@@ -3415,7 +3674,8 @@
         "ur": "سب کچھ گسٹ ہاؤس سے دس منٹ کے فاصلے پر\nچرخہ صبح سے گھوم رہا ہے",
         "en": "Everything is ten minutes from the guesthouse\nThe wheel is already spinning",
         "group": "travel",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Transport, parking & directions",
         "label": "Everything is ten minutes from the guesthouse The wheel is already spi"
       },
       {
@@ -3428,6 +3688,7 @@
         "en": "View on maps",
         "group": "travel",
         "managed": false,
+        "managedBy": "",
         "label": "View on maps"
       },
       {
@@ -3440,6 +3701,7 @@
         "en": "Reply",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Reply"
       },
       {
@@ -3452,6 +3714,7 @@
         "en": "Leave a Note in the Courtyard",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Leave a Note in the Courtyard"
       },
       {
@@ -3464,6 +3727,7 @@
         "en": "Please reply by 15 April. Rooms on the mountain fill up early.",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Please reply by 15 April. Rooms on the mountain fill up early."
       },
       {
@@ -3476,6 +3740,7 @@
         "en": "Full name",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Full name"
       },
       {
@@ -3488,6 +3753,7 @@
         "en": "Message for the couple",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Message for the couple"
       },
       {
@@ -3500,6 +3766,7 @@
         "en": "Seal your reply",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Seal your reply"
       },
       {
@@ -3512,6 +3779,7 @@
         "en": "Bilal",
         "group": "controls",
         "managed": true,
+        "managedBy": "",
         "label": "Bilal"
       },
       {
@@ -3524,6 +3792,7 @@
         "en": "&",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "&"
       },
       {
@@ -3536,6 +3805,7 @@
         "en": "Mahrukh",
         "group": "controls",
         "managed": true,
+        "managedBy": "",
         "label": "Mahrukh"
       },
       {
@@ -3548,6 +3818,7 @@
         "en": "The 12th of June 2027",
         "group": "controls",
         "managed": true,
+        "managedBy": "",
         "label": "The 12th of June 2027"
       },
       {
@@ -3560,6 +3831,7 @@
         "en": "We ask for the pleasure of your company, and for your prayers.",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "We ask for the pleasure of your company, and for your prayers."
       },
       {
@@ -3572,6 +3844,7 @@
         "en": "Made with love by",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "Made with love by"
       },
       {
@@ -3584,6 +3857,7 @@
         "en": "Courtyard map",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "Courtyard map"
       },
       {
@@ -3596,6 +3870,7 @@
         "en": "Follow the courtyard path. Choose a stop to go straight there.",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "Follow the courtyard path. Choose a stop to go straight there."
       },
       {
@@ -3608,6 +3883,7 @@
         "en": "The celebrations",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "The celebrations"
       }
     ]
@@ -3704,6 +3980,7 @@
         "en": "Scroll down",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "Scroll down"
       },
       {
@@ -3716,6 +3993,7 @@
         "en": "We are getting married",
         "group": "hero",
         "managed": false,
+        "managedBy": "",
         "label": "We are getting married"
       },
       {
@@ -3728,6 +4006,7 @@
         "en": "Bilal",
         "group": "hero",
         "managed": true,
+        "managedBy": "",
         "label": "Bilal"
       },
       {
@@ -3740,6 +4019,7 @@
         "en": "&",
         "group": "hero",
         "managed": false,
+        "managedBy": "",
         "label": "&"
       },
       {
@@ -3752,6 +4032,7 @@
         "en": "Mahrukh",
         "group": "hero",
         "managed": true,
+        "managedBy": "",
         "label": "Mahrukh"
       },
       {
@@ -3764,6 +4045,7 @@
         "en": "June 12, 2027",
         "group": "hero",
         "managed": true,
+        "managedBy": "",
         "label": "June 12, 2027"
       },
       {
@@ -3776,6 +4058,7 @@
         "en": "Banjosa Lake · Rawalakot",
         "group": "hero",
         "managed": true,
+        "managedBy": "",
         "label": "Banjosa Lake · Rawalakot"
       },
       {
@@ -3788,6 +4071,7 @@
         "en": "Together with their families",
         "group": "invitation",
         "managed": false,
+        "managedBy": "",
         "label": "Together with their families"
       },
       {
@@ -3800,6 +4084,7 @@
         "en": "“And among His signs is that He created for you mates from among yourselves,\n            that you may find tranquillity in them; and He placed between you affection and mercy.”\n            \nSurah Ar-Rum · 30:21",
         "group": "invitation",
         "managed": false,
+        "managedBy": "",
         "label": "“And among His signs is that He created for you mates from among yours"
       },
       {
@@ -3812,6 +4097,7 @@
         "en": "Abbasi",
         "group": "invitation",
         "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Abbasi"
       },
       {
@@ -3823,7 +4109,8 @@
         "ur": "خاندان",
         "en": "Family",
         "group": "invitation",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Family"
       },
       {
@@ -3836,6 +4123,7 @@
         "en": "Kiyani",
         "group": "invitation",
         "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Kiyani"
       },
       {
@@ -3847,7 +4135,8 @@
         "ur": "خاندان",
         "en": "Family",
         "group": "invitation",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Family"
       },
       {
@@ -3859,7 +4148,8 @@
         "ur": "پہاڑ، جھیل اور آپ سب — بس اِتنی سی خواہش ہے۔ آ جائیے۔",
         "en": "The mountains, the lake, and all of you. That is the whole wish. Please come.",
         "group": "invitation",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Welcome message",
         "label": "The mountains, the lake, and all of you. That is the whole wish. Pleas"
       },
       {
@@ -3872,6 +4162,7 @@
         "en": "Days",
         "group": "invitation",
         "managed": false,
+        "managedBy": "",
         "label": "Days"
       },
       {
@@ -3884,6 +4175,7 @@
         "en": "Hours",
         "group": "invitation",
         "managed": false,
+        "managedBy": "",
         "label": "Hours"
       },
       {
@@ -3896,6 +4188,7 @@
         "en": "Minutes",
         "group": "invitation",
         "managed": false,
+        "managedBy": "",
         "label": "Minutes"
       },
       {
@@ -3908,6 +4201,7 @@
         "en": "Scratch all three circles to continue",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "Scratch all three circles to continue"
       },
       {
@@ -3920,6 +4214,7 @@
         "en": "Reveal",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "Reveal"
       },
       {
@@ -3932,6 +4227,7 @@
         "en": "Scratch to discover the date",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "Scratch to discover the date"
       },
       {
@@ -3944,6 +4240,7 @@
         "en": "We’re getting married!",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "We’re getting married!"
       },
       {
@@ -3956,6 +4253,7 @@
         "en": "The Details",
         "group": "event_details",
         "managed": false,
+        "managedBy": "",
         "label": "The Details"
       },
       {
@@ -3968,6 +4266,7 @@
         "en": "Where and when",
         "group": "events",
         "managed": false,
+        "managedBy": "",
         "label": "Where and when"
       },
       {
@@ -3980,6 +4279,7 @@
         "en": "The Celebrations",
         "group": "events",
         "managed": false,
+        "managedBy": "",
         "label": "The Celebrations"
       },
       {
@@ -3992,6 +4292,7 @@
         "en": "Dress Code",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Dress Code"
       },
       {
@@ -4004,6 +4305,7 @@
         "en": "Garden Formal",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Garden Formal"
       },
       {
@@ -4015,7 +4317,8 @@
         "ur": "ہلکے، جھیل جیسے رنگ\nشامیں ٹھنڈی ہوتی ہیں، شال ساتھ رکھیے\nسفید سے گریز کیجیے گا",
         "en": "Soft lake tones\nEvenings turn cold — bring a shawl\nPlease avoid white",
         "group": "dress",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Dress code in Events & venues",
         "label": "Soft lake tones Evenings turn cold — bring a shawl Please avoid white"
       },
       {
@@ -4028,6 +4331,7 @@
         "en": "Where to Stay",
         "group": "stay",
         "managed": false,
+        "managedBy": "",
         "label": "Where to Stay"
       },
       {
@@ -4040,6 +4344,7 @@
         "en": "We have held a block of rooms by the lake. To book, you only need to say\n            you are with the Abbasi–Kiyani wedding.",
         "group": "stay",
         "managed": true,
+        "managedBy": "Accommodation details",
         "label": "We have held a block of rooms by the lake. To book, you only need to s"
       },
       {
@@ -4051,7 +4356,8 @@
         "ur": "گلستان ویو ہوٹل",
         "en": "Gulistan View Hotel",
         "group": "stay",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Hotel / guest house",
         "label": "Gulistan View Hotel"
       },
       {
@@ -4064,6 +4370,7 @@
         "en": "Banjosa Lake · Rawalakot",
         "group": "stay",
         "managed": true,
+        "managedBy": "Accommodation address",
         "label": "Banjosa Lake · Rawalakot"
       },
       {
@@ -4076,6 +4383,7 @@
         "en": "View on maps",
         "group": "stay",
         "managed": false,
+        "managedBy": "",
         "label": "View on maps"
       },
       {
@@ -4088,6 +4396,7 @@
         "en": "The Journey Up",
         "group": "travel",
         "managed": false,
+        "managedBy": "",
         "label": "The Journey Up"
       },
       {
@@ -4099,7 +4408,8 @@
         "ur": "کوچ کا انتظام",
         "en": "Coaches",
         "group": "travel",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Transport, parking & directions",
         "label": "Coaches"
       },
       {
@@ -4111,7 +4421,8 @@
         "ur": "۱۰ جون، صبح نو بجے، ایف ۹ پارک اسلام آباد سے\nسیٹ رکھوانے کے لیے بتا دیجیے گا",
         "en": "From F‑9 Park, Islamabad · 10 June, 9 AM\nTell us and we will keep you a seat",
         "group": "travel",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Transport, parking & directions",
         "label": "From F‑9 Park, Islamabad · 10 June, 9 AM Tell us and we will keep you "
       },
       {
@@ -4123,7 +4434,8 @@
         "ur": "استقبال",
         "en": "Someone will meet you",
         "group": "travel",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Transport, parking & directions",
         "label": "Someone will meet you"
       },
       {
@@ -4135,7 +4447,8 @@
         "ur": "کوہالہ پر، اور اوپر پہنچنے پر بھی\nراستے میں چائے کے لیے رکیں گے",
         "en": "At Kohala, and again at the top\nWe stop for chai on the way",
         "group": "travel",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Transport, parking & directions",
         "label": "At Kohala, and again at the top We stop for chai on the way"
       },
       {
@@ -4147,7 +4460,8 @@
         "ur": "پہنچنے کے بعد",
         "en": "Once you are here",
         "group": "travel",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Transport, parking & directions",
         "label": "Once you are here"
       },
       {
@@ -4159,7 +4473,8 @@
         "ur": "سب کچھ ہوٹل سے دس منٹ کے فاصلے پر\nجھیل پر کشتیاں صبح سے چلتی ہیں",
         "en": "Everything is ten minutes from the hotel\nBoats on the lake from morning",
         "group": "travel",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Transport, parking & directions",
         "label": "Everything is ten minutes from the hotel Boats on the lake from mornin"
       },
       {
@@ -4172,6 +4487,7 @@
         "en": "View on maps",
         "group": "travel",
         "managed": false,
+        "managedBy": "",
         "label": "View on maps"
       },
       {
@@ -4184,6 +4500,7 @@
         "en": "Let Us Know",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Let Us Know"
       },
       {
@@ -4196,6 +4513,7 @@
         "en": "Please tell us by 15 April. Rooms on the mountain fill up early.",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Please tell us by 15 April. Rooms on the mountain fill up early."
       },
       {
@@ -4208,6 +4526,7 @@
         "en": "Full name",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Full name"
       },
       {
@@ -4220,6 +4539,7 @@
         "en": "Message for the couple",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Message for the couple"
       },
       {
@@ -4232,6 +4552,7 @@
         "en": "Guest Confirmation",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Guest Confirmation"
       },
       {
@@ -4244,6 +4565,7 @@
         "en": "Bilal",
         "group": "foot",
         "managed": true,
+        "managedBy": "",
         "label": "Bilal"
       },
       {
@@ -4256,6 +4578,7 @@
         "en": "&",
         "group": "foot",
         "managed": false,
+        "managedBy": "",
         "label": "&"
       },
       {
@@ -4268,6 +4591,7 @@
         "en": "Mahrukh",
         "group": "foot",
         "managed": true,
+        "managedBy": "",
         "label": "Mahrukh"
       },
       {
@@ -4280,6 +4604,7 @@
         "en": "The 12th of June 2027",
         "group": "foot",
         "managed": true,
+        "managedBy": "",
         "label": "The 12th of June 2027"
       },
       {
@@ -4292,6 +4617,7 @@
         "en": "We ask for the pleasure of your company, and for your prayers.",
         "group": "foot",
         "managed": false,
+        "managedBy": "",
         "label": "We ask for the pleasure of your company, and for your prayers."
       }
     ]
@@ -4374,6 +4700,7 @@
         "en": "A letter",
         "group": "entrance",
         "managed": false,
+        "managedBy": "",
         "label": "A letter"
       },
       {
@@ -4386,6 +4713,7 @@
         "en": "Bilal",
         "group": "entrance",
         "managed": true,
+        "managedBy": "",
         "label": "Bilal"
       },
       {
@@ -4398,6 +4726,7 @@
         "en": "&",
         "group": "entrance",
         "managed": false,
+        "managedBy": "",
         "label": "&"
       },
       {
@@ -4410,6 +4739,7 @@
         "en": "Mahrukh",
         "group": "entrance",
         "managed": true,
+        "managedBy": "",
         "label": "Mahrukh"
       },
       {
@@ -4422,6 +4752,7 @@
         "en": "Open the letter",
         "group": "entrance",
         "managed": false,
+        "managedBy": "",
         "label": "Open the letter"
       },
       {
@@ -4434,6 +4765,7 @@
         "en": "Best with sound · Tap to begin",
         "group": "entrance",
         "managed": false,
+        "managedBy": "",
         "label": "Best with sound · Tap to begin"
       },
       {
@@ -4446,6 +4778,7 @@
         "en": "Written in this letter",
         "group": "hero",
         "managed": false,
+        "managedBy": "",
         "label": "Written in this letter"
       },
       {
@@ -4458,6 +4791,7 @@
         "en": "Bilal",
         "group": "hero",
         "managed": true,
+        "managedBy": "",
         "label": "Bilal"
       },
       {
@@ -4470,6 +4804,7 @@
         "en": "&",
         "group": "hero",
         "managed": false,
+        "managedBy": "",
         "label": "&"
       },
       {
@@ -4482,6 +4817,7 @@
         "en": "Mahrukh",
         "group": "hero",
         "managed": true,
+        "managedBy": "",
         "label": "Mahrukh"
       },
       {
@@ -4494,6 +4830,7 @@
         "en": "12 June 2027",
         "group": "hero",
         "managed": true,
+        "managedBy": "",
         "label": "12 June 2027"
       },
       {
@@ -4506,6 +4843,7 @@
         "en": "Banjosa Lake · Rawalakot",
         "group": "hero",
         "managed": true,
+        "managedBy": "",
         "label": "Banjosa Lake · Rawalakot"
       },
       {
@@ -4518,6 +4856,7 @@
         "en": "Read the letter",
         "group": "hero",
         "managed": false,
+        "managedBy": "",
         "label": "Read the letter"
       },
       {
@@ -4530,6 +4869,7 @@
         "en": "From the Abbasi & Kiyani families",
         "group": "invitation",
         "managed": true,
+        "managedBy": "",
         "label": "From the Abbasi & Kiyani families"
       },
       {
@@ -4542,6 +4882,7 @@
         "en": "“And among His signs is that He created for you mates from among yourselves,\n              that you may find tranquillity in them; and He placed between you affection and mercy.”\n              \nSurah Ar-Rum · 30:21",
         "group": "invitation",
         "managed": false,
+        "managedBy": "",
         "label": "“And among His signs is that He created for you mates from among yours"
       },
       {
@@ -4554,6 +4895,7 @@
         "en": "Abbasi",
         "group": "invitation",
         "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Abbasi"
       },
       {
@@ -4565,7 +4907,8 @@
         "ur": "خاندان",
         "en": "Family",
         "group": "invitation",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Family"
       },
       {
@@ -4578,6 +4921,7 @@
         "en": "Kiyani",
         "group": "invitation",
         "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Kiyani"
       },
       {
@@ -4589,7 +4933,8 @@
         "ur": "خاندان",
         "en": "Family",
         "group": "invitation",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Family"
       },
       {
@@ -4601,7 +4946,8 @@
         "ur": "سیاہی خشک ہو چکی ہے، الفاظ گرم ہیں، اور صرف آپ کی کمی ہے۔",
         "en": "The ink is dry, the words are warm, and the only thing missing is you.",
         "group": "invitation",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Welcome message",
         "label": "The ink is dry, the words are warm, and the only thing missing is you."
       },
       {
@@ -4614,6 +4960,7 @@
         "en": "Days",
         "group": "invitation",
         "managed": false,
+        "managedBy": "",
         "label": "Days"
       },
       {
@@ -4626,6 +4973,7 @@
         "en": "Hours",
         "group": "invitation",
         "managed": false,
+        "managedBy": "",
         "label": "Hours"
       },
       {
@@ -4638,6 +4986,7 @@
         "en": "Minutes",
         "group": "invitation",
         "managed": false,
+        "managedBy": "",
         "label": "Minutes"
       },
       {
@@ -4650,6 +4999,7 @@
         "en": "The date",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "The date"
       },
       {
@@ -4662,6 +5012,7 @@
         "en": "Break the Seal",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "Break the Seal"
       },
       {
@@ -4674,6 +5025,7 @@
         "en": "Press and hold the wax seal, and the letter will tell you when.",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "Press and hold the wax seal, and the letter will tell you when."
       },
       {
@@ -4686,6 +5038,7 @@
         "en": "Hold the seal until it breaks.",
         "group": "reveal",
         "managed": true,
+        "managedBy": "",
         "label": "Hold the seal until it breaks."
       },
       {
@@ -4698,6 +5051,7 @@
         "en": "Google Calendar",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "Google Calendar"
       },
       {
@@ -4710,6 +5064,7 @@
         "en": "Apple / iPhone",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "Apple / iPhone"
       },
       {
@@ -4722,6 +5077,7 @@
         "en": "The celebrations",
         "group": "events",
         "managed": false,
+        "managedBy": "",
         "label": "The celebrations"
       },
       {
@@ -4734,6 +5090,7 @@
         "en": "Three Evenings",
         "group": "events",
         "managed": true,
+        "managedBy": "",
         "label": "Three Evenings"
       },
       {
@@ -4746,6 +5103,7 @@
         "en": "Every celebration is its own page of the letter.",
         "group": "events",
         "managed": false,
+        "managedBy": "",
         "label": "Every celebration is its own page of the letter."
       },
       {
@@ -4758,6 +5116,7 @@
         "en": "What to wear",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "What to wear"
       },
       {
@@ -4770,6 +5129,7 @@
         "en": "Quiet Formal",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Quiet Formal"
       },
       {
@@ -4781,7 +5141,8 @@
         "ur": "گہرا سیاہ، خش کریمی، اور سلیٹی — گرم شامیں ٹھنڈی ہو جاتی ہیں، شال ساتھ رکھیے۔ سفید سے گریز کیجیے گا۔",
         "en": "Deep ink, warm cream, a touch of rose. Evenings cool quickly —\n              bring a shawl. Please avoid white.",
         "group": "dress",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Dress code in Events & venues",
         "label": "Deep ink, warm cream, a touch of rose. Evenings cool quickly —        "
       },
       {
@@ -4794,6 +5155,7 @@
         "en": "Ink",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Ink"
       },
       {
@@ -4806,6 +5168,7 @@
         "en": "Cream",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Cream"
       },
       {
@@ -4818,6 +5181,7 @@
         "en": "Wax rose",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Wax rose"
       },
       {
@@ -4830,6 +5194,7 @@
         "en": "Sage",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Sage"
       },
       {
@@ -4842,6 +5207,7 @@
         "en": "Every event has its own palette",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Every event has its own palette"
       },
       {
@@ -4854,6 +5220,7 @@
         "en": "Where to stay",
         "group": "stay",
         "managed": false,
+        "managedBy": "",
         "label": "Where to stay"
       },
       {
@@ -4866,6 +5233,7 @@
         "en": "The Guest Wing Awaits",
         "group": "stay",
         "managed": false,
+        "managedBy": "",
         "label": "The Guest Wing Awaits"
       },
       {
@@ -4878,6 +5246,7 @@
         "en": "We have held a block of rooms by the lake. To book, you only need to say\n              you are with the Abbasi–Kiyani wedding.",
         "group": "stay",
         "managed": true,
+        "managedBy": "Accommodation details",
         "label": "We have held a block of rooms by the lake. To book, you only need to s"
       },
       {
@@ -4890,6 +5259,7 @@
         "en": "Banjosa Guest House",
         "group": "stay",
         "managed": true,
+        "managedBy": "Hotel / guest house",
         "label": "Banjosa Guest House"
       },
       {
@@ -4902,6 +5272,7 @@
         "en": "Banjosa Lake · Rawalakot",
         "group": "stay",
         "managed": true,
+        "managedBy": "Accommodation address",
         "label": "Banjosa Lake · Rawalakot"
       },
       {
@@ -4914,6 +5285,7 @@
         "en": "View on maps",
         "group": "stay",
         "managed": false,
+        "managedBy": "",
         "label": "View on maps"
       },
       {
@@ -4926,6 +5298,7 @@
         "en": "The journey",
         "group": "travel",
         "managed": false,
+        "managedBy": "",
         "label": "The journey"
       },
       {
@@ -4938,6 +5311,7 @@
         "en": "Up to the Letter",
         "group": "travel",
         "managed": false,
+        "managedBy": "",
         "label": "Up to the Letter"
       },
       {
@@ -4949,7 +5323,8 @@
         "ur": "کوچ کا انتظام",
         "en": "Coaches",
         "group": "travel",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Transport, parking & directions",
         "label": "Coaches"
       },
       {
@@ -4961,7 +5336,8 @@
         "ur": "۱۰ جون، صبح نو بجے، ایف ۹ پارک اسلام آباد سے\nسیٹ رکھوانے کے لیے بتا دیجیے گا",
         "en": "From F‑9 Park, Islamabad · 10 June, 9 AM\nTell us and we will keep you a seat",
         "group": "travel",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Transport, parking & directions",
         "label": "From F‑9 Park, Islamabad · 10 June, 9 AM Tell us and we will keep you "
       },
       {
@@ -4973,7 +5349,8 @@
         "ur": "استقبال",
         "en": "Someone will meet you",
         "group": "travel",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Transport, parking & directions",
         "label": "Someone will meet you"
       },
       {
@@ -4985,7 +5362,8 @@
         "ur": "کوہالہ پر، اور اوپر پہنچنے پر بھی\nراستے میں چائے کے لیے رکیں گے",
         "en": "At Kohala, and again at the top\nWe stop for chai on the way",
         "group": "travel",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Transport, parking & directions",
         "label": "At Kohala, and again at the top We stop for chai on the way"
       },
       {
@@ -4997,7 +5375,8 @@
         "ur": "پہنچنے کے بعد",
         "en": "Once you are here",
         "group": "travel",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Transport, parking & directions",
         "label": "Once you are here"
       },
       {
@@ -5009,7 +5388,8 @@
         "ur": "سب کچھ گسٹ ہاؤس سے دس منٹ کے فاصلے پر\nچراغ آپ کے انتظار میں روشن رہے گا",
         "en": "Everything is ten minutes from the house\nThe lamp stays lit for you",
         "group": "travel",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Transport, parking & directions",
         "label": "Everything is ten minutes from the house The lamp stays lit for you"
       },
       {
@@ -5022,6 +5402,7 @@
         "en": "View on maps",
         "group": "travel",
         "managed": false,
+        "managedBy": "",
         "label": "View on maps"
       },
       {
@@ -5034,6 +5415,7 @@
         "en": "Reply",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Reply"
       },
       {
@@ -5046,6 +5428,7 @@
         "en": "Answer the Letter",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Answer the Letter"
       },
       {
@@ -5058,6 +5441,7 @@
         "en": "Please reply by 15 April. Rooms on the mountain fill up early.",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Please reply by 15 April. Rooms on the mountain fill up early."
       },
       {
@@ -5070,6 +5454,7 @@
         "en": "Full name",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Full name"
       },
       {
@@ -5082,6 +5467,7 @@
         "en": "Message for the couple",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Message for the couple"
       },
       {
@@ -5094,6 +5480,7 @@
         "en": "Seal your reply",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Seal your reply"
       },
       {
@@ -5106,6 +5493,7 @@
         "en": "Bilal",
         "group": "controls",
         "managed": true,
+        "managedBy": "",
         "label": "Bilal"
       },
       {
@@ -5118,6 +5506,7 @@
         "en": "&",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "&"
       },
       {
@@ -5130,6 +5519,7 @@
         "en": "Mahrukh",
         "group": "controls",
         "managed": true,
+        "managedBy": "",
         "label": "Mahrukh"
       },
       {
@@ -5142,6 +5532,7 @@
         "en": "The 12th of June 2027",
         "group": "controls",
         "managed": true,
+        "managedBy": "",
         "label": "The 12th of June 2027"
       },
       {
@@ -5154,6 +5545,7 @@
         "en": "We ask for the pleasure of your company, and for your prayers.",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "We ask for the pleasure of your company, and for your prayers."
       },
       {
@@ -5166,6 +5558,7 @@
         "en": "Made with love by",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "Made with love by"
       }
     ]
@@ -5269,6 +5662,7 @@
         "en": "Scroll down",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "Scroll down"
       },
       {
@@ -5281,6 +5675,7 @@
         "en": "You are invited to\ncelebrate the wedding of",
         "group": "hero",
         "managed": false,
+        "managedBy": "",
         "label": "You are invited to celebrate the wedding of"
       },
       {
@@ -5293,6 +5688,7 @@
         "en": "Bilal",
         "group": "hero",
         "managed": true,
+        "managedBy": "",
         "label": "Bilal"
       },
       {
@@ -5305,6 +5701,7 @@
         "en": "&",
         "group": "hero",
         "managed": false,
+        "managedBy": "",
         "label": "&"
       },
       {
@@ -5317,6 +5714,7 @@
         "en": "Mahrukh",
         "group": "hero",
         "managed": true,
+        "managedBy": "",
         "label": "Mahrukh"
       },
       {
@@ -5328,7 +5726,8 @@
         "ur": "گیندے اور کروم، شیشوں پر گھنٹیاں، اور پورا محلہ ہاتھ ہلا رہا ہے۔",
         "en": "Marigolds and chrome, bells on the mirror arms, and the whole mohalla\n            out to wave.",
         "group": "hero",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Welcome message",
         "label": "Marigolds and chrome, bells on the mirror arms, and the whole mohalla "
       },
       {
@@ -5341,6 +5740,7 @@
         "en": "Scroll",
         "group": "hero",
         "managed": false,
+        "managedBy": "",
         "label": "Scroll"
       },
       {
@@ -5353,6 +5753,7 @@
         "en": "Together with their families",
         "group": "invitation",
         "managed": false,
+        "managedBy": "",
         "label": "Together with their families"
       },
       {
@@ -5365,6 +5766,7 @@
         "en": "“And among His signs is that He created for you mates from among yourselves,\n            that you may find tranquillity in them; and He placed between you affection and mercy.”\n            \nSurah Ar-Rum · 30:21",
         "group": "invitation",
         "managed": false,
+        "managedBy": "",
         "label": "“And among His signs is that He created for you mates from among yours"
       },
       {
@@ -5377,6 +5779,7 @@
         "en": "Abbasi",
         "group": "invitation",
         "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Abbasi"
       },
       {
@@ -5388,7 +5791,8 @@
         "ur": "خاندان",
         "en": "Family",
         "group": "invitation",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Family"
       },
       {
@@ -5401,6 +5805,7 @@
         "en": "Kiyani",
         "group": "invitation",
         "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Kiyani"
       },
       {
@@ -5412,7 +5817,8 @@
         "ur": "خاندان",
         "en": "Family",
         "group": "invitation",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Family"
       },
       {
@@ -5425,6 +5831,7 @@
         "en": "Hand-painted boards, tinsel and chrome, and three days of full-volume\n            celebration.",
         "group": "invitation",
         "managed": true,
+        "managedBy": "Welcome message",
         "label": "Hand-painted boards, tinsel and chrome, and three days of full-volume "
       },
       {
@@ -5437,6 +5844,7 @@
         "en": "The Date",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "The Date"
       },
       {
@@ -5449,6 +5857,7 @@
         "en": "Press and hold each bell — the date rings out",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "Press and hold each bell — the date rings out"
       },
       {
@@ -5461,6 +5870,7 @@
         "en": "We’re getting married!",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "We’re getting married!"
       },
       {
@@ -5473,6 +5883,7 @@
         "en": "Countdown",
         "group": "countdown",
         "managed": false,
+        "managedBy": "",
         "label": "Countdown"
       },
       {
@@ -5485,6 +5896,7 @@
         "en": "Days",
         "group": "countdown",
         "managed": false,
+        "managedBy": "",
         "label": "Days"
       },
       {
@@ -5497,6 +5909,7 @@
         "en": "Hours",
         "group": "countdown",
         "managed": false,
+        "managedBy": "",
         "label": "Hours"
       },
       {
@@ -5509,6 +5922,7 @@
         "en": "Min",
         "group": "countdown",
         "managed": false,
+        "managedBy": "",
         "label": "Min"
       },
       {
@@ -5521,6 +5935,7 @@
         "en": "Sec",
         "group": "countdown",
         "managed": false,
+        "managedBy": "",
         "label": "Sec"
       },
       {
@@ -5533,6 +5948,7 @@
         "en": "until the big day",
         "group": "countdown",
         "managed": false,
+        "managedBy": "",
         "label": "until the big day"
       },
       {
@@ -5545,6 +5961,7 @@
         "en": "The celebration will take place at",
         "group": "venue",
         "managed": false,
+        "managedBy": "",
         "label": "The celebration will take place at"
       },
       {
@@ -5557,6 +5974,7 @@
         "en": "Phool Patti Chowk",
         "group": "venue",
         "managed": true,
+        "managedBy": "",
         "label": "Phool Patti Chowk"
       },
       {
@@ -5569,6 +5987,7 @@
         "en": "Kucha Phool Patti, Walled City",
         "group": "venue",
         "managed": true,
+        "managedBy": "",
         "label": "Kucha Phool Patti, Walled City"
       },
       {
@@ -5581,6 +6000,7 @@
         "en": "Lahore",
         "group": "venue",
         "managed": true,
+        "managedBy": "",
         "label": "Lahore"
       },
       {
@@ -5593,6 +6013,7 @@
         "en": "Open in Google Maps",
         "group": "venue",
         "managed": false,
+        "managedBy": "",
         "label": "Open in Google Maps"
       },
       {
@@ -5605,6 +6026,7 @@
         "en": "Three celebrations",
         "group": "events",
         "managed": true,
+        "managedBy": "",
         "label": "Three celebrations"
       },
       {
@@ -5617,6 +6039,7 @@
         "en": "The Celebrations",
         "group": "events",
         "managed": false,
+        "managedBy": "",
         "label": "The Celebrations"
       },
       {
@@ -5629,6 +6052,7 @@
         "en": "Schedule",
         "group": "schedule",
         "managed": false,
+        "managedBy": "",
         "label": "Schedule"
       },
       {
@@ -5641,6 +6065,7 @@
         "en": "The wedding day",
         "group": "schedule",
         "managed": false,
+        "managedBy": "",
         "label": "The wedding day"
       },
       {
@@ -5653,6 +6078,7 @@
         "en": "5:00 PM · Phool Patti Chowk",
         "group": "schedule",
         "managed": true,
+        "managedBy": "",
         "label": "5:00 PM · Phool Patti Chowk"
       },
       {
@@ -5665,6 +6091,7 @@
         "en": "Nikah",
         "group": "schedule",
         "managed": true,
+        "managedBy": "",
         "label": "Nikah"
       },
       {
@@ -5677,6 +6104,7 @@
         "en": "6:30 PM",
         "group": "schedule",
         "managed": true,
+        "managedBy": "",
         "label": "6:30 PM"
       },
       {
@@ -5689,6 +6117,7 @@
         "en": "Rasmein",
         "group": "schedule",
         "managed": true,
+        "managedBy": "",
         "label": "Rasmein"
       },
       {
@@ -5701,6 +6130,7 @@
         "en": "8:00 PM",
         "group": "schedule",
         "managed": true,
+        "managedBy": "",
         "label": "8:00 PM"
       },
       {
@@ -5713,6 +6143,7 @@
         "en": "Dinner",
         "group": "schedule",
         "managed": true,
+        "managedBy": "",
         "label": "Dinner"
       },
       {
@@ -5725,6 +6156,7 @@
         "en": "Rukhsati to follow",
         "group": "schedule",
         "managed": true,
+        "managedBy": "",
         "label": "Rukhsati to follow"
       },
       {
@@ -5737,6 +6169,7 @@
         "en": "Dress code",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Dress code"
       },
       {
@@ -5749,6 +6182,7 @@
         "en": "We invite you to dress traditionally and elegantly for this celebration.",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "We invite you to dress traditionally and elegantly for this celebratio"
       },
       {
@@ -5761,6 +6195,7 @@
         "en": "Wear your brightest",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Wear your brightest"
       },
       {
@@ -5772,7 +6207,8 @@
         "ur": "مہندی کے لیے مٹیالے رنگ\nبارات و ولیمہ کے لیے شیروانی، لہنگا یا گھرارہ\nدلہن کا رنگ زیبِ تن نہ کیجیے",
         "en": "Earth tones for the Mehndi\n\n            Sherwani, lehenga or gharara for the Baraat and Walima\n\n            Please leave white to the bride",
         "group": "dress",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Dress code in Events & venues",
         "label": "Earth tones for the Mehndi              Sherwani, lehenga or gharara f"
       },
       {
@@ -5785,6 +6221,7 @@
         "en": "Getting around",
         "group": "travel_stay",
         "managed": false,
+        "managedBy": "",
         "label": "Getting around"
       },
       {
@@ -5797,6 +6234,7 @@
         "en": "Finding us",
         "group": "travel_stay",
         "managed": false,
+        "managedBy": "",
         "label": "Finding us"
       },
       {
@@ -5808,7 +6246,8 @@
         "ur": "سیٹی اور ہارن کی آواز سن کر چلیں — ٹرک پھول پتی چوک پر کھڑا ہوگا۔ گیندوں سے سجی گرل دیکھتے ہی پہچان جائیں گے۔",
         "en": "Follow the horns — the truck parks right at Phool Patti Chowk. You\n                will know it by the marigold grille before you see anything else.",
         "group": "travel_stay",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Travel and accommodation details",
         "label": "Follow the horns — the truck parks right at Phool Patti Chowk. You    "
       },
       {
@@ -5821,6 +6260,7 @@
         "en": "Accommodation",
         "group": "travel_stay",
         "managed": false,
+        "managedBy": "",
         "label": "Accommodation"
       },
       {
@@ -5833,6 +6273,7 @@
         "en": "Where to stay",
         "group": "travel_stay",
         "managed": false,
+        "managedBy": "",
         "label": "Where to stay"
       },
       {
@@ -5844,7 +6285,8 @@
         "ur": "چوک کے پاس گیسٹ ہاؤس میں کمرے پہلے سے رکھوائے ہیں — رابطہ کیجیے، ہم راستہ دکھا دیں گے۔",
         "en": "Rooms are held at a guesthouse by the chowk. Call us and we will\n                guide you in.",
         "group": "travel_stay",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Travel and accommodation details",
         "label": "Rooms are held at a guesthouse by the chowk. Call us and we will      "
       },
       {
@@ -5857,6 +6299,7 @@
         "en": "Confirm your attendance",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Confirm your attendance"
       },
       {
@@ -5869,6 +6312,7 @@
         "en": "Please let us know by 15 April.",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Please let us know by 15 April."
       },
       {
@@ -5881,6 +6325,7 @@
         "en": "Full name",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Full name"
       },
       {
@@ -5893,6 +6338,7 @@
         "en": "Message for the couple",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Message for the couple"
       },
       {
@@ -5905,6 +6351,7 @@
         "en": "Send RSVP",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Send RSVP"
       },
       {
@@ -5917,6 +6364,7 @@
         "en": "Thank you",
         "group": "foot",
         "managed": false,
+        "managedBy": "",
         "label": "Thank you"
       },
       {
@@ -5929,6 +6377,7 @@
         "en": "For joining us on this special day. Your presence is the best gift\n              we could receive.",
         "group": "foot",
         "managed": false,
+        "managedBy": "",
         "label": "For joining us on this special day. Your presence is the best gift    "
       },
       {
@@ -5941,6 +6390,7 @@
         "en": "Bilal",
         "group": "foot",
         "managed": true,
+        "managedBy": "",
         "label": "Bilal"
       },
       {
@@ -5953,6 +6403,7 @@
         "en": "&",
         "group": "foot",
         "managed": false,
+        "managedBy": "",
         "label": "&"
       },
       {
@@ -5965,6 +6416,7 @@
         "en": "Mahrukh",
         "group": "foot",
         "managed": true,
+        "managedBy": "",
         "label": "Mahrukh"
       },
       {
@@ -5977,6 +6429,7 @@
         "en": "Phool Patti Chowk · Walled City, Lahore · 12 June 2027",
         "group": "foot",
         "managed": true,
+        "managedBy": "",
         "label": "Phool Patti Chowk · Walled City, Lahore · 12 June 2027"
       }
     ]
@@ -6080,6 +6533,7 @@
         "en": "Scroll down",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "Scroll down"
       },
       {
@@ -6092,6 +6546,7 @@
         "en": "You are invited to\ncelebrate the wedding of",
         "group": "hero",
         "managed": false,
+        "managedBy": "",
         "label": "You are invited to celebrate the wedding of"
       },
       {
@@ -6104,6 +6559,7 @@
         "en": "Bilal",
         "group": "hero",
         "managed": true,
+        "managedBy": "",
         "label": "Bilal"
       },
       {
@@ -6116,6 +6572,7 @@
         "en": "&",
         "group": "hero",
         "managed": false,
+        "managedBy": "",
         "label": "&"
       },
       {
@@ -6128,6 +6585,7 @@
         "en": "Mahrukh",
         "group": "hero",
         "managed": true,
+        "managedBy": "",
         "label": "Mahrukh"
       },
       {
@@ -6139,7 +6597,8 @@
         "ur": "ہم چاہتے ہیں کہ اپنی زندگی کا سب سے خاص دن آپ کے ساتھ منائیں۔",
         "en": "We would like to invite you to share with us the most special day of our lives.",
         "group": "hero",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Welcome message",
         "label": "We would like to invite you to share with us the most special day of o"
       },
       {
@@ -6152,6 +6611,7 @@
         "en": "Scroll",
         "group": "hero",
         "managed": false,
+        "managedBy": "",
         "label": "Scroll"
       },
       {
@@ -6164,6 +6624,7 @@
         "en": "Together with their families",
         "group": "invitation",
         "managed": false,
+        "managedBy": "",
         "label": "Together with their families"
       },
       {
@@ -6176,6 +6637,7 @@
         "en": "“And among His signs is that He created for you mates from among yourselves,\n            that you may find tranquillity in them; and He placed between you affection and mercy.”\n            \nSurah Ar-Rum · 30:21",
         "group": "invitation",
         "managed": false,
+        "managedBy": "",
         "label": "“And among His signs is that He created for you mates from among yours"
       },
       {
@@ -6188,6 +6650,7 @@
         "en": "Abbasi",
         "group": "invitation",
         "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Abbasi"
       },
       {
@@ -6199,7 +6662,8 @@
         "ur": "خاندان",
         "en": "Family",
         "group": "invitation",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Family"
       },
       {
@@ -6212,6 +6676,7 @@
         "en": "Kiyani",
         "group": "invitation",
         "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Kiyani"
       },
       {
@@ -6223,7 +6688,8 @@
         "ur": "خاندان",
         "en": "Family",
         "group": "invitation",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Family"
       },
       {
@@ -6235,7 +6701,8 @@
         "ur": "پہاڑ، جھیل، برساتی صبح، اور آپ سب — بس یہی چاہیے۔",
         "en": "The hills, the lake, a rain-washed morning, and all of you — that is the whole idea.",
         "group": "invitation",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Welcome message",
         "label": "The hills, the lake, a rain-washed morning, and all of you — that is t"
       },
       {
@@ -6248,6 +6715,7 @@
         "en": "The Date",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "The Date"
       },
       {
@@ -6260,6 +6728,7 @@
         "en": "Press and hold each seal — the date comes up through the wax",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "Press and hold each seal — the date comes up through the wax"
       },
       {
@@ -6272,6 +6741,7 @@
         "en": "We’re getting married!",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "We’re getting married!"
       },
       {
@@ -6284,6 +6754,7 @@
         "en": "Countdown",
         "group": "countdown",
         "managed": false,
+        "managedBy": "",
         "label": "Countdown"
       },
       {
@@ -6296,6 +6767,7 @@
         "en": "Days",
         "group": "countdown",
         "managed": false,
+        "managedBy": "",
         "label": "Days"
       },
       {
@@ -6308,6 +6780,7 @@
         "en": "Hours",
         "group": "countdown",
         "managed": false,
+        "managedBy": "",
         "label": "Hours"
       },
       {
@@ -6320,6 +6793,7 @@
         "en": "Min",
         "group": "countdown",
         "managed": false,
+        "managedBy": "",
         "label": "Min"
       },
       {
@@ -6332,6 +6806,7 @@
         "en": "Sec",
         "group": "countdown",
         "managed": false,
+        "managedBy": "",
         "label": "Sec"
       },
       {
@@ -6344,6 +6819,7 @@
         "en": "until the big day",
         "group": "countdown",
         "managed": false,
+        "managedBy": "",
         "label": "until the big day"
       },
       {
@@ -6356,6 +6832,7 @@
         "en": "The celebration will take place at",
         "group": "venue",
         "managed": false,
+        "managedBy": "",
         "label": "The celebration will take place at"
       },
       {
@@ -6368,6 +6845,7 @@
         "en": "Chinar Haveli",
         "group": "venue",
         "managed": true,
+        "managedBy": "",
         "label": "Chinar Haveli"
       },
       {
@@ -6380,6 +6858,7 @@
         "en": "Banjosa Lake, Rawalakot",
         "group": "venue",
         "managed": true,
+        "managedBy": "",
         "label": "Banjosa Lake, Rawalakot"
       },
       {
@@ -6392,6 +6871,7 @@
         "en": "Rawalakot, Azad Kashmir",
         "group": "venue",
         "managed": true,
+        "managedBy": "",
         "label": "Rawalakot, Azad Kashmir"
       },
       {
@@ -6404,6 +6884,7 @@
         "en": "Open in Google Maps",
         "group": "venue",
         "managed": false,
+        "managedBy": "",
         "label": "Open in Google Maps"
       },
       {
@@ -6416,6 +6897,7 @@
         "en": "Three celebrations",
         "group": "events",
         "managed": true,
+        "managedBy": "",
         "label": "Three celebrations"
       },
       {
@@ -6428,6 +6910,7 @@
         "en": "The Celebrations",
         "group": "events",
         "managed": false,
+        "managedBy": "",
         "label": "The Celebrations"
       },
       {
@@ -6440,6 +6923,7 @@
         "en": "Schedule",
         "group": "schedule",
         "managed": false,
+        "managedBy": "",
         "label": "Schedule"
       },
       {
@@ -6452,6 +6936,7 @@
         "en": "The wedding day",
         "group": "schedule",
         "managed": false,
+        "managedBy": "",
         "label": "The wedding day"
       },
       {
@@ -6464,6 +6949,7 @@
         "en": "5:00 PM · Banjosa Lake Lawn",
         "group": "schedule",
         "managed": true,
+        "managedBy": "",
         "label": "5:00 PM · Banjosa Lake Lawn"
       },
       {
@@ -6476,6 +6962,7 @@
         "en": "Nikah",
         "group": "schedule",
         "managed": true,
+        "managedBy": "",
         "label": "Nikah"
       },
       {
@@ -6488,6 +6975,7 @@
         "en": "6:30 PM",
         "group": "schedule",
         "managed": true,
+        "managedBy": "",
         "label": "6:30 PM"
       },
       {
@@ -6500,6 +6988,7 @@
         "en": "Rasmein",
         "group": "schedule",
         "managed": true,
+        "managedBy": "",
         "label": "Rasmein"
       },
       {
@@ -6512,6 +7001,7 @@
         "en": "8:00 PM",
         "group": "schedule",
         "managed": true,
+        "managedBy": "",
         "label": "8:00 PM"
       },
       {
@@ -6524,6 +7014,7 @@
         "en": "Dinner",
         "group": "schedule",
         "managed": true,
+        "managedBy": "",
         "label": "Dinner"
       },
       {
@@ -6536,6 +7027,7 @@
         "en": "Rukhsati to follow",
         "group": "schedule",
         "managed": true,
+        "managedBy": "",
         "label": "Rukhsati to follow"
       },
       {
@@ -6548,6 +7040,7 @@
         "en": "Dress code",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Dress code"
       },
       {
@@ -6560,6 +7053,7 @@
         "en": "We invite you to dress traditionally and elegantly for this celebration.",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "We invite you to dress traditionally and elegantly for this celebratio"
       },
       {
@@ -6572,6 +7066,7 @@
         "en": "Eastern formal",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Eastern formal"
       },
       {
@@ -6583,7 +7078,8 @@
         "ur": "مہندی کے لیے مٹیالے رنگ\nبارات و ولیمہ کے لیے شیروانی، لہنگا یا گھرارہ\nدلہن کا رنگ زیبِ تن نہ کیجیے",
         "en": "Earth tones for the Mehndi\n\n            Sherwani, lehenga or gharara for the Baraat and Walima\n\n            Please leave white to the bride",
         "group": "dress",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Dress code in Events & venues",
         "label": "Earth tones for the Mehndi              Sherwani, lehenga or gharara f"
       },
       {
@@ -6596,6 +7092,7 @@
         "en": "Getting around",
         "group": "travel_stay",
         "managed": false,
+        "managedBy": "",
         "label": "Getting around"
       },
       {
@@ -6608,6 +7105,7 @@
         "en": "Transportation",
         "group": "travel_stay",
         "managed": false,
+        "managedBy": "",
         "label": "Transportation"
       },
       {
@@ -6620,6 +7118,7 @@
         "en": "Banjosa Lake is about forty-five minutes from the city. A coach will run from\n                Rawalpindi on the day of the Baraat — call us and we will keep you a seat.",
         "group": "travel_stay",
         "managed": true,
+        "managedBy": "Travel and accommodation details",
         "label": "Banjosa Lake is about forty-five minutes from the city. A coach will r"
       },
       {
@@ -6632,6 +7131,7 @@
         "en": "Accommodation",
         "group": "travel_stay",
         "managed": false,
+        "managedBy": "",
         "label": "Accommodation"
       },
       {
@@ -6644,6 +7144,7 @@
         "en": "Where to stay",
         "group": "travel_stay",
         "managed": false,
+        "managedBy": "",
         "label": "Where to stay"
       },
       {
@@ -6655,7 +7156,8 @@
         "ur": "جھیل کے کنارے کمرے ہم نے پہلے سے رکھوا لیے ہیں۔ باہر سے آئیں تو بتا دیجیے۔",
         "en": "Guest houses line the lake and a block of rooms is already held for the\n                wedding. Tell us if you are travelling in.",
         "group": "travel_stay",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Travel and accommodation details",
         "label": "Guest houses line the lake and a block of rooms is already held for th"
       },
       {
@@ -6668,6 +7170,7 @@
         "en": "Confirm your attendance",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Confirm your attendance"
       },
       {
@@ -6680,6 +7183,7 @@
         "en": "Please let us know by 15 April.",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Please let us know by 15 April."
       },
       {
@@ -6692,6 +7196,7 @@
         "en": "Full name",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Full name"
       },
       {
@@ -6704,6 +7209,7 @@
         "en": "Message for the couple",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Message for the couple"
       },
       {
@@ -6716,6 +7222,7 @@
         "en": "Send RSVP",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Send RSVP"
       },
       {
@@ -6728,6 +7235,7 @@
         "en": "Thank you",
         "group": "foot",
         "managed": false,
+        "managedBy": "",
         "label": "Thank you"
       },
       {
@@ -6740,6 +7248,7 @@
         "en": "For joining us on this special day. Your presence is the best gift\n              we could receive.",
         "group": "foot",
         "managed": false,
+        "managedBy": "",
         "label": "For joining us on this special day. Your presence is the best gift    "
       },
       {
@@ -6752,6 +7261,7 @@
         "en": "Bilal",
         "group": "foot",
         "managed": true,
+        "managedBy": "",
         "label": "Bilal"
       },
       {
@@ -6764,6 +7274,7 @@
         "en": "&",
         "group": "foot",
         "managed": false,
+        "managedBy": "",
         "label": "&"
       },
       {
@@ -6776,6 +7287,7 @@
         "en": "Mahrukh",
         "group": "foot",
         "managed": true,
+        "managedBy": "",
         "label": "Mahrukh"
       },
       {
@@ -6788,6 +7300,7 @@
         "en": "Chinar Haveli · Banjosa Lake, Rawalakot · 12 June 2027",
         "group": "foot",
         "managed": true,
+        "managedBy": "",
         "label": "Chinar Haveli · Banjosa Lake, Rawalakot · 12 June 2027"
       }
     ]
@@ -6891,6 +7404,7 @@
         "en": "Scroll down",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "Scroll down"
       },
       {
@@ -6903,6 +7417,7 @@
         "en": "You are invited to\ncelebrate the wedding of",
         "group": "hero",
         "managed": false,
+        "managedBy": "",
         "label": "You are invited to celebrate the wedding of"
       },
       {
@@ -6915,6 +7430,7 @@
         "en": "Bilal",
         "group": "hero",
         "managed": true,
+        "managedBy": "",
         "label": "Bilal"
       },
       {
@@ -6927,6 +7443,7 @@
         "en": "&",
         "group": "hero",
         "managed": false,
+        "managedBy": "",
         "label": "&"
       },
       {
@@ -6939,6 +7456,7 @@
         "en": "Mahrukh",
         "group": "hero",
         "managed": true,
+        "managedBy": "",
         "label": "Mahrukh"
       },
       {
@@ -6950,7 +7468,8 @@
         "ur": "بھاپ کی سیٹی، سنہری شام کا پلیٹ فارم، اور آپ سب — زندگی کا سب سے خوبصورت سفر۔",
         "en": "A steam whistle, a platform at golden hour, and all of you — the\n            journey of a lifetime.",
         "group": "hero",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Welcome message",
         "label": "A steam whistle, a platform at golden hour, and all of you — the      "
       },
       {
@@ -6963,6 +7482,7 @@
         "en": "Scroll",
         "group": "hero",
         "managed": false,
+        "managedBy": "",
         "label": "Scroll"
       },
       {
@@ -6975,6 +7495,7 @@
         "en": "Together with their families",
         "group": "invitation",
         "managed": false,
+        "managedBy": "",
         "label": "Together with their families"
       },
       {
@@ -6987,6 +7508,7 @@
         "en": "“And among His signs is that He created for you mates from among yourselves,\n            that you may find tranquillity in them; and He placed between you affection and mercy.”\n            \nSurah Ar-Rum · 30:21",
         "group": "invitation",
         "managed": false,
+        "managedBy": "",
         "label": "“And among His signs is that He created for you mates from among yours"
       },
       {
@@ -6999,6 +7521,7 @@
         "en": "Abbasi",
         "group": "invitation",
         "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Abbasi"
       },
       {
@@ -7010,7 +7533,8 @@
         "ur": "خاندان",
         "en": "Family",
         "group": "invitation",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Family"
       },
       {
@@ -7023,6 +7547,7 @@
         "en": "Kiyani",
         "group": "invitation",
         "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Kiyani"
       },
       {
@@ -7034,7 +7559,8 @@
         "ur": "خاندان",
         "en": "Family",
         "group": "invitation",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Family"
       },
       {
@@ -7047,6 +7573,7 @@
         "en": "A chai stall, hand-painted boards, and three days of celebration —\n            the journey is beginning.",
         "group": "invitation",
         "managed": true,
+        "managedBy": "Welcome message",
         "label": "A chai stall, hand-painted boards, and three days of celebration —    "
       },
       {
@@ -7059,6 +7586,7 @@
         "en": "The Date",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "The Date"
       },
       {
@@ -7071,6 +7599,7 @@
         "en": "Press and hold each ticket — the date is punched through",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "Press and hold each ticket — the date is punched through"
       },
       {
@@ -7083,6 +7612,7 @@
         "en": "We’re getting married!",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "We’re getting married!"
       },
       {
@@ -7095,6 +7625,7 @@
         "en": "Countdown",
         "group": "countdown",
         "managed": false,
+        "managedBy": "",
         "label": "Countdown"
       },
       {
@@ -7107,6 +7638,7 @@
         "en": "Days",
         "group": "countdown",
         "managed": false,
+        "managedBy": "",
         "label": "Days"
       },
       {
@@ -7119,6 +7651,7 @@
         "en": "Hours",
         "group": "countdown",
         "managed": false,
+        "managedBy": "",
         "label": "Hours"
       },
       {
@@ -7131,6 +7664,7 @@
         "en": "Min",
         "group": "countdown",
         "managed": false,
+        "managedBy": "",
         "label": "Min"
       },
       {
@@ -7143,6 +7677,7 @@
         "en": "Sec",
         "group": "countdown",
         "managed": false,
+        "managedBy": "",
         "label": "Sec"
       },
       {
@@ -7155,6 +7690,7 @@
         "en": "until the big day",
         "group": "countdown",
         "managed": false,
+        "managedBy": "",
         "label": "until the big day"
       },
       {
@@ -7167,6 +7703,7 @@
         "en": "The celebration will take place at",
         "group": "venue",
         "managed": false,
+        "managedBy": "",
         "label": "The celebration will take place at"
       },
       {
@@ -7179,6 +7716,7 @@
         "en": "Safar Station",
         "group": "venue",
         "managed": true,
+        "managedBy": "",
         "label": "Safar Station"
       },
       {
@@ -7191,6 +7729,7 @@
         "en": "Platform Two, Walled City",
         "group": "venue",
         "managed": true,
+        "managedBy": "",
         "label": "Platform Two, Walled City"
       },
       {
@@ -7203,6 +7742,7 @@
         "en": "Lahore",
         "group": "venue",
         "managed": true,
+        "managedBy": "",
         "label": "Lahore"
       },
       {
@@ -7215,6 +7755,7 @@
         "en": "Open in Google Maps",
         "group": "venue",
         "managed": false,
+        "managedBy": "",
         "label": "Open in Google Maps"
       },
       {
@@ -7227,6 +7768,7 @@
         "en": "Three celebrations",
         "group": "events",
         "managed": true,
+        "managedBy": "",
         "label": "Three celebrations"
       },
       {
@@ -7239,6 +7781,7 @@
         "en": "The Celebrations",
         "group": "events",
         "managed": false,
+        "managedBy": "",
         "label": "The Celebrations"
       },
       {
@@ -7251,6 +7794,7 @@
         "en": "Schedule",
         "group": "schedule",
         "managed": false,
+        "managedBy": "",
         "label": "Schedule"
       },
       {
@@ -7263,6 +7807,7 @@
         "en": "The wedding day",
         "group": "schedule",
         "managed": false,
+        "managedBy": "",
         "label": "The wedding day"
       },
       {
@@ -7275,6 +7820,7 @@
         "en": "5:00 PM · Platform Two",
         "group": "schedule",
         "managed": true,
+        "managedBy": "",
         "label": "5:00 PM · Platform Two"
       },
       {
@@ -7287,6 +7833,7 @@
         "en": "Nikah",
         "group": "schedule",
         "managed": true,
+        "managedBy": "",
         "label": "Nikah"
       },
       {
@@ -7299,6 +7846,7 @@
         "en": "6:30 PM",
         "group": "schedule",
         "managed": true,
+        "managedBy": "",
         "label": "6:30 PM"
       },
       {
@@ -7311,6 +7859,7 @@
         "en": "Rasmein",
         "group": "schedule",
         "managed": true,
+        "managedBy": "",
         "label": "Rasmein"
       },
       {
@@ -7323,6 +7872,7 @@
         "en": "8:00 PM",
         "group": "schedule",
         "managed": true,
+        "managedBy": "",
         "label": "8:00 PM"
       },
       {
@@ -7335,6 +7885,7 @@
         "en": "Dinner",
         "group": "schedule",
         "managed": true,
+        "managedBy": "",
         "label": "Dinner"
       },
       {
@@ -7347,6 +7898,7 @@
         "en": "Rukhsati to follow",
         "group": "schedule",
         "managed": true,
+        "managedBy": "",
         "label": "Rukhsati to follow"
       },
       {
@@ -7359,6 +7911,7 @@
         "en": "Dress code",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Dress code"
       },
       {
@@ -7371,6 +7924,7 @@
         "en": "We invite you to dress traditionally and elegantly for this celebration.",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "We invite you to dress traditionally and elegantly for this celebratio"
       },
       {
@@ -7383,6 +7937,7 @@
         "en": "Eastern formal",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Eastern formal"
       },
       {
@@ -7394,7 +7949,8 @@
         "ur": "مہندی کے لیے مٹیالے رنگ\nبارات و ولیمہ کے لیے شیروانی، لہنگا یا گھرارہ\nدلہن کا رنگ زیبِ تن نہ کیجیے",
         "en": "Earth tones for the Mehndi\n\n            Sherwani, lehenga or gharara for the Baraat and Walima\n\n            Please leave white to the bride",
         "group": "dress",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Dress code in Events & venues",
         "label": "Earth tones for the Mehndi              Sherwani, lehenga or gharara f"
       },
       {
@@ -7407,6 +7963,7 @@
         "en": "Getting around",
         "group": "travel_stay",
         "managed": false,
+        "managedBy": "",
         "label": "Getting around"
       },
       {
@@ -7419,6 +7976,7 @@
         "en": "All aboard",
         "group": "travel_stay",
         "managed": false,
+        "managedBy": "",
         "label": "All aboard"
       },
       {
@@ -7430,7 +7988,8 @@
         "ur": "سیٹی آٹھ بجے کے قریب بجے گی — پلیٹ فارم نمبر دو پر آجائیے۔ پلیٹ فارم کے باہر گاڑیوں کے لیے جگہ ہے، اور بارات کے لیے کوچ کا انتظام ہوگا۔",
         "en": "The whistle sounds just before eight — come straight to Platform Two.\n                Parking is outside the station gates, and a coach will run for the\n                Baraat party.",
         "group": "travel_stay",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Travel and accommodation details",
         "label": "The whistle sounds just before eight — come straight to Platform Two. "
       },
       {
@@ -7443,6 +8002,7 @@
         "en": "Accommodation",
         "group": "travel_stay",
         "managed": false,
+        "managedBy": "",
         "label": "Accommodation"
       },
       {
@@ -7455,6 +8015,7 @@
         "en": "Where to stay",
         "group": "travel_stay",
         "managed": false,
+        "managedBy": "",
         "label": "Where to stay"
       },
       {
@@ -7466,7 +8027,8 @@
         "ur": "اسٹیشن سے چند منٹ کے فاصلے پر ریسٹ ہاؤس میں کمرے پہلے سے رکھوائے ہیں — باہر سے آئیں تو بتا دیجیے۔",
         "en": "Rooms are held at the rest house a few minutes from the station.\n                Tell us if you are travelling in.",
         "group": "travel_stay",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Travel and accommodation details",
         "label": "Rooms are held at the rest house a few minutes from the station.      "
       },
       {
@@ -7479,6 +8041,7 @@
         "en": "Confirm your attendance",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Confirm your attendance"
       },
       {
@@ -7491,6 +8054,7 @@
         "en": "Please let us know by 15 April.",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Please let us know by 15 April."
       },
       {
@@ -7503,6 +8067,7 @@
         "en": "Full name",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Full name"
       },
       {
@@ -7515,6 +8080,7 @@
         "en": "Message for the couple",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Message for the couple"
       },
       {
@@ -7527,6 +8093,7 @@
         "en": "Send RSVP",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Send RSVP"
       },
       {
@@ -7539,6 +8106,7 @@
         "en": "Thank you",
         "group": "foot",
         "managed": false,
+        "managedBy": "",
         "label": "Thank you"
       },
       {
@@ -7551,6 +8119,7 @@
         "en": "For joining us on this special day. Your presence is the best gift\n              we could receive.",
         "group": "foot",
         "managed": false,
+        "managedBy": "",
         "label": "For joining us on this special day. Your presence is the best gift    "
       },
       {
@@ -7563,6 +8132,7 @@
         "en": "Bilal",
         "group": "foot",
         "managed": true,
+        "managedBy": "",
         "label": "Bilal"
       },
       {
@@ -7575,6 +8145,7 @@
         "en": "&",
         "group": "foot",
         "managed": false,
+        "managedBy": "",
         "label": "&"
       },
       {
@@ -7587,6 +8158,7 @@
         "en": "Mahrukh",
         "group": "foot",
         "managed": true,
+        "managedBy": "",
         "label": "Mahrukh"
       },
       {
@@ -7599,6 +8171,7 @@
         "en": "Safar Station · Walled City, Lahore · 12 June 2027",
         "group": "foot",
         "managed": true,
+        "managedBy": "",
         "label": "Safar Station · Walled City, Lahore · 12 June 2027"
       }
     ]
@@ -7681,6 +8254,7 @@
         "en": "Map",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "Map"
       },
       {
@@ -7693,6 +8267,7 @@
         "en": "Reply",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "Reply"
       },
       {
@@ -7705,6 +8280,7 @@
         "en": "A lantern-lit evening",
         "group": "entrance",
         "managed": false,
+        "managedBy": "",
         "label": "A lantern-lit evening"
       },
       {
@@ -7717,6 +8293,7 @@
         "en": "Bilal",
         "group": "entrance",
         "managed": true,
+        "managedBy": "",
         "label": "Bilal"
       },
       {
@@ -7729,6 +8306,7 @@
         "en": "&",
         "group": "entrance",
         "managed": false,
+        "managedBy": "",
         "label": "&"
       },
       {
@@ -7741,6 +8319,7 @@
         "en": "Mahrukh",
         "group": "entrance",
         "managed": true,
+        "managedBy": "",
         "label": "Mahrukh"
       },
       {
@@ -7753,6 +8332,7 @@
         "en": "Enter the courtyard",
         "group": "entrance",
         "managed": false,
+        "managedBy": "",
         "label": "Enter the courtyard"
       },
       {
@@ -7765,6 +8345,7 @@
         "en": "Best with sound · Tap to begin",
         "group": "entrance",
         "managed": false,
+        "managedBy": "",
         "label": "Best with sound · Tap to begin"
       },
       {
@@ -7777,6 +8358,7 @@
         "en": "Together beneath the lanterns",
         "group": "hero",
         "managed": false,
+        "managedBy": "",
         "label": "Together beneath the lanterns"
       },
       {
@@ -7789,6 +8371,7 @@
         "en": "Bilal",
         "group": "hero",
         "managed": true,
+        "managedBy": "",
         "label": "Bilal"
       },
       {
@@ -7801,6 +8384,7 @@
         "en": "&",
         "group": "hero",
         "managed": false,
+        "managedBy": "",
         "label": "&"
       },
       {
@@ -7813,6 +8397,7 @@
         "en": "Mahrukh",
         "group": "hero",
         "managed": true,
+        "managedBy": "",
         "label": "Mahrukh"
       },
       {
@@ -7825,6 +8410,7 @@
         "en": "12 June 2027",
         "group": "hero",
         "managed": true,
+        "managedBy": "",
         "label": "12 June 2027"
       },
       {
@@ -7837,6 +8423,7 @@
         "en": "Banjosa Lake · Rawalakot",
         "group": "hero",
         "managed": true,
+        "managedBy": "",
         "label": "Banjosa Lake · Rawalakot"
       },
       {
@@ -7849,6 +8436,7 @@
         "en": "Walk the courtyard path",
         "group": "hero",
         "managed": false,
+        "managedBy": "",
         "label": "Walk the courtyard path"
       },
       {
@@ -7861,6 +8449,7 @@
         "en": "Together with their families",
         "group": "invitation",
         "managed": false,
+        "managedBy": "",
         "label": "Together with their families"
       },
       {
@@ -7873,6 +8462,7 @@
         "en": "“And among His signs is that He created for you mates from among yourselves,\n              that you may find tranquillity in them; and He placed between you affection and mercy.”\n              \nSurah Ar-Rum · 30:21",
         "group": "invitation",
         "managed": false,
+        "managedBy": "",
         "label": "“And among His signs is that He created for you mates from among yours"
       },
       {
@@ -7885,6 +8475,7 @@
         "en": "Abbasi",
         "group": "invitation",
         "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Abbasi"
       },
       {
@@ -7896,7 +8487,8 @@
         "ur": "خاندان",
         "en": "Family",
         "group": "invitation",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Family"
       },
       {
@@ -7909,6 +8501,7 @@
         "en": "Kiyani",
         "group": "invitation",
         "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Kiyani"
       },
       {
@@ -7920,7 +8513,8 @@
         "ur": "خاندان",
         "en": "Family",
         "group": "invitation",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Family message in Couple & contact",
         "label": "Family"
       },
       {
@@ -7932,7 +8526,8 @@
         "ur": "لالٹینیں جل چکی ہیں، پانی ٹھہرا ہے، اور صرف آپ کی کمی ہے۔",
         "en": "The lanterns are lit, the water is still, and the only thing missing is you.",
         "group": "invitation",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Welcome message",
         "label": "The lanterns are lit, the water is still, and the only thing missing i"
       },
       {
@@ -7945,6 +8540,7 @@
         "en": "Days",
         "group": "invitation",
         "managed": false,
+        "managedBy": "",
         "label": "Days"
       },
       {
@@ -7957,6 +8553,7 @@
         "en": "Hours",
         "group": "invitation",
         "managed": false,
+        "managedBy": "",
         "label": "Hours"
       },
       {
@@ -7969,6 +8566,7 @@
         "en": "Minutes",
         "group": "invitation",
         "managed": false,
+        "managedBy": "",
         "label": "Minutes"
       },
       {
@@ -7981,6 +8579,7 @@
         "en": "The date",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "The date"
       },
       {
@@ -7993,6 +8592,7 @@
         "en": "Light the Lanterns",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "Light the Lanterns"
       },
       {
@@ -8005,6 +8605,7 @@
         "en": "Tap each lantern to light the way, and the courtyard will tell you when.",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "Tap each lantern to light the way, and the courtyard will tell you whe"
       },
       {
@@ -8017,6 +8618,7 @@
         "en": "Tap each lantern to light the way.",
         "group": "reveal",
         "managed": true,
+        "managedBy": "",
         "label": "Tap each lantern to light the way."
       },
       {
@@ -8029,6 +8631,7 @@
         "en": "Google Calendar",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "Google Calendar"
       },
       {
@@ -8041,6 +8644,7 @@
         "en": "Apple / iPhone",
         "group": "reveal",
         "managed": false,
+        "managedBy": "",
         "label": "Apple / iPhone"
       },
       {
@@ -8053,6 +8657,7 @@
         "en": "The celebrations",
         "group": "events",
         "managed": false,
+        "managedBy": "",
         "label": "The celebrations"
       },
       {
@@ -8065,6 +8670,7 @@
         "en": "Three Evenings in the Courtyard",
         "group": "events",
         "managed": true,
+        "managedBy": "",
         "label": "Three Evenings in the Courtyard"
       },
       {
@@ -8077,6 +8683,7 @@
         "en": "Every celebration has its own corner of the courtyard.",
         "group": "events",
         "managed": false,
+        "managedBy": "",
         "label": "Every celebration has its own corner of the courtyard."
       },
       {
@@ -8089,6 +8696,7 @@
         "en": "What to wear",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "What to wear"
       },
       {
@@ -8101,6 +8709,7 @@
         "en": "Courtyard Formal",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Courtyard Formal"
       },
       {
@@ -8112,7 +8721,8 @@
         "ur": "گہرا زمردی، گرم آئیوری، تھوڑا سا سرخ۔ شامیں ٹھنڈی ہوتی ہیں — شال ساتھ رکھیے۔ سفید سے گریز کیجیے گا۔",
         "en": "Deep emerald, warm ivory, a touch of rose. Evenings are cool — bring a shawl.\n              Please avoid white.",
         "group": "dress",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Dress code in Events & venues",
         "label": "Deep emerald, warm ivory, a touch of rose. Evenings are cool — bring a"
       },
       {
@@ -8125,6 +8735,7 @@
         "en": "Emerald",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Emerald"
       },
       {
@@ -8137,6 +8748,7 @@
         "en": "Ivory",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Ivory"
       },
       {
@@ -8149,6 +8761,7 @@
         "en": "Rose",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Rose"
       },
       {
@@ -8161,6 +8774,7 @@
         "en": "Brass",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Brass"
       },
       {
@@ -8173,6 +8787,7 @@
         "en": "Every event has its own palette",
         "group": "dress",
         "managed": false,
+        "managedBy": "",
         "label": "Every event has its own palette"
       },
       {
@@ -8185,6 +8800,7 @@
         "en": "Where to stay",
         "group": "stay",
         "managed": false,
+        "managedBy": "",
         "label": "Where to stay"
       },
       {
@@ -8197,6 +8813,7 @@
         "en": "The Haveli Awaits",
         "group": "stay",
         "managed": false,
+        "managedBy": "",
         "label": "The Haveli Awaits"
       },
       {
@@ -8209,6 +8826,7 @@
         "en": "We have held a block of rooms by the lake. To book, you only need to say\n              you are with the Abbasi–Kiyani wedding.",
         "group": "stay",
         "managed": true,
+        "managedBy": "Accommodation details",
         "label": "We have held a block of rooms by the lake. To book, you only need to s"
       },
       {
@@ -8220,7 +8838,8 @@
         "ur": "شبستان ویو ہوٹل",
         "en": "Shabistan View Hotel",
         "group": "stay",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Hotel / guest house",
         "label": "Shabistan View Hotel"
       },
       {
@@ -8233,6 +8852,7 @@
         "en": "Banjosa Lake · Rawalakot",
         "group": "stay",
         "managed": true,
+        "managedBy": "Accommodation address",
         "label": "Banjosa Lake · Rawalakot"
       },
       {
@@ -8245,6 +8865,7 @@
         "en": "View on maps",
         "group": "stay",
         "managed": false,
+        "managedBy": "",
         "label": "View on maps"
       },
       {
@@ -8257,6 +8878,7 @@
         "en": "The journey",
         "group": "travel",
         "managed": false,
+        "managedBy": "",
         "label": "The journey"
       },
       {
@@ -8269,6 +8891,7 @@
         "en": "Up to the Haveli",
         "group": "travel",
         "managed": false,
+        "managedBy": "",
         "label": "Up to the Haveli"
       },
       {
@@ -8280,7 +8903,8 @@
         "ur": "کوچ کا انتظام",
         "en": "Coaches",
         "group": "travel",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Transport, parking & directions",
         "label": "Coaches"
       },
       {
@@ -8292,7 +8916,8 @@
         "ur": "۱۰ جون، صبح نو بجے، ایف ۹ پارک اسلام آباد سے\nسیٹ رکھوانے کے لیے بتا دیجیے گا",
         "en": "From F‑9 Park, Islamabad · 10 June, 9 AM\nTell us and we will keep you a seat",
         "group": "travel",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Transport, parking & directions",
         "label": "From F‑9 Park, Islamabad · 10 June, 9 AM Tell us and we will keep you "
       },
       {
@@ -8304,7 +8929,8 @@
         "ur": "استقبال",
         "en": "Someone will meet you",
         "group": "travel",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Transport, parking & directions",
         "label": "Someone will meet you"
       },
       {
@@ -8316,7 +8942,8 @@
         "ur": "کوہالہ پر، اور اوپر پہنچنے پر بھی\nراستے میں چائے کے لیے رکیں گے",
         "en": "At Kohala, and again at the top\nWe stop for chai on the way",
         "group": "travel",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Transport, parking & directions",
         "label": "At Kohala, and again at the top We stop for chai on the way"
       },
       {
@@ -8328,7 +8955,8 @@
         "ur": "پہنچنے کے بعد",
         "en": "Once you are here",
         "group": "travel",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Transport, parking & directions",
         "label": "Once you are here"
       },
       {
@@ -8340,7 +8968,8 @@
         "ur": "سب کچھ ہوٹل سے دس منٹ کے فاصلے پر\nلالٹینیں رات بھر جلتی رہیں",
         "en": "Everything is ten minutes from the hotel\nThe lanterns stay lit all night",
         "group": "travel",
-        "managed": false,
+        "managed": true,
+        "managedBy": "Transport, parking & directions",
         "label": "Everything is ten minutes from the hotel The lanterns stay lit all nig"
       },
       {
@@ -8353,6 +8982,7 @@
         "en": "View on maps",
         "group": "travel",
         "managed": false,
+        "managedBy": "",
         "label": "View on maps"
       },
       {
@@ -8365,6 +8995,7 @@
         "en": "Reply",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Reply"
       },
       {
@@ -8377,6 +9008,7 @@
         "en": "Leave a Note in the Courtyard",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Leave a Note in the Courtyard"
       },
       {
@@ -8389,6 +9021,7 @@
         "en": "Please reply by 15 April. Rooms on the mountain fill up early.",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Please reply by 15 April. Rooms on the mountain fill up early."
       },
       {
@@ -8401,6 +9034,7 @@
         "en": "Full name",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Full name"
       },
       {
@@ -8413,6 +9047,7 @@
         "en": "Message for the couple",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Message for the couple"
       },
       {
@@ -8425,6 +9060,7 @@
         "en": "Seal your reply",
         "group": "rsvp",
         "managed": true,
+        "managedBy": "",
         "label": "Seal your reply"
       },
       {
@@ -8437,6 +9073,7 @@
         "en": "Bilal",
         "group": "controls",
         "managed": true,
+        "managedBy": "",
         "label": "Bilal"
       },
       {
@@ -8449,6 +9086,7 @@
         "en": "&",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "&"
       },
       {
@@ -8461,6 +9099,7 @@
         "en": "Mahrukh",
         "group": "controls",
         "managed": true,
+        "managedBy": "",
         "label": "Mahrukh"
       },
       {
@@ -8473,6 +9112,7 @@
         "en": "The 12th of June 2027",
         "group": "controls",
         "managed": true,
+        "managedBy": "",
         "label": "The 12th of June 2027"
       },
       {
@@ -8485,6 +9125,7 @@
         "en": "We ask for the pleasure of your company, and for your prayers.",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "We ask for the pleasure of your company, and for your prayers."
       },
       {
@@ -8497,6 +9138,7 @@
         "en": "Made with love by",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "Made with love by"
       },
       {
@@ -8509,6 +9151,7 @@
         "en": "Courtyard map",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "Courtyard map"
       },
       {
@@ -8521,6 +9164,7 @@
         "en": "Follow the courtyard path. Choose a stop to go straight there.",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "Follow the courtyard path. Choose a stop to go straight there."
       },
       {
@@ -8533,6 +9177,7 @@
         "en": "The celebrations",
         "group": "controls",
         "managed": false,
+        "managedBy": "",
         "label": "The celebrations"
       }
     ]

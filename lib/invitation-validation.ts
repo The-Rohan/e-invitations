@@ -235,7 +235,9 @@ export function customizationIssues(d: Details): DetailIssue[] {
           else
             for (const [key, copy] of Object.entries(options.copy)) {
               if (
-                !m.fields.some((f) => f.key === key && !f.managed) ||
+                !m.fields.some(
+                  (f) => f.key === key && (!f.managed || f.managedBy),
+                ) ||
                 !copy ||
                 typeof copy.en !== "string" ||
                 typeof copy.ur !== "string" ||

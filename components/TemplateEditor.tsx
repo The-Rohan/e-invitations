@@ -216,6 +216,7 @@ export function TemplateSettings({
     <label key={key}>
       {label}
       <textarea
+        aria-label={label}
         value={String(details[key] || "")}
         maxLength={2000}
         dir="auto"
@@ -223,6 +224,18 @@ export function TemplateSettings({
       />
     </label>
   );
+  const matches = (f: (typeof m.fields)[number]) =>
+    [
+      f.en,
+      f.ur,
+      f.label,
+      f.group,
+      opts.copy?.[f.key]?.en,
+      opts.copy?.[f.key]?.ur,
+    ]
+      .join(" ")
+      .toLocaleLowerCase()
+      .includes(query.trim().toLocaleLowerCase());
   const groups = [
     ...new Set(m.fields.filter((f) => !f.managed).map((f) => f.group)),
   ];
@@ -388,7 +401,9 @@ export function TemplateSettings({
         </summary>
         <p>
           Use plain text; line breaks are supported. Names, dates, venues and
-          event counts come from the structured fields above.
+          event counts come from the structured fields above. Family and welcome
+          messages, dress codes, travel and accommodation are edited in their
+          named fields, so there is only one place to change each detail.
         </p>
         <label>
           Find wording
@@ -398,15 +413,21 @@ export function TemplateSettings({
             placeholder="Search a heading, message or section…"
           />
         </label>
+        {query.trim() && !m.fields.some((f) => !f.managed && matches(f)) && (
+          <p role="status">
+            No matching wording. Try another word or clear the search.
+          </p>
+        )}
         {groups.map((group) => {
           const fields = m.fields.filter(
-            (f) =>
-              !f.managed &&
-              f.group === group &&
-              (f.en + " " + group).toLowerCase().includes(query.toLowerCase()),
+            (f) => !f.managed && f.group === group && matches(f),
           );
           return fields.length ? (
-            <details key={group} className="template-copy-group">
+            <details
+              key={group}
+              className="template-copy-group"
+              open={query.trim() ? true : undefined}
+            >
               <summary>
                 {group.replaceAll("_", " ")} · {fields.length}
               </summary>
@@ -417,6 +438,7 @@ export function TemplateSettings({
                     <label>
                       English
                       <textarea
+                        aria-label="English"
                         value={opts.copy?.[f.key]?.en ?? f.en}
                         maxLength={2500}
                         onChange={(e) =>
@@ -435,6 +457,7 @@ export function TemplateSettings({
                     <label>
                       Urdu
                       <textarea
+                        aria-label="Urdu"
                         dir="rtl"
                         value={opts.copy?.[f.key]?.ur ?? f.ur}
                         maxLength={2500}

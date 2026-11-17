@@ -9,7 +9,7 @@ import {
   type DetailIssue,
 } from "@/lib/invitation-validation";
 import { offerById } from "@/lib/offers";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { SiteNav as Nav, SiteFooter as Footer } from "./Storefront";
 import {
@@ -83,6 +83,70 @@ export function Workspace({
     [notice, N] = useState(""),
     [slug, SL] = useState(""),
     [search, Search] = useState("");
+  const savedNavigation = useRef(false);
+  const savedOrder = data.orders.find((order) => order.id === id);
+  const snapshot = JSON.stringify({ template, tier, details, addons, slug });
+  const baseline = savedOrder
+    ? JSON.stringify({
+        template: savedOrder.template,
+        tier: savedOrder.tier,
+        details: {
+          ...savedOrder.details,
+          events: savedOrder.details.events.map((e, i) => ({
+            ...e,
+            id: eventId(e, i),
+          })),
+        },
+        addons: savedOrder.addons,
+        slug: savedOrder.slug || "",
+      })
+    : JSON.stringify({
+        template: "gulistan",
+        tier: "premium",
+        details: initial,
+        addons: [],
+        slug: "",
+      });
+  const dirty =
+    mode === "studio" &&
+    data.admin &&
+    (!id || savedOrder) &&
+    snapshot !== baseline;
+  useEffect(() => {
+    if (!dirty) return;
+    const beforeUnload = (event: BeforeUnloadEvent) => {
+      if (savedNavigation.current) return;
+      event.preventDefault();
+      event.returnValue = "";
+    };
+    const leave = (event: MouseEvent) => {
+      const link = (event.target as Element).closest?.(
+        "a[href]",
+      ) as HTMLAnchorElement | null;
+      if (
+        !link ||
+        link.target === "_blank" ||
+        link.hasAttribute("download") ||
+        link.getAttribute("href")?.startsWith("#") ||
+        savedNavigation.current
+      )
+        return;
+      if (
+        !window.confirm(
+          "You have unsaved invitation changes. Leave without saving?",
+        )
+      ) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    };
+    window.addEventListener("beforeunload", beforeUnload);
+    document.addEventListener("click", leave, true);
+    return () => {
+      window.removeEventListener("beforeunload", beforeUnload);
+      document.removeEventListener("click", leave, true);
+    };
+  }, [dirty]);
   const [issues, setIssues] = useState<DetailIssue[]>([]);
   const goToStep = (next: number) => {
     const found = detailIssues(details, offerById(tier).events).filter(
@@ -320,6 +384,11 @@ export function Workspace({
                   </button>
                 ))}
               </div>
+              <p role="status" className="editor-save-state">
+                {dirty
+                  ? "Unsaved changes · use Review & save to keep them."
+                  : "No unsaved changes."}
+              </p>
               <form
                 noValidate
                 onSubmit={async (e) => {
@@ -353,7 +422,10 @@ export function Workspace({
                     addons,
                     slug,
                   });
-                  if (r) location.href = "/admin";
+                  if (r) {
+                    savedNavigation.current = true;
+                    location.href = "/admin";
+                  }
                 }}
               >
                 {issues.length > 0 && (

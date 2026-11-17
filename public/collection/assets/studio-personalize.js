@@ -134,10 +134,6 @@
   all('.gateMonogram > span').forEach(function(el,i){
     set(el,Array.from((i?c.bride:c.groom).trim())[0]||'',Array.from((i?c.brideUr:c.groomUr).trim())[0]||'');
   });
-  // Apply customer-written copy as text. Templates' own language toggle keeps both versions.
-  Object.entries(options.copy || {}).forEach(function (pair) {
-    set($('[data-wi-copy="' + pair[0] + '"]'), pair[1].en, pair[1].ur);
-  });
   setAll(".heroDate,.heroWhen,.fd", c.dateEn, c.dateUr);
   setAll(".heroPlace,.heroWhere", c.place, c.placeUr);
   setAll(".footWhen", c.place + " · " + c.dateEn, c.placeUr + " · " + c.dateUr);
@@ -386,6 +382,11 @@
     a.href = "/";
     a.target = "_blank";
     a.rel = "noopener noreferrer";
+  });
+  // Apply only independent wording after structured sections have been populated.
+  Object.entries(options.copy || {}).forEach(function (pair) {
+    if (c.fields.some(function (field) { return field.key === pair[0]; })) return;
+    set($('[data-wi-copy="' + pair[0] + '"]'), pair[1].en, pair[1].ur);
   });
   document.documentElement.dataset.wiPersonalized = "true";
 })();

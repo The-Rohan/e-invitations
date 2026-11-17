@@ -14,7 +14,7 @@ class Inventory(HTMLParser):
   node['parentSection']=next((n['section'] for n in reversed(self.stack) if 'section'in n),None)
   if tag=='section':node['parentSection']=node['section']
   if 'data-ur'in a:
-   node['copy']=len(self.fields);self.fields.append({'key':'copy-'+str(node['copy']),'tag':tag,'className':a.get('class',''),'elementId':a.get('id',''),'section':node['parentSection'],'ur':plain(a['data-ur'])})
+   node['copy']=len(self.fields);self.fields.append({'key':'copy-'+str(node['copy']),'tag':tag,'className':a.get('class',''),'elementId':a.get('id',''),'section':node['parentSection'],'ur':plain(a['data-ur']),'ancestors':' '.join(n['attrs'].get('class','') for n in self.stack)})
   if tag not in ['br','img','input','source','meta','link','hr','i-not-void','wbr','area','base','embed']:self.stack.append(node)
  def handle_endtag(self,tag):
   idx=next((i for i in range(len(self.stack)-1,-1,-1) if self.stack[i]['tag']==tag),None)
@@ -37,6 +37,17 @@ for p in sorted(Path('public/collection').glob('card-*.html')):
  for f in i.fields:
   f['group']=i.sections[f['section']]['kind'] if f['section'] is not None else 'controls'
   en=f.get('en','');f['managed']=bool(re.search(r'Bilal|Mahrukh|Abbasi|Kiyani|2027|Banjosa|Rawalakot|Three celebrations|three days|three evenings',en,re.I)) or f['className'] in ['venueName','venueWhere','venueAddr','heroDate','heroWhen','heroPlace','heroWhere','footWhen','fd','tm','pn','tlEnd','keyHint'] or f['group'] in ['rsvp']
+  ancestors=f.pop('ancestors','').split(); classes=f['className'].split(); binding=''
+  if 'fams' in ancestors: binding='Family message in Couple & contact'
+  elif 'legs' in ancestors: binding='Transport, parking & directions'
+  elif 'heroLede' in classes or (f['group']=='invitation' and 'lede' in classes): binding='Welcome message'
+  elif 'dressNote' in classes or 'dressRules' in classes or ('dcHead' in ancestors and 'note' in classes): binding='Dress code in Events & venues'
+  elif 'hotelName' in classes: binding='Hotel / guest house'
+  elif 'hotelWhere' in classes: binding='Accommodation address'
+  elif f['group']=='stay' and 'lede' in classes: binding='Accommodation details'
+  elif f['group']=='travel_stay' and 'infoCard' in ancestors and f['tag']=='p': binding='Travel and accommodation details'
+  f['managedBy']=binding
+  f['managed']=f['managed'] or bool(binding)
   f['label']=(en.replace('\n',' ')[:70] or f['className'] or f['key'])
  for sec in i.sections:sec.pop('start',None)
  out[p.stem[5:]]={'sourceHash':hashlib.sha256(source.encode()).hexdigest(),'sections':i.sections,'fields':i.fields}

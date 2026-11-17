@@ -967,3 +967,25 @@
 .invitation-link-settings label { display: grid; gap: 6px; }
 .invitation-link-settings input:not([type="checkbox"]) { width: 100%; min-width: 0; padding: 10px; border: 1px solid #bfb7af; border-radius: 6px; background: white; color: #382732; }
 .invitation-link-settings .link-visibility { display: flex; align-items: center; gap: 10px; }
+
+/* Text editors need the same clear field boundaries as the structured inputs. */
+.platform textarea {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  margin-top: 6px;
+  border: 1px solid #dfccd4;
+  border-radius: 6px;
+  background: #fffcfd;
+  color: #593344;
+  padding: 12px;
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.6;
+  resize: vertical;
+}
+.platform textarea:focus-visible { outline: 2px solid #933b5b; outline-offset: 2px; }
+.template-settings label, .template-options label { font-size: 13px; }
+.editor-save-state { padding: 12px 0; font-size: 13px; color: #76505f; }
